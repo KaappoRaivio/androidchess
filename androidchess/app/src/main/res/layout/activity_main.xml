@@ -18,7 +18,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:bottom
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
         app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
         app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
@@ -110,7 +109,8 @@
         app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
 
-        android:text="@string/activity_main_play"/>
+        android:text="@string/activity_main_play"
+        android:onClick="onPlayButtonClick"/>
 
 
 </android.support.constraint.ConstraintLayout>
