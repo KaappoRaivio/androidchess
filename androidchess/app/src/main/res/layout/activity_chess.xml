@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChessActivity">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="8"
+        android:orientation="vertical"
+        android:stretchMode="columnWidth"
+        android:columnWidth="320dp"
+        android:rowCount="8"
+        >
+
+        <RelativeLayout
+            android:id="@+id/A1"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_row="0"
+            android:background="@drawable/white">
+
+        </RelativeLayout>
+
+    </GridLayout>
 
 </android.support.constraint.ConstraintLayout>
