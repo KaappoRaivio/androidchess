@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Androidchess</string>
+
+    <string name="activity_main_I_play_as_spinner_text">Select</string>
+    <string name="activity_main_I_play_as">I play as</string>
+
+    <string name="activity_main_opponent_level">Opponent level</string>
+    <string name="activity_main_opponent_level_spinner_text">Select</string>
+
+    <string name="activity_main_play">Play</string>
+
+    <string-array name="activity_main_white_and_black">
+        <item>White</item>
+        <item>Black</item>
+    </string-array>
+
+    <string-array name="acticity_main_opponent_levels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

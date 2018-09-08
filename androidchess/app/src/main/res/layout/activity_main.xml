@@ -2,17 +2,115 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+
     tools:context=".MainActivity">
 
-    <TextView
+    <RelativeLayout
+
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:bottom
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+        app:layout_constraintVertical_chainStyle="spread_inside">
+
+        <Spinner
+            android:id="@+id/i_play_as_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_spinner_height"
+
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_toEndOf="@id/i_play_as_textview"
+
+
+            android:entries="@array/activity_main_white_and_black"
+
+
+            />
+
+        <TextView
+            android:id="@+id/i_play_as_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_spinner_height"
+
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+
+            android:text="@string/activity_main_I_play_as"
+            android:textSize="@dimen/default_text_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:id="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Spinner
+            android:id="@+id/opponent_level_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_spinner_height"
+
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_toEndOf="@id/opponent_level_textview"
+
+
+            android:entries="@array/acticity_main_opponent_levels"
+
+
+            />
+
+        <TextView
+            android:id="@+id/opponent_level_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/activity_main_spinner_height"
+
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+
+            android:text="@string/activity_main_opponent_level"
+            android:textSize="@dimen/default_text_size" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/activity_main_play"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+
+        android:text="@string/activity_main_play"/>
+
 
 </android.support.constraint.ConstraintLayout>
