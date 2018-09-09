@@ -20,4 +20,7 @@
         <item>3</item>
         <item>pitää laittaa jossain kohtaa oikeat levelit tähän</item>
     </string-array>
+
+    <string name="activity_chess_white">White tile</string>
+    <string name="activity_chess_black">Black tile</string>
 </resources>
