@@ -30,7 +30,7 @@
 
             <ImageView
 
-                android:id="@+id/pawn"
+                android:id="@+id/black_rook1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/black_rook"
@@ -49,6 +49,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_knight1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -68,6 +69,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_bishop1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -88,6 +90,8 @@
 
             <ImageView
 
+                android:id="@+id/black_queen1"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/black_queen"
@@ -106,6 +110,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_king1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -125,6 +130,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_bishop2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -145,6 +151,7 @@
 
             <ImageView
 
+                android:id="@+id/black_knight2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_white"
@@ -163,7 +170,7 @@
             >
 
             <ImageView
-
+                android:id="@+id/black_rook2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/black_rook"
@@ -183,6 +190,7 @@
 
             <ImageView
 
+                android:id="@+id/black_pawn1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/black_pawn"
@@ -201,6 +209,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -220,6 +229,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn3"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -239,6 +249,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn4"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -258,6 +269,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn5"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -277,6 +289,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn6"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -296,6 +309,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn7"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -315,6 +329,7 @@
             >
 
             <ImageView
+                android:id="@+id/black_pawn8"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -686,6 +701,7 @@
             >
 
             <ImageView
+                android:id="@+id/white_pawn1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -704,6 +720,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_pawn2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -721,6 +738,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_pawn3"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -739,6 +757,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_pawn4"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -756,6 +775,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_pawn5"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -773,6 +793,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_pawn6"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -790,6 +811,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_pawn7"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -807,6 +829,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_pawn8"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -824,6 +847,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_rook1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -841,6 +865,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_knight1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -858,6 +883,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_bishop1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -875,6 +901,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_queen1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -892,6 +919,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_king1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -909,6 +937,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_bishop2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -926,6 +955,7 @@
             android:background="@drawable/black"
             >
             <ImageView
+                android:id="@+id/white_knight2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -943,6 +973,7 @@
             android:background="@drawable/white"
             >
             <ImageView
+                android:id="@+id/white_rook2"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

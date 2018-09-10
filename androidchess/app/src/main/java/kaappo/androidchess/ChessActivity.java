@@ -16,21 +16,16 @@ public class ChessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
 
-        findViewById(R.id.pawn).setOnTouchListener(new MyTouchListener());
+        List<View> squares = Skeidat.getViews(this);
 
-        List<View> views = Arrays.asList(
+        List<View> pieces = Skeidat.getPieces(this);
 
-            findViewById(R.id.A8),
-            findViewById(R.id.A6),
-            findViewById(R.id.B6),
-            findViewById(R.id.C6),
-            findViewById(R.id.D6),
-            findViewById(R.id.E6)
-
-        );
-
-        for (View i : views) {
+        for (View i : squares) {
             i.setOnDragListener(new MyDragListener());
+        }
+
+        for (View i: pieces) {
+            i.setOnTouchListener(new MyTouchListener());
         }
     }
 

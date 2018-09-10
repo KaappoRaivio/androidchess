@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Androidchess</string>
 
-    <string name="activity_main_I_play_as_spinner_text">Select</string>
     <string name="activity_main_I_play_as">I play as</string>
 
     <string name="activity_main_opponent_level">Opponent level</string>
-    <string name="activity_main_opponent_level_spinner_text">Select</string>
 
     <string name="activity_main_play">Play</string>
 
