@@ -9,6 +9,9 @@ public final class MyTouchListener implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
+
+            view.setTag(MainActivity.getId((View) view.getParent()));
+
             ClipData data = ClipData.newPlainText("", "");
 
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);

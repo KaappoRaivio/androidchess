@@ -9,6 +9,12 @@ import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static String getId(View view) {
+        if (view.getId() == 0xffffffff) return "no-id";
+        else return view.getResources().getResourceName(view.getId());
+    }
+
     public final String PLAYER_SIDE = "a";
     public final String COMPUTER_LEVEL = "b";
 

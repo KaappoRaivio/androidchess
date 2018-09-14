@@ -21,4 +21,6 @@
 
     <string name="activity_chess_white">White tile</string>
     <string name="activity_chess_black">Black tile</string>
+
+    <string name="activity_chess_flip_black_pieces">Flip black</string>
 </resources>

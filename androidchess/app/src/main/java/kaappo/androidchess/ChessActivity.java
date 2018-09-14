@@ -11,10 +11,18 @@ import java.util.List;
 
 public class ChessActivity extends AppCompatActivity {
 
+    public static boolean isPlayersTurn;
+
+    public void togglePlayerTurn (View view) {
+        isPlayersTurn = !isPlayersTurn;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
+
+        isPlayersTurn = false;
 
         List<View> squares = Skeidat.getViews(this);
 
@@ -27,6 +35,19 @@ public class ChessActivity extends AppCompatActivity {
         for (View i: pieces) {
             i.setOnTouchListener(new MyTouchListener());
         }
+
+    }
+
+    public void onFlipBlackClick (View view) {
+        for (View i : Skeidat.getBlackPieces(this)) {
+            if (i.getScaleY() == -1f) {
+                i.setScaleY(1f);
+            } else {
+                i.setScaleY(-1f);
+            }
+        }
+
+
     }
 
     public static class ChessSquare {
