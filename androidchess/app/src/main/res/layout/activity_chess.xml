@@ -30,6 +30,7 @@
             <ImageView
 
                 android:id="@+id/black_rook1"
+                android:tag="black_rook"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_white"
@@ -47,6 +48,7 @@
 
             <ImageView
                 android:id="@+id/black_knight1"
+                android:tag="black_knight"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -65,6 +67,7 @@
 
             <ImageView
                 android:id="@+id/black_bishop1"
+                android:tag="black_bishop"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -84,6 +87,7 @@
             <ImageView
 
                 android:id="@+id/black_queen1"
+                android:tag="black_queen"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,6 +106,7 @@
 
             <ImageView
                 android:id="@+id/black_king1"
+                android:tag="black_king"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -120,6 +125,7 @@
 
             <ImageView
                 android:id="@+id/black_bishop2"
+                android:tag="black_bishop"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -139,6 +145,8 @@
             <ImageView
 
                 android:id="@+id/black_knight2"
+                android:tag="black_knight"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_white"
@@ -156,6 +164,8 @@
 
             <ImageView
                 android:id="@+id/black_rook2"
+                android:tag="black_rook"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -174,6 +184,7 @@
             <ImageView
 
                 android:id="@+id/black_pawn1"
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -191,7 +202,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn2"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -209,7 +220,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn3"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -227,7 +238,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn4"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -245,7 +256,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn5"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -263,7 +274,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn6"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -281,7 +292,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn7"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -299,7 +310,7 @@
 
             <ImageView
                 android:id="@+id/black_pawn8"
-
+                android:tag="black_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -637,7 +648,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn1"
-
+                android:tag="white_pawn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -655,6 +666,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn2"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -672,6 +684,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn3"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -690,6 +703,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn4"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -707,6 +721,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn5"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -724,6 +739,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn6"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -741,6 +757,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn7"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -758,6 +775,7 @@
 
             <ImageView
                 android:id="@+id/white_pawn8"
+                android:tag="white_pawn"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -775,6 +793,7 @@
 
             <ImageView
                 android:id="@+id/white_rook1"
+                android:tag="white_rook"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -792,7 +811,7 @@
 
             <ImageView
                 android:id="@+id/white_knight1"
-
+                android:tag="white_knight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -809,7 +828,7 @@
 
             <ImageView
                 android:id="@+id/white_bishop1"
-
+                android:tag="white_bishop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -826,7 +845,7 @@
 
             <ImageView
                 android:id="@+id/white_queen1"
-
+                android:tag="white_queen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -843,7 +862,7 @@
 
             <ImageView
                 android:id="@+id/white_king1"
-
+                android:tag="white_king"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -860,7 +879,7 @@
 
             <ImageView
                 android:id="@+id/white_bishop2"
-
+                android:tag="white_bishop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -877,7 +896,7 @@
 
             <ImageView
                 android:id="@+id/white_knight2"
-
+                android:tag="white_knight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
@@ -894,7 +913,7 @@
 
             <ImageView
                 android:id="@+id/white_rook2"
-
+                android:tag="white_rook"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/activity_chess_black"
