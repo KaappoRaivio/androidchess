@@ -2047,7 +2047,7 @@ public class play
 		System.exit(0);
 	}
 	
-	static void findlibs(String par[]) {
+	static void findlibs(String par[]) throws Exception {
 		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
 		System.out.println("Findlibs starts."+par[1]);
 		chessboard cb1 = new chessboard(); 

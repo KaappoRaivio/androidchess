@@ -63,4 +63,8 @@ public class ChessActivity extends AppCompatActivity {
         }
     }
 
+    public String getMove () {
+        return "";
+    }
+
 }

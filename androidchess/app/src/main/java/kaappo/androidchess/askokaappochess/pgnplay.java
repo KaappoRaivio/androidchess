@@ -27,7 +27,7 @@ public class pgnplay
 	}
 	
 	
-	public static void playit(String sGame) {
+	public static void playit(String sGame) throws Exception{
 		chessboard cb = new chessboard();
 		cb.init();
 		cb.redoVectorsAndCoverages(piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);

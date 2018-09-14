@@ -1,6 +1,9 @@
 package kaappo.androidchess.askokaappochess;
 
 
+import android.app.Activity;
+import android.content.Context;
+
 public class AndroidUI {
     int squares[][];
     chessboard chessboard;
@@ -11,9 +14,13 @@ public class AndroidUI {
 
     int turn = -1;
 
-    public AndroidUI (chessboard cb) {
+    private Activity context;
+
+    public AndroidUI (chessboard cb, Activity context) {
         this.squares = new int[9][9];
         this.chessboard = cb;
+
+        this.context = context;
 
         System.out.println("Android ui created");
     }

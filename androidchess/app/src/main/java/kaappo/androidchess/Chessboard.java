@@ -1,12 +1,12 @@
 package kaappo.androidchess;
 
+import android.content.Context;
+
 class Chessboard {
-    private static final Chessboard ourInstance = new Chessboard();
 
-    static Chessboard getInstance() {
-        return ourInstance;
-    }
+    private ChessTile[][] squares;
 
-    private Chessboard() {
+    Chessboard(Context context) {
+
     }
 }

@@ -15,7 +15,7 @@ public class chess_ui
 		switch (iType)
 		{
 			case UI_TYPE_WINDOW:
-				cw = new chesswindow (100,100,500,550,50,cb);
+//				cw = new chesswindow (100,100,500,550,50,cb);
 				tty = null;
 				break;
 				
@@ -31,31 +31,31 @@ public class chess_ui
 	
 	void updateData(chessboard cb)
 	{
-		if (cw != null) cw.updateData(cb);
+
 		if (tty != null) tty.updateData(cb);
 	}
 	
 	void setMessage(String s)
 	{
-		if (cw != null) cw.setMessage(s);
+
 		if (tty != null) tty.setMessage(s);
 	}
 	
 	void setTurn(int i)
 	{
-		if (cw != null) cw.setTurn(i);
+
 		if (tty != null) tty.setTurn(i);
 	}
 	
 	void show()
 	{	
-		if (cw != null) cw.show();
+
 		if (tty != null) tty.show();
 	}
 	
 	String getMove()
 	{
-		if (cw!=null) return cw.getMove();
+
 		if (tty!=null) return tty.getMove();
 		
 		return null;
@@ -63,25 +63,25 @@ public class chess_ui
 	
 	void setLastMoveVector (Vector v)
 	{
-		if (cw!=null) cw.setLastMoveVector(v);
+
 		if (tty != null) tty.setLastMoveVector(v);
 	}
 	
 	void repaint()
 	{
-		if (cw != null) cw.repaint();
+
 		if (tty != null) tty.repaint();
 	}
 	
 	void enableUndo(boolean enable)
 	{
-		if (cw != null) cw.ch_item_undo.setEnabled(enable);
+
 		if (tty != null) tty.enableUndo(enable);
 	}
 	
 	int getMaxThreads()
 	{
-		if (cw!= null) return cw.mMaxThreads;
+
 		if (tty!=null) return tty.getMaxThreads();
 		
 		return 1;
@@ -89,7 +89,7 @@ public class chess_ui
 	
 	int getUrgency()
 	{
-		if (cw!= null) return cw.mIUrgency;
+
 		if (tty!=null) return tty.mIUrgency;
 		
 		return 0;
@@ -97,101 +97,99 @@ public class chess_ui
 	
 	void setgamehistory (gamehistory gh)
 	{
-		if (cw != null) cw.setgamehistory(gh);
+
 		if (tty != null) tty.setgamehistory(gh);
 	}
 	
 	void displayMsgDialog(String msg)
 	{
-		if (cw != null) cw.displayMsgDialog(msg);
+
 		if (tty != null) tty.displayMsgDialog(msg);
 	}
 	
 	void setLatencies(long[] lLatency)
 	{
-		if (cw != null) cw.setLatencies(lLatency);
+
 		if (tty != null) tty.setLatencies(lLatency);
 	}
 	
 	static void setMonitorMode(boolean bMode)
 	{
-		chesswindow.setMonitorMode(bMode);
+
 	}
 	
 	static int getiAnalStartLevel()
 	{
-		return chesswindow.getiAnalStartLevel ();
+		return -1;
 		
 	}
 	
 	static void setiAnalRoundsTotal(int iRounds)
 	{
-		chesswindow.setiAnalRoundsTotal(iRounds);
+
 	}
 	
 	static int getiAnalStartColor ()
 	{
-		return chesswindow.getiAnalStartColor();
+		return -1;
 	}
 	
 	static void setiPrelRoundsTotal(int iTot)
 	{
-		chesswindow.setiPrelRoundsTotal(iTot);
+
 	}
 	
 	static void setiAnalRoundsDone(int iDone)
 	{
-		chesswindow.setiAnalRoundsDone(iDone);
+
 	}
 	
 	static void monRefresh(boolean bFlag)
 	{
-		chesswindow.monRefresh(bFlag);
+
 	}
 	
 	static void setBestMval(movevalue mv)
 	{
-		chesswindow.setBestMval(mv);
+
 	}
 	
 	static void setBestPreMval(movevalue mv)
 	{
-		chesswindow.setBestPreMval(mv);
+
 	}
 	
 	static void setAnalCurrent(String s)
 	{
-		chesswindow.setAnalCurrent(s);
+
 	}
 	
 	static void setAnalPreCurrent(String s)
 	{
-		chesswindow.setAnalPreCurrent(s);
+
 	}
 	
-	static void setiPrelRoundsDone(int iDone)
-	{
-		chesswindow.setiPrelRoundsDone(iDone);
+	static void setiPrelRoundsDone(int iDone){
 	}
 	
 	static int getiPrelRoundsTotal()
 	{
-		return chesswindow.getiPrelRoundsTotal();
+		return -1;
 	}
 	
 	static void setlAnalEndTime(long lTime)
 	{
-		chesswindow.setlAnalEndTime(lTime);
+
 	}
 	
 	static void setAnalysisStart(int iLev, int iCol)
 	{
-		chesswindow.setAnalysisStart(iLev,iCol);
+
 	}
 	
 	static void setAnalysisStartMval(movevalue mv)
 	{
-		chesswindow.setAnalysisStartMval(mv);
+
 	}
 	
 }
