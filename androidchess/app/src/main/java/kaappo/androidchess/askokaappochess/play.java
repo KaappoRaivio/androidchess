@@ -12,32 +12,24 @@ public class play
 	static final int WHITEWIN = 3;
 	static final int INTERRRUPT = 4;
 	static final int RES_ERROR = 5;
-	
-	//static boolean USE_MOVELIBRARY = true;
+
 	static boolean USE_LIBMOVES = true;
 	
-	//static boolean USE_LIBMOVES = false;
+
 	static boolean USE_MOVELIBRARY = false;  // starts to be awfully obsolete. time to rid 160205
 	static boolean USE_ENGINEMOVES = true;
-	//static boolean USE_ENGINEMOVES = false;
-	
-	//static final int GAME_LENGTH = 6;    // for finding all move 5 20170406. NOW FOR FULFILLER FROM 3!!!!
-	//static final int GAME_LENGTH = 7;    // for finding all move 6 20170406 *****************
-	//static final int GAME_LENGTH = 8;    // for finding all move 7 20170406
-	//static final int GAME_LENGTH = 9;  // m6 + 2 move 20170828
+
 	static final int GAME_LENGTH = 150;
 	
 	static final int FEN_ENTRY_MOVELIMIT = 61;
-	//static final int M4LEVEL = 7;
-	//static final int M4LEVEL = 4;
+
 	static final int M4LEVEL = 5;
 	
 	static final int FULLFILLER_LEVEL = 3;
 	static final int FULLFILLER_LEVEL_MAX = 4;
 	
 	static int REAL_MOVE_LIMIT = 310;
-	//static int REAL_MOVE_LIMIT = 3;
-	//static int REAL_MOVE_LIMIT = 1;
+
 	
 	static int ANYMOVE_LIB_LIMIT = 2;
 	static final int DRAW_RETRY_LIMIT = 3;
@@ -80,160 +72,7 @@ public class play
 		mlib.setMode(movelibrary.MODE_RANDOM);
 		mlib.setSeed(-1);
 		
-		if (args.length > 0)
-		{
-			if (args[0].equalsIgnoreCase("simu"))
-			{
-				System.out.println("There are args...");
-				
-				String lev[] = args[1].split(":");
-				int l0 = new Integer(lev[0]).intValue();
-				int l1 = new Integer(lev[1]).intValue();
 
-				int alg0 = 0;
-				int alg1 = 0;
-				
-				if (args.length>2)
-				{
-					String alg[] = args[2].split(":");
-					alg0 = new Integer (alg[0]).intValue();
-					alg1 = new Integer (alg[1]).intValue();
-				}
-				
-				boolean bDeep0 = false;
-				boolean bDeep1 = false;
-				
-				if (args.length>3)
-				{
-					String deepFlags[] = args[3].split(":");
-					bDeep0 = deepFlags[0].equalsIgnoreCase("plus");
-					bDeep1 = deepFlags[1].equalsIgnoreCase("plus");
-				}
-
-				
-				long lStart = System.currentTimeMillis();
-				
-				fufi = new fulfiller();
-				
-				for (int i=0;i<mlib.size();i++)
-				//for (int i=0;i<1;i++)
-				{
-					mlib.setSeed(i);
-					int r = simu(l0,l1,alg0,alg1,bDeep0,bDeep1);
-					results[r]++;
-					CMonitor.dumpValues();
-				}
-				long lEnd = System.currentTimeMillis();
-				/*
-				System.out.println("Done . Results array (blackwin, draw, whitewin):");
-				System.out.println("Game parameters: l0:" + l0 + " l1:" + l1 + " alg0:" + alg0 + " alg1:" + alg1);
-				for (int r = BLACKWIN; r <= RES_ERROR; r++) System.out.println(r + ": " +results[r]);	
-				*/
-				System.out.println("----");
-				System.out.println("Simulation completed. Duration: " + (lEnd-lStart) / 1000 + " sec");
-				System.out.println("WHITE (lev "+l0+", alg " + alg0+", deep "+ bDeep0+ " ):" + results[WHITEWIN]);
-				System.out.println("BLACK (lev "+l1+", alg " + alg1+", deep "+ bDeep1+ " ):" + results[BLACKWIN]);
-				System.out.println("Draws : " + (results[DRAW]+results[RES_ERROR]) + "  by draw: " + results[DRAW] + ", interrupted: " + results[RES_ERROR]);
-				
-				CMonitor.dumpValues();
-				fufi.dump();
-				System.out.println("----");
-				//System.out.println("Duration " + (lEnd-lStart) / 1000 + " sec");
-				System.exit(0);
-				return;
-			}
-			if (args[0].indexOf("file:") == 0)
-			{
-				analfile(args[0]);
-			}
-			
-			if ((args[0].indexOf("filesimu:") == 0) || (args[0].indexOf("filesimux:") == 0) || (args[0].indexOf("filesimufen:") == 0))
-			{
-				String lev[] = args[1].split(":");
-				int l0 = new Integer(lev[0]).intValue();
-				int l1 = new Integer(lev[1]).intValue();
-
-				int alg0 = 0;
-				int alg1 = 0;
-				
-				if (args.length>2)
-				{
-					String alg[] = args[2].split(":");
-					alg0 = new Integer (alg[0]).intValue();
-					alg1 = new Integer (alg[1]).intValue();
-				}
-				
-				boolean bDeep0 = false;
-				boolean bDeep1 = false;
-				
-				if (args.length>3)
-				{
-					String deepFlags[] = args[3].split(":");
-					bDeep0 = deepFlags[0].equalsIgnoreCase("plus");
-					bDeep1 = deepFlags[1].equalsIgnoreCase("plus");
-				}
-				
-				String aComp[] = args[0].split(":");
-				String fname = aComp[1];
-				
-				USE_MOVELIBRARY = false;
-				USE_LIBMOVES = false;
-
-                USE_ENGINEMOVES = (args[0].indexOf("filesimux:") == 0) || (args[0].indexOf("filesimufen:") == 0);
-				
-				boolean bFENFlag = false;
-				if (args[0].indexOf("filesimufen:") == 0) bFENFlag = true;
-				
-				int r = filesimu(l0,l1,alg0,alg1, bDeep0, bDeep1, fname, bFENFlag);
-				
-				System.exit(0);
-			}
-			
-			if (args[0].indexOf("compare") == 0)
-			{
-				compare (args);
-			}
-			
-			if (args[0].indexOf("replay") == 0)
-			{
-				replay (args);
-			}
-			
-			if (args[0].indexOf("rpl_lib") == 0)
-			{
-				replay_lib (args);
-			}
-			
-			if (args[0].indexOf("dump") == 0)
-			{
-				justdump (args);
-			}
-			
-			if (args[0].indexOf("findlibs") == 0)
-			{
-				findlibs (args);
-			}
-			
-			if (args[0].indexOf("tty") == 0)
-			{
-				UI_TYPE = chess_ui.UI_TYPE_TTY;
-			}
-			
-			if (args[0].indexOf("startfile:") == 0)
-			{
-				String [] argComp=args[0].split(":");
-				sStartFile=argComp[1];
-				USE_MOVELIBRARY = false;
-				USE_LIBMOVES = false;
-			}
-			
-			if (args[0].indexOf("mmt") == 0)
-			{
-				mmtest (args);
-			}
-			
-			
-		}
 		
 		System.out.println("DBG151011: A");
 		cb = new chessboard();
@@ -241,27 +80,18 @@ public class play
 		else cb.init_from_file(sStartFile);
 		System.out.println("DBG151011: B");
 		
-		//if (GUIWINDOW) cw = new chesswindow (100,100,500,550,50);
-		//else cw = new ttyui();
+
 		cui = new chess_ui(UI_TYPE, cb);	
 		
-		/*
-		cw.updateData(cb);
-		cw.setMessage("Start new game from menu Play->New Game");
-		cw.setTurn(-1);
-		cw.show();
-		*/
+
 		cui.updateData(cb);
 		cui.setMessage("Start new game from menu Play->New Game");
 		cui.setTurn(-1);
 		cui.show();
 		
-		if ((args.length > 0) && (args[0].equals("noblood"))) CMonitor.setNoBlood(true);
-		else CMonitor.setNoBlood(false);
-		
 		while (true)
 		{
-			//String inStr = cw.getMove();
+
 			String inStr = cui.getMove();
 			System.out.println("Command:"+inStr);
 			if (inStr.indexOf("PLAY:") == 0)
@@ -359,7 +189,7 @@ public class play
 		
 	}
 	
-	static int playgame (int lev[], boolean bMess, int alg[], boolean bDeep[]) throws Exception
+	public static int playgame (int lev[], boolean bMess, int alg[], boolean bDeep[]) throws Exception
 	{
 		PrintWriter pwEmoves;
 		

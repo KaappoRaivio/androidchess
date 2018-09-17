@@ -180,7 +180,7 @@ public class chessboard implements Serializable
 	
 	int iMoveCount = 0;   // moves, i.e. two moves per round
 	
-	int mMaxThreads = 8;
+	public int mMaxThreads = 8;
 	
 	int iWhiteMvLastProm, iBlackMvLastProm;
 	
@@ -204,7 +204,7 @@ public class chessboard implements Serializable
 	
 	public static final int MAX_CHESS_RECURSION_DPTH = 2;
 	
-	chessboard()
+	public chessboard()
 	{
 		blocks = new piece [9][9];	
 		bWhiteCoverage = new boolean[9][9];
@@ -688,7 +688,7 @@ public class chessboard implements Serializable
 	}
 	*/
 	
-	void init()
+	public void init()
 	{
 		System.out.println("DBG151011:cb init!");
 		for (int i=1;i<=8;i++)
@@ -740,7 +740,7 @@ public class chessboard implements Serializable
 		lm_vector = null;
 	}
 	
-	boolean init_from_file(String filename)
+	public boolean init_from_file(String filename)
 	{
 		System.out.println("DBG151011:cb init from file!");
 		String sEnp = null;

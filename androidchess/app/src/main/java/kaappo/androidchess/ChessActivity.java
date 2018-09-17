@@ -79,7 +79,13 @@ public class ChessActivity extends AppCompatActivity {
     }
 
     public String getMove () {
-        return "";
+        String move;
+        while (true) {
+            move = MyDragListener.getMove();
+            if (move != null) {
+                return move;
+            }
+        }
     }
 
     public RelativeLayout getSquareByPosition (int pos_x, int pos_y) throws Exception {
@@ -136,6 +142,8 @@ public class ChessActivity extends AppCompatActivity {
 
         return;
     }
+
+
 
 
 

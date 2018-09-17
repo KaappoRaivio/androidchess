@@ -67,7 +67,7 @@ public class CMonitor
 		checkLastDump();
 	}
 	
-	static void dumpValues()
+	public static void dumpValues()
 	{
 		System.out.println("CMonitor: " + new java.sql.Timestamp(System.currentTimeMillis()) + ": " + iFindMoveCnt + " " + iChessboardInit + " " + iChessboardCopy +" "+iValueComp+ " " + iLevel4Moves+ " " + iMIndGetBest + " " + iMoveCPPawnPProm);
 	}
@@ -89,7 +89,7 @@ public class CMonitor
 		else return tlc.iCorrTimeLim(iRounds,iTimeLim);
 	}
 	
-	static void setTimeLimCtl(boolean bCt)
+	public static void setTimeLimCtl(boolean bCt)
 	{
 		if (bCt)
 		{			

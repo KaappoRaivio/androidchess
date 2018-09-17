@@ -9,7 +9,21 @@ import android.widget.RelativeLayout;
 
 public class MyDragListener implements View.OnDragListener {
 
+    private static String move = null;
+
+    public static String getMove () {
+        if (move != null) {
+            String temp = move;
+            move = null;
+            return temp;
+        } else {
+            return null;
+        }
+    }
+
     public final int START_PARENT_ID = 0;
+
+
 
 
     public boolean onDrag(View v, DragEvent event) {
@@ -34,8 +48,9 @@ public class MyDragListener implements View.OnDragListener {
                     RelativeLayout container = (RelativeLayout) v;
                     container.addView(view);
                     view.setVisibility(View.VISIBLE);
-                    System.out.println(view.getTag() + MainActivity.getId((v)))
-                    ;
+                    System.out.println(view.getTag() + MainActivity.getId((v)));
+
+                    move = view.getTag() + MainActivity.getId((v))
 
                 } else {
                     View view = (View) event.getLocalState();

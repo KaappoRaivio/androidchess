@@ -2,116 +2,117 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
+import kaappo.androidchess.ChessActivity;
+
 public class chess_ui
 {
 	public static final int UI_TYPE_WINDOW = 1;
 	public static final int UI_TYPE_TTY = 2;
+	public static final int UI_TYPE_ANDROID = 3;
 	
 	chesswindow cw;
-	ttyui tty;
+	ttyui tty = null;
+	AndroidUI androidUI;
 	
-	chess_ui(int iType, chessboard cb)
-	{
-		switch (iType)
-		{
-			case UI_TYPE_WINDOW:
-//				cw = new chesswindow (100,100,500,550,50,cb);
-				tty = null;
-				break;
-				
-			case UI_TYPE_TTY:
-				tty = new ttyui(cb);
-				cw = null;
-				break;
-			
-			default:
-				break;
-		}
+	public chess_ui(int iType, chessboard cb, ChessActivity context) {
+        this.androidUI = new AndroidUI(cb, context);
 	}
 	
-	void updateData(chessboard cb)
+	public void updateData(chessboard cb)
 	{
 
 		if (tty != null) tty.updateData(cb);
+		if (androidUI != null) androidUI.updateData(cb);
 	}
 	
-	void setMessage(String s)
+	public void setMessage(String s)
 	{
 
 		if (tty != null) tty.setMessage(s);
-	}
+        if (androidUI != null) androidUI.setMessage(s);
+    }
 	
-	void setTurn(int i)
+	public void setTurn(int i)
 	{
 
 		if (tty != null) tty.setTurn(i);
-	}
+        if (androidUI != null) androidUI.setTurn(i);
+    }
 	
-	void show()
+	public void show() throws Exception
 	{	
 
 		if (tty != null) tty.show();
-	}
+        if (androidUI != null) androidUI.updateBoard();
+    }
 	
-	String getMove()
+	public String getMove()
 	{
 
 		if (tty!=null) return tty.getMove();
-		
-		return null;
+        if (androidUI != null) return androidUI.getMove();
+
+
 	}
 	
-	void setLastMoveVector (Vector v)
+	public void setLastMoveVector (Vector v)
 	{
 
 		if (tty != null) tty.setLastMoveVector(v);
-	}
+
+    }
 	
-	void repaint()
+	void repaint() throws Exception
 	{
 
 		if (tty != null) tty.repaint();
-	}
+        if (androidUI != null) androidUI.updateBoard();
+    }
 	
 	void enableUndo(boolean enable)
 	{
 
 		if (tty != null) tty.enableUndo(enable);
-	}
+        if (androidUI != null) androidUI.undoEnabled = enable;
+    }
 	
-	int getMaxThreads()
+	public int getMaxThreads()
 	{
 
 		if (tty!=null) return tty.getMaxThreads();
-		
-		return 1;
+
+        return 1;
 	}
 	
 	int getUrgency()
 	{
 
 		if (tty!=null) return tty.mIUrgency;
-		
-		return 0;
+        if (androidUI != null) return androidUI.getUrgency();
+
+        return 0;
 	}
 	
 	void setgamehistory (gamehistory gh)
 	{
 
 		if (tty != null) tty.setgamehistory(gh);
-	}
+
+    }
 	
 	void displayMsgDialog(String msg)
 	{
 
 		if (tty != null) tty.displayMsgDialog(msg);
-	}
+        if (androidUI != null) androidUI.displayMsgDialog(msg);
+    }
 	
 	void setLatencies(long[] lLatency)
 	{
 
 		if (tty != null) tty.setLatencies(lLatency);
-	}
+
+    }
 	
 	static void setMonitorMode(boolean bMode)
 	{

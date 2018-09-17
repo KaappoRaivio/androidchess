@@ -32,8 +32,7 @@ public class AndroidUI {
     }
 
     public String getMove () {
-        // todo
-        return "";
+        return context.getMove();
     }
 
     public void doMove () {
@@ -49,6 +48,16 @@ public class AndroidUI {
         //todo
         return 0;
     }
+    
+    public void setMessage (String message) {
+        /// TODO: 17.9.2018
+    }
+
+    public void setTurn (int i) {
+        this.turn = i;
+    }
+
+
 
     public void updateData (chessboard cb) {
         this.chessboard = cb;
@@ -61,7 +70,7 @@ public class AndroidUI {
 
 
     }
-    public void updateBoard () throws Exception{
+    public void updateBoard () throws Exception {
         List<Integer> alreadyMovedPieces = new ArrayList<>();
         List<ImageView> unusedViews = new ArrayList<>();
 
@@ -69,6 +78,7 @@ public class AndroidUI {
             for (int x = 0; x < 8; x++) {
                 if (context.getPieceByPosition(x, y) != null) {
                     unusedViews.add(context.getPieceByPosition(x, y));
+                    context.getSquareByPosition(x, y).removeView(context.getPieceByPosition(x, y));
                 }
             }
         }
@@ -120,13 +130,13 @@ public class AndroidUI {
                             break;
                         default:
                             throw new Exception();
+                    }
                 }
+                context.getSquareByPosition(x, y).addView(toBePlaced);
             }
-            context.getSquareByPosition(x, y).addView(toBePlaced);
+
+
         }
-
-
-
     }
 
     public static ImageView searchPiece (List<ImageView> pieces, String string) {
@@ -135,6 +145,7 @@ public class AndroidUI {
                 return imageView;
             }
         }
+        return null;
     }
 
 }

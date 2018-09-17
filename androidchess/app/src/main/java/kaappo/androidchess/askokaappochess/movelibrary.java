@@ -3,8 +3,8 @@ import java.util.*;
 
 public class movelibrary
 {
-	static final int MODE_RANDOM = 1;
-	static final int MODE_FIRST = 2;
+	public static final int MODE_RANDOM = 1;
+	public static final int MODE_FIRST = 2;
 	
 	Vector vMoves;
 	int iSeed;
@@ -36,11 +36,11 @@ public class movelibrary
 	}
 	
 	
-	movelibrary()
+	public movelibrary()
 	{
 	}
 	
-	void setSeed(int i)
+	public void setSeed(int i)
 	{
 		iSeed = i;
 	}
@@ -50,7 +50,7 @@ public class movelibrary
 		return iSeed;
 	}
 	
-	void setMode (int i)
+	public void setMode (int i)
 	{
 		iMode = i;
 	}
@@ -108,7 +108,7 @@ public class movelibrary
 		return sMove;
 	}
 	
-	void init()
+	public void init()
 	{
 		vMoves = new Vector();
 		vMoves.addElement("E2E4;C7C5;G1F3;D7D6;D2D4;C5D4;F3D4;G8F6;B1C3;A7A6");
