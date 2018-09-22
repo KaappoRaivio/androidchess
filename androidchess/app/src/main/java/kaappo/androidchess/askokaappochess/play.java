@@ -5,6 +5,8 @@ import java.sql.*;
 import java.io.*;
 import java.io.PrintWriter;
 
+import kaappo.androidchess.ChessActivity;
+
 public class play
 {
 	static final int BLACKWIN = 1;
@@ -59,36 +61,36 @@ public class play
 	
 	static fulfiller fufi;
 	
-	public static void main (String args[]) throws Exception
+	public static void main (String args[], ChessActivity context) throws Exception
 	{
 		System.out.println("Starting.");
-		
+
 		CMonitor.dumpValues();
-		
+
 		int results[] = new int[6];
-		
+
 		mlib = new movelibrary();
 		mlib.init();
 		mlib.setMode(movelibrary.MODE_RANDOM);
 		mlib.setSeed(-1);
-		
 
-		
+
+
 		System.out.println("DBG151011: A");
 		cb = new chessboard();
 		if (sStartFile == null) cb.init();
 		else cb.init_from_file(sStartFile);
 		System.out.println("DBG151011: B");
-		
 
-		cui = new chess_ui(UI_TYPE, cb);	
-		
+
+		cui = new chess_ui(UI_TYPE, cb, context);
+
 
 		cui.updateData(cb);
 		cui.setMessage("Start new game from menu Play->New Game");
 		cui.setTurn(-1);
 		cui.show();
-		
+
 		while (true)
 		{
 
@@ -99,31 +101,31 @@ public class play
 				int lev[] = new int[2];
 				int alg[] = new int[2];
 				boolean bDeep[] = new boolean[2];
-				
+
 				String inpieces[] = inStr.split(":");
-				lev [0] = new Integer(inpieces[1]).intValue();
-				lev [1] = new Integer(inpieces[2]).intValue();
-				
-				int iAlgpick = new Integer(inpieces[3]).intValue();
+				lev [0] = Integer.valueOf(inpieces[1]);
+				lev [1] = Integer.valueOf(inpieces[2]);
+
+				int iAlgpick = Integer.valueOf(inpieces[3]);
 				int iAlg = 0;
-				
+
 				System.out.println("play.main() levs: " +lev[0] +"," + lev[1]);
 				System.out.println("iAlgpick:" + iAlgpick);
 				if (iAlgpick==1)
 				{
-					System.out.println("Stockfish: " + lev[0] + "," + lev[1]);	
+					System.out.println("Stockfish: " + lev[0] + "," + lev[1]);
 					if (lev[0] >= 0) iAlg = movevalue.ALG_ASK_FROM_ENGINE1+lev[0];
 					else iAlg = movevalue.ALG_ASK_FROM_ENGINE1+lev[1];
 				}
-				else 
+				else
 				iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-				
+
 				alg[0] =  iAlg;
 				alg[1] =  iAlg;
-				
+
 				bDeep[0] = false;
 				bDeep[1] = false;
-				
+
 				CMonitor.setTimeLimCtl(false);
 				for (int levs=0;levs<2;levs++)
 				{
@@ -156,19 +158,19 @@ public class play
 						bDeep[levs]=false;
 					}
 				}
-				
-				
-				
+
+
+
 				cb = new chessboard();
-				if (sStartFile == null ) cb.init();   
-				else cb.init_from_file(sStartFile); 
-					
+				if (sStartFile == null ) cb.init();
+				else cb.init_from_file(sStartFile);
+
 				// $$$$ 150127 to play games from position in file
 				//cb.init_from_file("fail6.dat");
 				//cb.init_from_file("kind.dat");
 				//cb.mMaxThreads = cw.mMaxThreads;
 				cb.mMaxThreads = cui.getMaxThreads();
-				
+
 				/*
 				cw.updateData(cb);
 				cw.setLastMoveVector(null);
@@ -184,11 +186,11 @@ public class play
 				playgame (lev,true, alg, bDeep);
 			}
 		}
-		
 
-		
+
+
 	}
-	
+
 	public static int playgame (int lev[], boolean bMess, int alg[], boolean bDeep[]) throws Exception
 	{
 		PrintWriter pwEmoves;
@@ -1187,729 +1189,9 @@ public class play
 	
 	}
 	
-	static int simu(int l0, int l1, int alg0, int alg1, boolean bDeep0, boolean bDeep1) throws Exception
-	{
-		int lev[] = new int[2];
-		lev[0] = l0;
-		lev[1] = l1;
-		int alg[] = new int[2];
-		alg[0] = alg0;
-		alg[1] = alg1;
-		boolean bDeep[] = new boolean[2];
-		bDeep[0] = bDeep0;
-		bDeep[1] = bDeep1;
-		
-		String sAlg[] = new String[2];
-		sAlg[0] = "";
-		sAlg[1] = "";
-		
-		cb = new chessboard();
-		cb.init();
 
-		/*
-		if (cw == null) cw = new chesswindow (100,100,500,550,50);
-		cw.updateData(cb);
-		cw.setLastMoveVector(null);
-		cw.setMessage("Starting new game.");
-		cw.show();  */
 
-		if (cui == null) cui = new chess_ui(UI_TYPE, cb);
-		cui.updateData(cb);
-		cui.setLastMoveVector(null);
-		cui.setMessage("Starting new game.");
-		cui.show();
-		
-		if ((alg0 == movevalue.ALG_ASK_FROM_ENGINE_RND) || (alg1 == movevalue.ALG_ASK_FROM_ENGINE_RND)) 
-		{
-			REAL_MOVE_LIMIT = 1;
-		//System.exit(0);
-		}
-		
-		CMonitor.setTimeLimCtl(true);   // $$$ 160315, repro bug bloss47.dat
-		CMonitor.setUrgency(0);
-		
-		int iRet = playgame (lev,false, alg, bDeep);
-		return iRet;
-	}
-	
-	static int filesimu(int l0, int l1, int alg0, int alg1, boolean bDeep0, boolean bDeep1, String fname, boolean bFENFlag) throws Exception
-	{
-		int lev[] = new int[2];
-		lev[0] = l0;
-		lev[1] = l1;
-		int alg[] = new int[2];
-		alg[0] = alg0;
-		alg[1] = alg1;
-		boolean bDeep[] = new boolean[2];
-		bDeep[0] = bDeep0;
-		bDeep[1] = bDeep1;
-		
-		String sAlg[] = new String[2];
-		sAlg[0] = "";
-		sAlg[1] = "";
-		
-		if (bFENFlag)
-		{
-			cb = new chessboard();
-			boolean br = cb.init_from_FEN(fname);
-			cb.iMoveCounter++;
-			System.out.println("play.filesimu(): by FEN, iMoveCounter: " + cb.iMoveCounter);
-		}
-		else
-		{
-			cb = new chessboard();
-			boolean br = cb.init_from_file(fname);
-		}
-		
-		/*
-		if (cw == null) cw = new chesswindow (100,100,500,550,50);
-		cw.updateData(cb);
-		cw.setLastMoveVector(null);
-		cw.setMessage("Starting new game.");
-		cw.show();
-		*/
-		if (cui == null) cui = new chess_ui(UI_TYPE, cb);
-		cui.updateData(cb);
-		cui.setLastMoveVector(null);
-		cui.setMessage("Starting new game.");
-		cui.show();
 
-		mlib.setSeed(-2);
-		
-		if ((alg0 == movevalue.ALG_ASK_FROM_ENGINE_RND) || (alg1 == movevalue.ALG_ASK_FROM_ENGINE_RND)) 
-		{
-			REAL_MOVE_LIMIT = 1;
-			System.out.println("Real move limit 1");
-			//System.exit(0);
-		}
-		
-		int iRet = playgame (lev,false, alg, bDeep);
-		return iRet;
-	}
-	
-	static void analfile(String arg) throws Exception
-	{
-		String aComp[] = arg.split(":");
-		
-		chessboard cb = new chessboard();
-		chessboard cb2 = null;
-		
-		boolean br = cb.init_from_file(aComp[1]);
-		
-		cb.iMoveCounter = 1;
-		cb.iMoveCount = cb.iFileCol;
-		
-		int iLev = new Integer(aComp[2]).intValue();
-		
-		String sPar = "";
-		System.out.println("aComp.length:" + aComp.length);
-		if (aComp.length>=3) sPar = aComp[3]; 
-		
-		int iAlg = 0;
-		if (aComp.length>=4)
-		{
-			iAlg = new Integer(aComp[4]).intValue();
-		}
-		boolean bDeeper = false;
-		if (aComp.length>=5)
-		{
-			if (aComp[5].equalsIgnoreCase("plus")) bDeeper = true;
-		}
-		if (aComp.length>6)
-		{
-			if (aComp[6].indexOf("draw=") != -1) 
-			{
-				System.out.println("Draw warning: " + aComp[6]);
-				String sDrawMove=aComp[6].substring(5).toUpperCase().trim();
-				System.out.println("sDrawMove:"+sDrawMove);
-				CMonitor.iMonLevel=iLev;
-				CMonitor.sDrawMove = sDrawMove;
-				//System.exit(0);
-			}
-		}
-		
-		System.out.println("CB LOADED FILE COL = " + cb.iFileCol);
-		if ((cb.iFileCol != piece.WHITE) && (cb.iFileCol != piece.BLACK)) System.exit(0);
-		
-		/*if (cw == null) cw = new chesswindow (100,100,500,550,50);
-		cw.updateData(cb);
-		cw.show();
-		*/
-		if (cui == null) cui = new chess_ui(chess_ui.UI_TYPE_WINDOW, cb);
-		cui.updateData(cb);
-		cui.show();
-		
-		cb.dump();
-		cb.dumpCoverages();
-		cb.dumpProtThreat();
-		
-		//movevalue mmval = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-		movevalue mmval = new movevalue("");
-		mmval.setbase(cb.iFileCol);
-		cb.redoVectorsAndCoverages(1-cb.iFileCol,iAlg);
-		
-		chess_ui.setAnalysisStart(iLev, cb.iFileCol);
-		movevalue mv2 = new movevalue("");
-		mv2.setBalancesFromBoard(cb,cb.iFileCol,iAlg);
-		chess_ui.setAnalysisStartMval(mv2);
-		
-		mostore mos = new mostore();
-		
-		CMonitor.setTimeLimCtl(true);   // $$$ 160315, repro bug bloss47.dat
-		CMonitor.setUrgency(0);
-		
-		if (iLev == 0) hcwinner.bHcwEnabled = true;
-		
-		cb2 = cb.findAndDoBestMove(cb.iFileCol,iLev,mmval,iAlg,true,null,null,false, null,null,null,null,chessboard.CB_MAXTIME,true,null, mos);
-		
-		if (cb2 != null) 
-		{
-			cb2.dump();
-			cb2.dumpCoverages();
-			cb2.dumpProtThreat();
-			System.out.println(cb2.lastmoveString() + " mmval: " + mmval.dumpstr(iAlg));
-		
-			Vector vTestDir = cb2.getTestDir();
-			if (vTestDir != null)
-			{
-				System.out.println("DBG150924:vTestDir dump");
-				String sRight = cb2.lastmoveString();
-				for (int i=0; i<vTestDir.size();i++)
-				{
-					String sDir = (String)vTestDir.elementAt(i);
-					sDir = sDir.trim();
-					String sDirComp[] = sDir.split(":");
-					String sLev = sDirComp[0];
-					int iResLev = new Integer(sLev.replaceAll("L","")).intValue();
-					
-					String sOpts[]=sDirComp[1].split(" ");
-					System.out.println("sLev:"+sLev);
-					int iSuccCrit=0;
-					int iFailCrit=0;
-					int iSucc=0;
-					int iFail=0;
-					if (iLev == iResLev) for (int j=0;j<sOpts.length;j++)
-					{
-						if (sOpts[j].indexOf("!") == -1) iSuccCrit++;
-						else iFailCrit++;
-						
-						System.out.println("sOpts[j]:"+sOpts[j]);
-						if (sRight.equals(sOpts[j])) iSucc++;
-						if (new String("!"+sRight).equals(sOpts[j])) iFail++;
-					}
-					System.out.println("iFailCrit:"+iFailCrit + " iFail:" + iFail);
-					if ((iSuccCrit > 0) && (iSucc == 0)) System.out.println("TESTRESULT " + arg + " FAILURE (A) move:" + sRight);
-					if ((iFailCrit > 0) && (iFail == 0)) System.out.println("TESTRESULT " + arg + " SUCCESS (B) move:" + sRight);
-					if (iSucc > 0) System.out.println("TESTRESULT " + arg + " SUCCESS (C) move:" + sRight);
-					if (iFail > 0) System.out.println("TESTRESULT " + arg + " FAILURE (A) move:" + sRight);
-				}	
-			}
-		
-		}
-		else System.out.println("No move, val=" + mmval.dumpstr(iAlg));
-		
-		
-		//System.out.println("sPar:"+sPar);
-		/*
-		chessboard cb3 = cb.copy();
-		cb3.redoVectorsAndCoverages(1-cb.iFileCol,iAlg);
-		movevalue mv3 = new movevalue("");
-		chessboard cb4=hcwinner.hcwinnerFAD(cb3,cb.iFileCol,mv3);
-		if (cb4 != null) cb4.dump();
-		*/
-		
-		if (sPar.equalsIgnoreCase("stay")) while (true) { Thread.sleep(1000); }
-		else if (sPar.equalsIgnoreCase("quit")) System.exit(0);
-		
-	}
-	
-	static void compare (String par[])
-	{
-		System.out.println("Reading first board.");
-		chessboard cb1 = new chessboard(); 
-		cb1.init_from_file(par[1]);
-		System.out.println("Reading second board.");
-		chessboard cb2 = new chessboard(); 
-		cb2.init_from_file(par[2]);
-		
-		System.out.println("Starting file comparison : " + par[1] + " " + par[2]);
-		
-		//movevalue mv1 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-		movevalue mv1 = new movevalue("");
-		//movevalue mv2 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-		movevalue mv2 = new movevalue("");
-		
-		if (cb1.iFileCol != cb2.iFileCol)
-		{
-			System.out.println("File boards have different turn indicators.");
-			System.exit(0);
-		}
-		
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		
-		cb1.redoVectorsAndCoverages(cb1.iFileCol, iAlg);
-		cb2.redoVectorsAndCoverages(cb1.iFileCol, iAlg);
-		
-		mv1.setBalancesFromBoard(cb1,cb1.iFileCol,0);
-		mv2.setBalancesFromBoard(cb2,cb1.iFileCol,0);
-		
-		System.out.println("mv1: " + mv1.dumpstr(0));
-		System.out.println("mv2: " + mv2.dumpstr(0));
-		
-		if (par.length<=3)
-		{
-		
-			System.out.println("CLR  ALG  TURN   BETTER");
-			for (int clr = 0; clr < 2; clr++)
-				for (int alg = 0; alg <= 13; alg++)
-					for (int turn = 0; turn < 2; turn ++)
-			{
-				System.out.print(clr + "    " + alg + "  " + turn);
-				if (mv1.isBetterthan(mv2,clr,alg,turn,0)) System.out.println ("  " + par[1]);
-				else if (mv2.isBetterthan(mv1,clr,alg,turn,0)) System.out.println ("  " + par[2]);
-				else System.out.println("   equal");
-				
-			}
-		}
-		else
-		{
-			String sComp[] = par[3].split(":");
-			int clr = new Integer(sComp[0]).intValue();
-			int alg = new Integer(sComp[1]).intValue();
-			int turn = new Integer(sComp[2]).intValue();
-			System.out.println("Prec anal here! CLR:" + clr + " Alg = " +alg + " Turn = " + turn);
-			
-			System.out.println("mv1: " + mv1.dumpstr(alg));
-			System.out.println("mv2: " + mv2.dumpstr(alg));
-			
-			boolean bIsBetter1 = mv1.isBetterthan(mv2,clr,alg,turn,0);
-			boolean bIsBetter2 = mv2.isBetterthan(mv1,clr,alg,turn,0);
-			System.out.println("First is better is: " + bIsBetter1);
-			System.out.println("Second is better is: " + bIsBetter2);
-			cb1.dump();
-			cb2.dump();
-			
-			System.exit(0);
-		}
-	}
-	
-	static void replay (String par[])
-	{	
-		System.out.println("Replay starts");
-		
-		//String sReplay ="E2E4;B8C6;D2D4;G8F6;B1C3;E7E6;C1G5;C6D4;D1D4;E6E5;D4E5;F8E7;G5F6;G7F6;E5F5;E8G8;A1B1;A8B8";
-		String sPreCastle = "E5F5";
-		String sCastle = "E8G8";
-		String sReplay2 = "";
-		String sReplayFlip = "E4F4;E1G1;A8B8;A1B1";
-		int FLIPVAR = 1;
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		
-		/*
-		String sReplay = "E2E4;C7C5;G1F3;D7D6;D2D4;C5D4;F3D4;G8F6;B1C3;A7A6;F1C4;D8A5;B2B4;A5B4;C4F7;E8F7;D1D3;A6A5;E1G1;A8A7;A1B1";
-		String sPreCastle = "A6A5";
-		String sCastle = "E1G1";
-		String sReplayFlip = "A3A4;E8G8;A1A2;A8B8";
-		int FLIPVAR = 0;
-		*/
-		
-		//String sReplay ="E2E4;D7D5;F1B5;C7C6;B5D3;E7E6;E4E5;G8H6;G1H3;B8D7;D1H5;G7G5;F2F4;D8A5;H5G5;B7B5;E1F2;A7A6;A2A4;D7B6;C2C3;B5B4;C3B4;A5B4;G2G4;B6C4;D3C4;D5C4;G5F6;H6G4;F2F3;G4F6;E5F6;F8H6;A4A5;E8G8;H1G1;G8H8;H3F2;C8D7;H2H4;B4C5;D2D4;C4D3;";
-		
-		//String sReplay = "B2B4;H7H6;B4B5;C7C5;B5C6";
-		String sReplay = "F2F4;G4G3";
-		//String sReplay = "F2F4;E4E3";
-		
-		String sRepComp[] = sReplay.split(";");
-		
-		cb = new chessboard();
-		//cb.init();
-		cb.init_from_file("enppin2.dat");
-		int iTurn = 0;
-		
-		chessboard cb_flip = null;
-		
-		for (int imc = 0; imc < sRepComp.length; imc++)
-		{
-			iTurn = imc % 2;
-			if (iTurn == 0) cb.iMoveCounter++;
-			
-			if (sRepComp[imc].equals(sPreCastle))
-			{
-				cb_flip = cb.flip(FLIPVAR, iAlg);
-				System.out.println("Flipped CB:");
-				cb_flip.dump();
-			}
-			
-			boolean br = cb.domove(sRepComp[imc],iTurn);
-			System.out.println("Domove returned");
-			cb.valsum[0] = 0;
-			cb.valsum[1] = 0;
-			cb.redoVectorsAndCoverages(1-iTurn, iAlg);
-			
-			if (!br)
-			{
-				System.out.println("Move: " + sRepComp[imc] + "(" + iTurn + ")  failed.");
-				System.exit(0);
-			}
-			System.out.println("Move : " + sRepComp[imc] + "(" + iTurn + ")  successfully done.");
-			
-			//if (sRepComp[imc].equals(sCastle)) cb.prefixdump("T140710_O_C0MOVE:");
-			//else cb.dump();
-			//cb.prefixdump("T140710_O_MOVE:");
-		}
-		
-		boolean br = false;
-		
-		/*
-		cb.iMoveCounter++;
-		boolean br = cb.domove("A1B1",0);
-		if (!br) 
-		{
-			System.out.println("Move failed (1a)!");
-			System.exit(0);
-		}
-		cb.valsum[0]=0;
-		cb.valsum[1]=0;
-		cb.redoVectorsAndCoverages();
-		cb.prefixdump("T140710_O_C1MOVE:");
-		
-		br = cb.domove("A8B8",1);
-		if (!br) 
-		{
-			System.out.println("Move failed (1b)!");
-			System.exit(0);
-		}
-		cb.valsum[0]=0;
-		cb.valsum[1]=0;
-		cb.redoVectorsAndCoverages();
-		cb.prefixdump("T140710_O_C2MOVE:");
-		*/
-		
-		//movevalue mv1 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-		movevalue mv1 = new movevalue("");
-		mv1.setBalancesFromBoard(cb,iTurn,16);
-		System.out.println(mv1.dumpstr(16));
-		
-
-		cb.dump();
-		cb.dumpCoverages();
-		cb.dumpProtThreat();
-		System.out.println();
-		
-		System.out.println("FLIP DUMP STARTS*************************************");
-		
-		sRepComp = sReplayFlip.split(";");
-		
-		for (int imc2 = 0; imc2 < sRepComp.length; imc2++)
-		{
-			int iT = imc2 %2;
-			
-			if (FLIPVAR == 1) iTurn = (1-iT);
-			else iTurn = iT;
-			
-			//iTurn = (FLIPVAR - imc2) % 2;
-			if (iTurn == 0) cb_flip.iMoveCounter++;
-			
-			br = cb_flip.domove(sRepComp[imc2],iTurn);
-			cb_flip.valsum[0] = 0;
-			cb_flip.valsum[1] = 0;
-			cb_flip.redoVectorsAndCoverages(1-iTurn, iAlg);
-			
-			if (!br)
-			{
-				System.out.println("Move: " + sRepComp[imc2] + "(" + iTurn + ") failed.");
-				System.exit(0);
-			}
-			System.out.println("Move : " + sRepComp[imc2] + "(" + iTurn + ")  successfully done.");
-			
-			//if (sRepComp[imc].equals(sCastle)) cb.prefixdump("T140710_O_C0MOVE:");
-			//else cb.dump();
-			cb_flip.prefixdump("T140710_F_MOVE:", chessboard.DUMPMODE_FULL);
-		}
-		
-		System.exit(0);
-		
-		/*
-		br = cb_flip.domove("E4F4",1);
-		if (!br) 
-		{
-			System.out.println("Move failed (0)!");
-			System.exit(0);
-		}
-		cb_flip.valsum[0] = 0;
-		cb_flip.valsum[1] = 0;
-		cb_flip.redoVectorsAndCoverages();
-		
-		cb_flip.iMoveCounter++;
-		br = cb_flip.domove("E1G1",0);
-		if (!br) 
-		{
-			System.out.println("Move failed (2)!");
-			System.exit(0);
-		}
-		
-		cb_flip.valsum[0] = 0;
-		cb_flip.valsum[1] = 0;
-		cb_flip.redoVectorsAndCoverages();
-		
-		cb_flip.prefixdump("T140710_F_C0MOVE:");
-		
-		br = cb_flip.domove("A8B8",1);
-		if (!br) 
-		{
-			System.out.println("Move failed (3)!");
-			System.exit(0);
-		}
-		cb_flip.valsum[0] = 0;
-		cb_flip.valsum[1] = 0;
-		cb_flip.redoVectorsAndCoverages();
-		cb_flip.prefixdump("T140710_F_C1MOVE:");
-
-		cb_flip.iMoveCounter++;	
-		br = cb_flip.domove("A1B1",0);
-		if (!br) 
-		{
-			System.out.println("Move failed (4)!");
-			System.exit(0);
-		}
-		cb_flip.valsum[0] = 0;
-		cb_flip.valsum[1] = 0;
-		cb_flip.redoVectorsAndCoverages();
-		cb_flip.prefixdump("T140710_F_C2MOVE:");
-		*/
-		
-		System.exit(0);
-	}
-	
-	static void replay_lib (String par[]) throws Exception
-	{
-		System.out.println("Replay_lib starts");
-		int ACCEPT_LEVEL = 70;
-		
-		HashMap hm;
-		
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		
-		openings o = new openings();
-		int iTurn = -1;
-		
-		boolean bDoEngineCheck = false;
-		
-		PrintWriter pwr = new PrintWriter ("openings2.opn");
-		
-		hm = new HashMap();
-		
-		//for (int i=0;i<15;i++)
-		for (int i=0;i<o.getSize();i++)
-		if (o.isValid(i))
-		{
-			System.out.println("=============================================");
-			System.out.println("STARTING GAME : " + i);
-			cb = new chessboard();
-			cb.init();
-			cb.redoVectorsAndCoverages(piece.WHITE, iAlg);
-			
-			int oel = o.getOeLength(i);
-			
-			iTurn = -1;
-			
-			boolean bBadBlack = false;
-			boolean bBadWhite = false;
-			
-			for (int im=1;im<=oel;im++)
-			{
-				String sWm = o.getMove(i,im,piece.WHITE);
-				String sWb = o.getMove(i,im,piece.BLACK);
-				System.out.println("DOING WHITE MOVE: " + sWm);
-				cb.domove_bylib(sWm,piece.WHITE);
-				cb = cb.copy();
-				cb.redoVectorsAndCoverages(piece.BLACK, iAlg);
-				iTurn = 1;
-				cb.dump();
-				String sMove = null;
-				if (bDoEngineCheck) sMove = engine.getMoveByAlg(engine.sEnginePerAlg(movevalue.ALG_ASK_FROM_ENGINE10), cb.FEN(),movevalue.ALG_ASK_FROM_ENGINE10);
-				int iScore = engine.iLastScore;
-				System.out.println(i+":"+im+":Score:" + iScore);
-				if (Math.abs(iScore) > ACCEPT_LEVEL) 
-				{
-					if (iScore < 0) bBadBlack = true;
-					if (iScore > 0) bBadWhite = true;
-					System.out.println("*** Score exceeds limit ***");
-				}
-				
-				String sNewFen = cb.FEN();
-				sNewFen = sNewFen.substring(0,sNewFen.length()-2).trim();
-				sNewFen = sNewFen + " " + im;
-				System.out.println("FEN ("+im+") :" + sNewFen);
-				
-				hm.put(sNewFen,"B");
-				
-				if (sWb != null)
-				{
-					System.out.println("DOING BLACK MOVE: " + sWb);
-					cb.domove_bylib(sWb,piece.BLACK);
-					cb = cb.copy();	
-					cb.redoVectorsAndCoverages(piece.WHITE,iAlg);
-					iTurn = 0;
-					cb.dump();
-					if (bDoEngineCheck) sMove = engine.getMoveByAlg(engine.sEnginePerAlg(movevalue.ALG_ASK_FROM_ENGINE10), cb.FEN(),movevalue.ALG_ASK_FROM_ENGINE10);
-					iScore = engine.iLastScore;
-					System.out.println(i+":"+im+":Score:" + iScore);
-					if (Math.abs(iScore) > ACCEPT_LEVEL) 
-					{
-						if (iScore > 0) bBadBlack = true;
-						if (iScore < 0) bBadWhite = true;
-						System.out.println("*** Score exceeds limit ***");
-					}
-				}
-				sNewFen = cb.FEN();
-				sNewFen = sNewFen.substring(0,sNewFen.length()-2).trim();
-				sNewFen = sNewFen + " " + (im+1);
-				System.out.println("FEN ("+im+") :" + sNewFen);
-				hm.put(sNewFen,"W");
-				
-				
-			}
-		
-			//movevalue mv1 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-		
-			movevalue mv1 = new movevalue("");
-			mv1.setBalancesFromBoard(cb,iTurn,0);
-		
-			System.out.println("mv" + i + ": " + mv1.dumpstr(0));
-			
-			System.out.print("mvs" +  i+": "+ o.dumpGame(i)+ " : " + mv1.dumpstr(0,movevalue.DUMPMODE_SHORT)+ " ");
-			
-			/*
-			if ((mv1.bWhiteCheckMate) || (mv1.bWhiteChecked) || (mv1.bWhiteBlocked) || (mv1.iPieceBalance < 0) || (mv1.iPieceBalCorrWhite < 0) || (mv1.iPieceBalCorrBlack <0)) System.out.print("NOWHITE ");
-			if ((mv1.bBlackCheckMate) || (mv1.bBlackChecked) || (mv1.bBlackBlocked) || (mv1.iPieceBalance > 0) || (mv1.iPieceBalCorrWhite > 0) || (mv1.iPieceBalCorrBlack > 0)) System.out.print("NOBLACK ");
-			System.out.println();
-			*/
-			String sAdd = "";
-			if ((mv1.bWhiteCheckMate) || (mv1.bWhiteChecked) || (mv1.bWhiteBlocked) || (mv1.iPieceBalance < 0) || (mv1.iPieceBalCorrWhite < 0) || (mv1.iPieceBalCorrBlack <0) || (bBadWhite)) sAdd = sAdd+" NOWHITE ";
-			if ((mv1.bBlackCheckMate) || (mv1.bBlackChecked) || (mv1.bBlackBlocked) || (mv1.iPieceBalance > 0) || (mv1.iPieceBalCorrWhite > 0) || (mv1.iPieceBalCorrBlack > 0) || (bBadBlack)) sAdd = sAdd+" NOBLACK ";
-			
-			if (bBadWhite || bBadBlack) sAdd = sAdd+ "BY ENG ";
-			
-			System.out.println(sAdd);
-			String sOut = sAdd + " " + o.dumpEntry(i) ; 
-			pwr.println(sOut);
-			pwr.flush();
-			System.out.println("mv" + i + ": moveindex lengths: " + cb.iMoveIndexLength(piece.WHITE) +"," + cb.iMoveIndexLength(piece.BLACK));
-		
-			System.out.println("GAME " + i + " START SIMULATION OVER");
-			System.out.println("=============================================");
-			//System.exit(0);
-			
-			
-		}
-		pwr.close();
-		
-		Set set = hm.entrySet();
-		Iterator i = set.iterator();
-		System.out.println("Unique FEN DUMP:");
-		int c = 0;
-		while(i.hasNext())
-		{
-				Map.Entry me = (Map.Entry)i.next();
-				System.out.println("java anyokmove " + (char)34 + me.getKey() + (char)34);
-				c++;
-		}
-		System.out.println("FEN dump over. " + c+ " FEN values");
-			
-		System.exit(0);
-	}
-	
-	static void justdump (String par[])
-	{
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		
-		for (int i=1;i<par.length; i++)
-		{
-			chessboard cb1 = new chessboard(); 
-			cb1.init_from_file(par[i]);
-			System.out.println("=========================================");
-			//System.out.println("DBG151005: Before redo .");
-			cb1.redoVectorsAndCoverages(cb1.iFileCol,iAlg);
-			//System.out.println("DBG151005: Redo done.");
-			
-			
-			cb1.prefixdump("",chessboard.DUMPMODE_FULL);
-			//movevalue mv1 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-			movevalue mv1 = new movevalue("");
-			//System.out.println("DBG 141225: before setBalancesFromBoard");
-			mv1.setBalancesFromBoard(cb1,cb1.iFileCol,iAlg);
-			//System.out.println("DBG 141225: after setBalancesFromBoard");
-			System.out.println("White Moves:");
-			//boolean b = cb1.miWhiteMoveindex.setRiskBits(cb1);
-			//b = cb1.miBlackMoveindex.setRiskBits(cb1);
-			cb1.miWhiteMoveindex.sortedcopy().dump(cb1.miBlackMoveindex.sortedcopy());
-			System.out.println("Black Moves:");
-			cb1.miBlackMoveindex.sortedcopy().dump(cb1.miWhiteMoveindex.sortedcopy());
-			System.out.println("Movevalue: " + mv1.dumpstr(iAlg));
-			cb1.dumpCoverages();
-			/*
-			System.out.println("Equally good moves:");
-			System.out.println("WHITE: ");
-			cb1.miWhiteMoveindex.sortedcopy().getEquallyGoodMoves(null,cb1.miBlackMoveindex.sortedcopy()).dump(cb1.miBlackMoveindex.sortedcopy());
-			System.out.println("Any WHITE MOVE: " + cb1.miWhiteMoveindex.sortedcopy().getEquallyGoodMoves(null,cb1.miBlackMoveindex.sortedcopy()).getAnyMove().moveStr());
-			System.out.println("BLACK: ");
-			cb1.miBlackMoveindex.sortedcopy().getEquallyGoodMoves(null,cb1.miWhiteMoveindex.sortedcopy()).dump(cb1.miWhiteMoveindex.sortedcopy());
-			System.out.println("Any BLACK MOVE: " + cb1.miBlackMoveindex.sortedcopy().getEquallyGoodMoves(null,cb1.miWhiteMoveindex.sortedcopy()).getAnyMove().moveStr());
-			*/
-			System.out.println(cb1.FEN());	
-			System.out.println("MidPawnOpenings: " + cb1.bMidPawnOpenings(cb1.iFileCol));
-			System.out.println("PawnPressureOpenings: " + cb1.bPawnPressureOpenings(cb1.iFileCol));
-			System.out.println("FianchettoPrepOpenings: " + cb1.bFianchettoPrepOpenings(cb1.iFileCol));
-			System.out.println("BishopE3Openings: " + cb1.bBishopE3Openers(cb1.iFileCol));
-			System.out.println("F2StepOpeners: " + cb1.bF2StepOpeners(cb1.iFileCol));
-			System.out.println("PawnFrontOpeners: " + cb1.bPawnFrontOpeners(cb1.iFileCol));
-			System.out.println("bBackRowRookOpeners: " + cb1.bBackRowRookOpeners(cb1.iFileCol));
-			System.out.println("bKnightToMiddleMoves: " + cb1.bKnightToMiddleMoves(cb1.iFileCol));
-			System.out.println("bQueenFirstMoves: " + cb1.bQueenFirstMoves(cb1.iFileCol));
-			System.out.println("C2StepOpeners: " + cb1.bC2StepOpeners(cb1.iFileCol));
-			System.out.println("BishopF4Openings: " + cb1.bBishopF4Openers(cb1.iFileCol));
-			System.out.println("--");
-			System.out.println("Moved pieces from start:"+cb1.iMovedPiecesFromStart());
-		}
-		
-		System.out.println("Dump done.");
-		System.exit(0);
-	}
-	
-	static void findlibs(String par[]) throws Exception {
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		System.out.println("Findlibs starts."+par[1]);
-		chessboard cb1 = new chessboard(); 
-		cb1.init_from_file(par[1]);
-		System.out.println("=========================================");
-		
-		cb1.redoVectorsAndCoverages(cb1.iFileCol,iAlg);
-		System.out.println(cb1.FEN());
-		cb1.prefixdump("",chessboard.DUMPMODE_SHORT);
-		moveindex mi;
-		if (cb1.iFileCol == piece.WHITE) mi = cb1.miWhiteMoveindex;
-		else mi=cb1.miBlackMoveindex;
-		//mi.dump();
-		for (int i=0;i<mi.getSize();i++)
-		{
-			move m = mi.getMoveAt(i);
-			System.out.print(m.moveStr() + " ");
-			cb2 = cb1.copy();
-			cb2.domove(m.moveStrCaps(),m.p.iColor);
-			//cb2.dump();
-			String sFEN = cb2.FEN();
-			//System.out.println(sFEN);
-			String sResp = enginerunner.getMove(sFEN);
-			if (sResp != null) System.out.println(sResp);
-			else System.out.println();
-			//System.exit(0);
-		}
-		anyokmove.db_anymovelistdump(cb1.FEN());
-		
-		System.exit(0);
-	}
-	
 	
 	static void printFENEntry(String entry)
 	{
@@ -1935,7 +1217,7 @@ public class play
 	}
 	
 	
-	static void printLastFoundFEN(String sLastEMove)
+	private static void printLastFoundFEN(String sLastEMove)
 	{
 		try
 		{
@@ -1957,7 +1239,7 @@ public class play
 		}
 	}
 	
-	static void dumpboard(int clr, chessboard cb, String fname) throws Exception
+	private static void dumpboard(int clr, chessboard cb, String fname) throws Exception
 	{
 		PrintWriter fbp = new PrintWriter(fname);
 		if (clr==piece.WHITE) fbp.println("WHITE");
@@ -1969,25 +1251,5 @@ public class play
 		fbp.flush();
 		fbp.close();	
 	}
-	
-	static void mmtest (String par[])
-	{
-		int iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
-		int iLev = new Integer(par[2]).intValue();
-		
-		long lStart = System.currentTimeMillis();
-		
-		Vector v = new Vector();
-		chessboard cb1 = new chessboard(); 
-		cb1.init_from_file(par[1]);
-		System.out.println("About to start mmtest");
-		mmmate mm = new mmmate(cb1);
-		mm.analyze(cb1.iFileCol, 0,iLev, "", v);
-		mm.analyzeMateCands(cb1.iFileCol,v);
-			//cb1.dump();
-		
-		long lEnd = System.currentTimeMillis();
-		System.out.println("MMMATE TEST DURATION: " + (lEnd-lStart) + " msec.");
-		System.exit(0);
-	}
+
 }

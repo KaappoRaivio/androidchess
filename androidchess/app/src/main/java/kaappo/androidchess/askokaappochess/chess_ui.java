@@ -49,8 +49,7 @@ public class chess_ui
 	public String getMove()
 	{
 
-		if (tty!=null) return tty.getMove();
-        if (androidUI != null) return androidUI.getMove();
+		return androidUI.getMove();
 
 
 	}

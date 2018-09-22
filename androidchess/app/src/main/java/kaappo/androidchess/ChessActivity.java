@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import java.util.Arrays;
 import java.util.List;
 
+import kaappo.androidchess.askokaappochess.AndroidUI;
+
 public class ChessActivity extends AppCompatActivity {
 
     public static String getId(View view) {
@@ -26,18 +28,22 @@ public class ChessActivity extends AppCompatActivity {
 
     }
 
-    public static boolean isPlayersTurn;
-
-    public void togglePlayerTurn (View view) {
-        isPlayersTurn = !isPlayersTurn;
+    public static boolean isPlayersTurn () {
+        if (AndroidUI.turn != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
 
-        isPlayersTurn = false;
+
 
         List<View> squares = Skeidat.getViews(this);
 
@@ -51,6 +57,12 @@ public class ChessActivity extends AppCompatActivity {
             i.setOnTouchListener(new MyTouchListener());
         }
 
+        try {
+            ChessRunner.run(ChessActivity.this);
+            } catch (Exception e) {
+            System.out.println(e.toString());
+            throw new RuntimeException(e);
+        }
     }
 
     public void onFlipBlackClick (View view) {
@@ -75,16 +87,6 @@ public class ChessActivity extends AppCompatActivity {
 
         public LinearLayout getContainer() {
             return container;
-        }
-    }
-
-    public String getMove () {
-        String move;
-        while (true) {
-            move = MyDragListener.getMove();
-            if (move != null) {
-                return move;
-            }
         }
     }
 

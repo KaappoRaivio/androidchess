@@ -9,13 +9,11 @@ import android.widget.RelativeLayout;
 
 public class MyDragListener implements View.OnDragListener {
 
-    private static String move = null;
+    public static String move = null;
 
     public static String getMove () {
         if (move != null) {
-            String temp = move;
-            move = null;
-            return temp;
+            return move;
         } else {
             return null;
         }
@@ -41,7 +39,7 @@ public class MyDragListener implements View.OnDragListener {
                 break;
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
-                if (ChessActivity.isPlayersTurn) {
+                if (ChessActivity.isPlayersTurn()) {
                     View view = (View) event.getLocalState();
                     ViewGroup owner = (ViewGroup) view.getParent();
                     owner.removeView(view);
@@ -50,7 +48,7 @@ public class MyDragListener implements View.OnDragListener {
                     view.setVisibility(View.VISIBLE);
                     System.out.println(view.getTag() + MainActivity.getId((v)));
 
-                    move = view.getTag() + MainActivity.getId((v))
+                    move = view.getTag() + MainActivity.getId((v));
 
                 } else {
                     View view = (View) event.getLocalState();

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kaappo.androidchess.ChessActivity;
+import kaappo.androidchess.MyDragListener;
 
 public class AndroidUI {
     int squares[][];
@@ -18,7 +19,7 @@ public class AndroidUI {
 
     boolean undoEnabled;
 
-    int turn = -1;
+    public static int turn = -1;
 
     private ChessActivity context;
 
@@ -32,7 +33,22 @@ public class AndroidUI {
     }
 
     public String getMove () {
-        return context.getMove();
+        boolean ready = false;
+        String move = null;
+
+        while (true) {
+            System.out.println("asd");
+            move = MyDragListener.getMove();
+
+            if (move != null) {
+                System.out.println("FOund a move!");
+                
+                MyDragListener.move = null;
+                break;
+            }
+        }
+
+        return move;
     }
 
     public void doMove () {
@@ -41,7 +57,7 @@ public class AndroidUI {
 
 
     public void displayMsgDialog (String msg) {
-        //todo
+        System.out.println("MSGDIALOG: " + msg);
     }
 
     public int getUrgency () {
@@ -54,7 +70,7 @@ public class AndroidUI {
     }
 
     public void setTurn (int i) {
-        this.turn = i;
+        turn = i;
     }
 
 
@@ -62,16 +78,18 @@ public class AndroidUI {
     public void updateData (chessboard cb) {
         this.chessboard = cb;
 
-        for (int x = 1; x <= 8; x++) {
-            for (int y = 1; y <= 8; y++) {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
                 this.squares[x][y] = cb.piecevalue(x, y);
             }
         }
+        System.out.println("data updated");
 
 
     }
     public void updateBoard () throws Exception {
-        List<Integer> alreadyMovedPieces = new ArrayList<>();
+
+
         List<ImageView> unusedViews = new ArrayList<>();
 
         for (int y = 0; y < 8; y++) {
@@ -83,16 +101,17 @@ public class AndroidUI {
             }
         }
 
+        System.out.println("Trying to updateBoard");
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 int square = this.squares[x][y];
 
-                ImageView toBePlaced;
-                if (square == -1)
+                ImageView toBePlaced = null;
+                if (square == -1 || square == -2)
                     continue;
                 else if (square < 100) {
 
-                    switch (square - 100) {
+                    switch (square) {
                         case piece.PAWN:
                             toBePlaced = searchPiece(unusedViews, "white_pawn");
                             break;
@@ -108,11 +127,13 @@ public class AndroidUI {
                         case piece.QUEEN:
                             toBePlaced = searchPiece(unusedViews, "white_queen");
                             break;
-                        default:
-                            throw new Exception();
+                        case piece.KING:
+                            toBePlaced = searchPiece(unusedViews, "white_king");
+                            break;
+
                     }
                 } else {
-                    switch (square) {
+                    switch (square - 100) {
                         case piece.PAWN:
                             toBePlaced = searchPiece(unusedViews, "black_pawn");
                             break;
@@ -128,15 +149,25 @@ public class AndroidUI {
                         case piece.QUEEN:
                             toBePlaced = searchPiece(unusedViews, "black_queen");
                             break;
-                        default:
-                            throw new Exception();
+                        case piece.KING:
+                            toBePlaced = searchPiece(unusedViews, "black_king");
+                            break;
+
                     }
                 }
+                if (toBePlaced == null) {
+                    System.out.println("Continuing" + x + " " + y);
+                    continue;
+                }
+
                 context.getSquareByPosition(x, y).addView(toBePlaced);
+                unusedViews.remove(toBePlaced);
+
             }
 
 
         }
+        System.out.println("success!");
     }
 
     public static ImageView searchPiece (List<ImageView> pieces, String string) {

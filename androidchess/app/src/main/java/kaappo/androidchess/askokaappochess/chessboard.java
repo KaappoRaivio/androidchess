@@ -268,6 +268,9 @@ public class chessboard implements Serializable
 	
 	int piecevalue (int i, int j)
 	{
+		i += 1;
+		j += 1;
+
 		if ((i<1) || (j < 1) || (i > 8) || (j > 8)) return -2;
 		
 		piece p = blocks[i][j];
