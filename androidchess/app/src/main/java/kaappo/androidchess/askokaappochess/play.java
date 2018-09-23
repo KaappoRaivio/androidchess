@@ -1,5 +1,7 @@
 package kaappo.androidchess.askokaappochess;
 
+import android.content.Context;
+
 import java.util.*;
 import java.sql.*;
 import java.io.*;
@@ -40,7 +42,7 @@ public class play
 	
 	static String sStartFile = null;
 	
-	static final int PLAYER = -10;
+	public static final int PLAYER = -10;
 	
 	static chessboard cb = null;
 	static chessboard cb2 = null;
@@ -61,7 +63,7 @@ public class play
 	
 	static fulfiller fufi;
 	
-	public static void main (String args[], ChessActivity context) throws Exception
+	public static void main (String args[], ChessActivity context, String white_level, String black_level) throws Exception
 	{
 		System.out.println("Starting.");
 
@@ -91,10 +93,16 @@ public class play
 		cui.setTurn(-1);
 		cui.show();
 
+		boolean firstTime = true;
+		String inStr;
 		while (true)
 		{
-
-			String inStr = cui.getMove();
+			if (firstTime) {
+				firstTime = false;
+				inStr = "PLAY:" + white_level + ":" + black_level + ":0";
+			} else {
+				inStr = cui.getMove();
+			}
 			System.out.println("Command:"+inStr);
 			if (inStr.indexOf("PLAY:") == 0)
 			{
@@ -183,7 +191,7 @@ public class play
 				cui.show();
 				System.out.println("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
 				//System.exit(0);
-				playgame (lev,true, alg, bDeep);
+				playgame (lev,true, alg, bDeep, context);
 			}
 		}
 
@@ -191,7 +199,7 @@ public class play
 
 	}
 
-	public static int playgame (int lev[], boolean bMess, int alg[], boolean bDeep[]) throws Exception
+	public static int playgame (int lev[], boolean bMess, int alg[], boolean bDeep[], Context context) throws Exception
 	{
 		PrintWriter pwEmoves;
 		
@@ -207,10 +215,10 @@ public class play
 			iMove = cb.iMoveCounter;
 		}
 	
-		pwEmoves = new PrintWriter(new BufferedWriter(new FileWriter("ermoves.out", true)));
-		pwEmoves.println("--NEW:");
-		pwEmoves.flush();
-	
+//		pwEmoves = new PrintWriter(new BufferedWriter(new FileWriter("ermoves.out", true)));
+//		pwEmoves.println("--NEW:");
+//		pwEmoves.flush();
+//
 		boolean bGameOn = true;
 		boolean bCheckMate = false;
 		boolean bNoMoves = false;
@@ -272,7 +280,7 @@ public class play
 		long[] lLatency;
 		lLatency = new long[2];
 		
-		openings o = new openings();
+		openings o = new openings(context);
 		
 		System.out.println("playgame about to start: " +lev[0] +"," + lev[1]+ "  Deepflags: " + bDeep[0] + "," + bDeep[1] + " timelims:" + iTimeLim[0]+","+iTimeLim[1] + " .. cb.iFileCol = " + cb.iFileCol);
 		
@@ -477,17 +485,17 @@ public class play
 							System.out.println("Got Move from Enginerunner:" + sLibMove);
 							if (sLibMove != null) 
 							{
-								sLastEMove = new String(cb.FEN());
-								pwEmoves.println("SUCC:"+sLastEMove + ":"+sLibMove);
-								pwEmoves.flush();
-								
+								sLastEMove = cb.FEN();
+//								pwEmoves.println("SUCC:"+sLastEMove + ":"+sLibMove);
+//								pwEmoves.flush();
+//
 							}
 							else
 							{
 								System.out.println("LIBMOVE NOT FOUND. FAIL BY:"+cb.FEN());
-								pwEmoves.println("FAIL:"+cb.FEN());
-								pwEmoves.flush();
-								pwEmoves.close();
+//								pwEmoves.println("FAIL:"+cb.FEN());
+//								pwEmoves.flush();
+//								pwEmoves.close();
 							}
 							//System.exit(0);
 						}
@@ -496,13 +504,6 @@ public class play
 					
 					if ((iMove == M4LEVEL) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND))
 					{
-						PrintWriter p4w = new PrintWriter(new BufferedWriter(new FileWriter("m4log.txt", true)));
-						//p4w.println(cb.FEN());
-						String sOut = cb.FEN();
-						sOut = sOut.substring(0,sOut.length()-2).trim();
-						sOut = sOut + " " + M4LEVEL;
-						p4w.println(sOut);
-						p4w.close();
 					}
 					
 					//sLibMove = null;   // DEBUG 150322
@@ -1195,61 +1196,26 @@ public class play
 	
 	static void printFENEntry(String entry)
 	{
-		
-		try
-		{
-			if (pw == null)
-			{
-				pw = new PrintWriter(new BufferedWriter(new FileWriter("sfinput.txt", true)));
-			}
-			//System.out.println("regbest:printdbg a");
-			pw.println(entry);
-			pw.close();
-			pw = null;
-		}
-		catch (IOException e) 
-		{
-			//exception handling left as an exercise for the reader
-			System.out.println("IOException at play.printFENEntry() (A)");
-			System.out.println(e.getMessage());
-			System.exit(0);
-		}
+
 	}
 	
 	
 	private static void printLastFoundFEN(String sLastEMove)
 	{
-		try
-		{
-			if (pw == null)
-			{
-				pw = new PrintWriter(new BufferedWriter(new FileWriter("blanaprev.out", true)));
-			}
-			//System.out.println("regbest:printdbg a");
-			pw.println("java blana fen " + (char)34 + sLastEMove + (char)34+ " Q3");
-			pw.close();
-			pw = null;
-		}
-		catch (IOException e) 
-		{
-			//exception handling left as an exercise for the reader
-			System.out.println("IOException at play.printFENEntry() (A)");
-			System.out.println(e.getMessage());
-			System.exit(0);
-		}
+
 	}
 	
 	private static void dumpboard(int clr, chessboard cb, String fname) throws Exception
 	{
-		PrintWriter fbp = new PrintWriter(fname);
-		if (clr==piece.WHITE) fbp.println("WHITE");
-		else fbp.println("BLACK");
-		cb.dump_to_file(fbp);
-		//fbp.println("MC:" + cb.iMoveCounter);
-		if (clr==piece.WHITE) fbp.println("MC:" + (cb.iMoveCounter+1));
-		else fbp.println("MC:" + (cb.iMoveCounter));
-		fbp.flush();
-		fbp.close();	
+//		PrintWriter fbp = new PrintWriter(fname);
+//		if (clr==piece.WHITE) fbp.println("WHITE");
+//		else fbp.println("BLACK");
+//		cb.dump_to_file(fbp);
+//		//fbp.println("MC:" + cb.iMoveCounter);
+//		if (clr==piece.WHITE) fbp.println("MC:" + (cb.iMoveCounter+1));
+//		else fbp.println("MC:" + (cb.iMoveCounter));
+//		fbp.flush();
+//		fbp.close();
 	}
 
 }

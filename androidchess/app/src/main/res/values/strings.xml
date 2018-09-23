@@ -16,7 +16,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>pitää laittaa jossain kohtaa oikeat levelit tähän</item>
+        <item>0</item>
     </string-array>
 
     <string name="activity_chess_white">White tile</string>

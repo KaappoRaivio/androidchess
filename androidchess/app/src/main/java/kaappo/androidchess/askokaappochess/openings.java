@@ -1,24 +1,31 @@
 package kaappo.androidchess.askokaappochess;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.*;
-import java.io.PrintWriter;
 import java.util.*;
+
+import kaappo.androidchess.R;
 
 public class openings
 {
 	Vector oVec;
 	
-	openings()
+	openings(Context context)
 	{
-		try
-		{
-			
-			InputStream input = getClass().getResourceAsStream("/openings.opn");
-			BufferedReader br = new BufferedReader(new InputStreamReader(input));
- 
+		try {
+			InputStream input = context.getResources().openRawResource(R.raw.openings);
+//			InputStream input = getClass().getResourceAsStream("raw/openings.opn");
+//			InputStream input = new FileInputStream(new File(R.raw.openings))
+			if (input == null) {
+				System.out.println("fatal: Can't find openings.opn");
+				throw new RuntimeException("Can't find openings.opn");
+			}
+
+			BufferedReader br;
+			br = new BufferedReader(new InputStreamReader(input));
+
 			//BufferedReader br = new BufferedReader(new FileReader("openings.opn"));
 			oVec = new Vector();
 			
@@ -43,7 +50,7 @@ public class openings
 	public static void main (String args[])
 	{
 		System.out.println("Starting openings test run.");
-		openings o = new openings();
+		openings o = new openings(null);
 		System.out.println("Loaded.");
 		//o.dump();
 		o.searchByGame(" 1. a3");

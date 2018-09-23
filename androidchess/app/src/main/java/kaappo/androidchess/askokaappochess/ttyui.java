@@ -79,7 +79,7 @@ public class ttyui
 			
 			if ((inComp[0].equals("PLAY")) && (inComp.length>2)) 
 			{
-				int iLevel = new Integer(inComp[2]).intValue();
+				int iLevel = Integer.valueOf(inComp[2]);
 				if (inComp[1].equals("WHITE")) sReturn = "PLAY:"+ play.PLAYER + ":" +iLevel+":0";
 				else if (inComp[1].equals("BLACK")) sReturn = "PLAY:"+iLevel+":" + play.PLAYER +":0";
 				if (!sReturn.equals("")) bReady = true;
