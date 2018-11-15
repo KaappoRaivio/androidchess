@@ -4917,7 +4917,7 @@ public class chessboard implements Serializable
 					if ((p.xk == m.xtar) && (p.yk == m.ytar))
 					{
 						System.out.println("BAAD VALUES ABOVE!!! STOPPING RIGHT NOW.");
-						System.exit(0);
+						System.exit(1);
 					}	
 					
 					chessboard nb = new chessboard();

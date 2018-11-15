@@ -1,8 +1,12 @@
 package kaappo.androidchess.askokaappochess;
 
+import android.content.Context;
+
 import java.util.*;
 import java.sql.*;
 import java.io.PrintWriter;
+
+import kaappo.androidchess.TtyuiActivity;
 
 public class ttyui
 {
@@ -19,20 +23,24 @@ public class ttyui
 	boolean bUndoEnabled = true;
 	
 	int iTurn = -1; // black or white
-	
-	ttyui(chessboard cb)
+
+	TtyuiActivity context;
+
+	ttyui(chessboard cb, TtyuiActivity context)
 	{
-		square = new int[9][9];
+		square = new int[8][8];
 		
 		mCb = cb;
-		
+
+		this.context = context;
+
 		System.out.println("TTY UI CREATED FOR AskoChess");
 	}
 	
 	public void updateData(chessboard cb)
 	{
-		for (int i=1;i<=8;i++) 
-			for (int j=1;j<=8;j++)
+		for (int i=0;i<8;i++)
+			for (int j=0;j<8;j++)
 				square[i][j] = cb.piecevalue(i,j);
 		
 		mCb = cb;	
@@ -63,11 +71,18 @@ public class ttyui
 		{
 			try
 			{
-				java.io.InputStreamReader isr = new java.io.InputStreamReader( System.in );
-				java.io.BufferedReader stdin = new java.io.BufferedReader( isr );
-				
-				System.out.print(">");
-				inStr = stdin.readLine();
+//				java.io.InputStreamReader isr = new java.io.InputStreamReader( System.in );
+//				java.io.BufferedReader stdin = new java.io.BufferedReader( isr );
+//
+//				System.out.print(">");
+//				inStr = stdin.readLine();
+				inStr = null;
+				while (inStr == null) {
+					inStr = TtyuiActivity.inputString;
+					Thread.sleep(100);
+				}
+
+				TtyuiActivity.inputString = null;
 			}
 			catch (Exception e)
 			{
@@ -177,37 +192,41 @@ public class ttyui
 	
 	void dumpSquares()
 	{
-		System.out.println("  abcdefgh");
-		for (int j=8;j>=1;j--)
+		String tempString = "";
+
+		tempString += "  abcdefgh\n\n";
+		for (int j = 7;j >= 0;j--)
 		{
-			System.out.print(" "+j);
-			for (int i=1;i<=8;i++)
+//			System.out.print(" "+j);
+			tempString += (j + 1) + " ";
+			for (int i = 0; i < 8; i++)
 			{
-				if (square[i][j]==-1) System.out.print(".");
+				if (square[i][j]==-1) tempString += ".";
+
 				else if (square[i][j]>100)
 				{
 					switch(square[i][j]-100)
 					{
 						case piece.PAWN:
-							System.out.print("P");
+							tempString += "P";
 							break;
 						case piece.BISHOP:
-							System.out.print("B");
+							tempString += "B";
 							break;
 						case piece.KNIGHT:
-							System.out.print("N");
+							tempString += "N";
 							break;
 						case piece.ROOK:
-							System.out.print("R");
+							tempString += "R";
 							break;
 						case piece.KING:
-							System.out.print("K");
+							tempString += "K";
 							break;
 						case piece.QUEEN:
-							System.out.print("Q");
+							tempString += "Q";
 							break;
 						default:
-							System.out.print("X");
+							tempString += "X";
 							break;
 					}
 				}
@@ -216,52 +235,62 @@ public class ttyui
 					switch(square[i][j])
 					{
 						case piece.PAWN:
-							System.out.print("p");
+							tempString += "p";
 							break;
 						case piece.BISHOP:
-							System.out.print("b");
+							tempString += "b";
 							break;
 						case piece.KNIGHT:
-							System.out.print("n");
+							tempString += "n";
 							break;
 						case piece.ROOK:
-							System.out.print("r");
+							tempString += "r";
 							break;
 						case piece.KING:
-							System.out.print("k");
+							tempString += "k";
 							break;
 						case piece.QUEEN:
-							System.out.print("q");
+							tempString += "q";
 							break;
 						default:
-							System.out.print("x");
+							tempString += "x";
 							break;
 					}
 					
 				}
 			}
-			System.out.print(j);
-			System.out.println();
+			tempString += " " + (j + 1);
+			tempString += "\n";
 		}
-		System.out.println("  abcdefgh");
-		System.out.println("Last move was: " + lastMoveString());
+		tempString += "\n  abcdefgh\n";
+		tempString += "\nLast move was: " + lastMoveString();
+
+		final String board = tempString;
+
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				TtyuiActivity.setBoard(board, context);
+			}
+		});
+
 	}
 	
-	String lastMoveString()
+	private String lastMoveString()
 	{
-		Vector v = lMoveV; 
-		if (v != null) 
+		if (lMoveV != null)
 		{
-			if (v.size() == 5) 
+			System.out.println("lastmoveString: " + lMoveV);
+			if (lMoveV.size() == 5 || lMoveV.size() == 4)
 			{
 			
-				int i1 = (int)v.elementAt(0);
-				int j1 = (int)v.elementAt(1);
-				int i2 = (int)v.elementAt(2);
-				int j2 = (int)v.elementAt(3);
-				int iCapt = (int)v.elementAt(4);
-			
-				return ""+(char)(64+i1)+j1+(char)(64+i2)+j2;
+				int i1 = (int)lMoveV.elementAt(0);
+				int j1 = (int)lMoveV.elementAt(1);
+				int i2 = (int)lMoveV.elementAt(2);
+				int j2 = (int)lMoveV.elementAt(3);
+
+				System.out.println(i1 + j1 + i2 + j2 + "asd");
+				return ""+(char)(96 + i1) + j1 + (char)(96 + i2) + j2;
 		
 			}
 		}
@@ -270,7 +299,7 @@ public class ttyui
 	
 	}
 	
-	String doMove(String sMove)
+	private String doMove(String sMove)
 	{
 		boolean bFound = false;
 		

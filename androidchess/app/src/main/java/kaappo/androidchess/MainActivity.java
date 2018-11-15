@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(WHITE_LEVEL, white_level);
         bundle.putString(BLACK_LEVEL, black_level);
 
-        Intent intent = new Intent(getApplicationContext(), ChessActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TtyuiActivity.class);
         intent.putExtra(BUNDLE_KEY, bundle);
         startActivity(intent);
 

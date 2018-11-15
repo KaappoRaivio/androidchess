@@ -1,8 +1,11 @@
 package kaappo.androidchess.askokaappochess;
 
+import android.content.Context;
+
 import java.util.*;
 
 import kaappo.androidchess.ChessActivity;
+import kaappo.androidchess.TtyuiActivity;
 
 public class chess_ui
 {
@@ -14,8 +17,8 @@ public class chess_ui
 	ttyui tty = null;
 	AndroidUI androidUI;
 	
-	public chess_ui(int iType, chessboard cb, ChessActivity context) {
-        this.androidUI = new AndroidUI(cb, context);
+	public chess_ui(int iType, chessboard cb, TtyuiActivity context) {
+        this.tty = new ttyui(cb, context);
 	}
 	
 	public void updateData(chessboard cb)
@@ -48,10 +51,9 @@ public class chess_ui
 	
 	public String getMove()
 	{
-
-		return androidUI.getMove();
-
-
+		if (tty != null) return tty.getMove();
+		if (androidUI != null) return androidUI.getMove();
+		else return null;
 	}
 	
 	public void setLastMoveVector (Vector v)

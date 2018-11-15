@@ -71,16 +71,16 @@ public class ChessActivity extends AppCompatActivity {
             i.setOnDragListener(new MyDragListener());
         }
 
-        for (View i: pieces) {
+        for (View i : pieces) {
             i.setOnTouchListener(new MyTouchListener());
         }
 
-        try {
-            ChessRunner.run(bundle, ChessActivity.this);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                throw new RuntimeException(e);
-        }
+//        try {
+//            ChessRunner.run(bundle, ChessActivity.this);
+//            } catch (Exception e) {
+//                System.out.println(e.toString());
+//                throw new RuntimeException(e);
+//        }
     }
 
     public void onFlipBlackClick (View view) {
@@ -159,8 +159,6 @@ public class ChessActivity extends AppCompatActivity {
     public void changeParentView (RelativeLayout oldParent, View view, RelativeLayout newParent) {
         oldParent.removeView(view);
         newParent.addView(view);
-
-        return;
     }
 
 

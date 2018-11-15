@@ -14,7 +14,7 @@ import kaappo.androidchess.MyDragListener;
 import kaappo.androidchess.R;
 
 public class AndroidUI {
-    int squares[][];
+    private int squares[][];
     chessboard chessboard;
 
     gamehistory ghistory;
@@ -94,8 +94,11 @@ public class AndroidUI {
         context.runOnUiThread(runnable);
     }
 
+    private int counter = 0;
+
     public void setTurn (int i) {
-        turn = i;
+        System.out.println("changing turn to: " + i);
+        turn =  (i != 0) ? 1 : 0;
     }
 
 
