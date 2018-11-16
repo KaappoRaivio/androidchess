@@ -46,9 +46,15 @@ public class ttyui
 		mCb = cb;	
 	}
 	
-	void setMessage(String s)
+	void setMessage(final String s)
 	{
-		System.out.println("MSG:"+s);
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				TtyuiActivity.setMessage(s, context);
+			}
+		});
+//		System.out.println("MSG:"+s);
 	}
 	
 	void setTurn(int i)
@@ -63,6 +69,7 @@ public class ttyui
 	
 	String getMove()
 	{
+
 		String inStr = "";
 		boolean bReady = false;
 		String sReturn = "";
@@ -135,7 +142,7 @@ public class ttyui
 				{
 					try
 					{
-						iNewThr = new Integer(sThr[1]).intValue();
+						iNewThr = Integer.valueOf(sThr[1]);
 					}
 					catch (Exception e)
 					{
@@ -185,19 +192,25 @@ public class ttyui
 		ghist = gh;
 	}
 	
-	void displayMsgDialog(String msg)
+	void displayMsgDialog(final String msg)
 	{
-		System.out.println(msg);
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				TtyuiActivity.setMessage(msg, context);
+			}
+		});
+//		System.out.println(msg);
+
 	}
 	
-	void dumpSquares()
+	private void dumpSquares()
 	{
 		String tempString = "";
 
 		tempString += "  abcdefgh\n\n";
 		for (int j = 7;j >= 0;j--)
 		{
-//			System.out.print(" "+j);
 			tempString += (j + 1) + " ";
 			for (int i = 0; i < 8; i++)
 			{
@@ -256,7 +269,7 @@ public class ttyui
 							tempString += "x";
 							break;
 					}
-					
+
 				}
 			}
 			tempString += " " + (j + 1);
@@ -275,6 +288,77 @@ public class ttyui
 		});
 
 	}
+
+	private String getChessboardString () {
+	    String tempString = "";
+
+        for (int j = 7;j >= 0;j--)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (square[i][j]==-1) tempString += ".";
+
+                else if (square[i][j]>100)
+                {
+                    switch(square[i][j]-100)
+                    {
+                        case piece.PAWN:
+                            tempString += "P";
+                            break;
+                        case piece.BISHOP:
+                            tempString += "B";
+                            break;
+                        case piece.KNIGHT:
+                            tempString += "N";
+                            break;
+                        case piece.ROOK:
+                            tempString += "R";
+                            break;
+                        case piece.KING:
+                            tempString += "K";
+                            break;
+                        case piece.QUEEN:
+                            tempString += "Q";
+                            break;
+                        default:
+                            tempString += "X";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch(square[i][j])
+                    {
+                        case piece.PAWN:
+                            tempString += "p";
+                            break;
+                        case piece.BISHOP:
+                            tempString += "b";
+                            break;
+                        case piece.KNIGHT:
+                            tempString += "n";
+                            break;
+                        case piece.ROOK:
+                            tempString += "r";
+                            break;
+                        case piece.KING:
+                            tempString += "k";
+                            break;
+                        case piece.QUEEN:
+                            tempString += "q";
+                            break;
+                        default:
+                            tempString += "x";
+                            break;
+                    }
+
+                }
+            }
+            tempString += "\n";
+        }
+
+        return tempString;
+    }
 	
 	private String lastMoveString()
 	{
@@ -350,12 +434,11 @@ public class ttyui
 		// copy chesswindow.domove()
 	}
 	
-	int getPromotedPiece()
+	private int getPromotedPiece()
 	{
-		boolean bReady = false;
-		while(!bReady)
+		while(true)
 		{
-			String inStr ="";
+			String inStr = "";
 			
 			try
 			{
@@ -365,18 +448,26 @@ public class ttyui
 				System.out.print("Promote to [QRBN]>");
 				inStr = stdin.readLine();
 			}
-			catch (Exception e)
-			{
-			}
-			
+			catch (Exception e) {}
+
 			inStr = inStr.toUpperCase();
-			if (inStr.charAt(1) == 'Q') return piece.QUEEN;
-			if (inStr.charAt(1) == 'R') return piece.ROOK;
-			if (inStr.charAt(1) == 'B') return piece.BISHOP;
-			if (inStr.charAt(1) == 'N') return piece.KNIGHT;
+
+			switch (inStr.charAt(1)) {
+				case 'Q':
+					return piece.QUEEN;
+				case 'R':
+					return piece.ROOK;
+				case 'B':
+					return piece.BISHOP;
+				case 'N':
+					return piece.KNIGHT;
+				default:
+					assert true;
+			}
 		}
-		return -1;
 	}
+
+
 	
 	void dumptofile()
 	{

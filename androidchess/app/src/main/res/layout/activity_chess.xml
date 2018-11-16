@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChessActivity">
-
+    <!--
     <GridLayout
         android:id="@+id/gridLayout3"
         android:layout_width="wrap_content"
@@ -951,5 +951,5 @@
         android:text="@string/activity_chess_flip_black_pieces"
         android:onClick="onFlipBlackClick"/>
 
-
+-->
 </android.support.constraint.ConstraintLayout>

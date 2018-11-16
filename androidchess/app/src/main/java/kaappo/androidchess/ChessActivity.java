@@ -63,17 +63,17 @@ public class ChessActivity extends AppCompatActivity {
 
 
 
-        List<View> squares = Skeidat.getViews(this);
-
-        List<View> pieces = Skeidat.getPieces(this);
-
-        for (View i : squares) {
-            i.setOnDragListener(new MyDragListener());
-        }
-
-        for (View i : pieces) {
-            i.setOnTouchListener(new MyTouchListener());
-        }
+//        List<View> squares = Skeidat.getViews(this);
+//
+//        List<View> pieces = Skeidat.getPieces(this);
+//
+//        for (View i : squares) {
+//            i.setOnDragListener(new MyDragListener());
+//        }
+//
+//        for (View i : pieces) {
+//            i.setOnTouchListener(new MyTouchListener());
+//        }
 
 //        try {
 //            ChessRunner.run(bundle, ChessActivity.this);
@@ -83,17 +83,17 @@ public class ChessActivity extends AppCompatActivity {
 //        }
     }
 
-    public void onFlipBlackClick (View view) {
-        for (View i : Skeidat.getBlackPieces(this)) {
-            if (i.getScaleY() == -1f) {
-                i.setScaleY(1f);
-            } else {
-                i.setScaleY(-1f);
-            }
-        }
-
-
-    }
+//    public void onFlipBlackClick (View view) {
+//        for (View i : Skeidat.getBlackPieces(this)) {
+//            if (i.getScaleY() == -1f) {
+//                i.setScaleY(1f);
+//            } else {
+//                i.setScaleY(-1f);
+//            }
+//        }
+//
+//
+//    }
 
     public static class ChessSquare {
         private LinearLayout container;

@@ -19,38 +19,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    <TextView
+
+        android:id="@+id/ttyui_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="0dp">
+        app:layout_constraintBottom_toBottomOf="parent">
+
 
         <EditText
             android:id="@+id/input"
             android:layout_width="wrap_content"
             android:layout_height="64dp"
             android:layout_alignParentStart="true"
+            android:layout_margin="@dimen/default_padding"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_toStartOf="@id/enter"
             android:ems="10"
             android:hint="Type command"
-            android:inputType="textPersonName"
-            android:layout_margin="@dimen/default_padding"/>
+            android:inputType="textPersonName" />
 
 
         <Button
             android:id="@+id/enter"
             android:layout_width="wrap_content"
             android:layout_height="64dp"
-            android:padding="@dimen/default_padding"
+            android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/default_padding"
 
-            android:layout_alignParentEnd="true"
-            android:text="Enter"
-            android:onClick="onEnterPress"/>
+            android:onClick="onEnterPress"
+            android:padding="@dimen/default_padding"
+            android:text="Enter" />
 
     </RelativeLayout>
 

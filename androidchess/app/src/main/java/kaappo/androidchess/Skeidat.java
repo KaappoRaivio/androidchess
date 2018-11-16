@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Skeidat {
-    public static List<View> getViews(ChessActivity context) {
+    public static List<View> getViews(NewChessActivity context) {
         return Arrays.asList(
 
                 context.findViewById(R.id.A1),
@@ -78,65 +78,65 @@ public class Skeidat {
 
     }
 
-    public static List<View> getPieces (ChessActivity context) {
-        return Arrays.asList(
-                context.findViewById(R.id.black_pawn1),
-                context.findViewById(R.id.black_pawn2),
-                context.findViewById(R.id.black_pawn3),
-                context.findViewById(R.id.black_pawn4),
-                context.findViewById(R.id.black_pawn5),
-                context.findViewById(R.id.black_pawn6),
-                context.findViewById(R.id.black_pawn7),
-                context.findViewById(R.id.black_pawn8),
-
-                context.findViewById(R.id.black_knight1),
-                context.findViewById(R.id.black_knight2),
-                context.findViewById(R.id.black_bishop1),
-                context.findViewById(R.id.black_bishop2),
-                context.findViewById(R.id.black_rook1),
-                context.findViewById(R.id.black_rook2),
-                context.findViewById(R.id.black_king1),
-                context.findViewById(R.id.black_queen1),
-
-                context.findViewById(R.id.white_pawn1),
-                context.findViewById(R.id.white_pawn2),
-                context.findViewById(R.id.white_pawn3),
-                context.findViewById(R.id.white_pawn4),
-                context.findViewById(R.id.white_pawn5),
-                context.findViewById(R.id.white_pawn6),
-                context.findViewById(R.id.white_pawn7),
-                context.findViewById(R.id.white_pawn8),
-
-                context.findViewById(R.id.white_knight1),
-                context.findViewById(R.id.white_knight2),
-                context.findViewById(R.id.white_bishop1),
-                context.findViewById(R.id.white_bishop2),
-                context.findViewById(R.id.white_rook1),
-                context.findViewById(R.id.white_rook2),
-                context.findViewById(R.id.white_king1),
-                context.findViewById(R.id.white_queen1)
-        );
-    }
-    public static List<View> getBlackPieces (ChessActivity context) {
-        return Arrays.asList(
-                context.findViewById(R.id.black_pawn1),
-                context.findViewById(R.id.black_pawn2),
-                context.findViewById(R.id.black_pawn3),
-                context.findViewById(R.id.black_pawn4),
-                context.findViewById(R.id.black_pawn5),
-                context.findViewById(R.id.black_pawn6),
-                context.findViewById(R.id.black_pawn7),
-                context.findViewById(R.id.black_pawn8),
-
-                context.findViewById(R.id.black_knight1),
-                context.findViewById(R.id.black_knight2),
-                context.findViewById(R.id.black_bishop1),
-                context.findViewById(R.id.black_bishop2),
-                context.findViewById(R.id.black_rook1),
-                context.findViewById(R.id.black_rook2),
-                context.findViewById(R.id.black_king1),
-                context.findViewById(R.id.black_queen1)
-        );
-    }
+//    public static List<View> getPieces (ChessActivity context) {
+//        return Arrays.asList(
+//                context.findViewById(R.id.black_pawn1),
+//                context.findViewById(R.id.black_pawn2),
+//                context.findViewById(R.id.black_pawn3),
+//                context.findViewById(R.id.black_pawn4),
+//                context.findViewById(R.id.black_pawn5),
+//                context.findViewById(R.id.black_pawn6),
+//                context.findViewById(R.id.black_pawn7),
+//                context.findViewById(R.id.black_pawn8),
+//
+//                context.findViewById(R.id.black_knight1),
+//                context.findViewById(R.id.black_knight2),
+//                context.findViewById(R.id.black_bishop1),
+//                context.findViewById(R.id.black_bishop2),
+//                context.findViewById(R.id.black_rook1),
+//                context.findViewById(R.id.black_rook2),
+//                context.findViewById(R.id.black_king1),
+//                context.findViewById(R.id.black_queen1),
+//
+//                context.findViewById(R.id.white_pawn1),
+//                context.findViewById(R.id.white_pawn2),
+//                context.findViewById(R.id.white_pawn3),
+//                context.findViewById(R.id.white_pawn4),
+//                context.findViewById(R.id.white_pawn5),
+//                context.findViewById(R.id.white_pawn6),
+//                context.findViewById(R.id.white_pawn7),
+//                context.findViewById(R.id.white_pawn8),
+//
+//                context.findViewById(R.id.white_knight1),
+//                context.findViewById(R.id.white_knight2),
+//                context.findViewById(R.id.white_bishop1),
+//                context.findViewById(R.id.white_bishop2),
+//                context.findViewById(R.id.white_rook1),
+//                context.findViewById(R.id.white_rook2),
+//                context.findViewById(R.id.white_king1),
+//                context.findViewById(R.id.white_queen1)
+//        );
+//    }
+//    public static List<View> getBlackPieces (ChessActivity context) {
+//        return Arrays.asList(
+//                context.findViewById(R.id.black_pawn1),
+//                context.findViewById(R.id.black_pawn2),
+//                context.findViewById(R.id.black_pawn3),
+//                context.findViewById(R.id.black_pawn4),
+//                context.findViewById(R.id.black_pawn5),
+//                context.findViewById(R.id.black_pawn6),
+//                context.findViewById(R.id.black_pawn7),
+//                context.findViewById(R.id.black_pawn8),
+//
+//                context.findViewById(R.id.black_knight1),
+//                context.findViewById(R.id.black_knight2),
+//                context.findViewById(R.id.black_bishop1),
+//                context.findViewById(R.id.black_bishop2),
+//                context.findViewById(R.id.black_rook1),
+//                context.findViewById(R.id.black_rook2),
+//                context.findViewById(R.id.black_king1),
+//                context.findViewById(R.id.black_queen1)
+//        );
+//    }
 
     }

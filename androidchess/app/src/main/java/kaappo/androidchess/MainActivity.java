@@ -13,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static String getId(View view) {
-        if (view.getId() == 0xffffffff) return "no-id";
-        else return view.getResources().getResourceName(view.getId());
+        if (view.getId() == -1) {
+            return "no-id";
+        } else return view.getResources().getResourceName(view.getId());
     }
 
     public static final String PLAYER_SIDE = "a";
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, NewChessActivity.class);
+        startActivity(intent);
 
     }
 
@@ -59,4 +63,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
 }

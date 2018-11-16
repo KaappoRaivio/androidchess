@@ -33,15 +33,15 @@ public class piece
 	
 	int iPinningToDirection; 
 	
-	static final int PAWN = 1;
-	static final int KING = 2;
-	static final int QUEEN = 3;
-	static final int BISHOP = 4;
-	static final int KNIGHT = 5;
-	static final int ROOK = 6;
+	public static final int PAWN = 1;
+	public static final int KING = 2;
+	public static final int QUEEN = 3;
+	public static final int BISHOP = 4;
+	public static final int KNIGHT = 5;
+	public static final int ROOK = 6;
 	
-	static final int WHITE = 0;
-	static final int BLACK = 1;
+	public static final int WHITE = 0;
+	public static final int BLACK = 1;
 	
 	static final int NO_DIR = -10;
 	

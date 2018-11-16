@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class TtyuiActivity extends AppCompatActivity {
 
+
     public static String inputString = null;
 
     @Override
@@ -20,10 +21,12 @@ public class TtyuiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ttyui);
 //        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        ((EditText) findViewById(R.id.input)).setInputType(InputType.TYPE_NULL);
+//        ((EditText) findViewById(R.id.input)).setInputType(InputType.TYPE_NULL);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE_KEY);
+
+
 
         ((TextView) findViewById(R.id.output)).setTypeface(Typeface.MONOSPACE);
 
@@ -49,8 +52,14 @@ public class TtyuiActivity extends AppCompatActivity {
     }
 
     public static void setBoard (String board, TtyuiActivity context) {
-        System.out.println(board);
+//        System.out.println(board);
         TextView textView = (TextView) context.findViewById(R.id.output);
         textView.setText(board);
     }
+
+    public static void setMessage (String message, TtyuiActivity context) {
+        TextView textView = (TextView) context.findViewById(R.id.ttyui_message);
+        textView.setText(message);
+    }
+
 }
