@@ -1,6 +1,5 @@
 package kaappo.androidchess;
 
-import android.media.Image;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Skeidat {
-    public static List<View> getViews(TtyuiActivity context) {
+    public static List<View> getViews(ChessActivity context) {
         return Arrays.asList(
 
                 context.findViewById(R.id.A1),
@@ -83,7 +82,7 @@ public class Skeidat {
 
     }
 
-    public static List<View> getPiecesOnBoard (TtyuiActivity context) {
+    public static List<View> getPiecesOnBoard (ChessActivity context) {
         List<View> temp = new ArrayList<>();
 
         GridLayout layout = context.findViewById(R.id.chessboard);

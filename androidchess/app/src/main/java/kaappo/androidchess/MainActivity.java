@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import kaappo.androidchess.askokaappochess.play;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(WHITE_LEVEL, white_level);
         bundle.putString(BLACK_LEVEL, black_level);
 
-        Intent intent = new Intent(getApplicationContext(), TtyuiActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChessActivity.class);
         intent.putExtra(BUNDLE_KEY, bundle);
         startActivity(intent);
 

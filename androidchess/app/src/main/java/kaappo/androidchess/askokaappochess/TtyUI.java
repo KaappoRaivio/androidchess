@@ -3,10 +3,9 @@ package kaappo.androidchess.askokaappochess;
 import java.util.*;
 import java.sql.*;
 import java.io.PrintWriter;
-import java.util.concurrent.CyclicBarrier;
 
+import kaappo.androidchess.ChessActivity;
 import kaappo.androidchess.MyDragListener;
-import kaappo.androidchess.TtyuiActivity;
 
 public class TtyUI
 {
@@ -27,9 +26,9 @@ public class TtyUI
 	
 	private int iTurn = -1; // black or white
 
-	private TtyuiActivity context;
+	private ChessActivity context;
 
-	TtyUI(chessboard cb, TtyuiActivity context)
+	TtyUI(chessboard cb, ChessActivity context)
 	{
 		square = new int[8][8];
 		
@@ -56,7 +55,7 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				TtyuiActivity.setMessage(s, context);
+				ChessActivity.setMessage(s, context);
 			}
 		});
 //		System.out.println("MSG:"+s);
@@ -92,7 +91,7 @@ public class TtyUI
 					Thread.sleep(100);
 				}
 
-				TtyuiActivity.inputString = null;
+				ChessActivity.inputString = null;
 				move = null;
 
 				System.out.println("inStr: " + inStr);
@@ -206,7 +205,7 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				TtyuiActivity.setMessage(msg, context);
+				ChessActivity.setMessage(msg, context);
 			}
 		});
 //		System.out.println(msg);
@@ -292,7 +291,7 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				TtyuiActivity.setBoard(getChessboardString(), context);
+				ChessActivity.setBoard(getChessboardString(), context);
 			}
 		});
 

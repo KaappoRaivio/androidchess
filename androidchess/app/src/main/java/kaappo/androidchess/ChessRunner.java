@@ -5,7 +5,7 @@ import android.os.Bundle;
 import kaappo.androidchess.askokaappochess.play;
 
 public class ChessRunner {
-    public static void run (final Bundle kamat, final TtyuiActivity context) throws Exception {
+    public static void run (final Bundle kamat, final ChessActivity context) throws Exception {
         Thread thread = new Thread() {
             @Override
             public void run() {

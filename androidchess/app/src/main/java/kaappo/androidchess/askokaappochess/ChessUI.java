@@ -2,7 +2,7 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-import kaappo.androidchess.TtyuiActivity;
+import kaappo.androidchess.ChessActivity;
 
 public class ChessUI
 {
@@ -13,7 +13,7 @@ public class ChessUI
 
 	private TtyUI tty;
 	
-	public ChessUI(int iType, chessboard cb, TtyuiActivity context) {
+	public ChessUI(int iType, chessboard cb, ChessActivity context) {
         this.tty = new TtyUI(cb, context);
 	}
 	

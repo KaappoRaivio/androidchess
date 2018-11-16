@@ -11,7 +11,11 @@
         <!--android:startColor="#111111"-->
         <!--android:endColor="#010101"-->
         <!--/>-->
-    <solid android:color="@color/black_square_start"/>
+
+    <gradient
+        android:angle="225"
+        android:endColor="@color/black_square_end"
+        android:startColor="@color/black_square_start" />
     <!--<corners
         android:bottomLeftRadius="7dp"
         android:bottomRightRadius="7dp"

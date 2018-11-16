@@ -6,7 +6,7 @@ import java.util.*;
 import java.sql.*;
 import java.io.PrintWriter;
 
-import kaappo.androidchess.TtyuiActivity;
+import kaappo.androidchess.ChessActivity;
 
 public class play
 {
@@ -62,7 +62,7 @@ public class play
 	
 	static fulfiller fufi;
 	
-	public static void main (String[] args, TtyuiActivity context, String white_level, String black_level) throws Exception
+	public static void main (String[] args, ChessActivity context, String white_level, String black_level) throws Exception
 	{
 		System.out.println("Starting.");
 

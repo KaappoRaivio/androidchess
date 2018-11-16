@@ -37,14 +37,18 @@ public class MyDragListener implements View.OnDragListener {
                 // Dropped, reassign View to ViewGroup
 
                 View view = (View) event.getLocalState();
+
                 String move = view.getTag().toString().substring(23, 25) + MainActivity.getId(relativeLayout).substring(23, 25);
                 System.out.println("Move: " + move);
 
                 TtyUI.move = move;
 
+//                ((RelativeLayout) relativeLayout).removeAllViews();
+                ((RelativeLayout) view.getParent()).removeView(view);
+                ((RelativeLayout) relativeLayout).addView(view);
                 view.setVisibility(View.VISIBLE);
 //                System.out.println("valid asd" + TtyUI.isMoveValid);
-//                System.out.println("valid string" + TtyuiActivity.inputString);
+//                System.out.println("valid string" + ChessActivity.inputString);
 //                while (this.move != null) {
 //                    try {Thread.sleep(10);} catch (Exception ignored) {}
 //                }
