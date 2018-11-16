@@ -1,58 +1,49 @@
 package kaappo.androidchess.askokaappochess;
 
-import android.content.Context;
-
 import java.util.*;
 
-import kaappo.androidchess.ChessActivity;
 import kaappo.androidchess.TtyuiActivity;
 
-public class chess_ui
+public class ChessUI
 {
 	public static final int UI_TYPE_WINDOW = 1;
 	public static final int UI_TYPE_TTY = 2;
 	public static final int UI_TYPE_ANDROID = 3;
 	
-	chesswindow cw;
-	ttyui tty = null;
-	AndroidUI androidUI;
+
+	private TtyUI tty;
 	
-	public chess_ui(int iType, chessboard cb, TtyuiActivity context) {
-        this.tty = new ttyui(cb, context);
+	public ChessUI(int iType, chessboard cb, TtyuiActivity context) {
+        this.tty = new TtyUI(cb, context);
 	}
 	
 	public void updateData(chessboard cb)
 	{
 
 		if (tty != null) tty.updateData(cb);
-		if (androidUI != null) androidUI.updateData(cb);
 	}
 	
 	public void setMessage(String s)
 	{
 
 		if (tty != null) tty.setMessage(s);
-        if (androidUI != null) androidUI.setMessage(s);
     }
 	
 	public void setTurn(int i)
 	{
 
 		if (tty != null) tty.setTurn(i);
-        if (androidUI != null) androidUI.setTurn(i);
     }
 	
 	public void show() throws Exception
 	{	
 
 		if (tty != null) tty.show();
-        if (androidUI != null) androidUI.updateBoard();
     }
 	
 	public String getMove()
 	{
 		if (tty != null) return tty.getMove();
-		if (androidUI != null) return androidUI.getMove();
 		else return null;
 	}
 	
@@ -67,14 +58,12 @@ public class chess_ui
 	{
 
 		if (tty != null) tty.repaint();
-        if (androidUI != null) androidUI.updateBoard();
     }
 	
 	void enableUndo(boolean enable)
 	{
 
 		if (tty != null) tty.enableUndo(enable);
-        if (androidUI != null) androidUI.undoEnabled = enable;
     }
 	
 	public int getMaxThreads()
@@ -89,7 +78,6 @@ public class chess_ui
 	{
 
 		if (tty!=null) return tty.mIUrgency;
-        if (androidUI != null) return androidUI.getUrgency();
 
         return 0;
 	}
@@ -105,7 +93,6 @@ public class chess_ui
 	{
 
 		if (tty != null) tty.displayMsgDialog(msg);
-        if (androidUI != null) androidUI.displayMsgDialog(msg);
     }
 	
 	void setLatencies(long[] lLatency)

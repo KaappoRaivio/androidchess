@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".ChessActivity" />
         <activity android:name=".TtyuiActivity" />
-        <activity android:name=".NewChessActivity"></activity>
     </application>
 
 </manifest>

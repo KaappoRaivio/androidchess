@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
 
-import kaappo.androidchess.askokaappochess.AndroidUI;
 
 public class ChessActivity extends AppCompatActivity {
 
@@ -40,14 +39,6 @@ public class ChessActivity extends AppCompatActivity {
         Resources res = getResources();
         return res.getIdentifier(name, "id", getPackageName());
 
-    }
-
-    public static boolean isPlayersTurn () {
-        if (AndroidUI.turn != 1) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
 

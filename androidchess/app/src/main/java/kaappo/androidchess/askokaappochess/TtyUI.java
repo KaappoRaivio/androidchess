@@ -1,32 +1,35 @@
 package kaappo.androidchess.askokaappochess;
 
-import android.content.Context;
-
 import java.util.*;
 import java.sql.*;
 import java.io.PrintWriter;
+import java.util.concurrent.CyclicBarrier;
 
+import kaappo.androidchess.MyDragListener;
 import kaappo.androidchess.TtyuiActivity;
 
-public class ttyui
+public class TtyUI
 {
-	int square[][];
-	Vector lMoveV;
+
+	public static String move;
+
+	private int square[][];
+	private Vector lMoveV;
 	
-	chessboard mCb;
+	private chessboard mCb;
 	
-	int mMaxThreads = 4;
+	private int mMaxThreads = 4;
 	int mIUrgency;
 	
-	gamehistory ghist;
+	private gamehistory ghist;
 	
-	boolean bUndoEnabled = true;
+	private boolean bUndoEnabled = true;
 	
-	int iTurn = -1; // black or white
+	private int iTurn = -1; // black or white
 
-	TtyuiActivity context;
+	private TtyuiActivity context;
 
-	ttyui(chessboard cb, TtyuiActivity context)
+	TtyUI(chessboard cb, TtyuiActivity context)
 	{
 		square = new int[8][8];
 		
@@ -35,6 +38,8 @@ public class ttyui
 		this.context = context;
 
 		System.out.println("TTY UI CREATED FOR AskoChess");
+
+		MyDragListener.ttyUI = this;
 	}
 	
 	public void updateData(chessboard cb)
@@ -66,7 +71,9 @@ public class ttyui
 	{
 		dumpSquares();
 	}
-	
+
+
+
 	String getMove()
 	{
 
@@ -78,60 +85,64 @@ public class ttyui
 		{
 			try
 			{
-//				java.io.InputStreamReader isr = new java.io.InputStreamReader( System.in );
-//				java.io.BufferedReader stdin = new java.io.BufferedReader( isr );
-//
-//				System.out.print(">");
-//				inStr = stdin.readLine();
 				inStr = null;
+
 				while (inStr == null) {
-					inStr = TtyuiActivity.inputString;
+					inStr = move;
 					Thread.sleep(100);
 				}
 
 				TtyuiActivity.inputString = null;
+				move = null;
+
+				System.out.println("inStr: " + inStr);
 			}
-			catch (Exception e)
-			{
-			}
+			catch (Exception ignored) {}
 			
 			inStr = inStr.toUpperCase();
 			
 			String inComp[] = inStr.split(":");
 			
-			if ((inComp[0].equals("PLAY")) && (inComp.length>2)) 
-			{
+			if ((inComp[0].equals("PLAY")) && (inComp.length>2)) {
 				int iLevel = Integer.valueOf(inComp[2]);
-				if (inComp[1].equals("WHITE")) sReturn = "PLAY:"+ play.PLAYER + ":" +iLevel+":0";
-				else if (inComp[1].equals("BLACK")) sReturn = "PLAY:"+iLevel+":" + play.PLAYER +":0";
-				if (!sReturn.equals("")) bReady = true;
+
+				if (inComp[1].equals("WHITE")) {
+					sReturn = "PLAY:"+ play.PLAYER + ":" +iLevel+":0";
+				} else if (inComp[1].equals("BLACK")) {
+					sReturn = "PLAY:"+iLevel+":" + play.PLAYER +":0";
+				}
+				if (!sReturn.equals("")) {
+					bReady = true;
+				}
 				
 			}
 			
-			if (inStr.equals("EXIT")) 
-			{
+			if (inStr.equals("EXIT")) {
 				sReturn = inStr;
 				bReady = true;
 			}
 			
-			if (inStr.equals("UNDO")) 
-			{
+			if (inStr.equals("UNDO")) {
 				sReturn = "OHO";
 				bReady = true;
 			}
 			
-			if ((inStr.length() == 4) && !bReady)
-			{
+			if ((inStr.length() == 4) && !bReady) {
 				int x1 = (int)inStr.charAt(0)-64;
 				int y1 = (int)inStr.charAt(1)-48;
 				int x2 = (int)inStr.charAt(2)-64;
 				int y2 = (int)inStr.charAt(3)-48;
 		
-				if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) bReady = false;
+				if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) {
+					bReady = false;
+				}
 				
-				sReturn = doMove(inStr);
+				sReturn = makeMove(inStr);
                 bReady = sReturn.length() > 1;
-				
+				System.out.println("sReturn: " + sReturn);
+
+
+
 			}
 			
 			if ((inStr.length() >= 2) && (inStr.substring(0,2).equalsIgnoreCase("T:")))
@@ -144,9 +155,7 @@ public class ttyui
 					{
 						iNewThr = Integer.valueOf(sThr[1]);
 					}
-					catch (Exception e)
-					{
-					}
+					catch (Exception ignored) {}
 					
 				}
 				if ((iNewThr >= 1) && (iNewThr <= 64))
@@ -206,84 +215,84 @@ public class ttyui
 	
 	private void dumpSquares()
 	{
-		String tempString = "";
-
-		tempString += "  abcdefgh\n\n";
-		for (int j = 7;j >= 0;j--)
-		{
-			tempString += (j + 1) + " ";
-			for (int i = 0; i < 8; i++)
-			{
-				if (square[i][j]==-1) tempString += ".";
-
-				else if (square[i][j]>100)
-				{
-					switch(square[i][j]-100)
-					{
-						case piece.PAWN:
-							tempString += "P";
-							break;
-						case piece.BISHOP:
-							tempString += "B";
-							break;
-						case piece.KNIGHT:
-							tempString += "N";
-							break;
-						case piece.ROOK:
-							tempString += "R";
-							break;
-						case piece.KING:
-							tempString += "K";
-							break;
-						case piece.QUEEN:
-							tempString += "Q";
-							break;
-						default:
-							tempString += "X";
-							break;
-					}
-				}
-				else
-				{
-					switch(square[i][j])
-					{
-						case piece.PAWN:
-							tempString += "p";
-							break;
-						case piece.BISHOP:
-							tempString += "b";
-							break;
-						case piece.KNIGHT:
-							tempString += "n";
-							break;
-						case piece.ROOK:
-							tempString += "r";
-							break;
-						case piece.KING:
-							tempString += "k";
-							break;
-						case piece.QUEEN:
-							tempString += "q";
-							break;
-						default:
-							tempString += "x";
-							break;
-					}
-
-				}
-			}
-			tempString += " " + (j + 1);
-			tempString += "\n";
-		}
-		tempString += "\n  abcdefgh\n";
-		tempString += "\nLast move was: " + lastMoveString();
-
-		final String board = tempString;
+//		String tempString = "";
+//
+//		tempString += "  abcdefgh\n\n";
+//		for (int j = 7;j >= 0;j--)
+//		{
+//			tempString += (j + 1) + " ";
+//			for (int i = 0; i < 8; i++)
+//			{
+//				if (square[i][j]==-1) tempString += ".";
+//
+//				else if (square[i][j]>100)
+//				{
+//					switch(square[i][j]-100)
+//					{
+//						case piece.PAWN:
+//							tempString += "P";
+//							break;
+//						case piece.BISHOP:
+//							tempString += "B";
+//							break;
+//						case piece.KNIGHT:
+//							tempString += "N";
+//							break;
+//						case piece.ROOK:
+//							tempString += "R";
+//							break;
+//						case piece.KING:
+//							tempString += "K";
+//							break;
+//						case piece.QUEEN:
+//							tempString += "Q";
+//							break;
+//						default:
+//							tempString += "X";
+//							break;
+//					}
+//				}
+//				else
+//				{
+//					switch(square[i][j])
+//					{
+//						case piece.PAWN:
+//							tempString += "p";
+//							break;
+//						case piece.BISHOP:
+//							tempString += "b";
+//							break;
+//						case piece.KNIGHT:
+//							tempString += "n";
+//							break;
+//						case piece.ROOK:
+//							tempString += "r";
+//							break;
+//						case piece.KING:
+//							tempString += "k";
+//							break;
+//						case piece.QUEEN:
+//							tempString += "q";
+//							break;
+//						default:
+//							tempString += "x";
+//							break;
+//					}
+//
+//				}
+//			}
+//			tempString += " " + (j + 1);
+//			tempString += "\n";
+//		}
+//		tempString += "\n  abcdefgh\n";
+//		tempString += "\nLast move was: " + lastMoveString();
+//
+//		final String board = tempString;
 
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				TtyuiActivity.setBoard(board, context);
+				TtyuiActivity.setBoard(getChessboardString(), context);
 			}
 		});
 
@@ -383,7 +392,7 @@ public class ttyui
 	
 	}
 	
-	private String doMove(String sMove)
+	private String makeMove(String sMove)
 	{
 		boolean bFound = false;
 		
@@ -394,7 +403,7 @@ public class ttyui
 		
 		String spc = "";
 		
-		//System.out.println("DBG:doMove:"+sMove + " " + x1 +","+y1+","+x2+","+y2);
+		//System.out.println("DBG:makeMove:"+sMove + " " + x1 +","+y1+","+x2+","+y2);
 		
 		if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) return "";
 		

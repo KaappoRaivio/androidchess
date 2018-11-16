@@ -4,10 +4,8 @@ import android.content.Context;
 
 import java.util.*;
 import java.sql.*;
-import java.io.*;
 import java.io.PrintWriter;
 
-import kaappo.androidchess.ChessActivity;
 import kaappo.androidchess.TtyuiActivity;
 
 public class play
@@ -49,14 +47,14 @@ public class play
 	static chessboard cb2 = null;
 	static chessboard ohoboard = null;
 	//static chesswindow cw = null;
-	static chess_ui cui = null;	
+	static ChessUI cui = null;
 	
 	static movelibrary mlib = null;
 	
 	static final boolean GUIWINDOW = true;
 	
-	static int UI_TYPE = chess_ui.UI_TYPE_WINDOW;
-	//static int UI_TYPE = chess_ui.UI_TYPE_TTY;
+	static int UI_TYPE = ChessUI.UI_TYPE_WINDOW;
+	//static int UI_TYPE = ChessUI.UI_TYPE_TTY;
 	
 	static final boolean ANYMOVE_MODE = false;  // true: always pick from ANYMOVE algorihm, false: regular 170425
 	
@@ -86,7 +84,7 @@ public class play
 		System.out.println("DBG151011: B");
 
 
-		cui = new chess_ui(UI_TYPE, cb, context);
+		cui = new ChessUI(UI_TYPE, cb, context);
 
 
 		cui.updateData(cb);

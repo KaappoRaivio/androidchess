@@ -8,7 +8,6 @@ import java.io.*;
 import java.io.PrintWriter;
 
 import java.util.*;
-import java.sql.*;
 
 public class chessboard implements Serializable
 {
@@ -4147,7 +4146,7 @@ public class chessboard implements Serializable
 		
 	
 		//bDebug = true;
-		if (bDebug && (iRounds >= 3)) chess_ui.setMonitorMode(true);
+		if (bDebug && (iRounds >= 3)) ChessUI.setMonitorMode(true);
 		
 		double dMidPOpenLimit = 0.125;
 		//double dMidPOpenLimit = 1.0;
@@ -4637,8 +4636,8 @@ public class chessboard implements Serializable
 		int l0goal = 0;
 		
 		int iMvecTotal = mAct.getSize();
-		if (iRounds == chess_ui.getiAnalStartLevel()) chess_ui.setiAnalRoundsTotal(iMvecTotal);
-		if ((iRounds == chess_ui.getiAnalStartLevel()-1) && (iColor == chess_ui.getiAnalStartColor())) chess_ui.setiPrelRoundsTotal(iMvecTotal);
+		if (iRounds == ChessUI.getiAnalStartLevel()) ChessUI.setiAnalRoundsTotal(iMvecTotal);
+		if ((iRounds == ChessUI.getiAnalStartLevel()-1) && (iColor == ChessUI.getiAnalStartColor())) ChessUI.setiPrelRoundsTotal(iMvecTotal);
 		
 		int iRepCycles = 0;
 		boolean bCalcAgain = false;
@@ -4762,19 +4761,19 @@ public class chessboard implements Serializable
 				*/
 				piece p = m.p;
 				
-				if ((bDebug) && (iRounds > 2)) chess_ui.monRefresh(false);
+				if ((bDebug) && (iRounds > 2)) ChessUI.monRefresh(false);
 				
-				if (iRounds == chess_ui.getiAnalStartLevel())
+				if (iRounds == ChessUI.getiAnalStartLevel())
 				{
-					chess_ui.setBestMval(bestMval);
-					chess_ui.setiAnalRoundsDone(i);
-					chess_ui.setAnalCurrent(m.moveStr());
+					ChessUI.setBestMval(bestMval);
+					ChessUI.setiAnalRoundsDone(i);
+					ChessUI.setAnalCurrent(m.moveStr());
 				}
-				if ((iRounds == chess_ui.getiAnalStartLevel()-1) && (iColor == chess_ui.getiAnalStartColor()))
+				if ((iRounds == ChessUI.getiAnalStartLevel()-1) && (iColor == ChessUI.getiAnalStartColor()))
 				{
-					chess_ui.setBestPreMval(bestMval);
-					chess_ui.setiPrelRoundsDone(i);
-					chess_ui.setAnalPreCurrent(m.moveStr());
+					ChessUI.setBestPreMval(bestMval);
+					ChessUI.setiPrelRoundsDone(i);
+					ChessUI.setAnalPreCurrent(m.moveStr());
 				}
 				
 				//System.out.println("DBG151013 (S2):" + basemv.sRoute+ " " + m.moveStr() + " " + i);
@@ -5342,19 +5341,19 @@ public class chessboard implements Serializable
 			
 		}   // while repcycles etc.
 		
-		if (iRounds == chess_ui.getiAnalStartLevel())
+		if (iRounds == ChessUI.getiAnalStartLevel())
 		{
-					chess_ui.setBestMval(bestMval);
-					chess_ui.setiAnalRoundsDone(iMoveTotal);
-					chess_ui.setAnalCurrent("done.");
-					chess_ui.setlAnalEndTime(System.currentTimeMillis());
-					chess_ui.monRefresh(true);
+					ChessUI.setBestMval(bestMval);
+					ChessUI.setiAnalRoundsDone(iMoveTotal);
+					ChessUI.setAnalCurrent("done.");
+					ChessUI.setlAnalEndTime(System.currentTimeMillis());
+					ChessUI.monRefresh(true);
 		}
-		if ((iRounds == chess_ui.getiAnalStartLevel()-1) && (iColor == chess_ui.getiAnalStartColor()))
+		if ((iRounds == ChessUI.getiAnalStartLevel()-1) && (iColor == ChessUI.getiAnalStartColor()))
 		{
-			chess_ui.setBestPreMval(bestMval);
-			chess_ui.setiPrelRoundsDone(chess_ui.getiPrelRoundsTotal());
-			chess_ui.setAnalPreCurrent("done.");
+			ChessUI.setBestPreMval(bestMval);
+			ChessUI.setiPrelRoundsDone(ChessUI.getiPrelRoundsTotal());
+			ChessUI.setAnalPreCurrent("done.");
 		}
 		
 		//System.out.println("DBG150119 after loop:"+iRounds+":" + bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT) + " bb=null:" + (bestBoard==null));

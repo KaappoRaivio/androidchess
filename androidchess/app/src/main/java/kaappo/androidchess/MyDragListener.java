@@ -4,33 +4,23 @@ import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import kaappo.androidchess.askokaappochess.TtyUI;
+
+import static java.lang.Thread.yield;
+
 public class MyDragListener implements View.OnDragListener {
 
-    public static String move = null;
-    public static boolean isMoveAvailable = false;
-
-    public static String getMove () {
-
-        if (move != null) {
-            return move;
-        } else {
-            return null;
-        }
-    }
+    public static TtyUI ttyUI;
+    public static String move;
+    public static boolean isMoveValid;
 
     public final int START_PARENT_ID = 0;
 
-
-    private synchronized void _notify() {
-        isMoveAvailable = true;
-        notifyAll();
-        System.out.println("notified!");
-    }
-
-    public boolean onDrag(View v, DragEvent event) {
+    public boolean onDrag(View relativeLayout, DragEvent event) {
         int action = event.getAction();
 
         switch (action) {
@@ -45,24 +35,58 @@ public class MyDragListener implements View.OnDragListener {
                 break;
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
-                if (ChessActivity.isPlayersTurn()) {
-                    View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
-                    owner.removeView(view);
-                    RelativeLayout container = (RelativeLayout) v;
-                    container.addView(view);
-                    view.setVisibility(View.VISIBLE);
 
-                    move = view.getTag().toString().substring(23, 25) + MainActivity.getId((v)).substring(23, 25);
-                    System.out.println(move);
+                View view = (View) event.getLocalState();
+                String move = view.getTag().toString().substring(23, 25) + MainActivity.getId(relativeLayout).substring(23, 25);
+                System.out.println("Move: " + move);
 
-                    System.out.println("notifying");
-                    _notify();
+                TtyUI.move = move;
 
-                } else {
-                    View view = (View) event.getLocalState();
-                    view.setVisibility(View.VISIBLE);
-                }
+                view.setVisibility(View.VISIBLE);
+//                System.out.println("valid asd" + TtyUI.isMoveValid);
+//                System.out.println("valid string" + TtyuiActivity.inputString);
+//                while (this.move != null) {
+//                    try {Thread.sleep(10);} catch (Exception ignored) {}
+//                }
+
+
+
+
+//                if (isMoveValid) {
+//                    System.out.println("Move " + move + " is valid!");
+//                    ViewGroup oldOwner = (ViewGroup) view.getParent();
+//                    oldOwner.removeView(view);
+//
+//                    RelativeLayout newOwner = (RelativeLayout) relativeLayout;
+//                    newOwner.addView(view);
+//
+//                    view.setVisibility(View.VISIBLE);
+//                    isMoveValid = false;
+//
+//
+//                } else {
+//                System.out.println("Move " + move.toLowerCase() + " is not valid!");
+//                isMoveValid = false;
+
+//                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 break;
