@@ -170,15 +170,6 @@ public class ChessUI
 	{
 
 	}
-	
-	static void setAnalysisStart(int iLev, int iCol)
-	{
 
-	}
-	
-	static void setAnalysisStartMval(movevalue mv)
-	{
-
-	}
 	
 }

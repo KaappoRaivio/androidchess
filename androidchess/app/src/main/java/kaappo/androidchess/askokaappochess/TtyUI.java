@@ -69,10 +69,9 @@ public class TtyUI
 //		System.out.println("MSG:"+s);
 	}
 	
-	void setTurn(int i)
-	{
+	void setTurn(int i) {
 		iTurn = i;
-
+		MyDragListener.setiTurn(i);
 	}
 	
 	void show()
@@ -82,17 +81,15 @@ public class TtyUI
 
 
 
-	String getMove()
-	{
+	String getMove() {
 
 		String inStr = "";
 		boolean bReady = false;
 		String sReturn = "";
 		
-		while (!bReady)
-		{
-			try
-			{
+		while (!bReady) {
+
+			try {
 				inStr = null;
 
 				while (inStr == null) {
@@ -104,8 +101,7 @@ public class TtyUI
 				move = null;
 
 				System.out.println("inStr: " + inStr);
-			}
-			catch (Exception ignored) {}
+			} catch (Exception ignored) {}
 			
 			inStr = inStr.toUpperCase();
 			
@@ -209,98 +205,21 @@ public class TtyUI
 		ghist = gh;
 	}
 	
-	void displayMsgDialog(final String msg)
-	{
+	void displayMsgDialog(final String msg) {
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				ChessActivity.setMessage(msg, context);
 			}
 		});
-//		System.out.println(msg);
-
 	}
 	
-	private void dumpSquares()
-	{
-//		String tempString = "";
-//
-//		tempString += "  abcdefgh\n\n";
-//		for (int j = 7;j >= 0;j--)
-//		{
-//			tempString += (j + 1) + " ";
-//			for (int i = 0; i < 8; i++)
-//			{
-//				if (square[i][j]==-1) tempString += ".";
-//
-//				else if (square[i][j]>100)
-//				{
-//					switch(square[i][j]-100)
-//					{
-//						case piece.PAWN:
-//							tempString += "P";
-//							break;
-//						case piece.BISHOP:
-//							tempString += "B";
-//							break;
-//						case piece.KNIGHT:
-//							tempString += "N";
-//							break;
-//						case piece.ROOK:
-//							tempString += "R";
-//							break;
-//						case piece.KING:
-//							tempString += "K";
-//							break;
-//						case piece.QUEEN:
-//							tempString += "Q";
-//							break;
-//						default:
-//							tempString += "X";
-//							break;
-//					}
-//				}
-//				else
-//				{
-//					switch(square[i][j])
-//					{
-//						case piece.PAWN:
-//							tempString += "p";
-//							break;
-//						case piece.BISHOP:
-//							tempString += "b";
-//							break;
-//						case piece.KNIGHT:
-//							tempString += "n";
-//							break;
-//						case piece.ROOK:
-//							tempString += "r";
-//							break;
-//						case piece.KING:
-//							tempString += "k";
-//							break;
-//						case piece.QUEEN:
-//							tempString += "q";
-//							break;
-//						default:
-//							tempString += "x";
-//							break;
-//					}
-//
-//				}
-//			}
-//			tempString += " " + (j + 1);
-//			tempString += "\n";
-//		}
-//		tempString += "\n  abcdefgh\n";
-//		tempString += "\nLast move was: " + lastMoveString();
-//
-//		final String board = tempString;
+	private void dumpSquares() {
 
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ChessActivity.setBoard(getChessboardString(), context);
+				ChessActivity.setBoard(getChessboardString(), context, lMoveV);
 			}
 		});
 
@@ -385,13 +304,13 @@ public class TtyUI
 			if (lMoveV.size() == 5 || lMoveV.size() == 4)
 			{
 			
-				int i1 = (int)lMoveV.elementAt(0);
-				int j1 = (int)lMoveV.elementAt(1);
-				int i2 = (int)lMoveV.elementAt(2);
-				int j2 = (int)lMoveV.elementAt(3);
+				int x1 = (int)lMoveV.elementAt(0);
+				int y1 = (int)lMoveV.elementAt(1);
+				int x2 = (int)lMoveV.elementAt(2);
+				int y2 = (int)lMoveV.elementAt(3);
 
-				System.out.println(i1 + j1 + i2 + j2 + "asd");
-				return ""+(char)(96 + i1) + j1 + (char)(96 + i2) + j2;
+				System.out.println(x1 + y1 + x2 + y2 + "asd");
+				return ""+(char)(96 + x1) + y1 + (char)(96 + x2) + y2;
 		
 			}
 		}
@@ -465,7 +384,7 @@ public class TtyUI
 				System.out.print("Promote to [QRBN]>");
 				inStr = stdin.readLine();
 			}
-			catch (Exception e) {}
+			catch (Exception ignored) {}
 
 			inStr = inStr.toUpperCase();
 

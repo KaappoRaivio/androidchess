@@ -9,6 +9,9 @@ import android.view.View;
 public final class MyTouchListener implements View.OnTouchListener {
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
+
+
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 view.setTag(MainActivity.getId((View) view.getParent()));
@@ -25,7 +28,7 @@ public final class MyTouchListener implements View.OnTouchListener {
                         final int width = v.getWidth() * SCALING_FACTOR;
                         final int height = v.getHeight() * SCALING_FACTOR;
                         shadowSize.set(width, height);
-                        shadowTouchPoint.set(width / 2, height / 2);
+                        shadowTouchPoint.set(width / 2, height);
                     }
 
                     @Override

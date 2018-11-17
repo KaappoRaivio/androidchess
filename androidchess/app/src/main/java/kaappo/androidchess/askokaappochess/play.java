@@ -982,8 +982,7 @@ public class play
 					}
 					
 
-					if (bGameOn) 
-					{
+					if (bGameOn) {
 						/*
 						cw.setLastMoveVector(cb2.lastmoveVector());
 						cw.updateData(cb2);

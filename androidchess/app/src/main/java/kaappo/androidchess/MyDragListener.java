@@ -53,54 +53,18 @@ public class MyDragListener implements View.OnDragListener {
                 View view = (View) event.getLocalState();
 
                 String move = view.getTag().toString().substring(23, 25) + MainActivity.getId(relativeLayout).substring(23, 25);
-                System.out.println("Move: " + move);
-
-
-
-                TtyUI.move = move;
 
                 if (isIsMoveValid(move)) {
+//                    System.out.println("Move: " + move);
                     ((RelativeLayout) view.getParent()).removeView(view);
                     ((RelativeLayout) relativeLayout).addView(view);
                     view.setVisibility(View.VISIBLE);
                 } else {
+//                    System.out.println("Move: " + move);
                     view.setVisibility(View.VISIBLE);
                 }
 
-
-//                ((RelativeLayout) relativeLayout).removeAllViews();
-//                System.out.println("valid asd" + TtyUI.isMoveValid);
-//                System.out.println("valid string" + ChessActivity.inputString);
-//                while (this.move != null) {
-//                    try {Thread.sleep(10);} catch (Exception ignored) {}
-//                }
-
-
-
-
-//                if (isMoveValid) {
-//                    System.out.println("Move " + move + " is valid!");
-//                    ViewGroup oldOwner = (ViewGroup) view.getParent();
-//                    oldOwner.removeView(view);
-//
-//                    RelativeLayout newOwner = (RelativeLayout) relativeLayout;
-//                    newOwner.addView(view);
-//
-//                    view.setVisibility(View.VISIBLE);
-//                    isMoveValid = false;
-//
-//
-//                } else {
-//                System.out.println("Move " + move.toLowerCase() + " is not valid!");
-//                isMoveValid = false;
-
-//                }
-
-
-
-
-
-
+                TtyUI.move = move;
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 break;
@@ -111,7 +75,11 @@ public class MyDragListener implements View.OnDragListener {
     }
 
 
-    public static boolean isIsMoveValid (String move) {
+    private static boolean isIsMoveValid (String move) {
+        if (iTurn != ChessActivity.getPlayerSide()) {
+            return false;
+        }
+
         int x1 = (int) move.charAt(0) - 64;
         int y1 = (int) move.charAt(1) - 48;
         int x2 = (int) move.charAt(2) - 64;
@@ -130,6 +98,7 @@ public class MyDragListener implements View.OnDragListener {
         if (p.iColor != MyDragListener.ttyUI.getiTurn()) {
             bValid = false;
         }
+
 
         Vector mv = p.moveVector(chessboard);
 
