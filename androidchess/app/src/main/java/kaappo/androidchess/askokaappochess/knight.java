@@ -27,7 +27,7 @@ public class knight extends piece
 		else return "N";
 	}
 	
-	Vector moveVector (chessboard cb)
+	public Vector moveVector (chessboard cb)
 	{
 		if (mMoveVector != null) return mMoveVector;
 		//System.out.println("DBG 141221 Knight at " + xk +","+yk + " mv build."); 

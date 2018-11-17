@@ -3,8 +3,8 @@ import java.util.*;
 
 public class move
 {
-	int xtar;
-	int ytar;
+	public int xtar;
+	public int ytar;
 	boolean bCapture;
 	boolean bCheck;
 	boolean bRevCheck;

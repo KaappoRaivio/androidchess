@@ -21,7 +21,7 @@ public class rook extends piece
 		else return "R";
 	}
 	
-	Vector moveVector (chessboard cb)
+	public Vector moveVector (chessboard cb)
 	{
 		if (mMoveVector != null) return mMoveVector;
 		

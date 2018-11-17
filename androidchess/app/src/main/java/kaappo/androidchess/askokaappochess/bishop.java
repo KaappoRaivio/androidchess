@@ -22,7 +22,7 @@ public class bishop extends piece
 		else return "B";
 	}
 	
-	Vector moveVector (chessboard cb)
+	public Vector moveVector (chessboard cb)
 	{
 		if (mMoveVector != null) return mMoveVector;
 		

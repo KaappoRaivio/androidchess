@@ -34,7 +34,7 @@ public class chessboard implements Serializable
 	static final int NALI_VERT_DIAG = 5;
 	static final int NALI_NONE = 6;
 	
-	piece blocks[][];
+	public piece blocks[][];
 	
 	boolean bWhiteCoverage[][];
 	boolean bBlackCoverage[][];

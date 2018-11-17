@@ -21,7 +21,7 @@ public class queen extends piece
 		else return "Q";
 	}
 	
-	Vector moveVector (chessboard cb)
+	public Vector moveVector (chessboard cb)
 	{
 		/*if (iColor == piece.WHITE) DBG
 		{

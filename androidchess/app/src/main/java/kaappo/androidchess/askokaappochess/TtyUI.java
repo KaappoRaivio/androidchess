@@ -28,6 +28,14 @@ public class TtyUI
 
 	private ChessActivity context;
 
+	public chessboard getmCb () {
+		return mCb;
+	}
+
+	public int getiTurn () {
+		return iTurn;
+	}
+
 	TtyUI(chessboard cb, ChessActivity context)
 	{
 		square = new int[8][8];
@@ -64,6 +72,7 @@ public class TtyUI
 	void setTurn(int i)
 	{
 		iTurn = i;
+
 	}
 	
 	void show()

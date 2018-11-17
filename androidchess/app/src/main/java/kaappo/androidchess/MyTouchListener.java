@@ -15,9 +15,6 @@ public final class MyTouchListener implements View.OnTouchListener {
 
                 ClipData data = ClipData.newPlainText("", "");
 
-                view.setScaleX(2.0f);
-                view.setScaleY(2.0f);
-
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view) {
 
                     private static final int SCALING_FACTOR = 4;

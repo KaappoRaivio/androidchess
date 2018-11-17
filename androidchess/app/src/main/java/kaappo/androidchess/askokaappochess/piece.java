@@ -6,7 +6,7 @@ public class piece
 {
 	int xk;
 	int yk;
-	int iColor;
+	public int iColor;
 	int iType;
 	int iLastMove;
 	Vector mMoveVector;
@@ -107,8 +107,7 @@ public class piece
 		return yk;
 	}
 	
-	Vector moveVector(chessboard cb)
-	{
+	public Vector moveVector(chessboard cb) {
 		return null;
 	}
 	

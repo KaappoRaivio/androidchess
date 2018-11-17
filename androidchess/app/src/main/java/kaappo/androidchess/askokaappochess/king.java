@@ -22,7 +22,7 @@ public class king extends piece
 		else return "K";
 	}
 	
-	Vector moveVector (chessboard cb)
+	public Vector moveVector (chessboard cb)
 	{
 		//System.out.println("DBG 141221: Asking for king's move vector for king at : " + xk + "," + yk);
 		//dumpmoveVector (mMoveVector);

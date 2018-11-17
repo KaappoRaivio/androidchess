@@ -24,7 +24,7 @@ public class pawn extends piece
 		else return "P";
 	}
 	
-	Vector moveVector(chessboard cb)
+	public Vector moveVector(chessboard cb)
 	{
 		if (mMoveVector != null) return mMoveVector;
 		
