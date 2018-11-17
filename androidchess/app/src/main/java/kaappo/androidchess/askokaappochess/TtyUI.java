@@ -226,38 +226,38 @@ public class TtyUI
 	}
 
 	private String getChessboardString () {
-	    String tempString = "";
+	    StringBuilder tempString = new StringBuilder();
 
         for (int j = 7;j >= 0;j--)
         {
             for (int i = 0; i < 8; i++)
             {
-                if (square[i][j]==-1) tempString += ".";
+                if (square[i][j]==-1) tempString.append(".");
 
                 else if (square[i][j]>100)
                 {
                     switch(square[i][j]-100)
                     {
                         case piece.PAWN:
-                            tempString += "P";
+                            tempString.append("P");
                             break;
                         case piece.BISHOP:
-                            tempString += "B";
+                            tempString.append("B");
                             break;
                         case piece.KNIGHT:
-                            tempString += "N";
+                            tempString.append("N");
                             break;
                         case piece.ROOK:
-                            tempString += "R";
+                            tempString.append("R");
                             break;
                         case piece.KING:
-                            tempString += "K";
+                            tempString.append("K");
                             break;
                         case piece.QUEEN:
-                            tempString += "Q";
+                            tempString.append("Q");
                             break;
                         default:
-                            tempString += "X";
+                            tempString.append("X");
                             break;
                     }
                 }
@@ -266,41 +266,41 @@ public class TtyUI
                     switch(square[i][j])
                     {
                         case piece.PAWN:
-                            tempString += "p";
+                            tempString.append("p");
                             break;
                         case piece.BISHOP:
-                            tempString += "b";
+                            tempString.append("b");
                             break;
                         case piece.KNIGHT:
-                            tempString += "n";
+                            tempString.append("n");
                             break;
                         case piece.ROOK:
-                            tempString += "r";
+                            tempString.append("r");
                             break;
                         case piece.KING:
-                            tempString += "k";
+                            tempString.append("k");
                             break;
                         case piece.QUEEN:
-                            tempString += "q";
+                            tempString.append("q");
                             break;
                         default:
-                            tempString += "x";
+                            tempString.append("x");
                             break;
                     }
 
                 }
             }
-            tempString += "\n";
+            tempString.append("\n");
         }
 
-        return tempString;
+        return tempString.toString();
     }
 	
 	private String lastMoveString()
 	{
 		if (lMoveV != null)
 		{
-			System.out.println("lastmoveString: " + lMoveV);
+
 			if (lMoveV.size() == 5 || lMoveV.size() == 4)
 			{
 			
@@ -330,8 +330,7 @@ public class TtyUI
 		
 		String spc = "";
 		
-		//System.out.println("DBG:makeMove:"+sMove + " " + x1 +","+y1+","+x2+","+y2);
-		
+
 		if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) return "";
 		
 		piece p = mCb.blocks[x1][y1];

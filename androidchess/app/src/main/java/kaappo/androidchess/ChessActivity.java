@@ -164,8 +164,11 @@ public class ChessActivity extends AppCompatActivity {
                 }
             }
         }
-        String _move = getStringFromLMoveV(lastMoveVector);
-        if (_move != null) {
+
+
+        // Highlight last move
+        String lastMove = getStringFromLMoveV(lastMoveVector);
+        if (lastMove != null) {
             if (previousBackGroundColors != null && previousBackGroundPositions[0] != null && previousBackGroundPositions[1] != null) {
                 RelativeLayout previousStartSquare = (RelativeLayout) context.findViewById(
                         context.getResources().getIdentifier(previousBackGroundPositions[0],
@@ -182,14 +185,14 @@ public class ChessActivity extends AppCompatActivity {
             }
 
 
-            _move = _move.toUpperCase();
+            lastMove = lastMove.toUpperCase();
 
-            String[] move = _move.split(":");
+            String[] lastMoveArray = lastMove.split(":");
 
-            previousBackGroundPositions = move.clone();
+            previousBackGroundPositions = lastMoveArray.clone();
 
-            RelativeLayout startSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(move[0], "id", context.getPackageName()));
-            RelativeLayout endSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(move[1], "id", context.getPackageName()));
+            RelativeLayout startSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(lastMoveArray[0], "id", context.getPackageName()));
+            RelativeLayout endSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(lastMoveArray[1], "id", context.getPackageName()));
 
             previousBackGroundColors[0] = startSquare.getBackground();
             previousBackGroundColors[1] = endSquare.getBackground();
@@ -197,44 +200,7 @@ public class ChessActivity extends AppCompatActivity {
             startSquare.setBackground(context.getDrawable(R.drawable.highlight));
             endSquare.setBackground(context.getDrawable(R.drawable.highlight));
 
-
-
         }
-
-
-
-//        String _move = null;
-//        try {
-//            _move = getStringFromLMoveV(lastMoveVector).toUpperCase();
-//        } catch (NullPointerException ignored) {};
-//
-//        if (_move != null) {
-//            String[] move = _move.split(":");
-//            System.out.println("Movevector: " + _move);
-//
-//
-//            try {
-//                ((RelativeLayout) context.findViewById(previousBackGroundPositions[0])).setBackground(previousBackGroundColors[0]);
-//                ((RelativeLayout) context.findViewById(previousBackGroundPositions[1])).setBackground(previousBackGroundColors[1]);
-//            } catch (NullPointerException ignored) {System.out.println("NullPointerException: " + previousBackGroundPositions[0] + previousBackGroundPositions[1]);}
-//
-//            RelativeLayout startSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(move[0], "id", context.getPackageName()));
-//            RelativeLayout endSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(move[1], "id", context.getPackageName()));
-//
-//            previousBackGroundColors[0] = startSquare.getBackground();
-//            previousBackGroundColors[1] = endSquare.getBackground();
-//            previousBackGroundPositions[0] = startSquare.getId();
-//            previousBackGroundPositions[1] = startSquare.getId();
-//
-//            startSquare.setBackground(context.getDrawable(R.drawable.highlight));
-//            endSquare.setBackground(context.getDrawable(R.drawable.highlight));
-//
-//        }
-
-
-
-
-
 
     }
 
