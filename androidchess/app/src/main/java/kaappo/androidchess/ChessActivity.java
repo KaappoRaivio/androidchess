@@ -1,5 +1,9 @@
 package kaappo.androidchess;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -33,6 +37,10 @@ public class ChessActivity extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
+
+//        GetPromotedPieceDialogFragment getPromotedPieceDialogFragment = new GetPromotedPieceDialogFragment(ChessActivity.this);
+//        getPromotedPieceDialogFragment.show();
+//
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE_KEY);
