@@ -5,28 +5,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/piece_catcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/activity_chess_opponent_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="8dp"
+
+            android:padding="4dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/container1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/activity_chess_icon_size"
+
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/activity_chess_opponent_info_icon">
+
+                <TextView
+                    android:id="@+id/activity_chess_opponent_info_engine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentTop="true"
+
+                    android:text="@string/activity_chess_askochess"
+                    android:textSize="@dimen/activity_chess_engine_name_textSize"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/activity_chess_opponent_info_engine_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentBottom="true"
+
+                    android:textSize="@dimen/activity_chess_engine_level_textSize" />
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/activity_chess_opponent_info_icon"
+                android:layout_width="@dimen/activity_chess_icon_size"
+                android:layout_height="@dimen/activity_chess_icon_size"
+
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="4dp"
+
+                android:src="@drawable/ic_launcher_background" />
+
+
+        </RelativeLayout>
 
         <GridLayout
             android:id="@+id/chessboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+
             android:columnCount="8"
             android:columnWidth="@dimen/activity_chess_tile_dimens"
             android:orientation="vertical"
             android:rowCount="8"
             android:stretchMode="columnWidth"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/activity_chess_opponent_info">
 
             <RelativeLayout
                 android:id="@+id/A1"
@@ -604,81 +664,106 @@
                 android:background="@drawable/black"
                 android:tag="H8" />
         </GridLayout>
-        
+
+        <RelativeLayout
+            android:id="@+id/activity_chess_player_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="8dp"
+
+            android:padding="4dp"
+            app:layout_constraintTop_toBottomOf="@id/chessboard">
+
+            <RelativeLayout
+                android:id="@+id/container2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/activity_chess_icon_size"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/activity_chess_player_info_icon">
+
+                <TextView
+
+                    android:id="@+id/activity_chess_player_info_engine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentTop="true"
+
+                    android:text="@string/activity_chess_player"
+                    android:textSize="@dimen/activity_chess_engine_name_textSize"
+                    android:textStyle="bold"
+
+
+                    />
+
+                <TextView
+                    android:id="@+id/activity_chess_player_info_engine_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+
+                    android:textSize="@dimen/activity_chess_engine_level_textSize" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/activity_chess_player_info_icon"
+
+                android:layout_width="@dimen/activity_chess_icon_size"
+                android:layout_height="@dimen/activity_chess_icon_size"
+
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="4dp"
+
+                android:src="@drawable/ic_launcher_background"
+
+
+                />
+
+
+        </RelativeLayout>
+
         <Button
             android:id="@+id/activity_chess_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activity_chess_undo"
+            android:onClick="onUndoButtonClick"
 
-            app:layout_constraintTop_toBottomOf="@id/chessboard"
-            app:layout_constraintStart_toStartOf="@id/chessboard"
-            />
+            android:text="@string/activity_chess_undo"
+            app:layout_constraintStart_toStartOf="@id/activity_chess_player_info"
+
+            app:layout_constraintTop_toBottomOf="@id/activity_chess_player_info" />
 
         <Button
+            android:id="@+id/activity_chess_resign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/activity_chess_resign"
             app:layout_constraintStart_toEndOf="@id/activity_chess_undo"
-            app:layout_constraintTop_toBottomOf="@id/chessboard"
+            app:layout_constraintTop_toBottomOf="@id/activity_chess_player_info"
+
 
             />
 
 
         <TextView
-
             android:id="@+id/ttyui_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_margin="@dimen/default_margin"
+            app:layout_constraintTop_toTopOf="@+id/activity_chess_resign"
+            app:layout_constraintBottom_toBottomOf="@id/activity_chess_resign"
+            app:layout_constraintStart_toEndOf="@id/activity_chess_resign"
 
-            android:layout_marginBottom="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+
             android:text=""
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            >
-
-
-            <EditText
-                android:id="@+id/input"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_margin="@dimen/default_padding"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_toStartOf="@id/enter"
-                android:ems="10"
-                android:hint="Type command"
-                android:inputType="textPersonName" />
-
-
-            <Button
-                android:id="@+id/enter"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/default_padding"
-
-                android:onClick="onEnterPress"
-                android:padding="@dimen/default_padding"
-                android:text="Enter" />
-
-        </RelativeLayout>
+            />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -74,6 +74,7 @@ public class TtyUI
 	void setTurn(int i) {
 		iTurn = i;
 		MyDragListener.setiTurn(i);
+		context.setTurn(i);
 	}
 	
 	void show()

@@ -2,6 +2,7 @@ package kaappo.androidchess;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +13,15 @@ import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.GenericArrayType;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import kaappo.androidchess.askokaappochess.TtyUI;
@@ -37,45 +42,113 @@ public class ChessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
 
-        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        scaleBoardCorrectly();
+        setDragListeners();
+        initializeCatcher();
 
-        System.out.println("dpWidth: " + dpWidth);
-
-        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8, getResources().getDisplayMetrics());
-
-
-        for (View view : Skeidat.getViews(this)) {
-
-            ViewGroup.LayoutParams layoutParams = ((RelativeLayout) view).getLayoutParams();
-//            layoutParams.width = Float.valueOf(2 * dpWidth / 8).intValue();
-//            layoutParams.height = Float.valueOf(2 * dpWidth / 8).intValue();
-            layoutParams.width = side_length;
-            layoutParams.height = side_length;
-
-            System.out.println("layoutParams.height: " + layoutParams.height);
-
-            view.setLayoutParams(layoutParams);
-        }
-
+//        flipBoard();
 
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE_KEY);
+        getAndSetPlayerSide(bundle);
+        setUIStuffFromBundle(bundle);
 
+        try {
+            ChessRunner.run(bundle, ChessActivity.this);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void flipBoard () {
+        GridLayout gridLayout = (GridLayout) findViewById(R.id.chessboard);
+
+
+        List<View> views = Skeidat.getViews(ChessActivity.this);
+        gridLayout.removeAllViews();
+        gridLayout.setColumnCount(8);
+        gridLayout.setRowCount(8);
+
+        System.out.println(views.toString());
+
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                RelativeLayout temp = (RelativeLayout) views.get(x * 8 + y);
+                System.out.println("id: " + MainActivity.getId(temp) + "x, y: " + x + " " + y);
+                gridLayout.addView(temp, new GridLayout.LayoutParams(
+                        GridLayout.spec(y),
+                        GridLayout.spec(x)
+                ));
+            }
+        }
+    }
+
+    public void setTurn (int turn) {
+//        System.out.println("iTurn chess: " + turn);
+//
+//        if (turn == piece.WHITE) {
+//            ((RelativeLayout) findViewById(R.id.activity_chess_player_info)).setBackground(getDrawable(R.drawable.highlight));
+//            ((RelativeLayout) findViewById(R.id.activity_chess_opponent_info)).setBackground(getDrawable(R.drawable.white_blush));
+//        } else {
+//            ((RelativeLayout) findViewById(R.id.activity_chess_player_info)).setBackground(getDrawable(R.drawable.white_blush));
+//            ((RelativeLayout) findViewById(R.id.activity_chess_opponent_info)).setBackground(getDrawable(R.drawable.highlight));
+//        }
+    }
+
+    private void setUIStuffFromBundle (Bundle bundle) {
+        int playerSide = bundle.getString(MainActivity.PLAYER_SIDE).equals("White") ? piece.WHITE : piece.BLACK;
+        int whiteLevel = Integer.parseInt(bundle.getString(MainActivity.WHITE_LEVEL));
+        int blackLevel = Integer.parseInt(bundle.getString(MainActivity.BLACK_LEVEL));
+
+        TextView blackNameView = (TextView) findViewById(R.id.activity_chess_opponent_info_engine_name);
+        TextView blackLevelView = (TextView) findViewById(R.id.activity_chess_opponent_info_engine_level);
+
+        TextView whiteNameView = (TextView) findViewById(R.id.activity_chess_player_info_engine_name);
+        TextView whiteLevelView = (TextView) findViewById(R.id.activity_chess_player_info_engine_level);
+
+
+        if (playerSide == piece.WHITE) {
+            blackNameView.setText(getResources().getText(R.string.activity_chess_askochess));
+            blackLevelView.setText("Level" + blackLevel);
+
+            whiteNameView.setText("Human");
+            whiteLevelView.setText("Bad");
+
+        } else {
+            whiteNameView.setText(getResources().getText(R.string.activity_chess_askochess));
+            whiteLevelView.setText("Level " + whiteLevel);
+
+            blackNameView.setText("Human");
+            blackLevelView.setText("Bad");
+        }
+
+    }
+
+    private void getAndSetPlayerSide (Bundle bundle) {
         String playerSideString = bundle.getString(MainActivity.PLAYER_SIDE);
+
         if (playerSideString.equals(getResources().getStringArray(R.array.activity_main_white_and_black)[0])) {
             playerSide = piece.WHITE;
         } else {
             playerSide = piece.BLACK;
         }
+    }
 
+    public void onUndoButtonClick (View view) {
+        TtyUI.move = "undo";
+    }
+
+    private void setDragListeners () {
         for (View imageView : Skeidat.getViews(this)) {
             imageView.setOnDragListener(new MyDragListener());
 
         }
+    }
 
+    private void initializeCatcher () {
         ((ConstraintLayout) findViewById(R.id.piece_catcher)).setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View constraintLayout, DragEvent event) {
@@ -100,34 +173,31 @@ public class ChessActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void scaleBoardCorrectly () {
+        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        System.out.println("dpWidth: " + dpWidth);
+
+        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8, getResources().getDisplayMetrics());
 
 
+        for (View view : Skeidat.getViews(this)) {
 
-        try {
-            ChessRunner.run(bundle, ChessActivity.this);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            throw new RuntimeException(e);
+            ViewGroup.LayoutParams layoutParams = ((RelativeLayout) view).getLayoutParams();
+
+            layoutParams.width = side_length;
+            layoutParams.height = side_length;
+
+            System.out.println("layoutParams.height: " + layoutParams.height);
+
+            view.setLayoutParams(layoutParams);
         }
-
     }
 
-
-
-
-
-
-    public void onEnterPress (View view) {
-        EditText editText = findViewById(R.id.input);
-        TtyUI.move = editText.getText().toString();
-        editText.setText("");
-
-
-
-
-    }
-
-    public static String getStringFromLMoveV (Vector lastMoveVector) {
+    private static String getStringFromLMoveV (Vector lastMoveVector) {
         if (lastMoveVector == null) {
             return null;
         }
