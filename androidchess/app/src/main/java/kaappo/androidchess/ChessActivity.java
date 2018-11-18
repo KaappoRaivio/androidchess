@@ -1,18 +1,18 @@
 package kaappo.androidchess;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +30,6 @@ public class ChessActivity extends AppCompatActivity {
 
     public static String inputString = null;
 
-    private static String playerSideString;
     private static int playerSide;
 
     @Override
@@ -38,14 +37,34 @@ public class ChessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
 
-//        GetPromotedPieceDialogFragment getPromotedPieceDialogFragment = new GetPromotedPieceDialogFragment(ChessActivity.this);
-//        getPromotedPieceDialogFragment.show();
-//
+        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        System.out.println("dpWidth: " + dpWidth);
+
+        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8, getResources().getDisplayMetrics());
+
+
+        for (View view : Skeidat.getViews(this)) {
+
+            ViewGroup.LayoutParams layoutParams = ((RelativeLayout) view).getLayoutParams();
+//            layoutParams.width = Float.valueOf(2 * dpWidth / 8).intValue();
+//            layoutParams.height = Float.valueOf(2 * dpWidth / 8).intValue();
+            layoutParams.width = side_length;
+            layoutParams.height = side_length;
+
+            System.out.println("layoutParams.height: " + layoutParams.height);
+
+            view.setLayoutParams(layoutParams);
+        }
+
+
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE_KEY);
 
-        playerSideString = bundle.getString(MainActivity.PLAYER_SIDE);
+        String playerSideString = bundle.getString(MainActivity.PLAYER_SIDE);
         if (playerSideString.equals(getResources().getStringArray(R.array.activity_main_white_and_black)[0])) {
             playerSide = piece.WHITE;
         } else {

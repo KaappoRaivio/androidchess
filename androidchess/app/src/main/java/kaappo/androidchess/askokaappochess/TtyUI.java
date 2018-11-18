@@ -5,6 +5,8 @@ import java.sql.*;
 import java.io.PrintWriter;
 
 import kaappo.androidchess.ChessActivity;
+import kaappo.androidchess.ChessRunner;
+import kaappo.androidchess.GetPromotedPieceDialog;
 import kaappo.androidchess.MyDragListener;
 
 public class TtyUI
@@ -345,7 +347,7 @@ public class TtyUI
 		
 		for (int i = 0; i < mv.size(); i++)
 		{
-			move m = (move)mv.elementAt(i);
+			move m = (move) mv.elementAt(i);
 			
 			if ((m.xtar == x2) && (m.ytar == y2))
 			{
@@ -369,37 +371,17 @@ public class TtyUI
 		// copy chesswindow.domove()
 	}
 	
-	private int getPromotedPiece()
-	{
-		while(true)
-		{
-			String inStr = "";
-			
-			try
-			{
-				java.io.InputStreamReader isr = new java.io.InputStreamReader( System.in );
-				java.io.BufferedReader stdin = new java.io.BufferedReader( isr );
-				
-				System.out.print("Promote to [QRBN]>");
-				inStr = stdin.readLine();
-			}
-			catch (Exception ignored) {}
+	private int getPromotedPiece() {
+		GetPromotedPieceDialog getPromotedPieceDialog = new GetPromotedPieceDialog(context, ChessActivity.getPlayerSide());
+		getPromotedPieceDialog.show();
 
-			inStr = inStr.toUpperCase();
+		while (GetPromotedPieceDialog._piece == -1) {}
 
-			switch (inStr.charAt(1)) {
-				case 'Q':
-					return piece.QUEEN;
-				case 'R':
-					return piece.ROOK;
-				case 'B':
-					return piece.BISHOP;
-				case 'N':
-					return piece.KNIGHT;
-				default:
-					assert true;
-			}
-		}
+		int _piece = GetPromotedPieceDialog._piece;
+		GetPromotedPieceDialog._piece = -1;
+
+		return _piece;
+
 	}
 
 
