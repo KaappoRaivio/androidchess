@@ -85,7 +85,6 @@ public class TtyUI
 
 
 	String getMove() {
-
 		String inStr = "";
 		boolean bReady = false;
 		String sReturn = "";
@@ -373,13 +372,21 @@ public class TtyUI
 	}
 	
 	private int getPromotedPiece() {
-		GetPromotedPieceDialog getPromotedPieceDialog = new GetPromotedPieceDialog(context, ChessActivity.getPlayerSide());
-		getPromotedPieceDialog.show();
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				GetPromotedPieceDialog getPromotedPieceDialog = new GetPromotedPieceDialog(context, ChessActivity.getPlayerSide());
+				getPromotedPieceDialog.show();
+			}
+		});
 
+		//noinspection StatementWithEmptyBody
 		while (GetPromotedPieceDialog._piece == -1) {}
 
 		int _piece = GetPromotedPieceDialog._piece;
 		GetPromotedPieceDialog._piece = -1;
+
+		System.out.println("_piece: " + _piece);
 
 		return _piece;
 
