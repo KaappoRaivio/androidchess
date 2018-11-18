@@ -62,7 +62,7 @@ public class play
 	
 	static fulfiller fufi;
 	
-	public static void main (String[] args, ChessActivity context, String white_level, String black_level) throws Exception
+	public static void main (String[] args, ChessActivity context, String white_level, String black_level, String pathToStartFile) throws Exception
 	{
 		System.out.println("Starting.");
 
@@ -75,12 +75,17 @@ public class play
 		mlib.setMode(movelibrary.MODE_RANDOM);
 		mlib.setSeed(-1);
 
-
+		sStartFile = pathToStartFile;
 
 		System.out.println("DBG151011: A");
 		cb = new chessboard();
-		if (sStartFile == null) cb.init();
-		else cb.init_from_file(sStartFile);
+		if (sStartFile == null) {
+			cb.init();
+		} else {
+			USE_MOVELIBRARY = false;
+			USE_LIBMOVES = false;
+			cb.init_from_file(sStartFile, context);
+		}
 		System.out.println("DBG151011: B");
 
 
@@ -170,7 +175,7 @@ public class play
 
 				cb = new chessboard();
 				if (sStartFile == null ) cb.init();
-				else cb.init_from_file(sStartFile);
+				else cb.init_from_file(sStartFile, context);
 
 				// $$$$ 150127 to play games from position in file
 				//cb.init_from_file("fail6.dat");

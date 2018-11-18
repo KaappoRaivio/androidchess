@@ -10,7 +10,7 @@ public class ChessRunner {
             @Override
             public void run() {
                 try {
-                    play.main(new String[1], context, kamat.getString(MainActivity.WHITE_LEVEL), kamat.getString(MainActivity.BLACK_LEVEL));
+                    play.main(new String[1], context, kamat.getString(MainActivity.WHITE_LEVEL), kamat.getString(MainActivity.BLACK_LEVEL), "start.dat");
                 } catch (Exception e) {throw new RuntimeException(e);}
             }
         };

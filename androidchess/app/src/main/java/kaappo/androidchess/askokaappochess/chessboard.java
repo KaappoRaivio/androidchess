@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 
 import java.util.*;
 
+import kaappo.androidchess.ChessActivity;
+import kaappo.androidchess.R;
+
 public class chessboard implements Serializable
 {
 	static final int DUMPMODE_SHORT = 1;
@@ -33,7 +36,7 @@ public class chessboard implements Serializable
 	static final int NALI_HORI_VERT = 4;
 	static final int NALI_VERT_DIAG = 5;
 	static final int NALI_NONE = 6;
-	
+
 	public piece blocks[][];
 	
 	boolean bWhiteCoverage[][];
@@ -742,22 +745,24 @@ public class chessboard implements Serializable
 		lm_vector = null;
 	}
 	
-	public boolean init_from_file(String filename)
+	public boolean init_from_file(String filename, ChessActivity context)
 	{
 		System.out.println("DBG151011:cb init from file!");
 		String sEnp = null;
 		try 
 		{
 		
-			BufferedReader br = new BufferedReader(new FileReader(filename));
+			BufferedReader br = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(R.raw.start)));
+
 			
 			String sctr = br.readLine();
+			System.out.println("sctr:::" + sctr);
 
 			String shead = br.readLine().trim();
 			
 			if (sctr.equalsIgnoreCase("white")) iFileCol = piece.WHITE;
 			if (sctr.equalsIgnoreCase("black")) iFileCol = piece.BLACK;
-			
+
 			
 			if (!shead.equals("abcdefgh")) return false;
 			

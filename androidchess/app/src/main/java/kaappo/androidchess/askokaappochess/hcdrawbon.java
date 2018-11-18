@@ -14,7 +14,7 @@ public class hcdrawbon
 		if (args.length>0)
 		{
 			cb = new chessboard();
-			cb.init_from_file(args[0]);
+			cb.init_from_file(args[0], null);
 			chessboard cb2 = cb.copy();
 			engine.findAndDoMove(cb2,movevalue.ALG_ASK_FROM_ENGINE10, false, false);
 			int iEngScore = engine.iLastScore;

@@ -358,6 +358,7 @@ public class TtyUI
 				{
 					// promotion code 
 					int pq = getPromotedPiece();
+					System.out.println("pq: " + pq);
 					spc = "p"+pq;
 				}
 				
