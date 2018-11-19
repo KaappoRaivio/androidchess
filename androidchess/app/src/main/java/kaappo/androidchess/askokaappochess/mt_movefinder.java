@@ -63,7 +63,7 @@ class mt_movefinder
 		catch (Exception e)
 		{
 			System.out.println("get_bestmove() : que?");
-			System.exit(0);
+			throw new RuntimeException(e);
 		}
 		
 		return null;

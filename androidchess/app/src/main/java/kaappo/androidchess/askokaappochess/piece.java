@@ -245,7 +245,6 @@ public class piece
 			/*if (mm.fully_equals(mSkewerMove))
 			{
 				System.out.println("DBG151217: Trying to add skewer " + mSkewerMove.moveStr() + " to:" + mm.moveStr());
-				System.exit(0);
 			}*/
 			//System.out.println("DBG151022: skewer by parallelism: " + mm.moveStr() + " skew: " + mSkewerMove.moveStr());
 		}
@@ -708,7 +707,6 @@ public class piece
 		{
 			System.out.println("DBG150207:bDecrementProtOfPiece(5,6) p.iProtCount=" + p.iProtCount);
 			//new Exception().printStackTrace();
-			System.exit(0);
 		}*/
 		//System.out.println("DBG150207:bDecrementProtOfPiece() decr.prot.");
 		return true;
@@ -735,7 +733,7 @@ public class piece
 			if ((nx==xk) && (ny==yk))
 			{
 				System.out.println("piece.extendMoves(): extending to self? FATAL?");
-				System.exit(0);
+				throw new RuntimeException("piece.extendMoves(): extending to self? FATAL?");
 			}
 			
 			
@@ -805,7 +803,6 @@ public class piece
 					//System.out.println("DBG151022:Skewermove is:" + mm.moveStrLong());
 					mSkewerMove = mm;
 					return;
-					//System.exit(0);
 				}
 				
 			}

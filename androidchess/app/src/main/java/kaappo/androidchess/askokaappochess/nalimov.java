@@ -94,7 +94,6 @@ public class nalimov
 										cbf = cb.nali_flip(chessboard.NALI_DIAG);
 										System.out.println("Nali diag flip:");
 										cbf.dump();
-										System.exit(0);
 										*/
 										
 										System.out.println("Black FEN:" + cb.FEN());
@@ -119,7 +118,6 @@ public class nalimov
 											dbconn.commit();
 											
 											//processCheckMate(cb);
-											//System.exit(0);
 										}
 										System.out.println("---");
 										
@@ -128,7 +126,6 @@ public class nalimov
 											 !piece.directlyBetween(bkx,bky,wkx,wky,bbx,bby)))
 										{
 											System.out.println("White turn not ok! POS: Black king: " + bkx + "," + bky + " White king: " + wkx +"," + wky + " BishopW: " + wbx + "," + wby + " BishopB: " + bbx + "," + bby);
-											//System.exit(0);
 										}
 										else
 										{	
@@ -142,7 +139,6 @@ public class nalimov
 											iWhitePos++;
 										}
 										
-										//System.exit(0);
 									}
 									else System.out.println("Bbishop NOK : " +bbx +","+bby);
 								}
@@ -210,7 +206,6 @@ public class nalimov
 					String sCrit = sFEN.substring(0,sFEN.length()-2).trim();
 					sUpdNal.setString(2,sCrit+"%");
 					System.out.println("sCrit"+ sCrit);
-					//System.exit(0);
 					sUpdNal.executeUpdate();
 					dbconn.commit();
 					
@@ -218,7 +213,6 @@ public class nalimov
 				}
 			}
 		}
-		//System.exit(0);
 	}
 	
 	static void processMove(chessboard cb, int iDTM, int iColor)
@@ -228,7 +222,6 @@ public class nalimov
 		if (iDTM == 3)
 		{
 			cb.dump();
-			//System.exit(0);
 		}
 		
 		moveindex mi;
@@ -248,11 +241,12 @@ public class nalimov
 				cb2.redoVectorsAndCoverages(1-iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 				cb2.dump();
 				if (iDTM < 3) processMove(cb2,iDTM+1,1-iColor);
-				//System.exit(0);
 			}
 		}
 		
-		if (iDTM == 3) System.exit(0);	
+		if (iDTM == 3) {
+			throw new RuntimeException("Exception on row 248 of nalimov.java");
+		}
 	}
 	
 	static void populateByDTM(String args[]) throws Exception
@@ -284,7 +278,6 @@ public class nalimov
 					cb.redoVectorsAndCoverages(piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 					processCheckMate(cb, iDTM);
 					
-					//System.exit(0);
 				}
 				else bAgain = false;
 			}
@@ -360,7 +353,6 @@ public class nalimov
 								System.out.println("cb2 dump");
 								cb2.dump();
 								cb2.redoVectorsAndCoverages(piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
-								//System.exit(0);
 							}
 							else 
 							{
@@ -385,8 +377,9 @@ public class nalimov
 								System.out.println("FEN not found! " + sFEN2);
 								cb2.dump();
 								System.out.println("m.bCapture:" + m.bCapture);
-								if (!m.bCapture) System.exit(0);
-								else 
+								if (!m.bCapture) {
+									throw new RuntimeException("Exception on row 381 of nalimov.java");
+								} else
 								{
 									System.out.println("can continue. capture is escape!");
 									bEscape = true;
@@ -406,7 +399,7 @@ public class nalimov
 							bInLoop = false;
 							sFen0 = new String(sFEN);
 							//dbconn.commit();
-							System.exit(0);
+							throw new RuntimeException("Possible dtm 2 candidate!. sFEN = " + sFEN);
 						}
 						else 
 						{

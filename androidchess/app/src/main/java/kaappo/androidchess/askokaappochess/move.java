@@ -47,7 +47,6 @@ public class move
 		/*if (iC == 1000)
 		{
 			System.out.println("KING CAPTURE ATTEMPT!");
-			System.exit(0);
 		}
 		*/
 	}
@@ -235,7 +234,7 @@ public class move
 					System.out.println("move.analyzeRisk() fails , bCapture = true, no piece");
 					System.out.println(moveStrLong());
 					new Exception().printStackTrace();
-					System.exit(0);
+					throw new RuntimeException("move.analyzeRisk() fails , bCapture = true, no piece");
 				}
 			}
 			
@@ -249,7 +248,7 @@ public class move
 				cb.dump();
 				System.out.println("DBG141227: move.analyzeRisk():pcap is null even though it shouldn't as this place. " + moveStr());
 				System.out.println("Fatal error. Exiting.");
-				System.exit(0);
+				throw new RuntimeException("DBG141227: move.analyzeRisk():pcap is null even though it shouldn't as this place. " + moveStr());
 			}
 			
 			//System.out.println("DBG160124: AA2:" + moveStr() + " pcap.pvalue(): " + pcap.pvalue() + " p.iPinValue:" + p.iPinValue);
@@ -420,7 +419,7 @@ public class move
 						System.out.println("No piece protection found at " + xtar +"," + ytar + " for move " + moveStr());
 						cb.dump();
 						new Exception().printStackTrace();
-						System.exit(0);
+						throw new RuntimeException(" FATAL ERROR. INCONSISTENCY @ move.analyzeRisk()");
 					}
 					if (bOPP || (iOwnPiece > 3))
 					{

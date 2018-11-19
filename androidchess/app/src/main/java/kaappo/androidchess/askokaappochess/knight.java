@@ -131,7 +131,7 @@ public class knight extends piece
 				if ((p == null) || (p.pvalue() < 5))
 				{
 					System.out.println("fatal error at knight.finish_KCSValue()");
-					System.exit(0);
+					throw new RuntimeException("fatal error at knight.finish_KCSValue()");
 				}
 				if ((!p.bProt) || (p.iType == piece.KING))
 				{

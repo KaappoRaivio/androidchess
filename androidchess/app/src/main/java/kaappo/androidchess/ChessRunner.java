@@ -10,12 +10,19 @@ public class ChessRunner {
             @Override
             public void run() {
                 try {
-                    play.main(new String[1], context, kamat.getString(MainActivity.WHITE_LEVEL), kamat.getString(MainActivity.BLACK_LEVEL), "start.dat");
-                } catch (Exception e) {throw new RuntimeException(e);}
+                    play.main(new String[1], context, kamat.getString(MainActivity.WHITE_LEVEL), kamat.getString(MainActivity.BLACK_LEVEL), null);
+                } catch (final Exception e) {
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            context.showExceptionMessage(e);
+                        }
+                    });
+                }
             }
+
         };
         thread.start();
-
     }
 
 }

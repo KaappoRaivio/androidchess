@@ -152,7 +152,6 @@ public class play
 						lev[levs] = 4;
 						bDeep[levs] = false;
 						CMonitor.setTimeLimCtl(true);
-						//System.exit(0);
 					}
 					else if (lev[levs] > 1)
 					{
@@ -194,7 +193,6 @@ public class play
 				cui.setMessage("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
 				cui.show();
 				System.out.println("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
-				//System.exit(0);
 				playgame (lev,true, alg, bDeep, context);
 			}
 		}
@@ -210,8 +208,7 @@ public class play
 		
 		System.out.println("playgame called: " +lev[0] +"," + lev[1]+ "  Deepflags: " + bDeep[0] + "," + bDeep[1] + " .. cb.iFileCol = " + cb.iFileCol + "algs: " + alg[0] + "," + alg[1]);
 		System.out.println("REAL_MOVE_LIMIT:"+REAL_MOVE_LIMIT);
-		//System.exit(0);
-		
+
 		int iMove = 1;
 		System.out.println("DBG160307: playgame:" + cb.iMoveCounter);
 		if (cb.iMoveCounter != 0)
@@ -429,7 +426,6 @@ public class play
 					if (iMove != enginerunner.getFENMoveCount(cb.FEN()) && (cb.lm_vector != null))
 					{
 						System.out.println("Warning!! Glitch in move count:"  );
-						//System.exit(0);
 					}
 					System.out.println("Urgency: "+  cui.getUrgency());
 					long lStart = System.currentTimeMillis();
@@ -501,7 +497,6 @@ public class play
 //								pwEmoves.flush();
 //								pwEmoves.close();
 							}
-							//System.exit(0);
 						}
 					}
 					
@@ -536,7 +531,6 @@ public class play
 						cb.iMoveCounter = iMove;
 						cb.domove_bylib(sSugg,clr);
 						System.out.println("trying largelib move bef redo" + sSugg);
-						//System.exit(0);
 						/*
 						cb.redoVectorsAndCoverages(clr,alg[clr]);
 						System.out.println("trying largelib move aft redo" + sSugg);
@@ -555,8 +549,7 @@ public class play
 					{
 						
 						System.out.println("Doing regular move. clr = " + clr + " by alg: " + alg[clr]);
-						//System.exit(0);
-						
+
 						//movevalue mmval = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0, 0,false, false,false,false);
 						movevalue mmval = new movevalue("");
 						mmval.setbase(clr);
@@ -577,13 +570,11 @@ public class play
 								if ((iPrevFENMove != -1) && ((iFENMove != iMove) || (iFENMove != (iPrevFENMove+1))))
 								{
 									System.out.println("Glitch in move counts. iMove:" + iMove);
-									System.exit(0);
 								}
 								*/
 							}
 							iRealMoveCount++;
 							System.out.println("Real move being done: iRealMoveCount: " + iRealMoveCount);
-							//System.exit(0);
 							if (iRealMoveCount<=1)
 							{
 								/*String fname;
@@ -752,7 +743,6 @@ public class play
 												bGoodAltFound = true;
 												cb2=cb3;
 												mvalc = dmval;
-												//if (iRetryCount > 0) System.exit(0);
 											}
 											else System.out.println("Null CB3, have to pick a move on way to draw.");
 										}
@@ -777,8 +767,7 @@ public class play
 						{
 							System.out.println("Null cb2, it's a draw?");
 						}
-						//System.exit(0);
-						
+
 						
 						
 						long lEnd = System.currentTimeMillis();
@@ -831,7 +820,6 @@ public class play
 							cb_second.dump();
 							System.out.println("---");
 							
-							System.exit(0);
 						}
 						else System.out.println("Algs " + alg[clr]+ "  & " + iSecondOp + "  agree!");
 						*/
@@ -864,7 +852,7 @@ public class play
 								System.out.println("ORIG: w: " + cb.iKicPoints(piece.WHITE) + " b: " + cb.iKicPoints(piece.BLACK) + " FLIP w: " + cb_flip.iKicPoints(piece.WHITE) + " b: " + cb_flip.iKicPoints(piece.BLACK) + " mc: cb: " + cb.iMoveCount + " cb_flip: " + cb_flip.iMoveCount + ".  Move counters cb:" + cb.iMoveCounter + " flip: " + cb_flip.iMoveCounter+ " king last moves: Orig w: " + kow.iLastMove + " b: " + kob.iLastMove + " Flip w: " +kfw.iLastMove + " b: " + kfb.iLastMove);
 								
 								cb_flip.dump();
-								System.exit(0);
+								throw new RuntimeException("DISCREPANCY IN KIC POINTS!!! ***********************");
 							}	
 							else
 							{
@@ -911,7 +899,6 @@ public class play
 									cb_flip.dump();
 									System.out.println("Last move:" + cb_flip.lastmoveString());
 									System.out.println("Potential failure flip.");
-									//System.exit(0);
 									System.out.println("Reflip to avoid tie bias.");
 									//movevalue mmval3 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
 									movevalue mmval3 = new movevalue("");
@@ -922,7 +909,6 @@ public class play
 										System.out.println("1st move: " + mmval.dumpstr(alg[clr]));
 										System.out.println("2nd move: " + mmval2.dumpstr(alg[clr]));
 										System.out.println("3rd move: " + mmval3.dumpstr(alg[clr]));
-										//System.exit(0);
 										if (mmval3.isEqualMirror (mmval2, alg[clr],  clr))
 										{
 											System.out.println("But, still equal values..");
@@ -937,7 +923,7 @@ public class play
 											cb_flip.dump();
 											System.out.println("Game so far: " + gh.sMovehistory());
 											
-											System.exit(0);
+											throw new RuntimeException("mmval values are different :(");
 										}
 										
 									}
@@ -1025,14 +1011,13 @@ public class play
 				System.out.println("Move done ... checking checkers etc. Clr =  " + clr);
 				cb.dump();
 				System.out.println(cb.FEN());
-				//System.exit(0);
 				//cb.dumpCoverages();
 				//cb.dumpProtThreat();
 				pKing = cb.locateKing(1-clr);
 				if (pKing == null)
 				{
 					System.out.println("No king on board any more");
-					System.exit(0);
+					throw new RuntimeException("No king on board any more");
 				}
 				System.out.println("King at " + pKing.xk + "," + pKing.yk + " color " + pKing.iColor);
 				checkcount = cb.iCountCheckers(pKing);
@@ -1187,8 +1172,7 @@ public class play
 		}
 		
 		System.out.println("Returning an error in simu. Probably running to 100 moves. ");
-		//System.exit(0);
-		
+
 		return play.RES_ERROR;
 	
 	}

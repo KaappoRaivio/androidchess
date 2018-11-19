@@ -310,7 +310,7 @@ public class pawn extends piece
 		if (pp.iType != piece.PAWN)
 		{
 			System.out.println("FATAL ERROR at pawn.validatePinMoves()");
-			System.exit(0);
+			throw new RuntimeException("FATAL ERROR at pawn.validatePinMoves()");
 		}
 		
 		for (int i=0;i<v.size();i++)

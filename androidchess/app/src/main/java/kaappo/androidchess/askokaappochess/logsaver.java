@@ -75,7 +75,6 @@ public class logsaver
 				}
 
 				System.out.println("S3:"+s3);
-				//System.exit(0);
 				bRel = false;
 				bInside = false;
 			}

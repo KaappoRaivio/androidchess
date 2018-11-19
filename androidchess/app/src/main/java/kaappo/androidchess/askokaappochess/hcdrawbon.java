@@ -50,20 +50,29 @@ public class hcdrawbon
 				
 				System.out.println("iEngScore:" + iEngScore + " iEngMateScore:" +iEngMateScore+ "  cb.iHCDrawBonusBal:"+ cb.iHCDrawBonusBal);
 				
-				//if (cb.iHCDrawBonusBal != 0) System.exit(0);
-				
-				if ((iEngScore == 0) && (iEngMateScore == 0) && (cb.iHCDrawBonusBal == 0)) System.exit(0);
+
+				if ((iEngScore == 0) && (iEngMateScore == 0) && (cb.iHCDrawBonusBal == 0)) {
+					throw new RuntimeException("Error on row 55 of hcdrawbon.java");
+				}
 				
 				switch (iColor)
 				{
 					case piece.WHITE:
-						if ((cb.iHCDrawBonusBal < 0) && ((iEngScore >0) || (iEngMateScore > 0))) System.exit(0);
-						if ((cb.iHCDrawBonusBal > 0) && ((iEngScore <0) || (iEngMateScore < 0))) System.exit(0);
+						if ((cb.iHCDrawBonusBal < 0) && ((iEngScore >0) || (iEngMateScore > 0))) {
+							throw new RuntimeException("Exception on row 62 of hcdrawbon.java");
+						}
+						if ((cb.iHCDrawBonusBal > 0) && ((iEngScore <0) || (iEngMateScore < 0))) {
+							throw new RuntimeException("Exception on row 65 of hcdrawbon.java");
+						}
 						break;
 						
 					case piece.BLACK:
-						if ((cb.iHCDrawBonusBal > 0) && ((iEngScore > 0) || (iEngMateScore > 0))) System.exit(0);
-						if ((cb.iHCDrawBonusBal < 0) && ((iEngScore < 0) || (iEngMateScore < 0))) System.exit(0);
+						if ((cb.iHCDrawBonusBal > 0) && ((iEngScore > 0) || (iEngMateScore > 0))) {
+							throw new RuntimeException("Exception on row 71 of hcdrawbon.java");
+						}
+						if ((cb.iHCDrawBonusBal < 0) && ((iEngScore < 0) || (iEngMateScore < 0))) {
+							throw new RuntimeException("Exception on row 74 of hcdrawbon.java");
+						}
 						break;	
 					
 				}

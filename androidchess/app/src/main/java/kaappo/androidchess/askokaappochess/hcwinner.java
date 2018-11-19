@@ -896,7 +896,6 @@ public class hcwinner
 		}
 		//System.out.println("No better move found!");
 		//cb.dump();
-		//System.exit(0);
 		return null;
 		
 		
@@ -1112,7 +1111,6 @@ public class hcwinner
 			}
 		}
 		
-		//System.exit(0);
 		return null;
 	}
 	

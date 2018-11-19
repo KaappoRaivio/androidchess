@@ -62,8 +62,7 @@ public class sfiler
 			String sNewB=scComp[1];
 			System.out.println("C:<"+ sCrit + "> M:<" + sMove + "> N:<"+sNewB+">");
 			
-			//System.exit(0);
-			
+
 			ResultSet rs = null;
 			pss.setString(1,sCrit+"%");
 			rs = pss.executeQuery();
@@ -93,7 +92,7 @@ public class sfiler
 						System.out.println(sqle.getMessage());
 						System.out.println("sctr: "+sctr);
 						System.out.println("CRIT:<"+sCrit+">");
-						System.exit(0);	
+						throw new RuntimeException(sqle);
 					}
 					
 				}

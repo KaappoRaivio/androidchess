@@ -110,8 +110,7 @@ public class regbest
 		{
 			//exception handling left as an exercise for the reader
 			System.out.println("IOException at regbest.printDbg() (A)");
-			System.out.println(e.getMessage());
-			System.exit(0);
+			throw new RuntimeException(e);
 		}
 	}
 	

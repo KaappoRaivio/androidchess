@@ -50,10 +50,11 @@ public class anyokmove
 			catch (Exception e)
 			{
 				System.out.println("No db present. ");
-				if (args.length < 2) System.exit(0);
+				if (args.length < 2) {
+					throw new RuntimeException("Exception at row 54 of anyokmove.java");
+				}
 				sParMove = args[1];
 				System.out.println("Continue with sParMove:" + sParMove);
-				//System.exit(0);
 			}
 		}
 		else
@@ -111,7 +112,6 @@ public class anyokmove
 			System.out.println("sOut now:"+sOut);
 			
 			
-			//System.exit(0);
 			chessboard cbr = null;
 			if (c != null) cbr = db_anymoveget(sOut, ""+movevalue.ALG_ANY_OKMOVE, true);
 			
@@ -153,8 +153,7 @@ public class anyokmove
 		cb.dump();
 		
 		System.out.println("anyokmove.fad_anymove() called!");
-		//System.exit(0);
-		
+
 		moveindex mi;
 		if (iColor == piece.WHITE) mi=cb.miWhiteMoveindex;
 		else mi = cb.miBlackMoveindex;
@@ -236,7 +235,9 @@ public class anyokmove
 		System.out.println("---");
 		System.out.println("The cut by FEN: (iColor: " +iColor + ") " + iMovesInCut + " moves.");
 		
-		if (iMovesInCut == 0) System.exit(0);
+		if (iMovesInCut == 0) {
+			throw new RuntimeException("Exception on row 239 of anyokmove.java");
+		}
 		
 		int iRndMove = (int)(Math.random() * iMovesInCut);
 		int iCutMoveCtr = 0;
@@ -304,8 +305,7 @@ public class anyokmove
 			pwany.close();
 		}
 		
-		//System.exit(0);
-		
+
 		return cbret;
 	}
 	
@@ -347,8 +347,7 @@ public class anyokmove
 		String sGet = "select movelist from anymove where fen like '"+sFENCrit + "%' and alg = '" + sAlg + "'";
 		
 		System.out.println("db_anymoveget:sGet=" + sGet);
-		//System.exit(0);
-		
+
 		ResultSet rs = psAnyGet.executeQuery(sGet);
 		if (rs.next())
 		{
@@ -418,8 +417,7 @@ public class anyokmove
 		String sGet = "select alg,movelist from anymove where fen like '"+sFENCrit + "%' " ;
 		
 		System.out.println("db_anymoveget:sGet=" + sGet);
-		//System.exit(0);
-		
+
 		ResultSet rs = psAnyGet.executeQuery(sGet);
 		while(rs.next())
 		{
@@ -466,7 +464,6 @@ public class anyokmove
 		   pwany.flush();
 		   pwany.close();
 		   
-		   //System.exit(0);
 		}
 	}
 }

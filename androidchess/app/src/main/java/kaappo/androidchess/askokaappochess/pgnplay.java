@@ -51,7 +51,6 @@ public class pgnplay
 				System.out.println("iMove:" + iMove);
 				System.out.println("WhiteMove:<" + sWhiteMove + ">");
 				System.out.println("BlackMove:<" + sBlackMove + ">");
-				//System.exit(0);
 			}
 			
 			cb.domove_bylib(sWhiteMove,piece.WHITE);

@@ -785,7 +785,6 @@ public class moveindex
 			System.out.print("FATAL/W: ");
 			dump();
 			System.out.println(cb.FEN());
-			System.exit(0);
 			*/
 			bWarn = true;
 		}
@@ -812,7 +811,7 @@ public class moveindex
 				System.out.println("DBG151217: Full morder: >" + mOrder+ "<");
 				cb.dump();
 				new Exception().printStackTrace();
-				System.exit(0);
+				throw new RuntimeException("DBG151217: moveindex.sortByMoveOrder: FATAL/W: failed to find: >" + mOrdComp[i]+ "< , component:" +i);
 			}
 		}
 		iSortedTo = mOrdComp.length-1;
@@ -822,7 +821,6 @@ public class moveindex
 			System.out.println("DBG151130: WARNING! moveindex sort incomplete");
 			System.out.println("DBG151130: " + mOrder);
 			dump();
-			System.exit(0);
 		}*/
 	}
 	

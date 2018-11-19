@@ -366,7 +366,8 @@ public class TtyUI
 			}
 			
 		}
-		
+
+		context.setTurn(iTurn == piece.WHITE ? piece.BLACK : piece.WHITE);
 		return sReturnedMove;
 		//VALIDATE THAT MOVE EXISTS and do promotion too!!!!.
 		// copy chesswindow.domove()

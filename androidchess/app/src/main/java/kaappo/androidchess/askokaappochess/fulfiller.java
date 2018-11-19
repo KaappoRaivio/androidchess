@@ -174,8 +174,7 @@ public class fulfiller
 						sFENnew = sFENnew.substring(0,sFENnew.length()-2).trim() + " "+iNewTurn;
 						System.out.println("Fixed New FEN(SF&AB):" + sFENnew);
 						
-						//System.exit(0);
-						
+
 						PrintWriter pw = null;
 			
 						if (pw == null)
@@ -201,7 +200,6 @@ public class fulfiller
 						chessboard cb2 = cbx.findAndDoBestMove(cbx.iFileCol,1,mmval,iAlg,true,null,null,false, null,null,null,null,chessboard.CB_MAXTIME,true,null, mos);
 						iNewMoves++;
 						//dump();
-						//System.exit(0);
 					}
 				}
 				else
@@ -259,8 +257,7 @@ public class fulfiller
 					System.out.println("Fixed New FEN(AC):" + sNewFEN);
 					
 					//dump();
-					//System.exit(0);
-					
+
 					PrintWriter pw = null;
 			
 					if (pw == null)
@@ -273,13 +270,11 @@ public class fulfiller
 					pw.close();
 					
 					//dump();
-					//System.exit(0);
-					
+
 					
 				}
 			}
 			//dump();
-			//System.exit(0);
 		}  // end todo vector processing
 		
 		if (vWeirdos.size() > 0)
@@ -325,7 +320,6 @@ public class fulfiller
 					
 				}
 			}
-			//System.exit(0);
 		}  // end weirdo processing
 		
 		for (int i=movevalue.ALG_FIRST_WEIRD_OPENING;i<=movevalue.ALG_LAST_WEIRD_OPENING;i++)
@@ -396,8 +390,7 @@ public class fulfiller
 					
 					default:
 						System.out.println("Illegal weirdo code:" + i);
-						System.exit(0);
-						break;
+						throw new RuntimeException("Illegal weirdo code (row 393 of fulfiller.java):" + i);
 				}
 				
 				if (bYes)
@@ -466,13 +459,11 @@ public class fulfiller
 						{
 							System.out.println("Warning: exception at insertion:" + e.getMessage());
 						}
-						//System.exit(0);
 					}
 				}
 			}
 		}
-		//System.exit(0);
-		
+
 		
 	}
 	

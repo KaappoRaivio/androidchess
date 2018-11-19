@@ -65,8 +65,7 @@ public class amdbr
 			
 			System.out.println("C:<"+ sCrit + "> M:<" + sMoves + "> N:<"+sNewB+"> A:<" + sAlg +">");
 			
-			//mdbrSystem.exit(0);
-			
+
 			ResultSet rs = null;
 			pss.setString(1,sCrit+"%");
 			pss.setString(2,sAlg);
@@ -98,7 +97,7 @@ public class amdbr
 						System.out.println(sqle.getMessage());
 						System.out.println("sctr: "+sctr);
 						System.out.println("CRIT:<"+sCrit+">");
-						System.exit(0);	
+						throw new RuntimeException(sqle);
 					}
 					
 				}

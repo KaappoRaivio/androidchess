@@ -897,7 +897,7 @@ public class chessboard implements Serializable
 				((iFileCol==piece.BLACK) && (iEnpY != 4)))
 			{
 				System.out.println("Bad en passant command: " + sEnp);
-				System.exit(0);
+				throw new RuntimeException("Bad en passant command: " + sEnp);
 			}
 			
 			lm_vector = new Vector();
@@ -1198,7 +1198,7 @@ public class chessboard implements Serializable
 			
 			default:
 				System.out.println("chessboard.nali_flip(): illegal flipmode " + iFlipMode);
-				System.exit(0);
+				throw new RuntimeException("chessboard.nali_flip(): illegal flipmode " + iFlipMode);
 		}
 		return cb;
 	}
@@ -1293,7 +1293,7 @@ public class chessboard implements Serializable
 			if (pOwn == null) 
 			{
 				System.out.println("chessboard.kingDistanceBalance() : pOwn = null");
-				System.exit(0);
+				throw new RuntimeException("chessboard.kingDistanceBalance() : pOwn = null");
 			}
 			
 			if (pOwn.iColor == piece.WHITE)
@@ -2091,7 +2091,7 @@ public class chessboard implements Serializable
 				System.out.println(ste);
 			}
 			
-			System.exit(0);
+			throw new RuntimeException();
 		}
 	
 	
@@ -2176,7 +2176,7 @@ public class chessboard implements Serializable
 					{
 						System.out.println("chessboard.redoVectorsAndCoverages() : assertion failure!");
 						System.out.println("i=" + i + ", j= " + j);
-						System.exit(0);
+						throw new RuntimeException("chessboard.redoVectorsAndCoverages() : assertion failure! " + "i=" + i + ", j= " + j);
 					}
 					
 					// flag reset moved before the loop to reset 140408 issue
@@ -2557,13 +2557,13 @@ public class chessboard implements Serializable
 			if (pcaptpawn == null)
 			{
 				System.out.println("En passant failure. No pawn to be captured...");
-				System.exit(0);
+				throw new RuntimeException("En passant failure. No pawn to be captured...");
 			}
 			pcaptpawn.xk = -1;
 			pcaptpawn.yk = -1;
 			blocks[m.xtar][iYcapt] = null;
 		}
-		else if (m.bCapture == true) 
+		else if (m.bCapture)
 		{
 			// regular capture
 			piece pCapt = blocks[m.xtar][m.ytar];
@@ -2576,7 +2576,7 @@ public class chessboard implements Serializable
 				{
 					System.out.println(ste);
 				}
-				System.exit(0);
+				throw new RuntimeException("King captured with move " + m.moveStr() + "!");
 			}
 			pCapt.xk = -1;
 			pCapt.yk = -1;
@@ -2652,8 +2652,7 @@ public class chessboard implements Serializable
 					
 					default:
 						System.out.println("Piece promotion failure: " + iPt);
-						System.exit(0);
-						break;
+						throw new RuntimeException("Piece promotion failure: " + iPt);
 				}
 				
 				putpiece(np);
@@ -2768,7 +2767,6 @@ public class chessboard implements Serializable
 					
 				default:
 					System.out.println("Warning: Illegal string at chessboard.domove() " + sInput);
-					//System.exit(0);
 					break;
 			}
 		}
@@ -2806,7 +2804,7 @@ public class chessboard implements Serializable
 		if (sInput.length() == 0)
 		{
 			System.out.println("domove_bylib: empty input string! Fatal");
-			System.exit(0);
+			throw new RuntimeException("domove_bylib: empty input string! Fatal");
 		}
 		
 		if (sInput.charAt(sInput.length()-1)=='#') sInput = sInput.substring(0,sInput.length()-1);
@@ -2882,7 +2880,7 @@ public class chessboard implements Serializable
 			else 
 			{
 				System.out.println("sInput:" + sInput + ", can not process!");
-				System.exit(0);
+				throw new RuntimeException("sInput:" + sInput + ", can not process!");
 			}
 			
 			x2 = (int)sInput.charAt(2)-96;
@@ -2891,7 +2889,7 @@ public class chessboard implements Serializable
 		else
 		{
 			System.out.println("Unprocessed move : " + sInput);
-			System.exit(0);
+			throw new RuntimeException("Unprocessed move : " + sInput);
 		}
 		
 		/*System.out.println("DBG150924: Entering moveindex analysis. iType = " + iType);
@@ -3133,7 +3131,7 @@ public class chessboard implements Serializable
 						System.out.println("copy failure, piece at wrong coords!");
 						dump();
 						System.out.println("i:" + i + " j:"+j+ " p.xk:"+p.xk+" p.yk:"+p.yk);
-						System.exit(0);
+						throw new RuntimeException("copy failure, piece at wrong coords!\n" + "i:" + i + " j:"+j+ " p.xk:"+p.xk+" p.yk:"+p.yk);
 					}
 					
 					if (p.iColor == piece.WHITE)
@@ -4163,7 +4161,7 @@ public class chessboard implements Serializable
 		System.out.println("bFianchettoPrepOpenings(iColor):"+bFianchettoPrepOpenings(iColor));
 		System.out.println("bWeirdOpeningsExist(iColor):"+bWeirdOpeningsExist(iColor));
 		*/
-		//System.exit(0);
+
 		
 		//if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bMidPawnOpenings(iColor))
 		if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bWeirdOpeningsExist(iColor))
@@ -4208,12 +4206,12 @@ public class chessboard implements Serializable
 			}
 			
 			System.out.println("iWeirdoAlg:" + iWeirdoAlg);
-			//System.exit(0);
+
 			
 			chessboard cbdb = anyokmove.db_anymoveget(this.FEN(),iWeirdoAlg+"", false);
 			if (cbdb != null) return cbdb;
 			
-			//System.exit(0);
+
 			
 			chessboard cbr = findAndDoBestMove(iColor,0,basemv,iWeirdoAlg,bDebug,ghist,mvv,bDeeper,dtc,l3best,l2best,sMoveOrder,iTimeLimit,bStrategyImpact,regb,mos);
 			System.out.println("Received weirdo sugg("+iWeirdoAlg+"):" + cbr.sMoveOrder);
@@ -4232,7 +4230,7 @@ public class chessboard implements Serializable
 				chessboard cbn = this.copy();
 				cbn.domove(sChosen,iColor);
 				cbn.dump();
-				//System.exit(0);
+
 				return cbn;
 			}
 		}
@@ -4317,7 +4315,7 @@ public class chessboard implements Serializable
 		{	
 			System.out.println("Fatal Error, recursion too wild!");
 			System.out.println("iRounds = " + iRounds);
-			System.exit(0);
+			throw new RuntimeException("Fatal Error, recursion too wild! ||" + "iRounds = " + iRounds);
 		}
 
 		boolean bMidPawnMode = false;
@@ -4388,7 +4386,6 @@ public class chessboard implements Serializable
 			//System.out.println("DBG151202: YAY! " + sMovOrdMos);
 			//System.out.println("DBG151202: FEN: " + FEN() + " + iR:" + (iRounds-1) + " iC:" + iColor);
 			bOrderByMostore = true;
-			//System.exit(0);
 		}
 		
 		
@@ -4424,7 +4421,6 @@ public class chessboard implements Serializable
 				Thread.sleep(500);
 				System.out.println("DBG151130: mostore dump at iRounds:" + iRounds + " iColor:" + iColor);
 				mos.dump();
-				System.exit(0);
 			}
 			*/
 		}
@@ -4502,7 +4498,6 @@ public class chessboard implements Serializable
 					basemv.iPieceBalCorrWhite = basemv.iPieceBalance + cbret.iHCBonus;
 					basemv.iPieceBalCorrBlack = basemv.iPieceBalance + cbret.iHCBonus;
 					if (bDebug) System.out.println(iRounds+":"+iColor+":HCW:"+basemv.dumpstr(movevalue.DUMPMODE_LONG,iAlg));
-					//System.exit(0);
 					return cbret;
 				}
 			}
@@ -4529,7 +4524,6 @@ public class chessboard implements Serializable
 				//System.out.println("Two checkers, difficult case here! I'm trying to sort it out.");
 				//System.out.println("Checkcount = " + checkcount);
 				//dump();
-				//System.exit(0);
 			}
 		}
 		
@@ -4743,7 +4737,6 @@ public class chessboard implements Serializable
 						m = mAct.getMoveAt(i);
 						//System.out.println("DBG151209 after resort. Continue from: " + m.moveStr());
 						bReSortDone = true;
-						//System.exit(0);
 					}
 				}
 				/*
@@ -4761,7 +4754,6 @@ public class chessboard implements Serializable
 					mAct.dump();
 					m = mAct.getMoveAt(i);
 					System.out.println("DBG160308 after raising unprocs. Continue from: " + m.moveStr());
-					//System.exit(0);
 				}
 				*/
 				piece p = m.p;
@@ -4864,7 +4856,6 @@ public class chessboard implements Serializable
 				{
 					System.out.println("DBG150116:bMoveIsGood=false even though not expected!");
 					System.out.println(m.moveStrLong());
-					System.exit(0);
 				}*/
 				// call to bMoveisGood above not a requirement! noticed on 150116 
 				if ((iMoveTotal == 0) && (i == mAct.getSize()-1) && !bOk) 
@@ -4920,8 +4911,8 @@ public class chessboard implements Serializable
 					dbgPrintln("Analysis (" + iRounds + ") for Move from:" +p.xk+","+p.yk+" to:" + m.xtar + "," + m.ytar + " best Mval so far:" + bestMval.dumpstr(iAlg));
 					if ((p.xk == m.xtar) && (p.yk == m.ytar))
 					{
-						System.out.println("BAAD VALUES ABOVE!!! STOPPING RIGHT NOW.");
-						System.exit(1);
+						System.out.println("BAD VALUES ABOVE!!! STOPPING RIGHT NOW.");
+						throw new RuntimeException("BAD VALUES ABOVE!!! STOPPING RIGHT NOW.");
 					}	
 					
 					chessboard nb = new chessboard();
@@ -5234,8 +5225,7 @@ public class chessboard implements Serializable
 									System.out.println("iRounds: " + iRounds);
 									System.out.println("gamehist sizes:" + ghist.vMoves.size() + "," + ghist.vTieCands.size()); 
 									System.out.println("*************************************************");
-									//System.exit(0);
-									
+
 									if (!currMval.equalBalance(iAlg, iTurn, bestMval))
 									{
 										mBestCand = m;
@@ -5308,7 +5298,6 @@ public class chessboard implements Serializable
 				else
 				{
 					//System.out.println("Move no good: "+m.moveStr() );
-					//System.exit(0);
 				}
 				//System.out.println("DBG150610: MOVEINDEX LOOP END!!!!");
 				//System.out.println("DBG151013 (S5):" + basemv.sRoute+ " mAct.size=" + mAct.getSize()+ " round: " + i + " done.");
@@ -5334,8 +5323,7 @@ public class chessboard implements Serializable
 				System.out.println("..b:" + thisMVal.equalBalance(iAlg,1-iColor,bestMval));
 				System.out.println("..c:" + (iMaxEnemyCapt>Math.abs(thisMVal.iPieceBalance - bestMval.iPieceBalance)));
 				System.out.println("DBG150930: bCalcAgain:" + bCalcAgain + " iMaxPressure: " + iMaxPressure + " iMaxEnemyCapt:" + iMaxEnemyCapt);
-				System.exit(0);	
-				*/	
+				*/
 				if (((iColor == piece.WHITE) && (bestBoard.iBlackCheckMoves != 0) && (bestMval.bWhiteInstWin)) ||
 				((iColor == piece.BLACK) && (bestBoard.iWhiteCheckMoves != 0) && (bestMval.bBlackInstWin))) bCalcAgain = true;
 				
@@ -5423,7 +5411,6 @@ public class chessboard implements Serializable
 				if (iRounds == 2) 
 				{
 					System.out.println("Returning null from funny branch!!!! 140330");
-					System.exit(0);
 				}
 				*/
 				
@@ -5435,8 +5422,7 @@ public class chessboard implements Serializable
 				
 				return null;
 			}
-			//System.exit(0);
-			
+
 			
 		}
 		
@@ -5505,7 +5491,6 @@ public class chessboard implements Serializable
 				if (!bestBoard.equals(mvc.cb_base)) 
 				{
 					System.out.println("Board validation failed miserably.");
-					System.exit(0);
 				}
 				else System.out.println("It's OK! Could return  from MVEC!!!!"); 
 				
@@ -5523,7 +5508,6 @@ public class chessboard implements Serializable
 					System.out.println("Discrepancy! bestMval is : " + bestMval.dumpstr());
 					System.out.println("MVEC CONTENTS ARE:");
 					mvec.dumpall();
-					System.exit(0);
 				}
 			}
 			*/
@@ -6407,7 +6391,7 @@ void dropPinnedMoves (king k)
 					if ((p1.xk != newX) || (p1.yk != newY))
 					{
 						System.out.println("HERE'S AN ENPPIN SCENARIO at " + iEps + "!!! iDir:"+iDir + " newX:" + newX + " newY "+ newY + " p1.xk:" + p1.xk + " p1.yk:" + p1.yk);
-						System.exit(0);
+						throw new RuntimeException("HERE'S AN ENPPIN SCENARIO at " + iEps + "!!! iDir:"+iDir + " newX:" + newX + " newY "+ newY + " p1.xk:" + p1.xk + " p1.yk:" + p1.yk);
 					}
 					if ((iDir == 2) || (iDir == 6)) p1 = null;  // $$$ remove for start52w.dat 170608
 					else iStep = 8;
@@ -6625,7 +6609,7 @@ int iKicPoints (int iColor)
 		System.out.println("Movecounter: " + this.iMoveCounter);
 		System.out.println("Movecount: " + this.iMoveCount);
 		System.out.println("King last move:" + king_iLastMove);
-		System.exit(0);
+		throw new RuntimeException("kicpoints failure! Kicpoints > 10!!!!");
 	}
 	
 	if (kicpoints <= 0) return 0;
@@ -6926,7 +6910,6 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 	//System.out.println(sWBODbg);
 	
 	System.out.println("DBG150207: WBO: correction factor: " + iCorrFactor + " iBestDiff :" + iBestDiff + " iWBORet:" +iWBORet);
-	//System.exit(0);
 	//System.out.println("WBO RETURNING FALSE");
 	
 	
@@ -7026,7 +7009,7 @@ chessboard doBestZeroMove(int iColor, int iAlg, boolean bAny)
 		{
 			System.out.println("Null anymove @ chessboard.doBestZeroMove() , iColor=" + iColor);
 			mi.dump();
-			System.exit(0);
+			throw new RuntimeException("Null anymove @ chessboard.doBestZeroMove() , iColor=" + iColor);
 		}
 			
 	}
@@ -7119,7 +7102,6 @@ void setZeroBalances(int iTurn, int iAlg)
 				//this.dump();
 				//cb.dump();
 				iWhiteZeroBal = -(cb.iValSumWhite - cb.iValSumBlack + cb.iBlackZeroBal - iValSumWhite + iValSumBlack);
-				//System.exit(0);
 			}
 		}
 	}
@@ -7183,7 +7165,6 @@ void setZeroBalances(int iTurn, int iAlg)
 				//this.dump();
 				//cb.dump();
 				iBlackZeroBal = -(cb.iValSumWhite - cb.iValSumBlack + cb.iWhiteZeroBal - iValSumWhite + iValSumBlack);
-				//System.exit(0);
 			}
 		}
 	}
@@ -7267,7 +7248,6 @@ boolean bPawnIsFreeAt(int x1, int y1)
 	if (pp.iType != piece.PAWN)
 	{
 		System.out.println("Fatal error at chessboard.bPawnIsFreeAt(). iType:" + pp.iType);
-		System.exit(0);
 	}
 	
 	if (pp.iColor==piece.WHITE) for (int j= y1+1;j<8;j++)
@@ -7886,8 +7866,7 @@ class mval_vector
 		System.out.println("DBG 150430: mval_vector.get_best() threads finished. iColor:" + iColor + " iTurn:" + iTurn);
 		dumpall(iAlg);
 		*/
-		//System.exit(0);
-		
+
 		//if (ghist != null) System.out.println("MVEC:get_best gamehist sizes " + ghist.vMoves.size() + "," + ghist.vTieCands.size() + " iColor" + iColor); 
 		//else System.out.println("MVEC: no gamehistory");
 		
@@ -7986,7 +7965,6 @@ class mval_vector
 			m_mos.addItem(root_cb.FEN(),iRounds,sRet);
 			//System.out.println("DBG151130: kill at mos.addItem...HGHG iR:" + iRounds + " iC:" + iColor);
 			//m_mos.dump();
-			//System.exit(0);
 		}
 		
 		/*
@@ -7996,7 +7974,6 @@ class mval_vector
 			System.out.println("DBG151130: kill @DFGFH");
 			if (sRet == null) System.out.println("DBG151130:sRet == null");
 			if (strat == null) System.out.println("DBG151130:strat == null");
-			//System.exit(0);
 		}
 		*/
 		
@@ -8008,13 +7985,11 @@ class mval_vector
 			System.out.println("DBG 150430: mvc_get best trying to make a strategy decision!");
 			String sMove = strat.getBestMove();
 			System.out.println("DBG150430: strategy decision: " + sMove);
-			//System.exit(0);  // $$$$$ 150430
 			mval_combo strat_mvc = strat.get_mval_combo();
 			/*
 			System.out.println(strat_mvc.mv.dumpstr(iAlg));
 			strat_mvc.cb.dump();
-			strat_mvc.cb_base.dump();
-			System.exit(0); */
+			strat_mvc.cb_base.dump();*/
 			if (iCBLevel == iRounds) strat_mvc.mv.setCutBranchLevel (iRounds);
 			return strat_mvc;
 		}
@@ -8108,8 +8083,7 @@ class mt_finder extends Thread implements Runnable
 			//else rb_copy = null;
 			
 			//System.out.println("Copy taken once!");
-			//System.exit(0);
-			
+
 			m_cb.bNoThreadlaunch = true;
 			m_cb.findAndDoBestMove(m_iColor,m_iRounds,m_basemv,m_iAlg,m_bDebug,m_ghist,m_mvv,false, null,l3best,l2best, rb_copy, mos); // $$$$ 150116 fix appropriate values for l3best & l2best
 		}

@@ -18,7 +18,7 @@ public class mmmate
 	public static final boolean bDoRec = true;
 	
 	chessboard cb;
-	Vector vCheckLoc;
+	Vector<mm_checkloc> vCheckLoc;
 	static int iPointArray[];
 	
 	mmmate(chessboard b)
@@ -35,7 +35,7 @@ public class mmmate
 		
 	}
 	
-	void analyze(int iColor, int iRounds, int iRoundLimit, String sAnseq, Vector mCandVec)
+	void analyze(int iColor, int iRounds, int iRoundLimit, String sAnseq, Vector<String> mCandVec)
 	{
 		boolean bCheckOnly = false;
 		if (iRounds > iRoundLimit) bCheckOnly = true;
@@ -72,7 +72,6 @@ public class mmmate
 				cb.dump();
 				String sCand = new String (sAnseq);
 				mCandVec.addElement(sCand);
-				//System.exit(0);
 			}
 			else if (iRounds < iRoundLimit+2)
 			{
@@ -98,7 +97,7 @@ public class mmmate
 		
 		if (!bCheckOnly)
 		{
-			vCheckLoc = new Vector();
+			vCheckLoc = new Vector<mm_checkloc>();
 			findCheckPositions(iColor, vCheckLoc);
 			analyzeCheckPositions(cb, vCheckLoc, iColor, mi);
 			System.out.println("=====");
@@ -124,7 +123,7 @@ public class mmmate
 					{
 						System.out.println("move "+ sMstrCaps + " failed:");
 						cb2.dump();
-						System.exit(0);
+						throw new RuntimeException("move "+ sMstrCaps + " failed:");
 					}
 					System.out.println("Moved:" + sMstr + " bRet: " + bRet);
 					mmmate mm2 = new mmmate(cb2);
@@ -137,7 +136,7 @@ public class mmmate
 		
 	}
 	
-	void analyzeMoveIndex(moveindex mi, int iColor, Vector vCheckLoc, int iRounds, int iRoundLimit, String sAnseq, Vector mCandVec)
+	void analyzeMoveIndex(moveindex mi, int iColor, Vector<mm_checkloc> vCheckLoc, int iRounds, int iRoundLimit, String sAnseq, Vector<String> mCandVec)
 	{
 		king kEnemy = cb.locateKing(1-iColor);
 		
@@ -148,7 +147,7 @@ public class mmmate
 		}
 	}
 	
-	void analyzeMove(move m, king k, Vector vCheckLoc, int iColor, int iRounds, int iRoundLimit, String sAnseq, Vector mCandVec)
+	void analyzeMove(move m, king k, Vector<mm_checkloc> vCheckLoc, int iColor, int iRounds, int iRoundLimit, String sAnseq, Vector<String> mCandVec)
 	{
 		mm_movewrap mw = new mm_movewrap(m);
 		
@@ -196,11 +195,10 @@ public class mmmate
 					if( bDoRec) mm2.analyze(iColor,iRounds +1,iRoundLimit, sAnseq + ";" + sMstr, mCandVec);
 				}
 			}
-			//System.exit(0);
 		}
 	}
 	
-	void findCheckPositions(int iColor, Vector v)
+	void findCheckPositions(int iColor, Vector<mm_checkloc> v)
 	{
 		king kEnemy = cb.locateKing(1-iColor);
 		
@@ -234,7 +232,7 @@ public class mmmate
 		}
 	}
 	
-	void findPawnCheckPositions(pawn p, king kEnemy, Vector v)
+	void findPawnCheckPositions(pawn p, king kEnemy, Vector<mm_checkloc> v)
 	{
 		if (Math.abs(p.xk-kEnemy.xk) > 1) return;
 		if (Math.abs(p.xk-kEnemy.xk) == 0) return;
@@ -253,7 +251,7 @@ public class mmmate
 		}
 	}
 	
-	void findRookCheckPositions(rook r, king kEnemy, Vector v)
+	void findRookCheckPositions(rook r, king kEnemy, Vector<mm_checkloc> v)
 	{
 		for (int i=1;i<=8;i++)
 		{
@@ -272,7 +270,7 @@ public class mmmate
 		
 	}
 	
-	void findKnightCheckPositions(knight k, king kEnemy, Vector v)
+	void findKnightCheckPositions(knight k, king kEnemy, Vector<mm_checkloc> v)
 	{
 		System.out.println("findKnightCheckPositions called for knight at " +k.xk + "," + k.yk);
 		
@@ -335,10 +333,9 @@ public class mmmate
 		}
 		
 		
-		//System.exit(0);
 	}
 	 
-	void findBishopCheckPositions(bishop b, king kEnemy, Vector v)
+	void findBishopCheckPositions(bishop b, king kEnemy, Vector<mm_checkloc> v)
 	{
 		System.out.println("Bishop check pos: b at: " + b.xk + "," + b.yk + "  k at " + kEnemy.xk + ","+ kEnemy.yk);
 		
@@ -371,28 +368,28 @@ public class mmmate
 		
 	}
 	
-	void findQueenCheckPositions(queen q, king kEnemy, Vector v)
+	void findQueenCheckPositions(queen q, king kEnemy, Vector<mm_checkloc> v)
 	{
 		System.out.println("mmmate.findQueenCheckPositions() not implemented.");
-		System.exit(0);
+		throw new RuntimeException("mmmate.findQueenCheckPositions() not implemented.");
 	}
 	
-	void dumpCheckPositions(Vector v)
+	void dumpCheckPositions(Vector<mm_checkloc> v)
 	{
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			System.out.println(mmc.dumpStr());
 		}
 	}
 	
-	void analyzeCheckPositions(chessboard cb,  Vector v , int iColor, moveindex mi)
+	void analyzeCheckPositions(chessboard cb, Vector<mm_checkloc> v , int iColor, moveindex mi)
 	{
 		king kEnemy = cb.locateKing(1-iColor);
 		
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			//System.out.print(mmc.dumpStr());
 			if (mmc.pi.canReach(mmc.xk,mmc.yk,kEnemy,cb)) 
 			{
@@ -408,34 +405,33 @@ public class mmmate
 		System.out.println("OK CHECKS AVAILABLE:");
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			if (mmc.flags == mm_checkloc.CL_OKCHECK ) System.out.println(mmc.dumpStr() + " " + mmc.sEnroute(iColor));
 		}
 		System.out.println("RISKY CHECKS AVAILABLE:");
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			if (mmc.flags == mm_checkloc.CL_RISKYCHECK ) System.out.println(mmc.dumpStr() + " " + mmc.sEnroute(iColor));
 		}
 		
 	}
 	
-	int iMoveFlagsFromCheckLoc(move m, Vector v)
+	int iMoveFlagsFromCheckLoc(move m, Vector<mm_checkloc> v)
 	{
 		System.out.println("IMFFCL for" + m.moveStr());
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			if (mmc.flags == mm_checkloc.CL_OKCHECK )
 			{
-				Vector mmv = mmc.vDevMoves;
+				Vector<move> mmv = mmc.vDevMoves;
 				for (int j=0;j<mmv.size();j++)
 				{
-					move m2 = (move)mmv.elementAt(j);
+					move m2 = mmv.elementAt(j);
 					if (m.samemove(m2)) 
 					{
 						System.out.println("iMoveFlagsFromCheckLoc: " + m.moveStr() + "/" + m2.moveStr());
-						//System.exit(0);
 						return m2.iMMEnrMoveStat;
 					}
 				}
@@ -456,17 +452,17 @@ public class mmmate
 		return false;
 	}
 	
-	boolean bAssistEnRoute(move m,king k,chessboard cb, Vector v)
+	boolean bAssistEnRoute(move m, king k, chessboard cb, Vector<mm_checkloc> v)
 	{
 		for (int i=0;i<v.size();i++)
 		{
-			mm_checkloc mmc = (mm_checkloc)v.elementAt(i);
+			mm_checkloc mmc = v.elementAt(i);
 			if (mmc.flags == mm_checkloc.CL_OKCHECK )
 			{
-				Vector mmv = mmc.vDevMoves;
+				Vector<move> mmv = mmc.vDevMoves;
 				for (int j=0;j<mmv.size();j++)
 				{
-					move m2 = (move)mmv.elementAt(j);
+					move m2 = mmv.elementAt(j);
 					if (m2.iMMEnrMoveStat == mm_checkloc.CL_FM_NOTEXIST)
 					{
 						if (piece.directlyBetween(m2.p.xk,m2.p.yk,m.p.xk,m.p.yk,m2.xtar,m2.ytar)) return true;
@@ -477,16 +473,16 @@ public class mmmate
 		return false;
 	}
 	
-	void analyzeMateCands(int iColor, Vector v)
+	void analyzeMateCands(int iColor, Vector<String> v)
 	{
 		System.out.println("Mate candidate dump: " + v.size() + " candidates.");
 		cb.dump();
 		
-		Vector vReach = new Vector();
+		Vector<reach_obj> vReach = new Vector<reach_obj>();
 		
 		for (int i=0;i<v.size();i++)
 		{
-			String ss = (String)v.elementAt(i);
+			String ss = v.elementAt(i);
 			System.out.println("CHECKING: " + ss);
 			
 			//chessboard cb1=cb.copy();
@@ -642,7 +638,7 @@ class mm_checkloc
 	chessboard cb;
 	int fmovestatus;
 	
-	Vector vDevMoves;
+	Vector<move> vDevMoves;
 	
 	public static final int CL_NOCHECK = 0;
 	public static final int CL_RISKYCHECK = 1;
@@ -660,7 +656,7 @@ class mm_checkloc
 		pi = p;
 		cb = c;
 		
-		vDevMoves = new Vector();
+		vDevMoves = new Vector<>();
 	}
 	
 	String dumpStr()
@@ -676,7 +672,7 @@ class mm_checkloc
 		
 		for (int i=0;i<vDevMoves.size();i++)
 		{
-			move m = (move)vDevMoves.elementAt(i);
+			move m = vDevMoves.elementAt(i);
 			sRet = sRet + m.moveStr();
 			switch (m.iMMEnrMoveStat)
 			{
@@ -732,8 +728,7 @@ class mm_checkloc
 			default:
 				System.out.println("mm_checkloc.setEnrouteFlags(): unknown pi.iType!");
 				System.out.println(dumpStr());
-				System.exit(0);
-				break;
+				throw new RuntimeException("mm_checkloc.setEnrouteFlags(): unknown pi.iType!");
 		}
 		
 	}
@@ -795,7 +790,6 @@ class mm_checkloc
 		}
 		
 		
-		//System.exit(0);
 	}
 	
 	void doBishopEnrouteFlags(moveindex mi)
@@ -843,11 +837,6 @@ class mm_checkloc
 		System.out.println("Bishop enroutes via:" + xt1+","+yt1+ " & " + xt2+","+yt2);
 		addBishopEnrouteMoves(mi,xt1,yt1);
 		addBishopEnrouteMoves(mi,xt2,yt2);
-		
-		
-		
-		//System.exit(0);
-		
 		
 	}
 	

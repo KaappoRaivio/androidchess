@@ -34,8 +34,7 @@ public class engine
 		if ((iAlg >= movevalue.ALG_ASK_FROM_ABROK1) && (iAlg <= movevalue.ALG_ASK_FROM_ABROK4)) return sABROK;
 		
 		System.out.println("engine.sEnginePerAlg. Bad iAlg:" + iAlg);
-		System.exit(0);
-		return null;
+		throw new RuntimeException("engine.sEnginePerAlg. Bad iAlg:" + iAlg);
 	}
 	
 	static int iNodeLimPerAlg(int iAlg)
@@ -129,7 +128,6 @@ public class engine
 		if ((iAlg >= movevalue.ALG_ASK_FROM_ABROK1) && (iAlg <= movevalue.ALG_ASK_FROM_ABROK1))
 		{
 			System.out.println("Abrok engine operation just done. Smove="+sMove);
-			//System.exit(0);
 		}
 		
 		if (sMove == null) return null;
@@ -242,7 +240,7 @@ public class engine
 		else
 		{			
 			System.out.println("Bad engine type " + sEngine+ " Force exit");
-			System.exit(0);
+			throw new RuntimeException("Bad engine type " + sEngine+ " Force exit");
 		}	
 		
 		while (true)
@@ -316,7 +314,7 @@ public class engine
 						else 
 						{
 							System.out.println("BAD MOVEIND:" + sMoveInd);
-							System.exit(0);
+							throw new RuntimeException("BAD MOVEIND:" + sMoveInd);
 						} 
 						
 						if (sMove == null ) sMove = ssParts[iMovePos];  // just in case first info record exceeds the limit
@@ -335,7 +333,7 @@ public class engine
 					else 
 					{
 						System.out.println("BAD MOVEIND:" + sMoveInd);
-						System.exit(0);
+						throw new RuntimeException("BAD MOVEIND:" + sMoveInd);
 					} 
 						
 					sMove = ssParts[iMovePos];

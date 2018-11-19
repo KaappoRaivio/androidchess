@@ -42,14 +42,12 @@ public class mostore
 			System.out.println("DBG151130, key: " + sKey);
 			System.out.println("DBG151130, sMO: " + sMO);
 			System.out.println("DBG151130, sMO: " + sNMO);
-			System.exit(0);
 		}
 		*/
 		/*if (iCount>=10)
 		{
 			System.out.println("Mostore filled to capacity.");
 			dump();
-			//System.exit(0);
 		}*/
 	}
 	

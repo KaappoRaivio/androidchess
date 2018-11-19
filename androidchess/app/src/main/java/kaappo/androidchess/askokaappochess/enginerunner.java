@@ -49,7 +49,7 @@ public class enginerunner
 		if ((args.length > 0) && (args[0].equalsIgnoreCase("REMDUP")))
 		{
 			removeDuplicates(args[1],args[2]);
-			System.exit(0);
+			throw new RuntimeException("Exception in 52 of enginerunner.java");
 		}
 		
 		if ((args.length > 0) && (args[0].equalsIgnoreCase("FILE"))) iMode = MODE_FILE;
@@ -132,7 +132,7 @@ public class enginerunner
 							System.out.println(sqle.getMessage());
 							System.out.println("sctr: "+sctr);
 							System.out.println("CRIT:<"+sCrit+">");
-							System.exit(0);	
+							throw new RuntimeException(sqle);
 						}
 						
 					}
@@ -165,7 +165,6 @@ public class enginerunner
 							pwz = null;
 							
 							System.out.println("subzero sfinp:" + sctr + " iMoveNr:" + iMoveNr);
-							//System.exit(0);
 						}
 						
 						if ((iScore < (ZERO_LIMIT + iDiscount )) && (iMoveNr == SZ9_LEVEL))
@@ -267,7 +266,6 @@ public class enginerunner
 				pw.flush();
 				pw.close();
 				
-				//System.exit(0);
 			}
 			else iAttCount++;
 			
@@ -277,7 +275,7 @@ public class enginerunner
 		
 		
 		printscore();
-		System.exit(0);
+		throw new RuntimeException("Exception on row 278 of enginerunner.java");
 	}
 	
 	public static String getMove(String sFEN) 
@@ -299,12 +297,12 @@ public class enginerunner
 			if (rs.next()) 
 			{
 				String sPos = rs.getString(1);
-				if (sPos.indexOf(sCrit) == -1)
+				if (!sPos.contains(sCrit))
 				{
 					System.out.println("Fatal data problem at enginerunner.getMove!!!");
 					System.out.println("sPos:<"+sPos+">");
 					System.out.println("sCrit:<"+sCrit+">");
-					System.exit(0);
+					throw new RuntimeException("Fatal data problem at enginerunner.getMove!!!");
 				}
 				sRet = rs.getString(2).toUpperCase();
 			}
@@ -361,8 +359,7 @@ public class enginerunner
 		{
 			//exception handling left as an exercise for the reader
 			System.out.println("IOException at regbest.printDbg() (A)");
-			System.out.println(e.getMessage());
-			System.exit(0);
+			throw new RuntimeException(e);
 		}
 		
 	}

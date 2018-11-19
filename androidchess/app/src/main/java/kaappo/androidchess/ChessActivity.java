@@ -1,12 +1,17 @@
 package kaappo.androidchess;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.DragEvent;
@@ -18,6 +23,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.GenericArrayType;
 import java.util.Arrays;
@@ -87,15 +93,15 @@ public class ChessActivity extends AppCompatActivity {
     }
 
     public void setTurn (int turn) {
-//        System.out.println("iTurn chess: " + turn);
-//
-//        if (turn == piece.WHITE) {
-//            ((RelativeLayout) findViewById(R.id.activity_chess_player_info)).setBackground(getDrawable(R.drawable.highlight));
-//            ((RelativeLayout) findViewById(R.id.activity_chess_opponent_info)).setBackground(getDrawable(R.drawable.white_blush));
-//        } else {
-//            ((RelativeLayout) findViewById(R.id.activity_chess_player_info)).setBackground(getDrawable(R.drawable.white_blush));
-//            ((RelativeLayout) findViewById(R.id.activity_chess_opponent_info)).setBackground(getDrawable(R.drawable.highlight));
-//        }
+        System.out.println("iTurn chess: " + turn);
+
+        if (turn == piece.WHITE) {
+            ((CardView) findViewById(R.id.activity_chess_player_info_card)).setBackground(getDrawable(R.drawable.turn));
+            ((CardView) findViewById(R.id.activity_chess_opponent_info_card)).setBackground(getDrawable(R.drawable.white_blush));
+        } else {
+            ((CardView) findViewById(R.id.activity_chess_player_info_card)).setBackground(getDrawable(R.drawable.white_blush));
+            ((CardView) findViewById(R.id.activity_chess_opponent_info_card)).setBackground(getDrawable(R.drawable.turn));
+        }
     }
 
     private void setUIStuffFromBundle (Bundle bundle) {
@@ -413,5 +419,30 @@ public class ChessActivity extends AppCompatActivity {
 
     public static int getPlayerSide() {
         return playerSide;
+    }
+
+    public void showExceptionMessage(final Exception e) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        builder.setTitle("Exception occured:")
+                .setMessage(e.getMessage())
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        assert true;
+                    }
+                })
+                .setNeutralButton(android.R.string.copy, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("label", e.getMessage());
+                        clipboard.setPrimaryClip(clip);
+                        Toast toast = new Toast(getApplicationContext());
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setText("Error message copied to clipboard");
+                        toast.show();
+
+                    }
+                })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .show();
     }
 }

@@ -52,8 +52,9 @@ public class strategy
 			if (m.sRoute.indexOf("@0@0") != -1)
 			{
 				//System.out.println("DBG151203: Strategy add cand iR: " + iRounds+ " rte:" + m.sRoute + " iCommon:" + iCommon);
-				if (m.sRoute.indexOf("@0@0") == -1) System.exit(0);
-				else
+				if (!m.sRoute.contains("@0@0")) {
+					throw new RuntimeException("Exception in row 56 in strategy.java");
+				} else
 				{
 					for (int i=0;i<=iC1;i++)
 					{
@@ -67,7 +68,7 @@ public class strategy
 					if (iCommon < 0)
 					{
 						System.out.println("DBG151218: iCommon failureXXXX");
-						System.exit(0);
+						throw new RuntimeException("DBG151218: iCommon failureXXXX");
 					}
 				}
 			}
@@ -92,14 +93,11 @@ public class strategy
 				System.out.println("DBG151203: route[n]:" + s2);
 				System.out.println("v.size() :" + v.size());
 				//new Exception().printStackTrace();
-				//if ((s1.indexOf("@0@0") == -1) && (ml > 5)) System.exit(0);
-				if ((s1.indexOf("@0@0") == -1) && (!bIsPromotion(s1))) System.exit(0);
 				iCommon = iCommon2;
 			}
 			
 			//System.out.println(s1 + " " + s2 + " i:" + i);
-			//System.exit(0);
-			*/
+			*/;
 			int iCompLen = Math.min(((strat_entry)(v.elementAt(0))).mv.getComLength(),mv.getComLength());
 			int i=0;
 			int iC2 = -1;
@@ -120,9 +118,10 @@ public class strategy
 				System.out.println("DBG160625: route[n]:" + s2);
 				System.out.println("v.size() :" + v.size());
 				//new Exception().printStackTrace();
-				//if ((s1.indexOf("@0@0") == -1) && (ml > 5)) System.exit(0);
-				
-				if ((s1.indexOf("@0@0") == -1) && (iC2 > 1)) System.exit(0);
+
+				if ((!s1.contains("@0@0")) && (iC2 > 1)) {
+					throw new RuntimeException("Exception in row 127 of stragey.java");
+				}
 				iCommon = iC2;
 			}
 			
@@ -204,14 +203,14 @@ public class strategy
 				System.out.println("DBG151218: strategy object size: " + v.size() + " iCommon: " + iCommon);
 				System.out.println("DBG151218: movevalue route: " + m.sRoute);
 				root_cb.dump();
-				System.exit(0);
+				throw new RuntimeException("DBG151218: Null pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
 			}
 			
 			if (pp.iColor != iColor)
 			{
 				System.out.println("DBG151218: Wrong icolor pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
 				root_cb.dump();
-				System.exit(0);
+				throw new RuntimeException("DBG151218: Wrong icolor pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
 			}
 			// 151218 debug code end $$$
 			
@@ -352,7 +351,7 @@ public class strategy
 		}
 		catch (Exception e)
 		{
-			System.exit(0);
+			throw new RuntimeException("Exception in row 256 of strategy.java");
 		}
 		
 		if (s0.isMate(iColor)) 
@@ -407,8 +406,7 @@ public class strategy
 		dbg_Vector.removeElementAt(iBestIndex);
 		dbg_Vector.insertElementAt(sStra,iBestIndex);
 		//System.out.println((String)dbg_Vector.elementAt(iBestIndex));
-		//System.exit(0);
-		
+
 		if (iBestIndex != 0)
 		{
 			if (s0 == null) System.out.println("s0 == null");
@@ -427,7 +425,6 @@ public class strategy
 		}
 		
 		System.out.println("Analyzed best move: " + sBest + " with sevalue:" + seMax + " iBestIndex: " + iBestIndex);
-		//if (iBestIndex == 0) System.exit(0);
 		return sBest;
 	}
 	
@@ -470,7 +467,7 @@ public class strategy
 				//exception handling left as an exercise for the reader
 				System.out.println("IOException at strategy.printDbg() (A)");
 				System.out.println(e.getMessage());
-				System.exit(0);
+				throw new RuntimeException(e);
 			}
 		}
 		
@@ -491,7 +488,7 @@ public class strategy
 		{
 			System.out.println("IOException at strategy.printDbg() (B)");
 			System.out.println(e.getMessage());
-			System.exit(0);
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -681,7 +678,7 @@ class strat_entry
 						System.out.println("DBG 150426::Fatal Error pmov == null");
 						System.out.println("ii="+ii + " x01="+x01+" y01="+y01);
 						cb_temp.dump();
-						System.exit(0);
+						throw new RuntimeException("DBG 150426::Fatal Error pmov == null");
 					}
 					
 					if ((pmov.iType == piece.PAWN) && (x01!=x02))
@@ -700,10 +697,10 @@ class strat_entry
 				if ((ii%2) == 1) iMcolor = p.iColor;
 				else iMcolor = 1-p.iColor;
 				boolean bRet = cb_new.domove(sMoves[ii],iMcolor);
-				if (bRet == false)
+				if (!bRet)
 				{
 					System.out.println("strat_entry.doAnalysis(): move failed!!!");
-					System.exit(0);
+					throw new RuntimeException("strat_entry.doAnalysis(): move failed!!!");
 				}
 
 				if ((ghist != null) && (ii==1))

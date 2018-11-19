@@ -150,7 +150,6 @@ public class blana
 						sRun = "cmd /c java play filesimufen:" + (char)34 + fname + (char)34 +" 1:1 1098:42 > run.out";
 						//System.out.println("FENRUN!");
 						//System.out.println(sRun);
-						//System.exit(0);
 					}
 					p = Runtime.getRuntime().exec(sRun);
 					iRet = p.waitFor();
@@ -159,7 +158,7 @@ public class blana
 					
 				default:
 					System.out.println("simulate: fb_color: " + fb_color);
-					System.exit(0);
+					throw new RuntimeException("simulate: fb_color: " + fb_color);
 			}
 			
 			//System.out.println("Prior ER");

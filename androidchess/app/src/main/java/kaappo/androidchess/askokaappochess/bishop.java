@@ -68,7 +68,6 @@ public class bishop extends piece
 							System.out.println("FailA");
 							cb.dump();
 							System.out.println("xk:" + xk + " yk:" + yk + " k.xk:" + k.xk + " k.yk:" + k.yk);
-							System.exit(0);
 						}
 						return true;
 					}
@@ -79,7 +78,6 @@ public class bishop extends piece
 					if (!bRet) 
 					{
 						System.out.println("FailB");
-						System.exit(0);
 					}
 					return true;
 				}
