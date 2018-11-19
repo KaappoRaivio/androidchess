@@ -435,10 +435,8 @@ public class ChessActivity extends AppCompatActivity {
                         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("label", e.getMessage());
                         clipboard.setPrimaryClip(clip);
-                        Toast toast = new Toast(getApplicationContext());
-                        toast.setDuration(Toast.LENGTH_LONG);
-                        toast.setText("Error message copied to clipboard");
-                        toast.show();
+
+                        Toast.makeText(getApplicationContext(), "Copied to clipboard!", Toast.LENGTH_LONG).show();
 
                     }
                 })
