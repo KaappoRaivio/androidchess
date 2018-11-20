@@ -19,7 +19,9 @@
             android:layout_margin="@dimen/default_margin"
 
             android:padding="8dp"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:cardElevation="@dimen/activity_chess_card_elevation">
 
 
             <RelativeLayout
@@ -78,602 +80,617 @@
 
         </android.support.v7.widget.CardView>
 
-        <GridLayout
-            android:id="@+id/chessboard"
+        <android.support.v7.widget.CardView
+            android:id="@+id/chessboard_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
 
-
-            android:columnCount="8"
-            android:columnWidth="@dimen/activity_chess_tile_dimens"
-            android:orientation="vertical"
-            android:rowCount="8"
-            android:stretchMode="columnWidth"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_chess_opponent_info_card">
-
-            <RelativeLayout
-                android:id="@+id/A1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="7"
-                android:background="@drawable/black"
-                android:tag="A1" />
-
-            <RelativeLayout
-                android:id="@+id/B1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="7"
-                android:background="@drawable/white"
-                android:tag="B1" />
-
-            <RelativeLayout
-                android:id="@+id/C1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="7"
-                android:background="@drawable/black"
-                android:tag="C1" />
-
-            <RelativeLayout
-                android:id="@+id/D1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="7"
-                android:background="@drawable/white"
-                android:tag="D1" />
-
-            <RelativeLayout
-                android:id="@+id/E1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="7"
-                android:background="@drawable/black"
-                android:tag="E1" />
-
-            <RelativeLayout
-                android:id="@+id/F1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="7"
-                android:background="@drawable/white"
-                android:tag="F1" />
-
-            <RelativeLayout
-                android:id="@+id/G1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="7"
-                android:background="@drawable/black"
-                android:tag="G1" />
-
-            <RelativeLayout
-                android:id="@+id/H1"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="7"
-                android:background="@drawable/white"
-                android:tag="H1" />
-
-            <RelativeLayout
-                android:id="@+id/A2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="6"
-                android:background="@drawable/white"
-                android:tag="A2" />
-
-            <RelativeLayout
-                android:id="@+id/B2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="6"
-                android:background="@drawable/black"
-                android:tag="B2" />
-
-            <RelativeLayout
-                android:id="@+id/C2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="6"
-                android:background="@drawable/white"
-                android:tag="C2" />
-
-            <RelativeLayout
-                android:id="@+id/D2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="6"
-                android:background="@drawable/black"
-                android:tag="D2" />
-
-            <RelativeLayout
-                android:id="@+id/E2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="6"
-                android:background="@drawable/white"
-                android:tag="E2" />
-
-            <RelativeLayout
-                android:id="@+id/F2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="6"
-                android:background="@drawable/black"
-                android:tag="F2" />
-
-            <RelativeLayout
-                android:id="@+id/G2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="6"
-                android:background="@drawable/white"
-                android:tag="G2" />
-
-            <RelativeLayout
-                android:id="@+id/H2"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="6"
-                android:background="@drawable/black"
-                android:tag="H2" />
-
-            <RelativeLayout
-                android:id="@+id/A3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="5"
-                android:background="@drawable/black"
-                android:tag="A3" />
-
-            <RelativeLayout
-                android:id="@+id/B3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="5"
-                android:background="@drawable/white"
-                android:tag="B3" />
-
-            <RelativeLayout
-                android:id="@+id/C3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="5"
-                android:background="@drawable/black"
-                android:tag="C3" />
-
-            <RelativeLayout
-                android:id="@+id/D3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="5"
-                android:background="@drawable/white"
-                android:tag="D3" />
-
-            <RelativeLayout
-                android:id="@+id/E3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="5"
-                android:background="@drawable/black"
-                android:tag="E3" />
-
-            <RelativeLayout
-                android:id="@+id/F3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="5"
-                android:background="@drawable/white"
-                android:tag="F3" />
-
-            <RelativeLayout
-                android:id="@+id/G3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="5"
-                android:background="@drawable/black"
-                android:tag="G3" />
-
-            <RelativeLayout
-                android:id="@+id/H3"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="5"
-                android:background="@drawable/white"
-                android:tag="H3" />
-
-            <RelativeLayout
-                android:id="@+id/A4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="4"
-                android:background="@drawable/white"
-                android:tag="A4" />
-
-            <RelativeLayout
-                android:id="@+id/B4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="4"
-                android:background="@drawable/black"
-                android:tag="B4" />
-
-            <RelativeLayout
-                android:id="@+id/C4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="4"
-                android:background="@drawable/white"
-                android:tag="C4" />
-
-            <RelativeLayout
-                android:id="@+id/D4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="4"
-                android:background="@drawable/black"
-                android:tag="D4" />
-
-            <RelativeLayout
-                android:id="@+id/E4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="4"
-                android:background="@drawable/white"
-                android:tag="E4" />
-
-            <RelativeLayout
-                android:id="@+id/F4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="4"
-                android:background="@drawable/black"
-                android:tag="F4" />
-
-            <RelativeLayout
-                android:id="@+id/G4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="4"
-                android:background="@drawable/white"
-                android:tag="G4" />
-
-            <RelativeLayout
-                android:id="@+id/H4"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="4"
-                android:background="@drawable/black"
-                android:tag="H4" />
-
-            <RelativeLayout
-                android:id="@+id/A5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="3"
-                android:background="@drawable/black"
-                android:tag="A5" />
-
-            <RelativeLayout
-                android:id="@+id/B5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="3"
-                android:background="@drawable/white"
-                android:tag="B5" />
-
-            <RelativeLayout
-                android:id="@+id/C5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="3"
-                android:background="@drawable/black"
-                android:tag="C5" />
-
-            <RelativeLayout
-                android:id="@+id/D5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="3"
-                android:background="@drawable/white"
-                android:tag="D5" />
-
-            <RelativeLayout
-                android:id="@+id/E5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="3"
-                android:background="@drawable/black"
-                android:tag="E5" />
-
-            <RelativeLayout
-                android:id="@+id/F5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="3"
-                android:background="@drawable/white"
-                android:tag="F5" />
-
-            <RelativeLayout
-                android:id="@+id/G5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="3"
-                android:background="@drawable/black"
-                android:tag="G5" />
-
-            <RelativeLayout
-                android:id="@+id/H5"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="3"
-                android:background="@drawable/white"
-                android:tag="H5" />
-
-            <RelativeLayout
-                android:id="@+id/A6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="2"
-                android:background="@drawable/white"
-                android:tag="A6" />
-
-            <RelativeLayout
-                android:id="@+id/B6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="2"
-                android:background="@drawable/black"
-                android:tag="B6" />
-
-            <RelativeLayout
-                android:id="@+id/C6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="2"
-                android:background="@drawable/white"
-                android:tag="C6" />
-
-            <RelativeLayout
-                android:id="@+id/D6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="2"
-                android:background="@drawable/black"
-                android:tag="D6" />
-
-            <RelativeLayout
-                android:id="@+id/E6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="2"
-                android:background="@drawable/white"
-                android:tag="E6" />
-
-            <RelativeLayout
-                android:id="@+id/F6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="2"
-                android:background="@drawable/black"
-                android:tag="F6" />
-
-            <RelativeLayout
-                android:id="@+id/G6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="2"
-                android:background="@drawable/white"
-                android:tag="G6" />
-
-            <RelativeLayout
-                android:id="@+id/H6"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="2"
-                android:background="@drawable/black"
-                android:tag="H6" />
-
-            <RelativeLayout
-                android:id="@+id/A7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="1"
-                android:background="@drawable/black"
-                android:tag="A7" />
-
-            <RelativeLayout
-                android:id="@+id/B7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="1"
-                android:background="@drawable/white"
-                android:tag="B7" />
-
-            <RelativeLayout
-                android:id="@+id/C7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="1"
-                android:background="@drawable/black"
-                android:tag="C7" />
-
-            <RelativeLayout
-                android:id="@+id/D7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="1"
-                android:background="@drawable/white"
-                android:tag="D7" />
-
-            <RelativeLayout
-                android:id="@+id/E7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="1"
-                android:background="@drawable/black"
-                android:tag="E7" />
-
-            <RelativeLayout
-                android:id="@+id/F7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="1"
-                android:background="@drawable/white"
-                android:tag="F7" />
-
-            <RelativeLayout
-                android:id="@+id/G7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="1"
-                android:background="@drawable/black"
-                android:tag="G7" />
-
-            <RelativeLayout
-                android:id="@+id/H7"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="1"
-                android:background="@drawable/white"
-                android:tag="H7" />
-
-            <RelativeLayout
-                android:id="@+id/A8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="0"
-                android:layout_row="0"
-                android:background="@drawable/white"
-                android:tag="A8" />
-
-            <RelativeLayout
-                android:id="@+id/B8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="1"
-                android:layout_row="0"
-                android:background="@drawable/black"
-                android:tag="B8" />
-
-            <RelativeLayout
-                android:id="@+id/C8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="2"
-                android:layout_row="0"
-                android:background="@drawable/white"
-                android:tag="C8" />
-
-            <RelativeLayout
-                android:id="@+id/D8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="3"
-                android:layout_row="0"
-                android:background="@drawable/black"
-                android:tag="D8" />
-
-            <RelativeLayout
-                android:id="@+id/E8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="4"
-                android:layout_row="0"
-                android:background="@drawable/white"
-                android:tag="E8" />
-
-            <RelativeLayout
-                android:id="@+id/F8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="5"
-                android:layout_row="0"
-                android:background="@drawable/black"
-                android:tag="F8" />
-
-            <RelativeLayout
-                android:id="@+id/G8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="6"
-                android:layout_row="0"
-                android:background="@drawable/white"
-                android:tag="G8" />
-
-            <RelativeLayout
-                android:id="@+id/H8"
-                android:layout_width="@dimen/activity_chess_tile_dimens"
-                android:layout_height="@dimen/activity_chess_tile_dimens"
-                android:layout_column="7"
-                android:layout_row="0"
-                android:background="@drawable/black"
-                android:tag="H8" />
-        </GridLayout>
-        
+            app:layout_constraintTop_toBottomOf="@+id/activity_chess_opponent_info_card"
+
+            app:cardElevation="@dimen/activity_chess_card_elevation">
+
+
+
+
+            <GridLayout
+                android:id="@+id/chessboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:columnCount="8"
+                android:columnWidth="@dimen/activity_chess_tile_dimens"
+                android:orientation="vertical"
+                android:rowCount="8"
+                android:stretchMode="columnWidth"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_chess_opponent_info_card">
+
+                <RelativeLayout
+                    android:id="@+id/A1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="7"
+                    android:background="@drawable/black"
+                    android:tag="A1" />
+
+                <RelativeLayout
+                    android:id="@+id/B1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="7"
+                    android:background="@drawable/white"
+                    android:tag="B1" />
+
+                <RelativeLayout
+                    android:id="@+id/C1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="7"
+                    android:background="@drawable/black"
+                    android:tag="C1" />
+
+                <RelativeLayout
+                    android:id="@+id/D1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="7"
+                    android:background="@drawable/white"
+                    android:tag="D1" />
+
+                <RelativeLayout
+                    android:id="@+id/E1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="7"
+                    android:background="@drawable/black"
+                    android:tag="E1" />
+
+                <RelativeLayout
+                    android:id="@+id/F1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="7"
+                    android:background="@drawable/white"
+                    android:tag="F1" />
+
+                <RelativeLayout
+                    android:id="@+id/G1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="7"
+                    android:background="@drawable/black"
+                    android:tag="G1" />
+
+                <RelativeLayout
+                    android:id="@+id/H1"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="7"
+                    android:background="@drawable/white"
+                    android:tag="H1" />
+
+                <RelativeLayout
+                    android:id="@+id/A2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="6"
+                    android:background="@drawable/white"
+                    android:tag="A2" />
+
+                <RelativeLayout
+                    android:id="@+id/B2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="6"
+                    android:background="@drawable/black"
+                    android:tag="B2" />
+
+                <RelativeLayout
+                    android:id="@+id/C2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="6"
+                    android:background="@drawable/white"
+                    android:tag="C2" />
+
+                <RelativeLayout
+                    android:id="@+id/D2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="6"
+                    android:background="@drawable/black"
+                    android:tag="D2" />
+
+                <RelativeLayout
+                    android:id="@+id/E2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="6"
+                    android:background="@drawable/white"
+                    android:tag="E2" />
+
+                <RelativeLayout
+                    android:id="@+id/F2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="6"
+                    android:background="@drawable/black"
+                    android:tag="F2" />
+
+                <RelativeLayout
+                    android:id="@+id/G2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="6"
+                    android:background="@drawable/white"
+                    android:tag="G2" />
+
+                <RelativeLayout
+                    android:id="@+id/H2"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="6"
+                    android:background="@drawable/black"
+                    android:tag="H2" />
+
+                <RelativeLayout
+                    android:id="@+id/A3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="5"
+                    android:background="@drawable/black"
+                    android:tag="A3" />
+
+                <RelativeLayout
+                    android:id="@+id/B3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="5"
+                    android:background="@drawable/white"
+                    android:tag="B3" />
+
+                <RelativeLayout
+                    android:id="@+id/C3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="5"
+                    android:background="@drawable/black"
+                    android:tag="C3" />
+
+                <RelativeLayout
+                    android:id="@+id/D3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="5"
+                    android:background="@drawable/white"
+                    android:tag="D3" />
+
+                <RelativeLayout
+                    android:id="@+id/E3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="5"
+                    android:background="@drawable/black"
+                    android:tag="E3" />
+
+                <RelativeLayout
+                    android:id="@+id/F3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="5"
+                    android:background="@drawable/white"
+                    android:tag="F3" />
+
+                <RelativeLayout
+                    android:id="@+id/G3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="5"
+                    android:background="@drawable/black"
+                    android:tag="G3" />
+
+                <RelativeLayout
+                    android:id="@+id/H3"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="5"
+                    android:background="@drawable/white"
+                    android:tag="H3" />
+
+                <RelativeLayout
+                    android:id="@+id/A4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="4"
+                    android:background="@drawable/white"
+                    android:tag="A4" />
+
+                <RelativeLayout
+                    android:id="@+id/B4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="4"
+                    android:background="@drawable/black"
+                    android:tag="B4" />
+
+                <RelativeLayout
+                    android:id="@+id/C4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="4"
+                    android:background="@drawable/white"
+                    android:tag="C4" />
+
+                <RelativeLayout
+                    android:id="@+id/D4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="4"
+                    android:background="@drawable/black"
+                    android:tag="D4" />
+
+                <RelativeLayout
+                    android:id="@+id/E4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="4"
+                    android:background="@drawable/white"
+                    android:tag="E4" />
+
+                <RelativeLayout
+                    android:id="@+id/F4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="4"
+                    android:background="@drawable/black"
+                    android:tag="F4" />
+
+                <RelativeLayout
+                    android:id="@+id/G4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="4"
+                    android:background="@drawable/white"
+                    android:tag="G4" />
+
+                <RelativeLayout
+                    android:id="@+id/H4"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="4"
+                    android:background="@drawable/black"
+                    android:tag="H4" />
+
+                <RelativeLayout
+                    android:id="@+id/A5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="3"
+                    android:background="@drawable/black"
+                    android:tag="A5" />
+
+                <RelativeLayout
+                    android:id="@+id/B5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="3"
+                    android:background="@drawable/white"
+                    android:tag="B5" />
+
+                <RelativeLayout
+                    android:id="@+id/C5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="3"
+                    android:background="@drawable/black"
+                    android:tag="C5" />
+
+                <RelativeLayout
+                    android:id="@+id/D5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="3"
+                    android:background="@drawable/white"
+                    android:tag="D5" />
+
+                <RelativeLayout
+                    android:id="@+id/E5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="3"
+                    android:background="@drawable/black"
+                    android:tag="E5" />
+
+                <RelativeLayout
+                    android:id="@+id/F5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="3"
+                    android:background="@drawable/white"
+                    android:tag="F5" />
+
+                <RelativeLayout
+                    android:id="@+id/G5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="3"
+                    android:background="@drawable/black"
+                    android:tag="G5" />
+
+                <RelativeLayout
+                    android:id="@+id/H5"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="3"
+                    android:background="@drawable/white"
+                    android:tag="H5" />
+
+                <RelativeLayout
+                    android:id="@+id/A6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="2"
+                    android:background="@drawable/white"
+                    android:tag="A6" />
+
+                <RelativeLayout
+                    android:id="@+id/B6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="2"
+                    android:background="@drawable/black"
+                    android:tag="B6" />
+
+                <RelativeLayout
+                    android:id="@+id/C6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="2"
+                    android:background="@drawable/white"
+                    android:tag="C6" />
+
+                <RelativeLayout
+                    android:id="@+id/D6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="2"
+                    android:background="@drawable/black"
+                    android:tag="D6" />
+
+                <RelativeLayout
+                    android:id="@+id/E6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="2"
+                    android:background="@drawable/white"
+                    android:tag="E6" />
+
+                <RelativeLayout
+                    android:id="@+id/F6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="2"
+                    android:background="@drawable/black"
+                    android:tag="F6" />
+
+                <RelativeLayout
+                    android:id="@+id/G6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="2"
+                    android:background="@drawable/white"
+                    android:tag="G6" />
+
+                <RelativeLayout
+                    android:id="@+id/H6"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="2"
+                    android:background="@drawable/black"
+                    android:tag="H6" />
+
+                <RelativeLayout
+                    android:id="@+id/A7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:background="@drawable/black"
+                    android:tag="A7" />
+
+                <RelativeLayout
+                    android:id="@+id/B7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="1"
+                    android:background="@drawable/white"
+                    android:tag="B7" />
+
+                <RelativeLayout
+                    android:id="@+id/C7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="1"
+                    android:background="@drawable/black"
+                    android:tag="C7" />
+
+                <RelativeLayout
+                    android:id="@+id/D7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="1"
+                    android:background="@drawable/white"
+                    android:tag="D7" />
+
+                <RelativeLayout
+                    android:id="@+id/E7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="1"
+                    android:background="@drawable/black"
+                    android:tag="E7" />
+
+                <RelativeLayout
+                    android:id="@+id/F7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="1"
+                    android:background="@drawable/white"
+                    android:tag="F7" />
+
+                <RelativeLayout
+                    android:id="@+id/G7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="1"
+                    android:background="@drawable/black"
+                    android:tag="G7" />
+
+                <RelativeLayout
+                    android:id="@+id/H7"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="1"
+                    android:background="@drawable/white"
+                    android:tag="H7" />
+
+                <RelativeLayout
+                    android:id="@+id/A8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="0"
+                    android:layout_row="0"
+                    android:background="@drawable/white"
+                    android:tag="A8" />
+
+                <RelativeLayout
+                    android:id="@+id/B8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:background="@drawable/black"
+                    android:tag="B8" />
+
+                <RelativeLayout
+                    android:id="@+id/C8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="2"
+                    android:layout_row="0"
+                    android:background="@drawable/white"
+                    android:tag="C8" />
+
+                <RelativeLayout
+                    android:id="@+id/D8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="3"
+                    android:layout_row="0"
+                    android:background="@drawable/black"
+                    android:tag="D8" />
+
+                <RelativeLayout
+                    android:id="@+id/E8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="4"
+                    android:layout_row="0"
+                    android:background="@drawable/white"
+                    android:tag="E8" />
+
+                <RelativeLayout
+                    android:id="@+id/F8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="5"
+                    android:layout_row="0"
+                    android:background="@drawable/black"
+                    android:tag="F8" />
+
+                <RelativeLayout
+                    android:id="@+id/G8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="6"
+                    android:layout_row="0"
+                    android:background="@drawable/white"
+                    android:tag="G8" />
+
+                <RelativeLayout
+                    android:id="@+id/H8"
+                    android:layout_width="@dimen/activity_chess_tile_dimens"
+                    android:layout_height="@dimen/activity_chess_tile_dimens"
+                    android:layout_column="7"
+                    android:layout_row="0"
+                    android:background="@drawable/black"
+                    android:tag="H8" />
+            </GridLayout>
+
+        </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/activity_chess_player_info_card"
             android:layout_width="match_parent"
@@ -681,7 +698,9 @@
 
             android:layout_margin="@dimen/default_margin"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/chessboard"
+            app:layout_constraintTop_toBottomOf="@id/chessboard_card"
+
+            app:cardElevation="@dimen/activity_chess_card_elevation"
             >
 
         
@@ -763,7 +782,8 @@
             android:text="@string/activity_chess_undo"
             app:layout_constraintStart_toStartOf="@id/activity_chess_player_info_card"
 
-            app:layout_constraintTop_toBottomOf="@id/activity_chess_player_info_card" />
+            app:layout_constraintTop_toBottomOf="@id/activity_chess_player_info_card"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
         <Button
             android:id="@+id/activity_chess_resign"
@@ -773,7 +793,7 @@
             app:layout_constraintStart_toEndOf="@id/activity_chess_undo"
             app:layout_constraintTop_toBottomOf="@id/activity_chess_player_info_card"
 
-
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             />
 
 

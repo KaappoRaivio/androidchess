@@ -96,7 +96,7 @@ public class MyDragListener implements View.OnDragListener {
             return false;
         }
         if (p.iColor != MyDragListener.ttyUI.getiTurn()) {
-            bValid = false;
+            return false;
         }
 
 

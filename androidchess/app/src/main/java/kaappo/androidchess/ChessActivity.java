@@ -187,7 +187,7 @@ public class ChessActivity extends AppCompatActivity {
 
         System.out.println("dpWidth: " + dpWidth);
 
-        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8, getResources().getDisplayMetrics());
+        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8.25f, getResources().getDisplayMetrics());
 
 
         for (View view : Skeidat.getViews(this)) {
