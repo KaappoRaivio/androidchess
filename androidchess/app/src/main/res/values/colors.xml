@@ -5,13 +5,13 @@
     <color name="colorAccent">#FF4081</color>
 
 
-    <color name="black_square_start">#769656</color>
-    <color name="black_square_end">#769656</color>
+    <color name="black_square_start">#566196</color>
+    <color name="black_square_end">#566096</color>
     <color name="white_square_end">#eeeed2</color>
     <color name="white_square_start">#eeeed2</color>
 
-    <color name="higligh_square_start">#ede847</color>
-    <color name="higlight_square_end">#f2eb31</color>
+    <color name="higligh_square_start">#47abed</color>
+    <color name="higlight_square_end">#31b2f2</color>
 
     <color name="white_blush">#ffffff</color>
 

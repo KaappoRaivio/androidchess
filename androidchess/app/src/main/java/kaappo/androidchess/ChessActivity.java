@@ -1,5 +1,6 @@
 package kaappo.androidchess;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.DragEvent;
@@ -43,10 +45,14 @@ public class ChessActivity extends AppCompatActivity {
 
     private static int playerSide;
 
+    private List<View> doNotGarbageCollect;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
+
+        doNotGarbageCollect = Skeidat.getViews(ChessActivity.this);
 
         scaleBoardCorrectly();
         setDragListeners();
@@ -187,7 +193,9 @@ public class ChessActivity extends AppCompatActivity {
 
         System.out.println("dpWidth: " + dpWidth);
 
-        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpWidth / 8.25f, getResources().getDisplayMetrics());
+        float length = dpWidth / 8.25f;
+
+        int side_length = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, length, getResources().getDisplayMetrics());
 
 
         for (View view : Skeidat.getViews(this)) {
@@ -201,6 +209,13 @@ public class ChessActivity extends AppCompatActivity {
 
             view.setLayoutParams(layoutParams);
         }
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
+        ViewGroup.LayoutParams recyclerParams = recyclerView.getLayoutParams();
+        recyclerParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, length * 7.95f, getResources().getDisplayMetrics());
+        recyclerView.setLayoutParams(recyclerParams);
+
+
     }
 
     private static String getStringFromLMoveV (Vector lastMoveVector) {
@@ -318,7 +333,7 @@ public class ChessActivity extends AppCompatActivity {
         return String.valueOf((char) (65 + y));
     }
 
-    public void clearBoard () {
+    private void clearBoard () {
         for (View view : Skeidat.getViews(this)) {
             ((RelativeLayout) view).removeAllViews();
         }
@@ -440,7 +455,11 @@ public class ChessActivity extends AppCompatActivity {
 
                     }
                 })
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .show();
+        .setIcon(android.R.drawable.ic_dialog_alert);
+        if (!((Activity) this).isFinishing()) {
+            builder.show();
+        } else {
+            System.out.println("Exception occured and the activity crashed. Message was:" + e.getMessage());
+        }
     }
 }

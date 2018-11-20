@@ -9,5 +9,6 @@
     <dimen name="activity_chess_engine_name_textSize">12sp</dimen>
     <dimen name="activity_chess_engine_level_textSize">9sp</dimen>
     <dimen name="activity_chess_card_elevation">4dp</dimen>
+    <dimen name="activity_chess_movehistory_height">20dp</dimen>
 
 </resources>
