@@ -40,8 +40,8 @@ public final class MyTouchListener implements View.OnTouchListener {
 
                 view.startDrag(data, shadowBuilder, view, 0);
                 view.setVisibility(View.INVISIBLE);
-
                 return true;
+
             case MotionEvent.ACTION_UP:
                 view.performClick();
                 return false;
