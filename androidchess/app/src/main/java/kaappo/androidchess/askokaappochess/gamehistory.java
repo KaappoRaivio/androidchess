@@ -95,6 +95,7 @@ public class gamehistory
 		
 		return sHist;
 	}
+
 	
 	void addmove(chessboard cb, int icolor, movevalue mv)
 	{
