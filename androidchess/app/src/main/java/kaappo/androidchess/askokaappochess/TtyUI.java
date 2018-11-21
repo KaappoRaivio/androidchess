@@ -5,7 +5,6 @@ import java.sql.*;
 import java.io.PrintWriter;
 
 import kaappo.androidchess.ChessActivity;
-import kaappo.androidchess.ChessRunner;
 import kaappo.androidchess.GetPromotedPieceDialog;
 import kaappo.androidchess.MyDragListener;
 
@@ -84,11 +83,11 @@ public class TtyUI
 
 
 
-	String getMove() {
+	public String getMove() {
 		String inStr = "";
 		boolean bReady = false;
 		String sReturn = "";
-		
+
 		while (!bReady) {
 
 			try {
@@ -104,11 +103,11 @@ public class TtyUI
 
 				System.out.println("inStr: " + inStr);
 			} catch (Exception ignored) {}
-			
+
 			inStr = inStr.toUpperCase();
-			
+
 			String inComp[] = inStr.split(":");
-			
+
 			if ((inComp[0].equals("PLAY")) && (inComp.length>2)) {
 				int iLevel = Integer.valueOf(inComp[2]);
 
@@ -120,37 +119,56 @@ public class TtyUI
 				if (!sReturn.equals("")) {
 					bReady = true;
 				}
-				
+
 			}
-			
+
 			if (inStr.equals("EXIT")) {
 				sReturn = inStr;
 				bReady = true;
 			}
-			
+
 			if (inStr.equals("UNDO")) {
 				sReturn = "OHO";
 				bReady = true;
 			}
-			
+
 			if ((inStr.length() == 4) && !bReady) {
 				int x1 = (int)inStr.charAt(0)-64;
 				int y1 = (int)inStr.charAt(1)-48;
 				int x2 = (int)inStr.charAt(2)-64;
 				int y2 = (int)inStr.charAt(3)-48;
-		
+
 				if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) {
 					bReady = false;
+					continue;
 				}
-				
-				sReturn = makeMove(inStr);
-                bReady = sReturn.length() > 1;
-				System.out.println("sReturn: " + sReturn);
+
+				sReturn = inStr;
+
+				boolean valid = isMoveValid(inStr);
+				System.out.println("Ttyui.getMove: valid, x1, y1, x2, y2: " + valid + ", " + x1 + ", " + y1 + ", " + x2 + ", " + y2);
+
+                if (valid) {
+                    piece p = mCb.blocks[x1][y1];
+
+                    if (  (p.iType == piece.PAWN) && ( ((p.iColor == piece.WHITE) && (y2 == 8)) || ((p.iColor == piece.BLACK) && (y2 == 1)) )  )
+                    {
+                        // promotion code
+                        int pq = getPromotedPiece();
+                        System.out.println("pq: " + pq);
+
+                        String spc = "p" + pq;
+                        sReturn += spc;
+                        System.out.println("Ttyui.getMove: sReturn: " + sReturn);
+                    }
+
+                    break;
+                }
 
 
 
 			}
-			
+
 			if ((inStr.length() >= 2) && (inStr.substring(0,2).equalsIgnoreCase("T:")))
 			{
 				String sThr[]=inStr.split(":");
@@ -162,7 +180,7 @@ public class TtyUI
 						iNewThr = Integer.valueOf(sThr[1]);
 					}
 					catch (Exception ignored) {}
-					
+
 				}
 				if ((iNewThr >= 1) && (iNewThr <= 64))
 				{
@@ -170,15 +188,22 @@ public class TtyUI
 					System.out.println("Setting Threads to " + mMaxThreads);
 				}
 			}
-			
-			if (inStr.equals("DUMP")) 
+
+			if (inStr.equals("DUMP"))
 			{
 				dumptofile();
 				System.out.println("Dumped game to a file.");
 			}
-				
+
 		}
-		
+
+
+		if (sReturn.length() == 0) {
+		    throw new RuntimeException("Ttyui.getMove: empty sReturn!");
+        }
+
+
+        System.out.println("TtyUI.getMove: now returning value: " + sReturn);
 		return sReturn;
 	}
 	
@@ -298,8 +323,7 @@ public class TtyUI
         return tempString.toString();
     }
 	
-	private String lastMoveString()
-	{
+	private String lastMoveString() {
 		if (lMoveV != null)
 		{
 
@@ -321,59 +345,41 @@ public class TtyUI
 	
 	}
 	
-	private String makeMove(String sMove)
-	{
-		boolean bFound = false;
+	private boolean isMoveValid (String sMove) {
+		boolean bValid = false;
 		
 		int x1 = (int)sMove.charAt(0)-64;
 		int y1 = (int)sMove.charAt(1)-48;
 		int x2 = (int)sMove.charAt(2)-64;
 		int y2 = (int)sMove.charAt(3)-48;
 		
-		String spc = "";
-		
-
-		if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) return "";
+		if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) {
+			return false;
+		}
 		
 		piece p = mCb.blocks[x1][y1];
 		
-		if (p == null) return "";
-		if (p.iColor != iTurn) return "";
-		
+		if (p == null) {
+			return false;
+		}
+		if (p.iColor != iTurn) {
+			return false;
+		}
+
 		Vector mv = p.moveVector(mCb);
-		String sReturnedMove = "";
-		
-		//System.out.println("DBG:domove @a");
-		
-		for (int i = 0; i < mv.size(); i++)
-		{
-			move m = (move) mv.elementAt(i);
-			
-			if ((m.xtar == x2) && (m.ytar == y2))
-			{
-				//System.out.println("YIKES!!! THERE'S A MOVE : " + x1 + "," + y1  + "  to: " + x2 + "," + y2);
-				bFound = true;
-				
-				if ((p.iType == piece.PAWN) && (((p.iColor == piece.WHITE) && (m.ytar == 8)) || ((p.iColor == piece.BLACK) && (m.ytar == 1))))
-				{
-					// promotion code 
-					int pq = getPromotedPiece();
-					System.out.println("pq: " + pq);
-					spc = "p"+pq;
-				}
-				
-				sReturnedMove = "" + (char)(x1+64)+y1 + (char)(x2+64)+ y2 + spc;
-			}
-			
-		}
 
-		if (sReturnedMove.length() > 0) {
-			context.setTurn(iTurn == piece.WHITE ? piece.BLACK : piece.WHITE);
+        for (int i = 0; i < mv.size(); i++)
+        {
+            move m = (move) mv.elementAt(i);
 
-		}
-		return sReturnedMove;
-		//VALIDATE THAT MOVE EXISTS and do promotion too!!!!.
-		// copy chesswindow.domove()
+            if ((m.xtar == x2) && (m.ytar == y2)) {
+                bValid = true;
+                break;
+            }
+
+        }
+
+        return bValid;
 	}
 	
 	private int getPromotedPiece() {
@@ -388,7 +394,9 @@ public class TtyUI
 		//noinspection StatementWithEmptyBody
 		while (GetPromotedPieceDialog._piece == -1) {}
 
+
 		int _piece = GetPromotedPieceDialog._piece;
+		// -1 means no value present
 		GetPromotedPieceDialog._piece = -1;
 
 		System.out.println("_piece: " + _piece);

@@ -83,6 +83,8 @@ public class GetPromotedPieceDialog extends Dialog implements View.OnClickListen
 
         _piece = selectedPiece;
 
+        System.out.println("GetPromotedPiece.onClick: dismissing now!");
+
         dismiss();
     }
 }

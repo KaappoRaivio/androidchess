@@ -389,7 +389,9 @@ public class play
 						{
 							// here's the actual move by player
 							ohoboard = cb.copy();
+							System.out.println("asdasdasd");
 							cb.iMoveCounter = iMove;
+
 							cb.domove(inStr,clr);
 							
 							chessboard cb3 = cb.copy();

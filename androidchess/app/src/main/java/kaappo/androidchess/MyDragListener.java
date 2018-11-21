@@ -108,6 +108,7 @@ public class MyDragListener implements View.OnDragListener {
 
             if ((m.xtar == x2) && (m.ytar == y2)) {
                 bValid = true;
+                break;
             }
 
         }
