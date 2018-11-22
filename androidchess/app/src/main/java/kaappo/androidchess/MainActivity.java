@@ -8,7 +8,6 @@ import android.widget.Spinner;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.sql.Timestamp;
 
 import kaappo.androidchess.askokaappochess.play;
 
@@ -34,32 +33,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
-//        Intent intent = new Intent(this, NewChessActivity.class);
-//        startActivity(intent);
-
     }
 
-    public void redirectStdOut () {
-        File file = new File("sdcard/log.file" + System.currentTimeMillis());
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-
-            PrintStream fileStream = new PrintStream(file);
-            System.setOut(fileStream);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void redirectStdOut () {
+//        File file = new File("sdcard/log.file" + System.currentTimeMillis());
+//        if (!file.exists()) {
+//            try {
+//                file.createNewFile();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        try {
+//
+//            PrintStream fileStream = new PrintStream(file);
+//            System.setOut(fileStream);
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void onPlayButtonClick (View button) {
         Spinner sideSpinner = (Spinner) findViewById(R.id.i_play_as_spinner);

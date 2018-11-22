@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -58,8 +59,12 @@ public class ChessActivity extends AppCompatActivity {
         setDragListeners();
         initializeCatcher();
 
-//        flipBoard();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(new RecyclerViewAdapter());
 
+
+//        flipBoard();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE_KEY);
@@ -124,7 +129,7 @@ public class ChessActivity extends AppCompatActivity {
 
         if (playerSide == piece.WHITE) {
             blackNameView.setText(getResources().getText(R.string.activity_chess_askochess));
-            blackLevelView.setText("Level" + blackLevel);
+            blackLevelView.setText("Level " + blackLevel);
 
             whiteNameView.setText("Human");
             whiteLevelView.setText("Bad");
@@ -317,6 +322,12 @@ public class ChessActivity extends AppCompatActivity {
 
             startSquare.setBackground(context.getDrawable(R.drawable.highlight));
             endSquare.setBackground(context.getDrawable(R.drawable.highlight));
+
+            // set movehistory
+            RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.movehistory);
+            RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
+            recyclerViewAdapter.addMove(lastMove);
+            recyclerViewAdapter.notifyDataSetChanged();
 
         }
 
