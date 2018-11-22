@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import kaappo.androidchess.askokaappochess.piece;
+import kaappo.androidchess.askokaappochess.Piece;
 
 public class GetPromotedPieceDialog extends Dialog implements View.OnClickListener {
 
@@ -36,9 +36,9 @@ public class GetPromotedPieceDialog extends Dialog implements View.OnClickListen
 
         int resId = -1;
 
-        if (this.color == piece.WHITE) {
+        if (this.color == Piece.WHITE) {
             resId = R.layout.fragment_get_promoted_piece_dialog_white;
-        } else if (this.color == piece.BLACK) {
+        } else if (this.color == Piece.BLACK) {
             resId = R.layout.fragment_get_promoted_piece_dialog_black;
         }
 
@@ -66,16 +66,16 @@ public class GetPromotedPieceDialog extends Dialog implements View.OnClickListen
 
         switch (v.getId()) {
             case R.id.frag_queen:
-                selectedPiece = piece.QUEEN;
+                selectedPiece = Piece.QUEEN;
                 break;
             case R.id.frag_rook:
-                selectedPiece = piece.ROOK;
+                selectedPiece = Piece.ROOK;
                 break;
             case R.id.frag_knight:
-                selectedPiece = piece.KNIGHT;
+                selectedPiece = Piece.KNIGHT;
                 break;
             case R.id.frag_bishop:
-                selectedPiece = piece.BISHOP;
+                selectedPiece = Piece.BISHOP;
                 break;
             default:
                 break;

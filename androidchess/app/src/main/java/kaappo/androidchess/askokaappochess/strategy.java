@@ -62,7 +62,7 @@ public class strategy
 						//System.out.println("DBG151218:sMov:"+sMov);
 						int iX = (int)(sMov.charAt(0))-64;
 						int iY = (int)(sMov.charAt(1))-48;
-						piece pp = root_cb.blocks[iX][iY];
+						Piece pp = root_cb.blocks[iX][iY];
 						if ((pp!=null) && (pp.iColor == iColor)) iCommon = i;
 					}
 					if (iCommon < 0)
@@ -196,7 +196,7 @@ public class strategy
 			int iX = (int)(sMov.charAt(0))-64;
 			int iY = (int)(sMov.charAt(1))-48;
 			
-			piece pp = root_cb.blocks[iX][iY];
+			Piece pp = root_cb.blocks[iX][iY];
 			if (pp == null)
 			{
 				System.out.println("DBG151218: Null pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
@@ -297,36 +297,36 @@ public class strategy
 		boolean bAvoidTie = false;
 		boolean bPreferTie = false;
 		
-		int iPieceBalance = root_cb.pvaluesum(piece.WHITE)-root_cb.pvaluesum(piece.BLACK);
+		int iPieceBalance = root_cb.pvaluesum(Piece.WHITE)-root_cb.pvaluesum(Piece.BLACK);
 		
 		sMoveOrder = "";
 		System.out.println("STRATEGY OBJECT analysis starts.");
 		System.out.println("PieceBalance: " + iPieceBalance );
 		System.out.println("Gameisclosed:"+root_cb.bGameIsClosed());
 		
-		if ((iPieceBalance > 0) && (iColor == piece.WHITE)) bAvoidTie = true;
-		if ((iPieceBalance < 0) && (iColor == piece.WHITE)) bPreferTie = true;
-		if ((iPieceBalance < 0) && (iColor == piece.BLACK)) bAvoidTie = true;
-		if ((iPieceBalance > 0) && (iColor == piece.BLACK)) bPreferTie = true;
+		if ((iPieceBalance > 0) && (iColor == Piece.WHITE)) bAvoidTie = true;
+		if ((iPieceBalance < 0) && (iColor == Piece.WHITE)) bPreferTie = true;
+		if ((iPieceBalance < 0) && (iColor == Piece.BLACK)) bAvoidTie = true;
+		if ((iPieceBalance > 0) && (iColor == Piece.BLACK)) bPreferTie = true;
 		
-		int iKnightBalance = root_cb.iWhitePieceCount[piece.KNIGHT]- root_cb.iBlackPieceCount[piece.KNIGHT];
-		System.out.println("KnightBalance:" + root_cb.iWhitePieceCount[piece.KNIGHT] + "/" + root_cb.iBlackPieceCount[piece.KNIGHT]);
+		int iKnightBalance = root_cb.iWhitePieceCount[Piece.KNIGHT]- root_cb.iBlackPieceCount[Piece.KNIGHT];
+		System.out.println("KnightBalance:" + root_cb.iWhitePieceCount[Piece.KNIGHT] + "/" + root_cb.iBlackPieceCount[Piece.KNIGHT]);
 		
-		int iBishopBalance = root_cb.iWhitePieceCount[piece.BISHOP]-root_cb.iBlackPieceCount[piece.BISHOP];
-		System.out.println("BishopBalance:" + root_cb.iWhitePieceCount[piece.BISHOP] + "/" + root_cb.iBlackPieceCount[piece.BISHOP]);
+		int iBishopBalance = root_cb.iWhitePieceCount[Piece.BISHOP]-root_cb.iBlackPieceCount[Piece.BISHOP];
+		System.out.println("BishopBalance:" + root_cb.iWhitePieceCount[Piece.BISHOP] + "/" + root_cb.iBlackPieceCount[Piece.BISHOP]);
 		
-		if ((iColor == piece.WHITE) && (iKnightBalance > 0)) bPreferClosed = true;
-		if ((iColor == piece.BLACK) && (iKnightBalance < 0)) bPreferClosed = true;
-		if ((iColor == piece.WHITE) && (iBishopBalance > 0)) bPreferOpen = true;
-		if ((iColor == piece.BLACK) && (iBishopBalance < 0)) bPreferOpen = true;
+		if ((iColor == Piece.WHITE) && (iKnightBalance > 0)) bPreferClosed = true;
+		if ((iColor == Piece.BLACK) && (iKnightBalance < 0)) bPreferClosed = true;
+		if ((iColor == Piece.WHITE) && (iBishopBalance > 0)) bPreferOpen = true;
+		if ((iColor == Piece.BLACK) && (iBishopBalance < 0)) bPreferOpen = true;
 		
 		int iOffBal = iOfficerBalance();
 		System.out.println("OfficerBalance: " + iOffBal);
 		
-		if ((iColor == piece.WHITE) && (iOffBal > 0)) sDesiredCap = sDesiredCap + "NBRQ";
-		if ((iColor == piece.WHITE) && (iOffBal < 0)) sUnDesiredCap = sUnDesiredCap + "nbrq";
-		if ((iColor == piece.BLACK) && (iOffBal < 0)) sDesiredCap = sDesiredCap + "nbrq";
-		if ((iColor == piece.BLACK) && (iOffBal > 0)) sUnDesiredCap = sUnDesiredCap + "NBRQ";
+		if ((iColor == Piece.WHITE) && (iOffBal > 0)) sDesiredCap = sDesiredCap + "NBRQ";
+		if ((iColor == Piece.WHITE) && (iOffBal < 0)) sUnDesiredCap = sUnDesiredCap + "nbrq";
+		if ((iColor == Piece.BLACK) && (iOffBal < 0)) sDesiredCap = sDesiredCap + "nbrq";
+		if ((iColor == Piece.BLACK) && (iOffBal > 0)) sUnDesiredCap = sUnDesiredCap + "NBRQ";
 		
 		
 		for(int i=0;((i<v.size()) && !bCut);i++) 
@@ -441,12 +441,12 @@ public class strategy
 		
 		pvalue = new int[7];
 		
-		pvalue[piece.QUEEN] = 9;
-		pvalue[piece.BISHOP] = 3;
-		pvalue[piece.KNIGHT] = 3;
-		pvalue[piece.ROOK] = 5;
+		pvalue[Piece.QUEEN] = 9;
+		pvalue[Piece.BISHOP] = 3;
+		pvalue[Piece.KNIGHT] = 3;
+		pvalue[Piece.ROOK] = 5;
 		
-		for (int pt = piece.QUEEN; pt <= piece.ROOK; pt++)
+		for (int pt = Piece.QUEEN; pt <= Piece.ROOK; pt++)
 		{
 			iOB = iOB+ (root_cb.iWhitePieceCount[pt]-root_cb.iBlackPieceCount[pt]) * pvalue[pt];
 		}
@@ -567,64 +567,64 @@ class strat_entry
 		x2 = (int)sMoves[1].charAt(2)-64;
 		y2 = (int)sMoves[1].charAt(3)-48;
 		
-		piece p = root_cb.blocks[x1][y1];
+		Piece p = root_cb.blocks[x1][y1];
 		
 		dbgEntry(mv.sRoute);
 		
-		if (((p.iType == piece.BISHOP) || (p.iType == piece.KNIGHT)) && (p.iLastMove == 0))
+		if (((p.iType == Piece.BISHOP) || (p.iType == Piece.KNIGHT)) && (p.iLastMove == 0))
 		{
-			if (!((p.iType == piece.KNIGHT) && ((x2==1) || (x2==8))))
+			if (!((p.iType == Piece.KNIGHT) && ((x2==1) || (x2==8))))
 			{
 				dbgEntry("STRAT_ENTRY_LO_OPENING");
 				seValue = seValue + STRAT_ENTRY_LO_OPENING;
 			}
 		}
 		
-		if ((p.iType == piece.KING)  && (p.iLastMove == 0) && (x2 != 3) && (x2!= 7)) 
+		if ((p.iType == Piece.KING)  && (p.iLastMove == 0) && (x2 != 3) && (x2!= 7))
 		{
 			dbgEntry("STRAT_ENTRY_KING_FIRST_MOVE");
 			seValue = seValue + STRAT_ENTRY_KING_FIRST_MOVE;
 		}
 		
-		if ((p.iType == piece.QUEEN)  && (p.iLastMove == 0) && (root_cb.iMoveCounter < 20))
+		if ((p.iType == Piece.QUEEN)  && (p.iLastMove == 0) && (root_cb.iMoveCounter < 20))
 		{
 			dbgEntry("STRAT_ENTRY_QUEEN_FIRST_MOVE");
 			seValue = seValue + STRAT_ENTRY_QUEEN_FIRST_MOVE;
 		}
 		
-		if ((p.iType == piece.KING) && (p.iLastMove == 0) && ((x2 == 3) || (x2== 7))) 
+		if ((p.iType == Piece.KING) && (p.iLastMove == 0) && ((x2 == 3) || (x2== 7)))
 		{
 			dbgEntry("STRAT_ENTRY_CASTLING");
 			seValue = seValue + STRAT_ENTRY_CASTLING;
 		}
 		
-		if ((p.iType == piece.ROOK) && (!root_cb.bPawnsAtColumn(x2,p.iColor)) && (root_cb.iMoveCounter < 25) && (y1 == y2))
+		if ((p.iType == Piece.ROOK) && (!root_cb.bPawnsAtColumn(x2,p.iColor)) && (root_cb.iMoveCounter < 25) && (y1 == y2))
 		{
 			dbgEntry("STRAT_ENTRY_ROOK_FREECOLUMN");
 			seValue = seValue + STRAT_ENTRY_ROOK_FREECOLUMN;
 		}
 		
-		if ((p.iType == piece.ROOK) && (!root_cb.bPawnsAtColumn(x1,p.iColor)) && (root_cb.iMoveCounter < 25) && (y1 == y2))
+		if ((p.iType == Piece.ROOK) && (!root_cb.bPawnsAtColumn(x1,p.iColor)) && (root_cb.iMoveCounter < 25) && (y1 == y2))
 		{
 			dbgEntry("STRAT_ENTRY_ROOK_FROM_FREECOLUMN");
 			seValue = seValue + STRAT_ENTRY_ROOK_FROM_FREECOLUMN;
 		}
 		
-		if ((p.iType == piece.PAWN) && (x1==x2) && !root_cb.bPawnProtectedAt(x2,y2,p.iColor) && (root_cb.iMoveCounter < 25))
+		if ((p.iType == Piece.PAWN) && (x1==x2) && !root_cb.bPawnProtectedAt(x2,y2,p.iColor) && (root_cb.iMoveCounter < 25))
 		{
 			dbgEntry("STRAT_ENTRY_PAWN_NOPAWNPROT");
 			seValue = seValue + STRAT_ENTRY_PAWN_NOPAWNPROT;
 		}
 		
-		if ((p.iType == piece.PAWN) && (x1==x2) && root_cb.bPawnProtectedAt(x2,y2,p.iColor))
+		if ((p.iType == Piece.PAWN) && (x1==x2) && root_cb.bPawnProtectedAt(x2,y2,p.iColor))
 		{
 			dbgEntry("STRAT_ENTRY_PAWN_PAWNPROT");
 			seValue = seValue + STRAT_ENTRY_PAWN_PAWNPROT;
 		}
 		
-		if (((p.iType == piece.BISHOP) || (p.iType == piece.KNIGHT)) && (root_cb.iMoveCounter < 25))
+		if (((p.iType == Piece.BISHOP) || (p.iType == Piece.KNIGHT)) && (root_cb.iMoveCounter < 25))
 		{
-			if (((p.iColor == piece.WHITE) && (y2==1)) || ((p.iColor==piece.BLACK) && (y2==8)))
+			if (((p.iColor == Piece.WHITE) && (y2==1)) || ((p.iColor== Piece.BLACK) && (y2==8)))
 			{
 				dbgEntry("STRAT_ENTRY_LO_RETURNTOZERO");
 				//System.out.println("RT0:y2="+y2);
@@ -633,16 +633,16 @@ class strat_entry
 		}
 		
 		
-		if ((p.iType == piece.PAWN) && root_cb.bPawnIsFreeAt(x1,y1))
+		if ((p.iType == Piece.PAWN) && root_cb.bPawnIsFreeAt(x1,y1))
 		{
 			dbgEntry("STRAT_ENTRY_FREEPAWN_ADVANCE");
 			seValue = seValue + STRAT_ENTRY_FREEPAWN_ADVANCE;
 		}
 		
 		
-		if ((p.iType == piece.BISHOP) && (x2==7) && (p.iLastMove == 0))
+		if ((p.iType == Piece.BISHOP) && (x2==7) && (p.iLastMove == 0))
 		{
-			if (((p.iColor == piece.WHITE) && (y2==2)) || ((p.iColor == piece.BLACK) && (y2 == 7)))
+			if (((p.iColor == Piece.WHITE) && (y2==2)) || ((p.iColor == Piece.BLACK) && (y2 == 7)))
 			{
 				dbgEntry("STRAT_ENTRY_KINGSIDE_FIANCHETTO");
 				seValue = seValue + STRAT_ENTRY_KINGSIDE_FIANCHETTO;
@@ -667,9 +667,9 @@ class strat_entry
 			
 			if ((x01 != 0) && (y01!=0))
 			{
-				piece pmov = cb_temp.blocks[x01][y01];
+				Piece pmov = cb_temp.blocks[x01][y01];
 				
-				piece pcap = cb_temp.blocks[x02][y02];
+				Piece pcap = cb_temp.blocks[x02][y02];
 				if (pcap != null) sCaptures = sCaptures + pcap.dumpchr();
 				else
 				{
@@ -681,10 +681,10 @@ class strat_entry
 						throw new RuntimeException("DBG 150426::Fatal Error pmov == null");
 					}
 					
-					if ((pmov.iType == piece.PAWN) && (x01!=x02))
+					if ((pmov.iType == Piece.PAWN) && (x01!=x02))
 					{
 						// en passant
-						if (p.iColor == piece.WHITE) sCaptures = sCaptures + "P";
+						if (p.iColor == Piece.WHITE) sCaptures = sCaptures + "P";
 						else sCaptures = sCaptures + "p";
 					}
 					else sCaptures = sCaptures + ".";
@@ -735,7 +735,7 @@ class strat_entry
 		}
 		cb_vector.addElement(cb_temp.copy());
 		
-		if (p.iType == piece.KNIGHT)
+		if (p.iType == Piece.KNIGHT)
 		{
 			king oppKing = root_cb.locateKing(1-p.iColor);
 			int iCurrKingDist = knight.distanceToTarget(x1,y1,oppKing.xk,oppKing.yk);
@@ -745,7 +745,7 @@ class strat_entry
 			if (iCurrKingDist > iNewKingDist)
 			{
 				String sNsymbol;
-				if (p.iColor == piece.WHITE) sNsymbol = "n";
+				if (p.iColor == Piece.WHITE) sNsymbol = "n";
 				else sNsymbol = "N";
 				
 				if (sCaptures.indexOf(sNsymbol) == -1)
@@ -856,8 +856,8 @@ class strat_entry
 	
 	boolean isMate (int iColor)
 	{
-		if ((iColor == piece.WHITE) && (mv.bBlackCheckMate)) return true;
-        return (iColor == piece.BLACK) && (mv.bWhiteCheckMate);
+		if ((iColor == Piece.WHITE) && (mv.bBlackCheckMate)) return true;
+        return (iColor == Piece.BLACK) && (mv.bWhiteCheckMate);
     }
 	
 }

@@ -229,7 +229,7 @@ public class moveindex
 		return mi;
 	}
 		
-	piece findOther(piece p)
+	Piece findOther(Piece p)
 	{
 		for (int i=0;i<getSize();i++)
 		{
@@ -256,7 +256,7 @@ public class moveindex
 			{
 				if (!mm.isRisky())
 				{
-					if (iColor == piece.WHITE) cb.iWhiteKCSMoves++;
+					if (iColor == Piece.WHITE) cb.iWhiteKCSMoves++;
 					else cb.iBlackKCSMoves++;
 				}
 			}
@@ -320,16 +320,16 @@ public class moveindex
 	
 	int minPieceHittingBlockVal( int xk, int yk, chessboard cb)
 	{
-		piece pr = minPieceHittingBlock(xk,yk,cb);
+		Piece pr = minPieceHittingBlock(xk,yk,cb);
 		if (pr == null) return 0;
 		else return pr.pvalue();
 	}
 	
 	
-	piece minPieceHittingBlock( int xk, int yk, chessboard cb)
+	Piece minPieceHittingBlock(int xk, int yk, chessboard cb)
 	{
 		int iRet = 0;
-		piece pRet = null;
+		Piece pRet = null;
 		
 		//System.out.println("moveindex.minPieceHittingBlock("+xk+","+yk+") starts:"+iColor);
 		
@@ -339,7 +339,7 @@ public class moveindex
 			{
 				move mm = getMoveAt(i);
 				//System.out.println("DBG 141221: " + mm.moveStr());
-				if ((mm.xtar == xk) && (mm.ytar == yk) && (mm.p.iType != piece.PAWN))
+				if ((mm.xtar == xk) && (mm.ytar == yk) && (mm.p.iType != Piece.PAWN))
 				{
 					if (iRet == 0) 
 					{
@@ -372,10 +372,10 @@ public class moveindex
 				for (int i=1;i<=8;i++)
 					for (int j=1;j<=8;j++)
 					{
-						piece p2 = cb.blocks[i][j];
+						Piece p2 = cb.blocks[i][j];
 						if ((p2 != null) && (p2.iColor == iColor) && ((i!=xk) || (j != yk)))
 						{
-							piece p3 = new piece(xk,yk,1-iColor);
+							Piece p3 = new Piece(xk,yk,1-iColor);
 							//if (p2.canReach(xk,yk,p3,cb))
 							if (p2.canReach(i,j,p3,cb))
 							{
@@ -407,17 +407,17 @@ public class moveindex
 	}
 	
 	//int minOtherPieceHittingBlock( int xk, int yk, piece p, chessboard cb, move m)
-	int minOtherPieceHittingBlockVal( int xk, int yk, piece p, chessboard cb, move m)
+	int minOtherPieceHittingBlockVal(int xk, int yk, Piece p, chessboard cb, move m)
 	{
-		piece pr = minOtherPieceHittingBlock( xk, yk, p, cb, m);
+		Piece pr = minOtherPieceHittingBlock( xk, yk, p, cb, m);
 		if (pr == null) return 0;
 		else return pr.pvalue();
 	}
 	
-	piece minOtherPieceHittingBlock( int xk, int yk, piece p, chessboard cb, move m)
+	Piece minOtherPieceHittingBlock(int xk, int yk, Piece p, chessboard cb, move m)
 	{
 		int iRet = 0;
-		piece pRet = null;
+		Piece pRet = null;
 		
 		for (int i=0;i<getSize();i++)
 		{
@@ -425,7 +425,7 @@ public class moveindex
 			
 			if ((mm.p.xk != p.xk) && (mm.p.yk != p.yk))
 			{
-				if ((mm.xtar == xk) && (mm.ytar == yk) && (mm.p.iType != piece.PAWN))
+				if ((mm.xtar == xk) && (mm.ytar == yk) && (mm.p.iType != Piece.PAWN))
 				{
 					if (iRet == 0)
 					{
@@ -446,10 +446,10 @@ public class moveindex
 		if (iRet != 0) return pRet;
 		
 		Vector vPieces;
-		if (iColor == piece.WHITE) vPieces = cb.vWhites;
+		if (iColor == Piece.WHITE) vPieces = cb.vWhites;
 		else vPieces = cb.vBlacks;
 		
-		piece p3 = cb.blocks[xk][yk];
+		Piece p3 = cb.blocks[xk][yk];
 		cb.blocks[p.xk][p.yk]=null;
 		if (p3==null) 
 		{
@@ -458,7 +458,7 @@ public class moveindex
 		
 		for (int i=0;i<vPieces.size();i++)
 		{
-			piece p2 = (piece)vPieces.elementAt(i);
+			Piece p2 = (Piece)vPieces.elementAt(i);
 			
 			if (!((m.p.xk == p2.xk) && (m.p.yk == p2.yk)) && (p2.canReach(p2.xk,p2.yk,p3,cb)) && (!p2.bPinned)) 
 			{
@@ -556,7 +556,7 @@ public class moveindex
 					if (!mm.bPassesFilter(mFilter,cb))
 					{
 						//System.out.println("DBG160201: Filter not passed, but skewer is there for " + mm.moveStr());
-						piece tp = cb.blocks[mm.mSkewerMove.xtar][mm.mSkewerMove.ytar];
+						Piece tp = cb.blocks[mm.mSkewerMove.xtar][mm.mSkewerMove.ytar];
 						if (mFilter.p.canReach(mFilter.xtar,mFilter.ytar,tp,cb))
 						{
 							//System.out.println("DBG160201: skewerproteceted as well for " + mm.moveStr());
@@ -569,7 +569,7 @@ public class moveindex
 						}
 						else
 						{
-							if (piece.directlyBetween(mm.p.xk,mm.p.yk,mFilter.xtar,mFilter.ytar,mm.mSkewerMove.xtar,mm.mSkewerMove.ytar)) mm.iNetCapture = 0;
+							if (Piece.directlyBetween(mm.p.xk,mm.p.yk,mFilter.xtar,mFilter.ytar,mm.mSkewerMove.xtar,mm.mSkewerMove.ytar)) mm.iNetCapture = 0;
 							else mm.iNetCapture=Math.min(mm.iNetCapture,mm.mSkewerMove.iNetCapture);
 							//System.out.println("DBG160208: should check XXXX for netcapture:" + mm.iNetCapture);
 							//System.out.println("Move:" + mm.moveStr() + " skewer:" + mm.mSkewerMove.moveStr() + " filter: " + mFilter.moveStr());
@@ -837,7 +837,7 @@ public class moveindex
 	boolean bPreventPawnPromAt(int xpro)
 	{
 		int ypro;
-		if (iColor == piece.WHITE) ypro = 1;
+		if (iColor == Piece.WHITE) ypro = 1;
 		else ypro = 8;
 		
 		//System.out.println("DBG151002: prev pawn prom at: " + xpro + " " + ypro);
@@ -878,7 +878,7 @@ public class moveindex
 			//mm.iNetPressure = 0; 160415, dumb12bz (test076!)
 		}
 		if ((((mm.xtar == mP.p.xk) && (mm.ytar == mP.p.yk)) ||    // kill the pain
-			(piece.directlyBetween(mP.p.xk,mP.p.yk,mm.xtar,mm.ytar,mP.xtar,mP.ytar)) ||   // move in between
+			(Piece.directlyBetween(mP.p.xk,mP.p.yk,mm.xtar,mm.ytar,mP.xtar,mP.ytar)) ||   // move in between
 			//((mP != null) && (mP.bPawnProm() && (mm.bCanPreventPawnProm(mP,cb)))) ||     // pawn prom
 			(bEscape && !bPotReach))   // escape the pain
 			&& !mm.bRisky)
@@ -898,7 +898,7 @@ public class moveindex
 		//System.out.println("DBG160125: bMoveResolvesPain " + mm.moveStr() + " + still open A");	
 		
 		//if ((mm.xtar == 1) && (mm.ytar==4) && (mm.p.iType == piece.ROOK)) return true;
-		piece tp = cb.blocks[mP.xtar][mP.ytar];
+		Piece tp = cb.blocks[mP.xtar][mP.ytar];
 		if (tp == null) return false;
 		/*
 		System.out.println("DBG160125: bMoveResolvesPain XXXX:" + mm.moveStr() + " + still open B pain: " + mP.moveStr());

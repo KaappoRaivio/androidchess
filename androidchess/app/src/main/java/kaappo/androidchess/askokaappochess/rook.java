@@ -2,12 +2,12 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-public class rook extends piece
+public class rook extends Piece
 {
 	rook (int x, int y, int col)
 	{
 		super (x,y,col);
-		iType = piece.ROOK;		
+		iType = Piece.ROOK;
 	}
 	
 	int pvalue() 
@@ -34,7 +34,7 @@ public class rook extends piece
 		
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		if (k==null) return false;
 		//System.out.println("DBG:150207:Rook CR " + xk +"," + yk + " going to:" + k.xk + "," + k.yk);
@@ -60,10 +60,10 @@ public class rook extends piece
 		else return false; // revealsChecker(k,cb);
 	}
 	
-	piece canReachBrotherPiece(chessboard cb)
+	Piece canReachBrotherPiece(chessboard cb)
 	{
 		// not awfully necessary, only after somebody has promoted a bishop :)
-		piece pb = null;
+		Piece pb = null;
 		
 		for (int i=1;i<=7;i++)
 		{
@@ -71,7 +71,7 @@ public class rook extends piece
 			pb = cb.blocks[xk+i][yk];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.ROOK)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.ROOK)) return pb;
 				else break;
 			}
 		}
@@ -82,7 +82,7 @@ public class rook extends piece
 			pb = cb.blocks[xk-i][yk];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.ROOK)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.ROOK)) return pb;
 				else break;
 			}
 		}
@@ -93,7 +93,7 @@ public class rook extends piece
 			pb = cb.blocks[xk][yk+i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.ROOK)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.ROOK)) return pb;
 				else break;
 			}
 		}
@@ -104,7 +104,7 @@ public class rook extends piece
 			pb = cb.blocks[xk][yk-i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.ROOK)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.ROOK)) return pb;
 				else break;
 			}
 		}

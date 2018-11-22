@@ -98,7 +98,7 @@ public class anyokmove
 			chessboard cbMoved = cb2.copy();
 			
 			System.out.println("iFileCol:" + cb.iFileCol + " iNewMove" + iNewMove);
-			if (cb2.iFileCol == piece.BLACK)
+			if (cb2.iFileCol == Piece.BLACK)
 			{
 				sOut = sOut.substring(0,sOut.length()-2);
 				sOut = sOut+" " + iNewMove;
@@ -155,7 +155,7 @@ public class anyokmove
 		System.out.println("anyokmove.fad_anymove() called!");
 
 		moveindex mi;
-		if (iColor == piece.WHITE) mi=cb.miWhiteMoveindex;
+		if (iColor == Piece.WHITE) mi=cb.miWhiteMoveindex;
 		else mi = cb.miBlackMoveindex;
 		
 		mi.dump();
@@ -375,7 +375,7 @@ public class anyokmove
 				String sMCPart = sFEN.substring(sFEN.length()-2).trim();
 				System.out.println(sMCPart);
 				int iNewMove = (new Integer(sMCPart).intValue());
-				if (cb.iFileCol == piece.BLACK) iNewMove++;
+				if (cb.iFileCol == Piece.BLACK) iNewMove++;
 				
 				PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("anymove.txt", true)));
 				for (int i=0;i<sComp.length;i++)

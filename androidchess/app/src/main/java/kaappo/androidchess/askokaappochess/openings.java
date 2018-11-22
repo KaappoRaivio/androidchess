@@ -16,8 +16,7 @@ public class openings
 	{
 		try {
 			InputStream input = context.getResources().openRawResource(R.raw.openings);
-//			InputStream input = getClass().getResourceAsStream("raw/openings.opn");
-//			InputStream input = new FileInputStream(new File(R.raw.openings))
+
 			if (input == null) {
 				System.out.println("fatal: Can't find openings.opn");
 				throw new RuntimeException("Can't find openings.opn");
@@ -26,7 +25,6 @@ public class openings
 			BufferedReader br;
 			br = new BufferedReader(new InputStreamReader(input));
 
-			//BufferedReader br = new BufferedReader(new FileReader("openings.opn"));
 			oVec = new Vector();
 			
 			int rc = 0;
@@ -158,7 +156,7 @@ public class openings
 			opening_entry oe = (opening_entry)oVec.elementAt(i);
 			//System.out.println("scan:" + oe.sGame);
 			
-			if ((oe.sGame.indexOf(sCriteria) != -1) && (oe.isValid()) && (oe.isValidforColor(iColor)))iFits++;
+			if ((oe.sGame.contains(sCriteria)) && (oe.isValid()) && (oe.isValidforColor(iColor)))iFits++;
 		}
 		System.out.println("iFits="+iFits);
 		
@@ -173,7 +171,7 @@ public class openings
 		{
 			opening_entry oe = (opening_entry)oVec.elementAt(i);
 			
-			if ((oe.sGame.indexOf(sCriteria) != -1) && (oe.isValid()) && ((oe.isValidforColor(iColor))))
+			if ((oe.sGame.contains(sCriteria)) && (oe.isValid()) && ((oe.isValidforColor(iColor))))
 			{
 				if (iFits == iRandom)
 				{
@@ -207,10 +205,10 @@ public class openings
 
 class opening_entry
 {
-	String sFull;
+	private String sFull;
 	String sName;
 	String sGame;
-	int iLength;
+	private int iLength;
 	
 	opening_entry(String s)
 	{
@@ -248,8 +246,8 @@ class opening_entry
 		
 		String sMoveComp[] = sMove.split(" ");
 		
-		if ((iColor == piece.WHITE) && (sMoveComp.length > 1)) return sMoveComp[1];
-		if ((iColor == piece.BLACK) && (sMoveComp.length > 2)) return sMoveComp[2];
+		if ((iColor == Piece.WHITE) && (sMoveComp.length > 1)) return sMoveComp[1];
+		if ((iColor == Piece.BLACK) && (sMoveComp.length > 2)) return sMoveComp[2];
 		
 		return null;
 		
@@ -283,6 +281,6 @@ class opening_entry
 	
 	boolean isValidforColor(int iColor)
 	{
-        return ((iColor != piece.WHITE) || (sName.indexOf("NOWHITE") == -1)) && ((iColor != piece.BLACK) || (sName.indexOf("NOBLACK") == -1));
+        return ((iColor != Piece.WHITE) || (sName.indexOf("NOWHITE") == -1)) && ((iColor != Piece.BLACK) || (sName.indexOf("NOBLACK") == -1));
     }
 }

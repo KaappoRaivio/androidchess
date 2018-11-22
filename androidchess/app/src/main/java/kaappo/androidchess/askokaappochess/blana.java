@@ -2,10 +2,6 @@ package kaappo.androidchess.askokaappochess;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.*;
-import java.io.PrintWriter;
-import java.util.*;
 import java.sql.*;
 
 public class blana
@@ -86,8 +82,8 @@ public class blana
 			sctr = sctr.trim();
 			if (lc==1)
 			{
-				if (sctr.equalsIgnoreCase("WHITE")) fb_color = piece.WHITE;
-				if (sctr.equalsIgnoreCase("BLACK")) fb_color = piece.BLACK;
+				if (sctr.equalsIgnoreCase("WHITE")) fb_color = Piece.WHITE;
+				if (sctr.equalsIgnoreCase("BLACK")) fb_color = Piece.BLACK;
 			}
 			
 			if (sctr.indexOf("MC:") != -1)
@@ -136,14 +132,14 @@ public class blana
 			String sRun;
 			switch (fb_color)
 			{
-				case piece.WHITE:
+				case Piece.WHITE:
 					sRun = "cmd /c java play filesimux:fb0.dat 1:1 42:1098 > run.out";
 					if (bFENFlag) sRun = "cmd /c java play filesimufen:" + (char)34 + fname + (char)34 +" 1:1 42:1098 > run.out";
 					p = Runtime.getRuntime().exec(sRun);
 					iRet = p.waitFor();
 					break;
 					
-				case piece.BLACK:
+				case Piece.BLACK:
 					sRun = "cmd /c java play filesimux:fb0.dat 1:1 1098:42 > run.out";
 					if (bFENFlag)
 					{

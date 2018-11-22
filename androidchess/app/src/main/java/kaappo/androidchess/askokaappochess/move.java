@@ -9,7 +9,7 @@ public class move
 	boolean bCheck;
 	boolean bRevCheck;
 	int iCaptValue;
-	piece p;
+	Piece p;
 	boolean bRisky;
 	boolean bPressure;
 	boolean bKCS;
@@ -26,7 +26,7 @@ public class move
 	static final boolean bIsBetterMoveDebug = false;
 	static final boolean bRiskAssDegug = false;
 	
-	move (int x, int y, boolean bc, int iC, piece pi)
+	move (int x, int y, boolean bc, int iC, Piece pi)
 	{
 		xtar = x;
 		ytar = y;
@@ -114,14 +114,14 @@ public class move
         return moveStr().substring(0, 5).equals(m2.moveStr().substring(0, 5));
 	}
 	
-	void analyzeCheck(piece p, chessboard cb)
+	void analyzeCheck(Piece p, chessboard cb)
 	{
 		//if ((p.iType == piece.KNIGHT) && (p.iColor == piece.BLACK)) 
 		//System.out.println("DBG 151004: move.analyzeCheck() : "+ moveStr());
 		int iColor = p.iColor;
 		king kOpp = cb.locateKing(1-iColor);
 		//System.out.println("DBG141221 (a)");
-		if (p.iType != piece.KING)
+		if (p.iType != Piece.KING)
 		{
 			if (p.canReach(xtar,ytar,kOpp,cb)) setCheck(true);
 			//System.out.println("DBG141221 (b)");
@@ -129,7 +129,7 @@ public class move
 		if (p.revealsChecker(kOpp,cb,this)) setRevCheck(true);
 		//System.out.println("DBG141221 (c)");
 		
-		if (p.iType == piece.KNIGHT)
+		if (p.iType == Piece.KNIGHT)
 		{
 			if (bKCSCandidate(cb)) bKCS = true;
 		}
@@ -140,13 +140,13 @@ public class move
 	{
 		if (bCheck || bRevCheck) return true;
 		
-		if ((p.iType == piece.PAWN) && ((ytar == 1) || (ytar == 8))) return true;
+		if ((p.iType == Piece.PAWN) && ((ytar == 1) || (ytar == 8))) return true;
 
         return bKCS;
 
     }
 	
-	void analyzeRisk(piece p, chessboard cb)
+	void analyzeRisk(Piece p, chessboard cb)
 	{
 		boolean bOwnCoverage[][];
 		boolean bOtherCoverage[][];
@@ -167,7 +167,7 @@ public class move
 			return;
 		}
 		
-		if (p.iColor == piece.WHITE)
+		if (p.iColor == Piece.WHITE)
 		{
 			bOwnCoverage=cb.bWhiteCoverage;
 			bOtherCoverage=cb.bBlackCoverage;
@@ -192,7 +192,7 @@ public class move
 			{
 				bPressure = true;
 				iNetPressure = p.pvalue();
-				if (p.iType == piece.KING) iNetPressure = 0;
+				if (p.iType == Piece.KING) iNetPressure = 0;
 			}
 			else
 			{
@@ -201,13 +201,13 @@ public class move
 				{
 					bPressure = true;
 					iNetPressure = p.pvalue() - p.iMinThreat;
-					if (p.iType == piece.KING) iNetPressure = 0;
+					if (p.iType == Piece.KING) iNetPressure = 0;
 				}
 				if (p.iThreatCount > p.iProtCount)
 				{
 					bPressure = true;
 					iNetPressure = 1; // $$$$ 150304 don't know natures of protecting pieces 
-					if (p.iType == piece.KING) iNetPressure = 0;
+					if (p.iType == Piece.KING) iNetPressure = 0;
 				}
 			}
 			//System.out.println("risk ass p.bThreat done for:" + moveStrLong());
@@ -220,10 +220,10 @@ public class move
 			//System.out.println("Moving piece pin: value:" + p.iPinValue + " direction: " + p.iPinDirection);
 			//if (mSkewerMove != null) System.out.println("DBG150924: skewer: " + mSkewerMove.moveStr()); 
 			
-			piece pcap = cb.blocks[this.xtar][this.ytar];
+			Piece pcap = cb.blocks[this.xtar][this.ytar];
 			if (pcap == null)
 			{
-				if ((p.iType == piece.PAWN) && (((ytar == 6) && (p.iColor == piece.WHITE)) || ((ytar == 3) && (p.iColor == piece.BLACK)))) 
+				if ((p.iType == Piece.PAWN) && (((ytar == 6) && (p.iColor == Piece.WHITE)) || ((ytar == 3) && (p.iColor == Piece.BLACK))))
 				{
 					pcap = cb.blocks[this.xtar][p.yk];
 				}
@@ -350,7 +350,7 @@ public class move
 			{
 				bRisky = false;
 				iNetCapture = pcap.pvalue();
-				if ((p.iType == piece.PAWN) && ((ytar == 1) || (ytar ==8))) iNetCapture = 8;
+				if ((p.iType == Piece.PAWN) && ((ytar == 1) || (ytar ==8))) iNetCapture = 8;
 				else if (bKCS) addKCSToNetCapture(cb);
 				//System.out.println("DBG160125: risk ass GGG0 NOT RISKY!" + moveStrLong());
 				if (iNetCapture > 0) p.iPosCaptureCount++;
@@ -362,7 +362,7 @@ public class move
 				//System.out.println("DBG160125: risk ass GGG NOT RISKY!");
 				iNetCapture = pcap.pvalue();
 				bRisky = false;
-				if ((p.iType == piece.PAWN) && ((ytar == 1) || (ytar ==8))) iNetCapture = 8;
+				if ((p.iType == Piece.PAWN) && ((ytar == 1) || (ytar ==8))) iNetCapture = 8;
 				else if (bKCS) addKCSToNetCapture(cb);
 				if (iNetCapture > 0) p.iPosCaptureCount++;
 				return;
@@ -375,10 +375,10 @@ public class move
 				boolean bEPR = bEnemyPawnRisk(cb);
 				boolean bOPP = bOwnPawnProt(cb);
 				
-				piece pOwn = miOwn.minOtherPieceHittingBlock(xtar,ytar,this.p, cb, this);
+				Piece pOwn = miOwn.minOtherPieceHittingBlock(xtar,ytar,this.p, cb, this);
 				int iOwnPiece = 0; 
 				if (pOwn != null) iOwnPiece = pOwn.pvalue();
-				piece pEnemy = miOther.minPieceHittingBlock(xtar,ytar, cb);
+				Piece pEnemy = miOther.minPieceHittingBlock(xtar,ytar, cb);
 				int iEnemyPiece = 0;
 				if (pEnemy != null) iEnemyPiece = pEnemy.pvalue();
 				
@@ -432,8 +432,8 @@ public class move
 								int iStrikeBal = cb.iWhiteStrike[xtar][ytar]-cb.iBlackStrike[xtar][ytar];
 								//System.out.println("DBG160203: risk ass FFF " + iStrikeBal + " iOwnPiece:" + iOwnPiece + " iEnemyPiece:" + iEnemyPiece+ " p.pvalue:" + p.pvalue());
 								//System.out.println("Netcapt cand:" + (iCaptValue-p.pvalue()+iEnemyPiece));
-								if (((p.iColor == piece.WHITE) && (iStrikeBal > 0)) || 
-									((p.iColor == piece.BLACK) && (iStrikeBal < 0)))
+								if (((p.iColor == Piece.WHITE) && (iStrikeBal > 0)) ||
+									((p.iColor == Piece.BLACK) && (iStrikeBal < 0)))
 								{
 									iNetCapture = Math.min(iCaptValue,Math.max(0,iCaptValue-p.pvalue()+iEnemyPiece));
 									if (iNetCapture > 0) p.iPosCaptureCount++;
@@ -538,7 +538,7 @@ public class move
 				}
 				int iStrikeBal = cb.iWhiteStrike[xtar][ytar]-cb.iBlackStrike[xtar][ytar];
 				//System.out.println("risk ass return ### for "+ moveStrLong() + "w:" + cb.iWhiteStrike[xtar][ytar]+ " b:" + cb.iBlackStrike[xtar][ytar]+" iStrikeBal:" +iStrikeBal);
-				if (p.iColor == piece.WHITE) iSafetyMargin = iStrikeBal;
+				if (p.iColor == Piece.WHITE) iSafetyMargin = iStrikeBal;
 				else iSafetyMargin = -iStrikeBal;
 				return;
 			}
@@ -549,15 +549,15 @@ public class move
 				int iStrikeBal = cb.iWhiteStrike[xtar][ytar]-cb.iBlackStrike[xtar][ytar];
 				//System.out.println("DBG151215: (riskass) " + moveStr() + " iStrikeBal:" + iStrikeBal + " whitestr:" + cb.iWhiteStrike[xtar][ytar] + " blackstr: " + cb.iBlackStrike[xtar][ytar]);
 				
-				if (p.iColor == piece.WHITE) iStrikeBal--;
+				if (p.iColor == Piece.WHITE) iStrikeBal--;
 				else iStrikeBal++;
 				
 				boolean bEPR = bEnemyPawnRisk(cb);
 				boolean bOPP = bOwnPawnProt(cb);
 				boolean bOwnBlock = false;
 				
-				if ((p.iColor == piece.WHITE) && (iStrikeBal > 0))  bOwnBlock = true;
-				if ((p.iColor == piece.BLACK) && (iStrikeBal < 0))  bOwnBlock = true;
+				if ((p.iColor == Piece.WHITE) && (iStrikeBal > 0))  bOwnBlock = true;
+				if ((p.iColor == Piece.BLACK) && (iStrikeBal < 0))  bOwnBlock = true;
 				
 				/*if (miOwn==null) System.out.println("DBG150924: miOwn=null!" );
 				if (this.p==null) System.out.println("DBG150924: this.p=null!");
@@ -578,8 +578,8 @@ public class move
 					
 					//if (((p.iColor == piece.WHITE) && (iStrikeBal <= 0)) ||
 					//((p.iColor == piece.BLACK) && (iStrikeBal >= 0)))
-					if (((p.iColor == piece.WHITE) && (iStrikeBal >= 0)) ||    // were the <> signs wrong? 160331? 
-						((p.iColor == piece.BLACK) && (iStrikeBal <= 0)))
+					if (((p.iColor == Piece.WHITE) && (iStrikeBal >= 0)) ||    // were the <> signs wrong? 160331?
+						((p.iColor == Piece.BLACK) && (iStrikeBal <= 0)))
 					{
 						iNetCapture = iCaptValue;
 						bRisky = false;
@@ -605,8 +605,8 @@ public class move
 				
 				if (!bOPP && !bEPR && (iStrikeBal == 0))
 				{
-					if (((p.iColor == piece.WHITE) && (cb.iBlackStrike[xtar][ytar] == 1)) ||
-						((p.iColor == piece.BLACK) && (cb.iWhiteStrike[xtar][ytar] == 1)))
+					if (((p.iColor == Piece.WHITE) && (cb.iBlackStrike[xtar][ytar] == 1)) ||
+						((p.iColor == Piece.BLACK) && (cb.iWhiteStrike[xtar][ytar] == 1)))
 					iNetCapture = iCaptValue;
 					bRisky = false;
 					if (iNetCapture > 0) p.iPosCaptureCount++;
@@ -615,8 +615,8 @@ public class move
 				}
 				
 				if (!bOPP && !bEPR && 
-					(((p.iColor == piece.WHITE) && (iStrikeBal > 0)) || 
-					((p.iColor == piece.BLACK) && (iStrikeBal < 0)) ))
+					(((p.iColor == Piece.WHITE) && (iStrikeBal > 0)) ||
+					((p.iColor == Piece.BLACK) && (iStrikeBal < 0)) ))
 				{
 					iNetCapture = iCaptValue;
 					bRisky = false;
@@ -625,8 +625,8 @@ public class move
 					return;
 				}
 				
-				if (((p.iColor == piece.WHITE) && (iStrikeBal < 0)) ||
-					((p.iColor == piece.BLACK) && (iStrikeBal > 0)))
+				if (((p.iColor == Piece.WHITE) && (iStrikeBal < 0)) ||
+					((p.iColor == Piece.BLACK) && (iStrikeBal > 0)))
 				{
 					iNetCapture = iCaptValue - p.pvalue();
 					bRisky = false;   // used to be true before, but painresolution conflicts with this one
@@ -655,7 +655,7 @@ public class move
 			int iStrikeBal = cb.iWhiteStrike[xtar][ytar]-cb.iBlackStrike[xtar][ytar];
 			//System.out.println("DBG151215: (riskass at check) " + moveStr() + " iStrikeBal:" + iStrikeBal + " whitestr:" + cb.iWhiteStrike[xtar][ytar] + " blackstr: " + cb.iBlackStrike[xtar][ytar]);
 				
-			if (p.iColor == piece.WHITE) iStrikeBal--;
+			if (p.iColor == Piece.WHITE) iStrikeBal--;
 			else iStrikeBal++;		
 					
 			//System.out.println("DBG151005 CHECK:"+ moveStr() +": bEPR:" + bEPR + " bOPP:" +bOPP + " iOwnPiece:" + iOwnPiece + " iEnemyPiece:" + iEnemyPiece + " iStrikeBal: " + iStrikeBal);
@@ -688,8 +688,8 @@ public class move
 			if (bKCS)
 			{
 				//System.out.println("KCS is there  for " + moveStrLong());
-				if (((p.iColor == piece.WHITE) && (cb.iBlackStrike[xtar][ytar] == 0)) ||
-				   ((p.iColor == piece.BLACK) && (cb.iWhiteStrike[xtar][ytar] == 0)))
+				if (((p.iColor == Piece.WHITE) && (cb.iBlackStrike[xtar][ytar] == 0)) ||
+				   ((p.iColor == Piece.BLACK) && (cb.iWhiteStrike[xtar][ytar] == 0)))
 				{
 					bRisky = false;
 					iNetCapture = 2;
@@ -700,8 +700,8 @@ public class move
 			}
 			//System.out.println("DBG kiihma:" + moveStr());	
 			
-			if (((p.iColor == piece.WHITE) && (iStrikeBal < 0)) ||
-				((p.iColor == piece.BLACK) && (iStrikeBal > 0)))
+			if (((p.iColor == Piece.WHITE) && (iStrikeBal < 0)) ||
+				((p.iColor == Piece.BLACK) && (iStrikeBal > 0)))
 			{
 				bRisky = true;
 				return;				
@@ -755,8 +755,8 @@ public class move
 					int iStrikeBal = cb.iWhiteStrike[xtar][ytar]-cb.iBlackStrike[xtar][ytar];
 					//System.out.println("DBG160214: PF check: iStrikeBal:" + iStrikeBal + " minOwn:" + minOwn + " minOth:" + minOth);
 					pawn pa = (pawn)p;
-					if (((p.iColor == piece.BLACK) && (iStrikeBal <= 0)) ||
-					   ((p.iColor == piece.WHITE) && (iStrikeBal >= 0)) ||
+					if (((p.iColor == Piece.BLACK) && (iStrikeBal <= 0)) ||
+					   ((p.iColor == Piece.WHITE) && (iStrikeBal >= 0)) ||
 					   (pa.bCoveredBehindbyQR(cb) && (Math.abs(iStrikeBal) <= 1))) 
 					{
 						iNetCapture = 2;
@@ -799,7 +799,7 @@ public class move
 			}
 			else if (bKCS) addKCSToNetCapture(cb);
 			
-			if ((p.iType == piece.PAWN) && ((ytar == 1) || (ytar ==8))) 
+			if ((p.iType == Piece.PAWN) && ((ytar == 1) || (ytar ==8)))
 			{
 				boolean bThreat = p.bThreat;
 				
@@ -831,10 +831,10 @@ public class move
 					{
 						for (int j=6;j>=1;j--)
 						{
-							piece pp = cb.blocks[p.xk][j];
+							Piece pp = cb.blocks[p.xk][j];
 							if (pp!=null)
 							{
-								if ((pp.iColor != p.iColor) && ((pp.iType == piece.QUEEN) || (pp.iType == piece.ROOK))) bThrBehind = true;
+								if ((pp.iColor != p.iColor) && ((pp.iType == Piece.QUEEN) || (pp.iType == Piece.ROOK))) bThrBehind = true;
 								break;
 							}
 						}
@@ -843,10 +843,10 @@ public class move
 					{
 						for (int j=3;j<=8;j++)
 						{
-							piece pp = cb.blocks[p.xk][j];
+							Piece pp = cb.blocks[p.xk][j];
 							if (pp!=null)
 							{
-								if ((pp.iColor != p.iColor) && ((pp.iType == piece.QUEEN) || (pp.iType == piece.ROOK))) bThrBehind = true;
+								if ((pp.iColor != p.iColor) && ((pp.iType == Piece.QUEEN) || (pp.iType == Piece.ROOK))) bThrBehind = true;
 								break;
 							}
 						}
@@ -881,19 +881,19 @@ public class move
 		switch (iPromTo)
 		{
 				
-			case piece.QUEEN:
+			case Piece.QUEEN:
 				sProm = "Q";
 				break;
 				
-			case piece.ROOK:
+			case Piece.ROOK:
 				sProm = "R";
 				break;
 				
-			case piece.BISHOP:
+			case Piece.BISHOP:
 				sProm = "B";
 				break;
 				
-			case piece.KNIGHT:
+			case Piece.KNIGHT:
 				sProm = "N";
 				break;
 			
@@ -914,19 +914,19 @@ public class move
 				promc = ' ';
 				break;
 				
-			case piece.QUEEN:
+			case Piece.QUEEN:
 				promc = 'Q';
 				break;
 				
-			case piece.ROOK:
+			case Piece.ROOK:
 				promc = 'R';
 				break;
 				
-			case piece.BISHOP:
+			case Piece.BISHOP:
 				promc = 'B';
 				break;
 				
-			case piece.KNIGHT:
+			case Piece.KNIGHT:
 				promc = 'N';
 				break;
 			
@@ -967,10 +967,10 @@ public class move
 	boolean bEnemyPawnRisk(chessboard cb)
 	{
 		int iEPy;
-		piece p1 = null;
-		piece p2 = null;
+		Piece p1 = null;
+		Piece p2 = null;
 		
-		if (p.iColor == piece.WHITE) iEPy = ytar+1;
+		if (p.iColor == Piece.WHITE) iEPy = ytar+1;
 		else iEPy = ytar-1;
 		
 		if ((iEPy < 1) || (iEPy > 8)) return false;
@@ -978,18 +978,18 @@ public class move
 		if (xtar<8) p1 = cb.blocks[xtar+1][iEPy];
 		if (xtar>1) p2 = cb.blocks[xtar-1][iEPy];
 		
-		if ((p1 != null) && (p1.iColor != p.iColor) && (p1.iType == piece.PAWN)) return true;
-        return (p2 != null) && (p2.iColor != p.iColor) && (p2.iType == piece.PAWN);
+		if ((p1 != null) && (p1.iColor != p.iColor) && (p1.iType == Piece.PAWN)) return true;
+        return (p2 != null) && (p2.iColor != p.iColor) && (p2.iType == Piece.PAWN);
 
     }
 	
 	boolean bOwnPawnProt(chessboard cb)
 	{
 		int iEPy;
-		piece p1 = null;
-		piece p2 = null;
+		Piece p1 = null;
+		Piece p2 = null;
 		
-		if (p.iColor == piece.WHITE) iEPy = ytar-1;
+		if (p.iColor == Piece.WHITE) iEPy = ytar-1;
 		else iEPy = ytar+1;
 		
 		//System.out.println("DBG 141227: move.bOwnPawnProt() to " + xtar + "," + ytar + " iEPy:" + iEPy + " piece from " + p.xk +"," + p.yk);
@@ -1004,8 +1004,8 @@ public class move
 		
 		//if ((p1 != null) || (p2 != null)) System.out.println("DBG 141227: move.bOwnPawnProt() non null p1 || p2 !!!!");
 		
-		if ((p1 != null) && (p1.iColor == p.iColor) && (p1.iType == piece.PAWN)) return true;
-        return (p2 != null) && (p2.iColor == p.iColor) && (p2.iType == piece.PAWN);
+		if ((p1 != null) && (p1.iColor == p.iColor) && (p1.iType == Piece.PAWN)) return true;
+        return (p2 != null) && (p2.iColor == p.iColor) && (p2.iType == Piece.PAWN);
 		
 		//System.out.println("DBG 141227: move.bOwnPawnProt() is false");
 
@@ -1074,7 +1074,7 @@ public class move
 				//System.out.println("DBG160113:move.isBetterMove AA2 for :" + moveStr() + " mPain: " + mP.moveStrLong());
 				if (vPain.size()==1)
 				{
-					if (!bRisky && piece.directlyBetween(mP.p.xk,mP.p.yk,xtar,ytar,mP.xtar, mP.ytar) && (mP.iNetCapture > mOth.iNetCapture)) return true;  // relieves pain by moving in between
+					if (!bRisky && Piece.directlyBetween(mP.p.xk,mP.p.yk,xtar,ytar,mP.xtar, mP.ytar) && (mP.iNetCapture > mOth.iNetCapture)) return true;  // relieves pain by moving in between
 					}
 				
 				if (!bRisky && (mP.bPawnProm() && (bCanPreventPawnProm(mP,cb)))) return true;  // relieves pain by preventing pawn prom
@@ -1086,7 +1086,7 @@ public class move
 				//System.out.println("DBG160113:move.isBetterMove AA22 for :" + moveStr());
 				
 				// need to resolve pain by protecting piece under threat
-				piece tp = cb.blocks[mP.xtar][mP.ytar];
+				Piece tp = cb.blocks[mP.xtar][mP.ytar];
 				if (!bRisky && (tp != null) && p.canReach(xtar,ytar,tp,cb) && (!p.canReach(p.xk,p.yk,tp,cb)))
 				{
 					
@@ -1143,12 +1143,12 @@ public class move
 		if (iNetPressure < mOth.iNetPressure) return false;
 		
 		//System.out.println("move.isBetterMove D: " + moveStr() + " / " + mOth.moveStr());
-		if (p.iType == piece.PAWN) return true;
-		if (mOth.p.iType == piece.PAWN) return false;
+		if (p.iType == Piece.PAWN) return true;
+		if (mOth.p.iType == Piece.PAWN) return false;
 		
 		//if (Math.random() > 0.5f) return false;
-		piece pOwnCap = cb.blocks[xtar][ytar];
-		piece pOtherCap = cb.blocks[mOth.xtar][mOth.ytar];
+		Piece pOwnCap = cb.blocks[xtar][ytar];
+		Piece pOtherCap = cb.blocks[mOth.xtar][mOth.ytar];
 
 		if ((pOwnCap != null) && (pOtherCap!=null))
 		{
@@ -1197,7 +1197,7 @@ public class move
 		if ((xtar == mFilter.p.xk) &&(ytar == mFilter.p.yk)) 
 		{
 			//System.out.println("DBG160125: bPassesFilter, parallel check");
-			if (!bParallelWith(mFilter) || (p.iType == piece.PAWN) || (p.iType==piece.KING)) return false;
+			if (!bParallelWith(mFilter) || (p.iType == Piece.PAWN) || (p.iType== Piece.KING)) return false;
 			//return false;
 			//else  System.out.println("parallel escape attempt:" +mFilter.moveStr() + " move:" + moveStr()); 
 			// target moved to become protected!!!! 160125
@@ -1208,15 +1208,15 @@ public class move
 		// low-value target piece became protected, change > to >=
 		if (p.pvalue() >= iCaptValue) 
 		{
-			piece tp = cb.blocks[xtar][ytar];
+			Piece tp = cb.blocks[xtar][ytar];
 			if ((tp != null) && (mFilter.p.canReach(mFilter.xtar,mFilter.ytar,tp,cb))) return false;
 		}
 		
 		
 		
-		if ((p.iType == piece.PAWN) || (p.iType == piece.KNIGHT) || (p.iType == piece.KING)) return true; 
+		if ((p.iType == Piece.PAWN) || (p.iType == Piece.KNIGHT) || (p.iType == Piece.KING)) return true;
 		
-		if ((p.iType == piece.QUEEN) || (p.iType == piece.ROOK))
+		if ((p.iType == Piece.QUEEN) || (p.iType == Piece.ROOK))
 		{
 			if ((p.xk == mFilter.xtar) && (p.xk == xtar) && bInMiddle(mFilter.ytar,p.yk,ytar)) return false;
 			
@@ -1226,10 +1226,10 @@ public class move
 		if (iSafetyMargin == 1)
 		{
 			// figure out if filter killed crucial protection
-			piece pd = cb.blocks[mFilter.xtar][mFilter.ytar];  // piece filter killed
+			Piece pd = cb.blocks[mFilter.xtar][mFilter.ytar];  // piece filter killed
 			if ((pd != null) && (pd.iColor == p.iColor))	
 			{
-				piece pThr = cb.blocks[xtar][ytar]; // piece we try capture
+				Piece pThr = cb.blocks[xtar][ytar]; // piece we try capture
 				
 				//System.out.println("DBG160209: SUSPICIOUS FILTER CHECK ***** for filter:" + mFilter.moveStr() + " move:" + moveStrLong() + " pd.itype:" + pd.iType + " CR: " + pd.canReach(pd.xk,pd.yk,pThr,cb));
 				if ( pd.canReach(pd.xk,pd.yk,pThr,cb)) return false;
@@ -1237,7 +1237,7 @@ public class move
 		}
 
 		
-		if ((p.iType == piece.QUEEN) || (p.iType == piece.BISHOP))
+		if ((p.iType == Piece.QUEEN) || (p.iType == Piece.BISHOP))
 		{
 			//System.out.println("fb1");
 			if ((!bInMiddle(mFilter.ytar,p.yk,ytar)) && (!bInMiddle(mFilter.xtar,p.xk,xtar))) return true;
@@ -1266,7 +1266,7 @@ public class move
 	{
 		if (m == null) return false;
 		
-		if ((p.iType == piece.KNIGHT) || (m.p.iType == piece.KNIGHT)) return false;
+		if ((p.iType == Piece.KNIGHT) || (m.p.iType == Piece.KNIGHT)) return false;
 		
 		int xd = xtar-p.xk;
 		int yd = ytar-p.yk;
@@ -1283,9 +1283,9 @@ public class move
 	
 	boolean bPawnProm ()
 	{
-		if (p.iType != piece.PAWN) return false;
-		if ((p.iColor == piece.WHITE) && (ytar ==8)) return true;
-        return (p.iColor == piece.BLACK) && (ytar == 1);
+		if (p.iType != Piece.PAWN) return false;
+		if ((p.iColor == Piece.WHITE) && (ytar ==8)) return true;
+        return (p.iColor == Piece.BLACK) && (ytar == 1);
     }
 	
 	boolean bCanPreventPawnProm(move mProm, chessboard cb)
@@ -1314,7 +1314,7 @@ public class move
 		pawn pa = new pawn(mProm.xtar, mProm.ytar,mProm.p.iColor);
 		
 		bPromPrevent = p.canReach(xtar,ytar,pa,cb);
-		if ( !bPromPrevent && (xtar==mProm.xtar) && ((p.iType == piece.ROOK) || (p.iType == piece.QUEEN)))
+		if ( !bPromPrevent && (xtar==mProm.xtar) && ((p.iType == Piece.ROOK) || (p.iType == Piece.QUEEN)))
 		{
 			bPromPrevent = p.canReach(xtar,ytar,mProm.p,cb);
 			//System.out.println("DBG160417:Check again promprevent by new code. Now:" + bPromPrevent);
@@ -1328,18 +1328,18 @@ public class move
 			//System.out.println("bPromPrevent triv branch");
 			// this branch will check protection from behind for promoting piece
 			int iStep;
-			if (mProm.p.iColor == piece.BLACK) iStep = 1;
+			if (mProm.p.iColor == Piece.BLACK) iStep = 1;
 			else iStep = -1;
 			int jj = mProm.p.yk;
 			boolean bCont = true;
 			while ((bCont) && (jj > 1) && ( jj < 8))
 			{
 				jj = jj + iStep;
-				piece p = cb.blocks[mProm.p.xk][jj];
+				Piece p = cb.blocks[mProm.p.xk][jj];
 				if (p != null)
 				{
 					if ((p.iColor == mProm.p.iColor) && 
-						((p.iType == piece.ROOK) || (p.iType==piece.QUEEN)) &&
+						((p.iType == Piece.ROOK) || (p.iType== Piece.QUEEN)) &&
 						(jj != ytar)) bPromPrevent = false; 
 					bCont = false;
 				}
@@ -1348,7 +1348,7 @@ public class move
 			return bPromPrevent;
 		}
 		
-		int iDir = piece.getDir(mProm.xtar,mProm.ytar,p.xk,p.yk);
+		int iDir = Piece.getDir(mProm.xtar,mProm.ytar,p.xk,p.yk);
 		
 		if (iDir == -1) return false;
 		
@@ -1365,7 +1365,7 @@ public class move
 			
 			if ((xs <1) || (xs > 8) || (ys < 1) || (ys > 8)) return false;
 			
-			piece px = cb.blocks[xs][ys];
+			Piece px = cb.blocks[xs][ys];
 			
 			//System.out.println("...loop :" + xs +","+ys + " moverfound:" + bMoverFound);
 			
@@ -1375,9 +1375,9 @@ public class move
 				
 				if (bMoverFound && p.iColor != mProm.p.iColor)
 				{
-					if ((px.iType == piece.ROOK) && (iDir%2)==0) bPromPrevent = true;
-					if ((px.iType == piece.BISHOP) && (iDir%2)==1) bPromPrevent = true;
-					if (px.iType == piece.QUEEN) bPromPrevent = true;
+					if ((px.iType == Piece.ROOK) && (iDir%2)==0) bPromPrevent = true;
+					if ((px.iType == Piece.BISHOP) && (iDir%2)==1) bPromPrevent = true;
+					if (px.iType == Piece.QUEEN) bPromPrevent = true;
 					//System.out.println("Returning " + bPromPrevent + " from " + xs + "," + ys);
 					return bPromPrevent;
 				}
@@ -1397,7 +1397,7 @@ public class move
 		
 		x1 = p.xk;
 		x2 = xtar;
-		if (p.iColor == piece.WHITE) 
+		if (p.iColor == Piece.WHITE)
 		{
 			y1 = p.yk;
 			y2 = ytar;
@@ -1420,7 +1420,7 @@ public class move
 	
 	int direction ()
 	{
-		return piece.getDir(p.xk,p.yk,xtar,ytar);
+		return Piece.getDir(p.xk,p.yk,xtar,ytar);
 	}
 	
 	boolean commonPainVectorTarget(Vector vPain)
@@ -1453,7 +1453,7 @@ public class move
 		int iDiffX[] = {2,2,-2,-2,1,1,-1,-1};
 		int iDiffY[] = {1,-1,1,-1,2,-2,2,-2};
 		
-		if (p.iType != piece.KNIGHT) return;
+		if (p.iType != Piece.KNIGHT) return;
 		
 		//System.out.println("DBG160210: addKCSToNetCapture starts." + moveStrLong());
 		
@@ -1470,14 +1470,14 @@ public class move
 			int ny = ytar+iDiffY[i];
 			if ((nx>=1) && (nx <=8) && (ny >=1) && (ny <=8))
 			{
-				piece p1R = cb.blocks[nx][ny];
+				Piece p1R = cb.blocks[nx][ny];
 				if (p1R != null)
 				{
 					//System.out.println("DBG 160327: piece@"+nx+","+ny+ " = "+p1R.dumpchr());
-					if  ((p1R.bProt) && (p1R.iType == piece.ROOK) && (p1R.iColor != p.iColor)) iKCSBon = 2;
-					if ((p1R.iType == piece.ROOK) && (p1R.iColor != p.iColor)) iRooks++;
-					if ((p1R.iType == piece.QUEEN) && (p1R.iColor != p.iColor)) iQueens++;
-					if ((p1R.iType == piece.KING) && (p1R.iColor != p.iColor)) bKing = false;
+					if  ((p1R.bProt) && (p1R.iType == Piece.ROOK) && (p1R.iColor != p.iColor)) iKCSBon = 2;
+					if ((p1R.iType == Piece.ROOK) && (p1R.iColor != p.iColor)) iRooks++;
+					if ((p1R.iType == Piece.QUEEN) && (p1R.iColor != p.iColor)) iQueens++;
+					if ((p1R.iType == Piece.KING) && (p1R.iColor != p.iColor)) bKing = false;
 				}
 				//else System.out.println("DBG 160327: piece@"+nx+","+ny+ " is null");
 			}
@@ -1506,8 +1506,8 @@ public class move
 		int jj = p.yk+movY[p.iPinDirection];
         boolean bCont = true;
 		
-		piece pPin = null;
-		piece pPinner = null;
+		Piece pPin = null;
+		Piece pPinner = null;
 		
 		while (bCont && (ii>=1) && (ii<=8) && (jj>=1) && (jj<=8))
 		{
@@ -1569,7 +1569,7 @@ public class move
 	
 	int kingNalimov()
 	{
-		if (p.iType != piece.KING) return chessboard.NALI_NONE;
+		if (p.iType != Piece.KING) return chessboard.NALI_NONE;
 		
 		if ((xtar == 5) && (ytar <= 4)) return chessboard.NALI_VERT;
 		if ((xtar == 5) && (ytar == 5)) return chessboard.NALI_HORI_VERT;
@@ -1581,60 +1581,60 @@ public class move
 	
 	boolean bIsMidPawnOpener()
 	{
-		if ((p.iType != piece.PAWN) || (p.xk <4) || (p.xk > 5)) return false;
-		if ((p.iColor == piece.WHITE) && (p.yk != 2)) return false;
-        return (p.iColor != piece.BLACK) || (p.yk == 7);
+		if ((p.iType != Piece.PAWN) || (p.xk <4) || (p.xk > 5)) return false;
+		if ((p.iColor == Piece.WHITE) && (p.yk != 2)) return false;
+        return (p.iColor != Piece.BLACK) || (p.yk == 7);
     }
 	
 	boolean bIsPawnPressureOpener(chessboard cb)
 	{
-		if ((p.iType != piece.PAWN) || ((p.yk != 2) && (p.yk != 7 ))) return false;
-		if ((p.iColor == piece.WHITE) && (p.yk != 2)) return false;
-		if ((p.iColor == piece.BLACK) && (p.yk != 7)) return false;
+		if ((p.iType != Piece.PAWN) || ((p.yk != 2) && (p.yk != 7 ))) return false;
+		if ((p.iColor == Piece.WHITE) && (p.yk != 2)) return false;
+		if ((p.iColor == Piece.BLACK) && (p.yk != 7)) return false;
 		
 		int iYDest;
-		if (p.iColor == piece.WHITE) iYDest = ytar+1;
+		if (p.iColor == Piece.WHITE) iYDest = ytar+1;
 		else iYDest =ytar-1;
 		
-		piece pl = null;
-		piece pr = null;
+		Piece pl = null;
+		Piece pr = null;
 		
 		if (xtar > 1) pl = cb.blocks[xtar-1][iYDest];
 		if (xtar < 8) pr = cb.blocks[xtar+1][iYDest];
 		
-		if ((pl != null) && (pl.iColor != p.iColor) && (pl.iType != piece.PAWN)) return true;
-        return (pr != null) && (pr.iColor != p.iColor) && (pr.iType != piece.PAWN);
+		if ((pl != null) && (pl.iColor != p.iColor) && (pl.iType != Piece.PAWN)) return true;
+        return (pr != null) && (pr.iColor != p.iColor) && (pr.iType != Piece.PAWN);
 
     }
 	
 	boolean bIsPrepForFianchetto(chessboard cb)
 	{
-		if (p.iType != piece.PAWN) return false;
+		if (p.iType != Piece.PAWN) return false;
 		
 		int reqYtar, reqRookX, reqRookY,reqBishX,reqBishY,reqKnightX,reqKnightY;
 		
-		if ((p.iColor == piece.WHITE) && (p.xk == 2))
+		if ((p.iColor == Piece.WHITE) && (p.xk == 2))
 		{
 			reqYtar = 3;
 			reqRookX = 1;
 			reqRookY = 1;
 			reqBishX = 3;
 		}
-		else if ((p.iColor == piece.WHITE) && (p.xk == 7))
+		else if ((p.iColor == Piece.WHITE) && (p.xk == 7))
 		{
 			reqYtar = 3;
 			reqRookX = 8;
 			reqRookY = 1;
 			reqBishX = 6;
 		}
-		else if ((p.iColor == piece.BLACK) && (p.xk == 2))
+		else if ((p.iColor == Piece.BLACK) && (p.xk == 2))
 		{
 			reqYtar = 6;
 			reqRookX = 1;
 			reqRookY = 8;
 			reqBishX = 3;
 		}
-		else if ((p.iColor == piece.BLACK) && (p.xk == 7))
+		else if ((p.iColor == Piece.BLACK) && (p.xk == 7))
 		{
 			reqYtar = 6;
 			reqRookX = 8;
@@ -1649,18 +1649,18 @@ public class move
 		reqKnightX = reqBishX;
 		reqKnightY = reqYtar;
 		
-		piece prook = cb.blocks[reqRookX][reqRookY];
-		piece pbish = cb.blocks[reqBishX][reqBishY];
-		piece pknight = cb.blocks[reqKnightX][reqKnightY];
+		Piece prook = cb.blocks[reqRookX][reqRookY];
+		Piece pbish = cb.blocks[reqBishX][reqBishY];
+		Piece pknight = cb.blocks[reqKnightX][reqKnightY];
 		
-		if ((prook == null) || (prook.iType != piece.ROOK) || (prook.iColor != p.iColor)) return false;
-		if ((pbish == null) || (pbish.iType != piece.BISHOP) || (pbish.iColor != p.iColor)) return false;
-		if ((pknight == null) || (pknight.iType != piece.KNIGHT) || (pknight.iColor != p.iColor)) return false;
+		if ((prook == null) || (prook.iType != Piece.ROOK) || (prook.iColor != p.iColor)) return false;
+		if ((pbish == null) || (pbish.iType != Piece.BISHOP) || (pbish.iColor != p.iColor)) return false;
+		if ((pknight == null) || (pknight.iType != Piece.KNIGHT) || (pknight.iColor != p.iColor)) return false;
 		
 		for (int ix=reqRookX;ix<=reqBishX;ix++)
 		{
-			piece ppawn=cb.blocks[ix][p.yk];
-			if ((ppawn == null) || (ppawn.iType != piece.PAWN) || (ppawn.iColor != p.iColor)) return false;
+			Piece ppawn=cb.blocks[ix][p.yk];
+			if ((ppawn == null) || (ppawn.iType != Piece.PAWN) || (ppawn.iColor != p.iColor)) return false;
 		}
 		
 		return true;
@@ -1668,48 +1668,48 @@ public class move
 	
 	boolean bIsBishopE3Opener()
 	{
-		if (p.iType != piece.BISHOP) return false;
-		if ((p.iColor == piece.WHITE) && (p.yk != 1)) return false;
-		if ((p.iColor == piece.BLACK) && (p.yk != 8)) return false;
+		if (p.iType != Piece.BISHOP) return false;
+		if ((p.iColor == Piece.WHITE) && (p.yk != 1)) return false;
+		if ((p.iColor == Piece.BLACK) && (p.yk != 8)) return false;
 		if ((xtar != 4) && (xtar != 5)) return false;
-		if ((p.iColor == piece.WHITE) && (ytar != 3)) return false;
-        return (p.iColor != piece.BLACK) || (ytar == 6);
+		if ((p.iColor == Piece.WHITE) && (ytar != 3)) return false;
+        return (p.iColor != Piece.BLACK) || (ytar == 6);
     }
 	
 	boolean bIsF2StepOpener(chessboard cb)
 	{
-		if (p.iType != piece.PAWN) return false;
+		if (p.iType != Piece.PAWN) return false;
 		if (p.xk != 6) return false;
-		if (((p.iColor == piece.WHITE) && (p.yk == 2) && (ytar == 4)) ||
-		    ((p.iColor == piece.BLACK) && (p.yk == 7) && (ytar == 5)))
+		if (((p.iColor == Piece.WHITE) && (p.yk == 2) && (ytar == 4)) ||
+		    ((p.iColor == Piece.BLACK) && (p.yk == 7) && (ytar == 5)))
 		{
 			// it's a candidate!
 			//System.out.println("** bIsF2StepOpener candidate:"+moveStr());
 			//System.out.println("** Coverages: WHITE:" + cb.iWhiteStrike[p.xk][ytar] + " BLACK:" + cb.iBlackStrike[p.xk][ytar]);
-			if ((p.iColor == piece.BLACK) && ((cb.iBlackStrike[p.xk][ytar] == 0) || (cb.iBlackStrike[p.xk][ytar] < cb.iWhiteStrike[p.xk][ytar]))) return false;
-            return (p.iColor != piece.WHITE) || ((cb.iWhiteStrike[p.xk][ytar] != 0) && (cb.iBlackStrike[p.xk][ytar] <= cb.iWhiteStrike[p.xk][ytar]));
+			if ((p.iColor == Piece.BLACK) && ((cb.iBlackStrike[p.xk][ytar] == 0) || (cb.iBlackStrike[p.xk][ytar] < cb.iWhiteStrike[p.xk][ytar]))) return false;
+            return (p.iColor != Piece.WHITE) || ((cb.iWhiteStrike[p.xk][ytar] != 0) && (cb.iBlackStrike[p.xk][ytar] <= cb.iWhiteStrike[p.xk][ytar]));
         }
 		else return false;
 	}
 	
 	boolean bIsPawnFrontOpener(chessboard cb)
 	{
-		if (p.iType != piece.PAWN) return false;
+		if (p.iType != Piece.PAWN) return false;
 		if ((p.xk == 1) || (p.xk == 8)) return false;
 		
 		if ((ytar >= 7) || (ytar <= 2)) return false;
 		
-		piece pl = cb.blocks[p.xk-1][ytar-1];
-		piece pr = cb.blocks[p.xk+1][ytar+1];
+		Piece pl = cb.blocks[p.xk-1][ytar-1];
+		Piece pr = cb.blocks[p.xk+1][ytar+1];
 		if ((pl != null) && (pr != null) && 
-		    (pl.iType == piece.PAWN) && (pl.iColor == p.iColor) &&
-			(pr.iType == piece.PAWN) && (pr.iColor == p.iColor)) return true;
+		    (pl.iType == Piece.PAWN) && (pl.iColor == p.iColor) &&
+			(pr.iType == Piece.PAWN) && (pr.iColor == p.iColor)) return true;
 			
 		pl = cb.blocks[p.xk-1][ytar+1];
 		pr = cb.blocks[p.xk+1][ytar-1];
         return (pl != null) && (pr != null) &&
-                (pl.iType == piece.PAWN) && (pl.iColor == p.iColor) &&
-                (pr.iType == piece.PAWN) && (pr.iColor == p.iColor);
+                (pl.iType == Piece.PAWN) && (pl.iColor == p.iColor) &&
+                (pr.iType == Piece.PAWN) && (pr.iColor == p.iColor);
 
     }
 	
@@ -1717,15 +1717,15 @@ public class move
 	{
 		if (cb.iMovedPiecesFromStart() < 12) return false;  // could be optimized and not done for all moves :) 180108
 		
-		if (p.iType != piece.ROOK) return false;
+		if (p.iType != Piece.ROOK) return false;
 		if (p.yk != ytar) return false;
-		if ((p.iColor == piece.WHITE) && (ytar != 1)) return false;
-        return (p.iColor != piece.BLACK) || (ytar == 8);
+		if ((p.iColor == Piece.WHITE) && (ytar != 1)) return false;
+        return (p.iColor != Piece.BLACK) || (ytar == 8);
     }
 	
 	boolean bIsKnightToMiddle()
 	{
-		if (p.iType != piece.KNIGHT) return false;
+		if (p.iType != Piece.KNIGHT) return false;
 		if ((xtar < 4) || (xtar > 5)) return false;
         return (ytar >= 4) && (ytar <= 5);
     }
@@ -1734,25 +1734,25 @@ public class move
 	{
 		if (cb.iMovedPiecesFromStart() < 11) return false;  // could be optimized and not done for all moves :) 180116
 		
-		if (p.iType != piece.QUEEN) return false;
+		if (p.iType != Piece.QUEEN) return false;
 		if (p.xk != 4) return false;
-		if ((p.iColor == piece.WHITE) && (p.yk != 1)) return false;
-        return (p.iColor != piece.BLACK) || (p.yk == 8);
+		if ((p.iColor == Piece.WHITE) && (p.yk != 1)) return false;
+        return (p.iColor != Piece.BLACK) || (p.yk == 8);
 
     }
 	
 	boolean bIsC2StepOpener(chessboard cb)
 	{
-		if (p.iType != piece.PAWN) return false;
+		if (p.iType != Piece.PAWN) return false;
 		if (p.xk != 3) return false;
-		if (((p.iColor == piece.WHITE) && (p.yk == 2) && (ytar == 4)) ||
-		    ((p.iColor == piece.BLACK) && (p.yk == 7) && (ytar == 5)))
+		if (((p.iColor == Piece.WHITE) && (p.yk == 2) && (ytar == 4)) ||
+		    ((p.iColor == Piece.BLACK) && (p.yk == 7) && (ytar == 5)))
 		{
 			// it's a candidate!
 			//System.out.println("** bIsF2StepOpener candidate:"+moveStr());
 			//System.out.println("** Coverages: WHITE:" + cb.iWhiteStrike[p.xk][ytar] + " BLACK:" + cb.iBlackStrike[p.xk][ytar]);
-			if ((p.iColor == piece.BLACK) && ((cb.iBlackStrike[p.xk][ytar] == 0) || (cb.iBlackStrike[p.xk][ytar] < cb.iWhiteStrike[p.xk][ytar]))) return false;
-            return (p.iColor != piece.WHITE) || ((cb.iWhiteStrike[p.xk][ytar] != 0) && (cb.iBlackStrike[p.xk][ytar] <= cb.iWhiteStrike[p.xk][ytar]));
+			if ((p.iColor == Piece.BLACK) && ((cb.iBlackStrike[p.xk][ytar] == 0) || (cb.iBlackStrike[p.xk][ytar] < cb.iWhiteStrike[p.xk][ytar]))) return false;
+            return (p.iColor != Piece.WHITE) || ((cb.iWhiteStrike[p.xk][ytar] != 0) && (cb.iBlackStrike[p.xk][ytar] <= cb.iWhiteStrike[p.xk][ytar]));
         }
 		else return false;
 	}
@@ -1761,12 +1761,12 @@ public class move
 	{
 		if (cb.iMovedPiecesFromStart() < 6) return false;
 		
-		if (p.iType != piece.BISHOP) return false;
-		if ((p.iColor == piece.WHITE) && (p.yk != 1)) return false;
-		if ((p.iColor == piece.BLACK) && (p.yk != 8)) return false;
+		if (p.iType != Piece.BISHOP) return false;
+		if ((p.iColor == Piece.WHITE) && (p.yk != 1)) return false;
+		if ((p.iColor == Piece.BLACK) && (p.yk != 8)) return false;
 		if ((xtar != 3) && (xtar != 6)) return false;
-		if ((p.iColor == piece.WHITE) && (ytar != 4)) return false;
-        return (p.iColor != piece.BLACK) || (ytar == 5);
+		if ((p.iColor == Piece.WHITE) && (ytar != 4)) return false;
+        return (p.iColor != Piece.BLACK) || (ytar == 5);
     }
 	
 }	

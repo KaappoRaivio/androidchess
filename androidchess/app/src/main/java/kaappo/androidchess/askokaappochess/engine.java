@@ -142,7 +142,7 @@ public class engine
 		xk = (int)sMove.charAt(0)-64;
 		yk = (int)sMove.charAt(1)-48;
 		
-		piece p = old_cb.blocks[xk][yk];
+		Piece p = old_cb.blocks[xk][yk];
 		
 		chessboard new_cb = old_cb.copy();
 		new_cb.domove(sMove,p.iColor);

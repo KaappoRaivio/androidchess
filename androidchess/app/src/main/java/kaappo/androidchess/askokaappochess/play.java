@@ -312,7 +312,7 @@ public class play
 			
 			
 			
-			for (int clr = piece.WHITE; clr <= piece.BLACK; clr++)
+			for (int clr = Piece.WHITE; clr <= Piece.BLACK; clr++)
 			{
 				System.out.println("DBG161010: GAME LOOP clr: " + clr+ " ,@move:" + iMove);
 				
@@ -322,9 +322,9 @@ public class play
 					fufi.fulfill(cb.FEN(), iMove);
 				}
 				
-				if (cb.iFileCol == piece.BLACK)
+				if (cb.iFileCol == Piece.BLACK)
 				{
-					clr = piece.BLACK;
+					clr = Piece.BLACK;
 					cb.iFileCol = -1;
 					System.out.println("Skipping white move. Starting from black");
 				}
@@ -422,7 +422,7 @@ public class play
 				}
 				else
 				{
-					if ((clr == piece.WHITE) && (cb.iMoveCounter == iMove)) cb.iMoveCounter--;
+					if ((clr == Piece.WHITE) && (cb.iMoveCounter == iMove)) cb.iMoveCounter--;
 					
 					System.out.println("AskoChess turn " + iMove + " starts. FEN: " + cb.FEN() + " cb.iMoveCounter: " + cb.iMoveCounter+ " clr:" + clr);
 					if (iMove != enginerunner.getFENMoveCount(cb.FEN()) && (cb.lm_vector != null))
@@ -479,7 +479,7 @@ public class play
 						{
 							String fname;
 							System.out.println("ENGINE move " + sSugg);
-							if (clr ==piece.WHITE) fname = "blood"+(cb.iMoveCounter+1)+".dat";
+							if (clr == Piece.WHITE) fname = "blood"+(cb.iMoveCounter+1)+".dat";
 							else fname = "blood"+(cb.iMoveCounter)+".dat";
 							dumpboard(clr,cb,fname);
 							
@@ -525,7 +525,7 @@ public class play
 						{
 							String fname;
 							System.out.println("trying largelib move " + sSugg);
-							if (clr ==piece.WHITE) fname = "blood"+(cb.iMoveCounter+1)+".dat";
+							if (clr == Piece.WHITE) fname = "blood"+(cb.iMoveCounter+1)+".dat";
 							else fname = "blood"+(cb.iMoveCounter)+".dat";
 							dumpboard(clr,cb,fname);
 						}
@@ -650,13 +650,13 @@ public class play
 						
 						if (cb.bKillModeQRwK() && !cb.bPawnsOrMinorPieces())
 						{
-							if ((((cb.iWhitePieceCount[piece.ROOK] != 0) || 
-							     (cb.iWhitePieceCount[piece.QUEEN] != 0)) &&
-								 (clr == piece.WHITE)) 
+							if ((((cb.iWhitePieceCount[Piece.ROOK] != 0) ||
+							     (cb.iWhitePieceCount[Piece.QUEEN] != 0)) &&
+								 (clr == Piece.WHITE))
 								 ||
-							   (((cb.iBlackPieceCount[piece.ROOK] != 0) || 
-							     (cb.iBlackPieceCount[piece.QUEEN] != 0)) &&
-								 (clr == piece.BLACK)) ) 
+							   (((cb.iBlackPieceCount[Piece.ROOK] != 0) ||
+							     (cb.iBlackPieceCount[Piece.QUEEN] != 0)) &&
+								 (clr == Piece.BLACK)) )
 								 {
 									System.out.println("DBG171113:bKillModeQRwK mode on, setting iLev = 0");
 									iLEV = 0;
@@ -695,7 +695,7 @@ public class play
 							
 							boolean bRetry = false;
 							
-							if (((clr == piece.WHITE) && ((iCPB < 0) || mvalc.bWhiteCheckMate)) || ((clr == piece.BLACK) && ((iCPB > 0) || mvalc.bBlackCheckMate))) System.out.println("Take the draw, IT'S GOOD MOVE NOW!");
+							if (((clr == Piece.WHITE) && ((iCPB < 0) || mvalc.bWhiteCheckMate)) || ((clr == Piece.BLACK) && ((iCPB > 0) || mvalc.bBlackCheckMate))) System.out.println("Take the draw, IT'S GOOD MOVE NOW!");
 							else bRetry = true;
 							
 							if ((bRetry) && (alg[clr] < movevalue.ALG_ASK_FROM_ENGINE1))
@@ -736,7 +736,7 @@ public class play
 									else 
 									{
 										System.out.println("iCPB:" + iCPB);
-										if (((clr == piece.WHITE) && (iCPB < 0)) || ((clr == piece.BLACK) && (iCPB > 0))) System.out.println("We are behind");
+										if (((clr == Piece.WHITE) && (iCPB < 0)) || ((clr == Piece.BLACK) && (iCPB > 0))) System.out.println("We are behind");
 										else
 										{
 											if (cb3 != null)
@@ -841,17 +841,17 @@ public class play
 							cb_flip.dump();
 							// clr or 1-clr? iterating 140624
 							
-							if ((cb.iKicPoints(piece.WHITE) != cb_flip.iKicPoints(piece.BLACK)) || (cb.iKicPoints(piece.BLACK) != cb_flip.iKicPoints(piece.WHITE)))
+							if ((cb.iKicPoints(Piece.WHITE) != cb_flip.iKicPoints(Piece.BLACK)) || (cb.iKicPoints(Piece.BLACK) != cb_flip.iKicPoints(Piece.WHITE)))
 							{
 								System.out.println("DISCREPANCY IN KIC POINTS!!! ***********************");
 								System.out.println("clr value " + clr);
 								
-								king kow = cb.locateKing(piece.WHITE);
-								king kob = cb.locateKing(piece.BLACK);
-								king kfw = cb_flip.locateKing(piece.WHITE);
-								king kfb = cb_flip.locateKing(piece.BLACK);
+								king kow = cb.locateKing(Piece.WHITE);
+								king kob = cb.locateKing(Piece.BLACK);
+								king kfw = cb_flip.locateKing(Piece.WHITE);
+								king kfb = cb_flip.locateKing(Piece.BLACK);
 								
-								System.out.println("ORIG: w: " + cb.iKicPoints(piece.WHITE) + " b: " + cb.iKicPoints(piece.BLACK) + " FLIP w: " + cb_flip.iKicPoints(piece.WHITE) + " b: " + cb_flip.iKicPoints(piece.BLACK) + " mc: cb: " + cb.iMoveCount + " cb_flip: " + cb_flip.iMoveCount + ".  Move counters cb:" + cb.iMoveCounter + " flip: " + cb_flip.iMoveCounter+ " king last moves: Orig w: " + kow.iLastMove + " b: " + kob.iLastMove + " Flip w: " +kfw.iLastMove + " b: " + kfb.iLastMove);
+								System.out.println("ORIG: w: " + cb.iKicPoints(Piece.WHITE) + " b: " + cb.iKicPoints(Piece.BLACK) + " FLIP w: " + cb_flip.iKicPoints(Piece.WHITE) + " b: " + cb_flip.iKicPoints(Piece.BLACK) + " mc: cb: " + cb.iMoveCount + " cb_flip: " + cb_flip.iMoveCount + ".  Move counters cb:" + cb.iMoveCounter + " flip: " + cb_flip.iMoveCounter+ " king last moves: Orig w: " + kow.iLastMove + " b: " + kob.iLastMove + " Flip w: " +kfw.iLastMove + " b: " + kfb.iLastMove);
 								
 								cb_flip.dump();
 								throw new RuntimeException("DISCREPANCY IN KIC POINTS!!! ***********************");
@@ -860,12 +860,12 @@ public class play
 							{
 								System.out.println("kic points checked ok.");
 								
-								king kow = cb.locateKing(piece.WHITE);
-								king kob = cb.locateKing(piece.BLACK);
-								king kfw = cb_flip.locateKing(piece.WHITE);
-								king kfb = cb_flip.locateKing(piece.BLACK);
+								king kow = cb.locateKing(Piece.WHITE);
+								king kob = cb.locateKing(Piece.BLACK);
+								king kfw = cb_flip.locateKing(Piece.WHITE);
+								king kfb = cb_flip.locateKing(Piece.BLACK);
 								
-								System.out.println("ORIG: w: " + cb.iKicPoints(piece.WHITE) + " b: " + cb.iKicPoints(piece.BLACK) + " FLIP w: " + cb_flip.iKicPoints(piece.WHITE) + " b: " + cb_flip.iKicPoints(piece.BLACK) + " mc: cb: " + cb.iMoveCount + " cb_flip: " + cb_flip.iMoveCount + ".  Move counters cb:" + cb.iMoveCounter + " flip: " + cb_flip.iMoveCounter+ " king last moves: Orig w: " + kow.iLastMove + " b: " + kob.iLastMove + " Flip w: " +kfw.iLastMove + " b: " + kfb.iLastMove);
+								System.out.println("ORIG: w: " + cb.iKicPoints(Piece.WHITE) + " b: " + cb.iKicPoints(Piece.BLACK) + " FLIP w: " + cb_flip.iKicPoints(Piece.WHITE) + " b: " + cb_flip.iKicPoints(Piece.BLACK) + " mc: cb: " + cb.iMoveCount + " cb_flip: " + cb_flip.iMoveCount + ".  Move counters cb:" + cb.iMoveCounter + " flip: " + cb_flip.iMoveCounter+ " king last moves: Orig w: " + kow.iLastMove + " b: " + kob.iLastMove + " Flip w: " +kfw.iLastMove + " b: " + kfb.iLastMove);
 								
 							}
 							
@@ -953,7 +953,7 @@ public class play
 							
 							//if (bMess) cw.displayMsgDialog("GAME OVER. CHECKMATE on move " +iMove+".");
 							if (bMess) cui.displayMsgDialog("GAME OVER. CHECKMATE on move " +iMove+".");
-							if (clr == piece.WHITE) return play.BLACKWIN;
+							if (clr == Piece.WHITE) return play.BLACKWIN;
 							else return play.WHITEWIN;
 						}
 						else
@@ -1073,8 +1073,8 @@ public class play
 		}
 		
 		String sConcl = iMove + " moves played.";
-		if (iWinner == piece.WHITE) sConcl = sConcl + " WHITE has won.";
-		else if (iWinner == piece.BLACK) sConcl = sConcl + " BLACK has won.";
+		if (iWinner == Piece.WHITE) sConcl = sConcl + " WHITE has won.";
+		else if (iWinner == Piece.BLACK) sConcl = sConcl + " BLACK has won.";
 		else sConcl = sConcl + " Game drawn.";
 		gh.addNote(sConcl);
 		

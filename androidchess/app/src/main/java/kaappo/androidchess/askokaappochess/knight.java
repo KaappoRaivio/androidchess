@@ -1,7 +1,7 @@
 package kaappo.androidchess.askokaappochess;
 import java.util.*;
 
-public class knight extends piece
+public class knight extends Piece
 {	
 	int iKnightCoupState = KNIGHT_KCS_NONE;
 	public static final int KNIGHT_KCS_NONE = 0;
@@ -13,7 +13,7 @@ public class knight extends piece
 	knight (int x, int y, int col)
 	{
 		super (x,y,col);
-		iType = piece.KNIGHT;		
+		iType = Piece.KNIGHT;
 	}
 	
 	int pvalue()
@@ -33,14 +33,14 @@ public class knight extends piece
 		//System.out.println("DBG 141221 Knight at " + xk +","+yk + " mv build."); 
 		Vector mv = new Vector();
 		
-		trymoveat(xk-2,yk-1,mv,cb, piece.NO_DIR);
-		trymoveat(xk-1,yk-2,mv,cb, piece.NO_DIR);
-		trymoveat(xk+1,yk-2,mv,cb, piece.NO_DIR);
-		trymoveat(xk+2,yk-1,mv,cb, piece.NO_DIR);
-		trymoveat(xk+2,yk+1,mv,cb, piece.NO_DIR);
-		trymoveat(xk+1,yk+2,mv,cb, piece.NO_DIR);
-		trymoveat(xk-1,yk+2,mv,cb, piece.NO_DIR);
-		trymoveat(xk-2,yk+1,mv,cb, piece.NO_DIR);
+		trymoveat(xk-2,yk-1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk-1,yk-2,mv,cb, Piece.NO_DIR);
+		trymoveat(xk+1,yk-2,mv,cb, Piece.NO_DIR);
+		trymoveat(xk+2,yk-1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk+2,yk+1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk+1,yk+2,mv,cb, Piece.NO_DIR);
+		trymoveat(xk-1,yk+2,mv,cb, Piece.NO_DIR);
+		trymoveat(xk-2,yk+1,mv,cb, Piece.NO_DIR);
 		
 		int iKCc = 0;
 		for (int i=0;i<mv.size();i++)
@@ -59,7 +59,7 @@ public class knight extends piece
 		return mv;
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		if (k==null) return false;
 		
@@ -75,41 +75,41 @@ public class knight extends piece
 
     }
 	
-	piece canReachBrotherPiece(chessboard cb)
+	Piece canReachBrotherPiece(chessboard cb)
 	{
-		piece pb = null;
+		Piece pb = null;
 		
 		pb = null;
 		if ((xk>2) && (yk> 1)) pb = cb.blocks[xk-2][yk-1];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk>1) && (yk> 2)) pb = cb.blocks[xk-1][yk-2];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk<8) && (yk< 7)) pb = cb.blocks[xk+1][yk+2];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk<7) && (yk< 8)) pb = cb.blocks[xk+2][yk+1];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk>2) && (yk< 8)) pb = cb.blocks[xk-2][yk+1];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk>1) && (yk< 7)) pb = cb.blocks[xk-1][yk+2];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk<7) && (yk>1)) pb = cb.blocks[xk+2][yk-1];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		pb = null;
 		if ((xk<8) && (yk>2)) pb = cb.blocks[xk+1][yk-2];
-		if ((pb != null) && (pb.iType == piece.KNIGHT) && (pb.iColor == iColor)) return pb;
+		if ((pb != null) && (pb.iType == Piece.KNIGHT) && (pb.iColor == iColor)) return pb;
 		
 		return null;
 	}
@@ -127,13 +127,13 @@ public class knight extends piece
 		
 			if (m.iCaptValue >= 5) 
 			{
-				piece p = cb.blocks[m.xtar][m.ytar];
+				Piece p = cb.blocks[m.xtar][m.ytar];
 				if ((p == null) || (p.pvalue() < 5))
 				{
 					System.out.println("fatal error at knight.finish_KCSValue()");
 					throw new RuntimeException("fatal error at knight.finish_KCSValue()");
 				}
-				if ((!p.bProt) || (p.iType == piece.KING))
+				if ((!p.bProt) || (p.iType == Piece.KING))
 				{
 					boolean bCheck = false;
 					for (int j=0;j<p.moveVector(cb).size();j++)

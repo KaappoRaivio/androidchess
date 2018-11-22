@@ -37,6 +37,7 @@ public class TtyUI
 		return iTurn;
 	}
 
+
 	TtyUI(chessboard cb, ChessActivity context)
 	{
 		square = new int[8][8];
@@ -64,7 +65,7 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ChessActivity.setMessage(s, context);
+				context.setMessage(s);
 			}
 		});
 //		System.out.println("MSG:"+s);
@@ -128,8 +129,13 @@ public class TtyUI
 			}
 
 			if (inStr.equals("UNDO")) {
-				sReturn = "OHO";
-				bReady = true;
+				if (mCb.iMoveCount >= 2) {
+					System.out.println("TtyUI.getMove: Undoing wth inStr " + inStr);
+					sReturn = "OHO";
+					bReady = true;
+				} else {
+					continue;
+				}
 			}
 
 			if ((inStr.length() == 4) && !bReady) {
@@ -149,9 +155,9 @@ public class TtyUI
 				System.out.println("Ttyui.getMove: valid, x1, y1, x2, y2: " + valid + ", " + x1 + ", " + y1 + ", " + x2 + ", " + y2);
 
                 if (valid) {
-                    piece p = mCb.blocks[x1][y1];
+                    Piece p = mCb.blocks[x1][y1];
 
-                    if (  (p.iType == piece.PAWN) && ( ((p.iColor == piece.WHITE) && (y2 == 8)) || ((p.iColor == piece.BLACK) && (y2 == 1)) )  )
+                    if (  (p.iType == Piece.PAWN) && ( ((p.iColor == Piece.WHITE) && (y2 == 8)) || ((p.iColor == Piece.BLACK) && (y2 == 1)) )  )
                     {
                         // promotion code
                         int pq = getPromotedPiece();
@@ -236,17 +242,18 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ChessActivity.setMessage(msg, context);
+				context.setMessage(msg);
 			}
 		});
 	}
 	
 	private void dumpSquares() {
+		System.out.println("TtyUI.dumpSquares(): updating board");
 
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ChessActivity.setBoard(getChessboardString(), context, lMoveV);
+				context.setBoard(getChessboardString(), lMoveV);
 			}
 		});
 
@@ -265,22 +272,22 @@ public class TtyUI
                 {
                     switch(square[i][j]-100)
                     {
-                        case piece.PAWN:
+                        case Piece.PAWN:
                             tempString.append("P");
                             break;
-                        case piece.BISHOP:
+                        case Piece.BISHOP:
                             tempString.append("B");
                             break;
-                        case piece.KNIGHT:
+                        case Piece.KNIGHT:
                             tempString.append("N");
                             break;
-                        case piece.ROOK:
+                        case Piece.ROOK:
                             tempString.append("R");
                             break;
-                        case piece.KING:
+                        case Piece.KING:
                             tempString.append("K");
                             break;
-                        case piece.QUEEN:
+                        case Piece.QUEEN:
                             tempString.append("Q");
                             break;
                         default:
@@ -292,22 +299,22 @@ public class TtyUI
                 {
                     switch(square[i][j])
                     {
-                        case piece.PAWN:
+                        case Piece.PAWN:
                             tempString.append("p");
                             break;
-                        case piece.BISHOP:
+                        case Piece.BISHOP:
                             tempString.append("b");
                             break;
-                        case piece.KNIGHT:
+                        case Piece.KNIGHT:
                             tempString.append("n");
                             break;
-                        case piece.ROOK:
+                        case Piece.ROOK:
                             tempString.append("r");
                             break;
-                        case piece.KING:
+                        case Piece.KING:
                             tempString.append("k");
                             break;
-                        case piece.QUEEN:
+                        case Piece.QUEEN:
                             tempString.append("q");
                             break;
                         default:
@@ -357,7 +364,7 @@ public class TtyUI
 			return false;
 		}
 		
-		piece p = mCb.blocks[x1][y1];
+		Piece p = mCb.blocks[x1][y1];
 		
 		if (p == null) {
 			return false;

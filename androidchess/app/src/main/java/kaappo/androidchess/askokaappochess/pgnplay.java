@@ -2,11 +2,6 @@ package kaappo.androidchess.askokaappochess;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.*;
-import java.io.PrintWriter;
-import java.util.*;
-import java.sql.*;
 
 public class pgnplay
 {
@@ -30,7 +25,7 @@ public class pgnplay
 	public static void playit(String sGame) throws Exception{
 		chessboard cb = new chessboard();
 		cb.init();
-		cb.redoVectorsAndCoverages(piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		cb.redoVectorsAndCoverages(Piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 		cb.iMoveCounter=1;
 		
 		String sGameComp[] = sGame.split(" ");
@@ -53,10 +48,10 @@ public class pgnplay
 				System.out.println("BlackMove:<" + sBlackMove + ">");
 			}
 			
-			cb.domove_bylib(sWhiteMove,piece.WHITE);
+			cb.domove_bylib(sWhiteMove, Piece.WHITE);
 			cb=cb.copy();
 			
-			cb.redoVectorsAndCoverages(piece.BLACK, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+			cb.redoVectorsAndCoverages(Piece.BLACK, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 			cb.dump();
 			System.out.println(cb.FEN());
 			
@@ -74,10 +69,10 @@ public class pgnplay
 			if (iMove < 17)
 			{
 			
-				cb.domove_bylib(sBlackMove,piece.BLACK);
+				cb.domove_bylib(sBlackMove, Piece.BLACK);
 				cb=cb.copy();
 				
-				cb.redoVectorsAndCoverages(piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb.redoVectorsAndCoverages(Piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 				cb.dump();
 				System.out.println(cb.FEN());
 				

@@ -48,7 +48,7 @@ public class mmmate
 		moveindex mi, mien;
 		boolean bChecking = false;
 		int iEnemyMoves = -1;
-		if (iColor == piece.WHITE) 
+		if (iColor == Piece.WHITE)
 		{
 			mi = cb.miWhiteMoveindex;
 			mien = cb.miBlackMoveindex;
@@ -167,7 +167,7 @@ public class mmmate
 			mw.setflag(MM_RISKY_MOVE);
 		}*/
 		if (m.isRisky()) mw.setflag(MM_RISKY_MOVE);
-		if (((m.p.iType == piece.KING) || (m.p.iType == piece.PAWN)) && (Math.abs(m.ytar-k.yk) >= 3)) mw.setflag(MM_FARAWAY);
+		if (((m.p.iType == Piece.KING) || (m.p.iType == Piece.PAWN)) && (Math.abs(m.ytar-k.yk) >= 3)) mw.setflag(MM_FARAWAY);
 		if ((m.isCheck() || m.isRevCheck()) && m.isRisky()) mw.setflag(MM_CHECK_WITHRISK);
 		if ((m.isCheck() || m.isRevCheck()) && !m.isRisky()) mw.setflag(MM_CHECK_NORISK);
 		
@@ -205,26 +205,26 @@ public class mmmate
 		for (int i=1;i<=8;i++)
 			for (int j=1;j<=8;j++)
 		{
-			piece p = cb.blocks[i][j];
+			Piece p = cb.blocks[i][j];
 			if ((p!= null) && (p.iColor == iColor)) switch (p.iType)
 			{
-				case piece.PAWN:
+				case Piece.PAWN:
 					findPawnCheckPositions((pawn) p, kEnemy, v);
 					break;
 					
-				case piece.BISHOP:
+				case Piece.BISHOP:
 					findBishopCheckPositions((bishop) p , kEnemy, v);
 					break;	
 					
-				case piece.KNIGHT:
+				case Piece.KNIGHT:
 					findKnightCheckPositions((knight) p, kEnemy,v);
 					break;		
 					
-				case piece.ROOK:
+				case Piece.ROOK:
 					findRookCheckPositions((rook) p, kEnemy,v);
 					break;	
 					
-				case piece.QUEEN:
+				case Piece.QUEEN:
 					findQueenCheckPositions((queen) p , kEnemy, v);
 					break;		
 			}
@@ -237,14 +237,14 @@ public class mmmate
 		if (Math.abs(p.xk-kEnemy.xk) > 1) return;
 		if (Math.abs(p.xk-kEnemy.xk) == 0) return;
 		if (Math.abs(p.yk-kEnemy.yk) >= 3) return;
-		if ((p.iColor == piece.WHITE) && (p.yk >= kEnemy.yk)) return;
-		if ((p.iColor == piece.BLACK) && (p.yk <= kEnemy.yk)) return;
-		if (p.iColor == piece.WHITE) 
+		if ((p.iColor == Piece.WHITE) && (p.yk >= kEnemy.yk)) return;
+		if ((p.iColor == Piece.BLACK) && (p.yk <= kEnemy.yk)) return;
+		if (p.iColor == Piece.WHITE)
 		{
 			mm_checkloc mmc = new mm_checkloc(p.yk,kEnemy.yk-1,0,p,cb);
 			v.addElement(mmc);
 		}
-		if (p.iColor == piece.BLACK) 
+		if (p.iColor == Piece.BLACK)
 		{
 			mm_checkloc mmc = new mm_checkloc(p.yk,kEnemy.yk+1,0,p,cb);
 			v.addElement(mmc);
@@ -393,8 +393,8 @@ public class mmmate
 			//System.out.print(mmc.dumpStr());
 			if (mmc.pi.canReach(mmc.xk,mmc.yk,kEnemy,cb)) 
 			{
-				if (((iColor == piece.WHITE) && (cb.iBlackStrike[mmc.xk][mmc.yk] > 0)) || 
-					((iColor == piece.BLACK) && (cb.iWhiteStrike[mmc.xk][mmc.yk] > 0)))
+				if (((iColor == Piece.WHITE) && (cb.iBlackStrike[mmc.xk][mmc.yk] > 0)) ||
+					((iColor == Piece.BLACK) && (cb.iWhiteStrike[mmc.xk][mmc.yk] > 0)))
 					mmc.flags = mm_checkloc.CL_RISKYCHECK;
 				else mmc.flags = mm_checkloc.CL_OKCHECK;
 			}
@@ -465,7 +465,7 @@ public class mmmate
 					move m2 = mmv.elementAt(j);
 					if (m2.iMMEnrMoveStat == mm_checkloc.CL_FM_NOTEXIST)
 					{
-						if (piece.directlyBetween(m2.p.xk,m2.p.yk,m.p.xk,m.p.yk,m2.xtar,m2.ytar)) return true;
+						if (Piece.directlyBetween(m2.p.xk,m2.p.yk,m.p.xk,m.p.yk,m2.xtar,m2.ytar)) return true;
 					}
 				}
 			}
@@ -634,7 +634,7 @@ class mm_movewrap
 class mm_checkloc
 {
 	int xk,yk,flags;
-	piece pi;
+	Piece pi;
 	chessboard cb;
 	int fmovestatus;
 	
@@ -648,7 +648,7 @@ class mm_checkloc
 	public static final int CL_FM_RISKY = 1;
 	public static final int CL_FM_NOTEXIST = 2;
 	
-	mm_checkloc(int x, int y, int f, piece p, chessboard c)
+	mm_checkloc(int x, int y, int f, Piece p, chessboard c)
 	{
 		xk = x;
 		yk = y;
@@ -704,7 +704,7 @@ class mm_checkloc
 		
 		switch (pi.iType)
 		{
-			case piece.ROOK:
+			case Piece.ROOK:
 				mx = pi.xk;
 				my = yk;
 				if (my != pi.yk) doRookEnrouteFlags(mx,my,mi);
@@ -713,16 +713,16 @@ class mm_checkloc
 				if (mx != pi.xk) doRookEnrouteFlags(mx,my,mi);
 				break;
 
-			case piece.KNIGHT:
+			case Piece.KNIGHT:
 				doKnightEnrouteFlags(mi);
 				break;
 			
-			case piece.BISHOP:
+			case Piece.BISHOP:
 				System.out.println("bishop enroute called. xk:" + xk + " yk: " + yk + " pi.xk:" + pi.xk + " pi.yk:" +pi.yk);
 				doBishopEnrouteFlags(mi);
 				break;
 			
-			case piece.PAWN:	
+			case Piece.PAWN:
 				break;
 				
 			default:

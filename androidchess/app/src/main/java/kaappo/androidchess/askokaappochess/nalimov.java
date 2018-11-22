@@ -1,10 +1,4 @@
 package kaappo.androidchess.askokaappochess;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.*;
-import java.io.PrintWriter;
-import java.util.*;
 import java.sql.*;
 
 public class nalimov
@@ -74,13 +68,13 @@ public class nalimov
 										System.out.println("Position found:");
 										System.out.println("POS: Black king: " + bkx + "," + bky + " White king: " + wkx +"," + wky + " BishopW: " + wbx + "," + wby + " BishopB: " + bbx + "," + bby);
 										chessboard cb = new chessboard();
-										king kb = new king(bkx,bky,piece.BLACK);
+										king kb = new king(bkx,bky, Piece.BLACK);
 										cb.putpiece(kb);
-										king kw = new king(wkx,wky,piece.WHITE);
+										king kw = new king(wkx,wky, Piece.WHITE);
 										cb.putpiece(kw);
-										bishop bw = new bishop(wbx,wby,piece.WHITE);
+										bishop bw = new bishop(wbx,wby, Piece.WHITE);
 										cb.putpiece(bw);
-										bishop bb = new bishop(bbx,bby,piece.WHITE);
+										bishop bb = new bishop(bbx,bby, Piece.WHITE);
 										cb.putpiece(bb);
 										
 										/*
@@ -99,7 +93,7 @@ public class nalimov
 										System.out.println("Black FEN:" + cb.FEN());
 										iBlackPos++;
 										String sBlackFEN = cb.FEN();
-										cb.redoVectorsAndCoverages(piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+										cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 										
 										sInsNal.setString(1,sBlackFEN);
 										sInsNal.executeUpdate();
@@ -122,8 +116,8 @@ public class nalimov
 										System.out.println("---");
 										
 										if ((((bkx - bky ) == (wbx-wby)) || ((bkx-bky) == (bbx-bby))) &&
-										    (!piece.directlyBetween(bkx,bky,wkx,wky,wbx,wby) &&
-											 !piece.directlyBetween(bkx,bky,wkx,wky,bbx,bby)))
+										    (!Piece.directlyBetween(bkx,bky,wkx,wky,wbx,wby) &&
+											 !Piece.directlyBetween(bkx,bky,wkx,wky,bbx,bby)))
 										{
 											System.out.println("White turn not ok! POS: Black king: " + bkx + "," + bky + " White king: " + wkx +"," + wky + " BishopW: " + wbx + "," + wby + " BishopB: " + bbx + "," + bby);
 										}
@@ -187,14 +181,14 @@ public class nalimov
 		{
 			move m = mi.getMoveAt(i);
 			System.out.println("Processing move:" + m.moveStr());
-			king kb = cb.locateKing(piece.BLACK);
+			king kb = cb.locateKing(Piece.BLACK);
 			if ((m.xtar == kb.xk) && (m.ytar == kb.yk)) System.out.println ("King cap!");
 			else 
 			{
 				chessboard cb2 = cb.copy();
-				cb2.domove(m.moveStrCaps(),piece.WHITE);
+				cb2.domove(m.moveStrCaps(), Piece.WHITE);
 				//cb2.dump();
-				cb2.redoVectorsAndCoverages(piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb2.redoVectorsAndCoverages(Piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 				if (cb2.bBlackKingThreat) System.out.println("Still checked");
 				else 
 				{
@@ -225,7 +219,7 @@ public class nalimov
 		}
 		
 		moveindex mi;
-		if (iColor == piece.BLACK) mi = cb.miBlackMoveindex;
+		if (iColor == Piece.BLACK) mi = cb.miBlackMoveindex;
 		else mi = cb.miWhiteMoveindex;
 		
 		mi.dump(true);
@@ -275,7 +269,7 @@ public class nalimov
 					System.out.println("DTM " + iDTM + " FEN: " + sFEN);
 					chessboard cb = new chessboard();
 					cb.init_from_FEN(sFEN);
-					cb.redoVectorsAndCoverages(piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+					cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 					processCheckMate(cb, iDTM);
 					
 				}
@@ -311,7 +305,7 @@ public class nalimov
 						System.out.println(sFEN);
 						System.out.println("DTM by " + iDTM + " check board starts: ----");
 						cb.dump();
-						cb.redoVectorsAndCoverages(piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+						cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 						moveindex mi = cb.miBlackMoveindex;
 						mi.dump(true);
 						boolean bEscape = false;
@@ -324,7 +318,7 @@ public class nalimov
 							{
 								System.out.println("Nalimov move: " + m.moveStr());
 								cb2.dump();
-								cb2.domove(m.moveStrCaps(),piece.BLACK);
+								cb2.domove(m.moveStrCaps(), Piece.BLACK);
 								System.out.println("Before nali flip, king nalimov:" + m.kingNalimov());
 								cb2.dump();
 								chessboard cb3 = cb2.copy();
@@ -352,11 +346,11 @@ public class nalimov
 								cb2=cb3.copy();
 								System.out.println("cb2 dump");
 								cb2.dump();
-								cb2.redoVectorsAndCoverages(piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+								cb2.redoVectorsAndCoverages(Piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 							}
 							else 
 							{
-								cb2.domove(m.moveStrCaps(),piece.BLACK);
+								cb2.domove(m.moveStrCaps(), Piece.BLACK);
 								System.out.println("moved:"+m.moveStrCaps());
 							}
 							System.out.println(cb2.FEN());

@@ -2,7 +2,6 @@ package kaappo.androidchess.askokaappochess;
 
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.*;
 import java.io.PrintWriter;
@@ -37,7 +36,7 @@ public class chessboard implements Serializable
 	static final int NALI_VERT_DIAG = 5;
 	static final int NALI_NONE = 6;
 
-	public piece blocks[][];
+	public Piece blocks[][];
 	
 	boolean bWhiteCoverage[][];
 	boolean bBlackCoverage[][];
@@ -208,7 +207,7 @@ public class chessboard implements Serializable
 	
 	public chessboard()
 	{
-		blocks = new piece [9][9];	
+		blocks = new Piece[9][9];
 		bWhiteCoverage = new boolean[9][9];
 		bBlackCoverage = new boolean[9][9];
 		
@@ -233,8 +232,8 @@ public class chessboard implements Serializable
 		
 		
 		
-		iWhitePieceCount = new int[piece.ROOK+1];
-		iBlackPieceCount = new int[piece.ROOK+1];
+		iWhitePieceCount = new int[Piece.ROOK+1];
+		iBlackPieceCount = new int[Piece.ROOK+1];
 		
 		iWhiteUPPDest = new int[9];
 		iBlackUPPDest = new int[9];
@@ -275,7 +274,7 @@ public class chessboard implements Serializable
 
 		if ((i<1) || (j < 1) || (i > 8) || (j > 8)) return -2;
 		
-		piece p = blocks[i][j];
+		Piece p = blocks[i][j];
 		
 		if (p == null) return -1;
 		
@@ -318,14 +317,14 @@ public class chessboard implements Serializable
 		int y2 = ((int)lm_vector.elementAt(3)+48);
 		
 		//sRet = "" + (char)x1 + (char)y1 + (char)x2 + (char)y2;
-		piece p = blocks[(int)lm_vector.elementAt(2)][(int)lm_vector.elementAt(3)];
+		Piece p = blocks[(int)lm_vector.elementAt(2)][(int)lm_vector.elementAt(3)];
 		
-		if (p.iType == piece.PAWN)
+		if (p.iType == Piece.PAWN)
 		{
 			if (x1==x2) sRet = "" + (char)x2 + (char)y2;
 			else sRet = "" + (char)x1 + (char)x2 + (char)y2;
 		}
-		else if (p.iType == piece.KING)
+		else if (p.iType == Piece.KING)
 		{
 			if ((x1=='e') && (x2=='g')) sRet = "O-O";
 			else if ((x1=='e') && (x2=='c')) sRet = "O-O-O";
@@ -333,13 +332,13 @@ public class chessboard implements Serializable
 		}
 		else
 		{
-			if (p.iType == piece.QUEEN) sRet = "Q";
-			if (p.iType == piece.ROOK) sRet = "R";
-			if (p.iType == piece.BISHOP) sRet = "B";
-			if (p.iType == piece.KNIGHT) sRet = "N";
+			if (p.iType == Piece.QUEEN) sRet = "Q";
+			if (p.iType == Piece.ROOK) sRet = "R";
+			if (p.iType == Piece.BISHOP) sRet = "B";
+			if (p.iType == Piece.KNIGHT) sRet = "N";
 			
 			
-			piece pOth = p.canReachBrotherPiece(this);
+			Piece pOth = p.canReachBrotherPiece(this);
 			if (pOth != null)
 			{
 				//System.out.println("Ambiguous move!!!");
@@ -364,7 +363,7 @@ public class chessboard implements Serializable
 			pw.print(j);
 			for (int i=1;i<=8;i++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) pw.print(".");
 				else pw.print(p.dumpchr());
 
@@ -385,7 +384,7 @@ public class chessboard implements Serializable
 		{
 			for (int i=1;i<=8;i++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) iNullC++;
 				else
 				{
@@ -394,7 +393,7 @@ public class chessboard implements Serializable
 						sRet = sRet + iNullC;
 						iNullC = 0;
 					}
-					if (p.iColor == piece.WHITE) sRet = sRet+ p.dumpchr().toUpperCase();
+					if (p.iColor == Piece.WHITE) sRet = sRet+ p.dumpchr().toUpperCase();
 					else sRet = sRet+ p.dumpchr().toLowerCase();
 					
 				}
@@ -415,41 +414,41 @@ public class chessboard implements Serializable
 			int y1 = ((int)lm_vector.elementAt(1));
 			int x2 = ((int)lm_vector.elementAt(2));
 			int y2 = ((int)lm_vector.elementAt(3));
-			piece p = blocks[x2][y2];
-			if (p.iColor == piece.WHITE) sRet = sRet + " b ";
+			Piece p = blocks[x2][y2];
+			if (p.iColor == Piece.WHITE) sRet = sRet + " b ";
 			else sRet = sRet + " w ";
 			
 			String sCastle = "";
-			piece pk = blocks[5][1];
-			if ((pk==null) || (pk.iColor != piece.WHITE) || (pk.iType != piece.KING) || (pk.iLastMove != 0)) ;
+			Piece pk = blocks[5][1];
+			if ((pk==null) || (pk.iColor != Piece.WHITE) || (pk.iType != Piece.KING) || (pk.iLastMove != 0)) ;
 			else
 			{
-				piece pr=blocks[8][1];
-				if ((pr==null) || (pr.iColor != piece.WHITE) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				Piece pr=blocks[8][1];
+				if ((pr==null) || (pr.iColor != Piece.WHITE) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "K";
 				
 				pr=blocks[1][1];
-				if ((pr==null) || (pr.iColor != piece.WHITE) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				if ((pr==null) || (pr.iColor != Piece.WHITE) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "Q";
 			}
 		    
 			pk = blocks[5][8];
-			if ((pk==null) || (pk.iColor != piece.BLACK) || (pk.iType != piece.KING) || (pk.iLastMove != 0)) ;
+			if ((pk==null) || (pk.iColor != Piece.BLACK) || (pk.iType != Piece.KING) || (pk.iLastMove != 0)) ;
 			else
 			{
-				piece pr=blocks[8][8];
-				if ((pr==null) || (pr.iColor != piece.BLACK) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				Piece pr=blocks[8][8];
+				if ((pr==null) || (pr.iColor != Piece.BLACK) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "k";
 				
 				pr=blocks[1][8];
-				if ((pr==null) || (pr.iColor != piece.BLACK) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				if ((pr==null) || (pr.iColor != Piece.BLACK) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "q";
 			}
 			
 			if (sCastle.equals("")) sCastle = "-";
 			sRet = sRet + sCastle;
 			
-			if ((p.iType == piece.PAWN) && (Math.abs(y1-y2) == 2))
+			if ((p.iType == Piece.PAWN) && (Math.abs(y1-y2) == 2))
 			{
 				sRet = sRet + " ";
 				sRet = sRet + (char)(x1+96);
@@ -461,39 +460,39 @@ public class chessboard implements Serializable
 			
 			//System.out.println("DBG160109: FEN movecounter calc! iC:" + p.iColor+ " iMC: " + iMoveCounter);
 			
-			if (p.iColor == piece.WHITE ) sRet = sRet + " " + iMoveCounter;
+			if (p.iColor == Piece.WHITE ) sRet = sRet + " " + iMoveCounter;
 			else sRet = sRet + " " + (iMoveCounter+1);
 		}
 		else
 		{
 			//sRet = sRet + " <" + iFileCol + ">";
-			if (iFileCol == piece.WHITE) sRet = sRet + " w ";
+			if (iFileCol == Piece.WHITE) sRet = sRet + " w ";
 			else sRet = sRet + " b ";
 			
 			String sCastle = "";
-			piece pk = blocks[5][1];
-			if ((pk==null) || (pk.iColor != piece.WHITE) || (pk.iType != piece.KING) || (pk.iLastMove != 0)) ;
+			Piece pk = blocks[5][1];
+			if ((pk==null) || (pk.iColor != Piece.WHITE) || (pk.iType != Piece.KING) || (pk.iLastMove != 0)) ;
 			else
 			{
-				piece pr=blocks[8][1];
-				if ((pr==null) || (pr.iColor != piece.WHITE) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				Piece pr=blocks[8][1];
+				if ((pr==null) || (pr.iColor != Piece.WHITE) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "K";
 				
 				pr=blocks[1][1];
-				if ((pr==null) || (pr.iColor != piece.WHITE) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				if ((pr==null) || (pr.iColor != Piece.WHITE) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "Q";
 			}
 		    
 			pk = blocks[5][8];
-			if ((pk==null) || (pk.iColor != piece.BLACK) || (pk.iType != piece.KING) || (pk.iLastMove != 0)) ;
+			if ((pk==null) || (pk.iColor != Piece.BLACK) || (pk.iType != Piece.KING) || (pk.iLastMove != 0)) ;
 			else
 			{
-				piece pr=blocks[8][8];
-				if ((pr==null) || (pr.iColor != piece.BLACK) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				Piece pr=blocks[8][8];
+				if ((pr==null) || (pr.iColor != Piece.BLACK) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "k";
 				
 				pr=blocks[1][8];
-				if ((pr==null) || (pr.iColor != piece.BLACK) || (pr.iType != piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
+				if ((pr==null) || (pr.iColor != Piece.BLACK) || (pr.iType != Piece.ROOK) || (pr.iLastMove != 0)) sCastle = sCastle + "-";
 				else sCastle = sCastle + "q";
 			}
 			
@@ -506,7 +505,7 @@ public class chessboard implements Serializable
 			//System.out.println("DBG160109: FEN movecounter calc (B)! iC:" + iFileCol + " iMC: " + iMoveCounter);
 			
 			
-			if (iFileCol == piece.WHITE ) sRet = sRet + " " + iMoveCounter;
+			if (iFileCol == Piece.WHITE ) sRet = sRet + " " + iMoveCounter;
 			else sRet = sRet + " " + (iMoveCounter+1);
 		}
 		
@@ -521,7 +520,7 @@ public class chessboard implements Serializable
 			System.out.print(prefix+j);
 			for (int i=1;i<=8;i++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) System.out.print(".");
 				else System.out.print(p.dumpchr());
 
@@ -534,18 +533,18 @@ public class chessboard implements Serializable
 		
 		if (iDumpMode == DUMPMODE_SHORT) return;
 		
-		System.out.println(prefix+"VALUES: w:" + pvaluesum(piece.WHITE) + " b:" + pvaluesum(piece.BLACK));
+		System.out.println(prefix+"VALUES: w:" + pvaluesum(Piece.WHITE) + " b:" + pvaluesum(Piece.BLACK));
 		
 		//redoVectorsAndCoverages();  // IS THIS THE REASON CHECKING PIECE INFO LOSES ??? $$$$ 141106  YES!!!
 		
 		System.out.println(prefix+"Coverages:   w: " + iWhiteCovered + " b: " + iBlackCovered);
 		System.out.println(prefix+"Pawn adv:    w: " + iWhitePawnAdvance + " b: " + iBlackPawnAdvance);
 		System.out.println(prefix+"Unprot thr:  w: " + iWhiteUnprotThreat + " b : " + iBlackUnprotThreat);
-		System.out.println(prefix+"King castled w: " + bKingInCastle(piece.WHITE) + " b: " + bKingInCastle(piece.BLACK));
-		System.out.println(prefix+"KicPoints    w: " + iKicPoints(piece.WHITE) + " b: " + iKicPoints(piece.BLACK));	
+		System.out.println(prefix+"King castled w: " + bKingInCastle(Piece.WHITE) + " b: " + bKingInCastle(Piece.BLACK));
+		System.out.println(prefix+"KicPoints    w: " + iKicPoints(Piece.WHITE) + " b: " + iKicPoints(Piece.BLACK));
 		System.out.println(prefix+"Castled var  w: " + bWhiteCastled + " b: " + bBlackCastled);
 		System.out.println(prefix+"Castle move  w: " + iWhiteCastlingMove + " b: " + iBlackCastlingMove);
-		System.out.println(prefix+"Undev LO     w: " + iUndevelopedLightOfficers(piece.WHITE) + " b: " + iUndevelopedLightOfficers(piece.BLACK));
+		System.out.println(prefix+"Undev LO     w: " + iUndevelopedLightOfficers(Piece.WHITE) + " b: " + iUndevelopedLightOfficers(Piece.BLACK));
 		System.out.println(prefix+"Double pwns  w: " + iWhiteDoublePawns + " b: " + iBlackDoublePawns);
 		System.out.println(prefix+"Center ctrl  w: " + iWhiteCenterCtrlPts + " b: " + iBlackCenterCtrlPts);
 		System.out.println(prefix+"King threat  w: " + bWhiteKingThreat + " b: " + bBlackKingThreat);
@@ -559,7 +558,7 @@ public class chessboard implements Serializable
 		System.out.println(prefix+"Max pawns    w: " + iMaxWhitePawn + " b: " + iMaxBlackPawn);
 		String sWPC = "";
 		String sBPC = "";
-		for (int i=piece.PAWN; i<=piece.ROOK; i++)
+		for (int i = Piece.PAWN; i<= Piece.ROOK; i++)
 		{
 			sWPC = sWPC + iWhitePieceCount[i];
 			sBPC = sBPC + iBlackPieceCount[i];
@@ -621,13 +620,13 @@ public class chessboard implements Serializable
 			System.out.print(prefix+"Piece vectors w: ");
 			for (int i=0;i<vWhites.size();i++) 
 			{
-				piece p = (piece)vWhites.elementAt(i);
+				Piece p = (Piece)vWhites.elementAt(i);
 				System.out.print(p.dumpStr()+" ");
 			}
 			System.out.print(" b: ");
 			for (int i=0;i<vBlacks.size();i++) 
 			{
-				piece p = (piece)vBlacks.elementAt(i);
+				Piece p = (Piece)vBlacks.elementAt(i);
 				System.out.print(p.dumpStr()+" ");
 			}
 			System.out.println();
@@ -643,7 +642,7 @@ public class chessboard implements Serializable
 			System.out.print(prefix+j+";");
 			for (int i=1;i<=8;i++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) System.out.print(";");
 				else System.out.print(p.iLastMove +";");
 
@@ -698,48 +697,48 @@ public class chessboard implements Serializable
 		System.out.println("DBG151011:cb init!");
 		for (int i=1;i<=8;i++)
 		{
-			pawn pw = new pawn(i,2,piece.WHITE);
+			pawn pw = new pawn(i,2, Piece.WHITE);
 			putpiece( pw);
 			
-			pawn pb = new pawn(i,7,piece.BLACK);
+			pawn pb = new pawn(i,7, Piece.BLACK);
 			putpiece( pb);
 		}
 		
-		king k = new king(5,1,piece.WHITE);
+		king k = new king(5,1, Piece.WHITE);
 		putpiece(k);
-		k = new king(5,8,piece.BLACK);
+		k = new king(5,8, Piece.BLACK);
 		putpiece(k);
 		
-		queen q = new queen (4,1,piece.WHITE);
+		queen q = new queen (4,1, Piece.WHITE);
 		putpiece(q);
-		q = new queen (4,8,piece.BLACK);
+		q = new queen (4,8, Piece.BLACK);
 		putpiece(q);
 		
-		rook r = new rook (1,1,piece.WHITE);
+		rook r = new rook (1,1, Piece.WHITE);
 		putpiece(r);
-		r = new rook (8,1,piece.WHITE);
+		r = new rook (8,1, Piece.WHITE);
 		putpiece(r);
-		r = new rook (1,8,piece.BLACK);
+		r = new rook (1,8, Piece.BLACK);
 		putpiece(r);
-		r = new rook (8,8,piece.BLACK);
+		r = new rook (8,8, Piece.BLACK);
 		putpiece(r);
 		
-		knight kn = new knight (2,1,piece.WHITE);
+		knight kn = new knight (2,1, Piece.WHITE);
 		putpiece(kn);
-		kn = new knight (7,1,piece.WHITE);
+		kn = new knight (7,1, Piece.WHITE);
 		putpiece(kn);
-		kn = new knight (2,8,piece.BLACK);
+		kn = new knight (2,8, Piece.BLACK);
 		putpiece(kn);
-		kn = new knight (7,8,piece.BLACK);
+		kn = new knight (7,8, Piece.BLACK);
 		putpiece(kn);
 		
-		bishop b = new bishop (3,1,piece.WHITE);
+		bishop b = new bishop (3,1, Piece.WHITE);
 		putpiece(b);
-		b = new bishop (6,1,piece.WHITE);
+		b = new bishop (6,1, Piece.WHITE);
 		putpiece(b);
-		b = new bishop (3,8,piece.BLACK);
+		b = new bishop (3,8, Piece.BLACK);
 		putpiece(b);
-		b = new bishop (6,8,piece.BLACK);
+		b = new bishop (6,8, Piece.BLACK);
 		putpiece(b);
 		
 		lm_vector = null;
@@ -760,8 +759,8 @@ public class chessboard implements Serializable
 
 			String shead = br.readLine().trim();
 			
-			if (sctr.equalsIgnoreCase("white")) iFileCol = piece.WHITE;
-			if (sctr.equalsIgnoreCase("black")) iFileCol = piece.BLACK;
+			if (sctr.equalsIgnoreCase("white")) iFileCol = Piece.WHITE;
+			if (sctr.equalsIgnoreCase("black")) iFileCol = Piece.BLACK;
 
 			
 			if (!shead.equals("abcdefgh")) return false;
@@ -782,62 +781,62 @@ public class chessboard implements Serializable
 					switch (cPiece)
 					{
 						case 'P':
-							pawn pb = new pawn(i,j,piece.BLACK);
+							pawn pb = new pawn(i,j, Piece.BLACK);
 							putpiece( pb);
 							break;
 						
 						case 'p':
-							pawn pw = new pawn(i,j,piece.WHITE);
+							pawn pw = new pawn(i,j, Piece.WHITE);
 							putpiece( pw);
 							break;
 						
 						case 'k':
-							king k = new king(i,j,piece.WHITE);
+							king k = new king(i,j, Piece.WHITE);
 							putpiece(k);
 							break;
 		
 						case 'K':
-							k = new king(i,j,piece.BLACK);
+							k = new king(i,j, Piece.BLACK);
 							putpiece(k);
 							break;
 
 						case 'q':
-							queen q = new queen (i,j,piece.WHITE);
+							queen q = new queen (i,j, Piece.WHITE);
 							putpiece(q);
 							break;
 
 						case 'Q':
-							q = new queen (i,j,piece.BLACK);
+							q = new queen (i,j, Piece.BLACK);
 							putpiece(q);
 							break;
 
 						case 'r':	
-							rook r = new rook (i,j,piece.WHITE);
+							rook r = new rook (i,j, Piece.WHITE);
 							putpiece(r);
 							break;
 						
 						case 'R':
-							r = new rook (i,j,piece.BLACK);
+							r = new rook (i,j, Piece.BLACK);
 							putpiece(r);
 							break;
 
 						case 'n':
-							knight kn = new knight (i,j,piece.WHITE);
+							knight kn = new knight (i,j, Piece.WHITE);
 							putpiece(kn);
 							break;
 							
 						case 'N':	
-							kn = new knight (i,j,piece.BLACK);
+							kn = new knight (i,j, Piece.BLACK);
 							putpiece(kn);		
 							break;
 						
 						case 'b':
-							bishop b = new bishop (i,j,piece.WHITE);
+							bishop b = new bishop (i,j, Piece.WHITE);
 							putpiece(b);
 							break;
 		
 						case 'B':
-							b = new bishop (i,j,piece.BLACK);
+							b = new bishop (i,j, Piece.BLACK);
 							putpiece(b);	
 							break;
 						
@@ -891,10 +890,10 @@ public class chessboard implements Serializable
 			int iEnpY = sEnpComp[1].charAt(1)-48;
 			System.out.println("En passant:" + sEnpComp[1] + " x=" + iEnpX + "y=" + iEnpY);
 			
-			piece pEnp = blocks[iEnpX][iEnpY];
-			if ((pEnp == null) || (pEnp.iType != piece.PAWN) || (iFileCol == pEnp.iColor) || 
-				((iFileCol==piece.WHITE) && (iEnpY != 5)) ||
-				((iFileCol==piece.BLACK) && (iEnpY != 4)))
+			Piece pEnp = blocks[iEnpX][iEnpY];
+			if ((pEnp == null) || (pEnp.iType != Piece.PAWN) || (iFileCol == pEnp.iColor) ||
+				((iFileCol== Piece.WHITE) && (iEnpY != 5)) ||
+				((iFileCol== Piece.BLACK) && (iEnpY != 4)))
 			{
 				System.out.println("Bad en passant command: " + sEnp);
 				throw new RuntimeException("Bad en passant command: " + sEnp);
@@ -902,7 +901,7 @@ public class chessboard implements Serializable
 			
 			lm_vector = new Vector();
 			lm_vector.addElement(iEnpX);
-			if (iFileCol==piece.WHITE) lm_vector.addElement(7);
+			if (iFileCol== Piece.WHITE) lm_vector.addElement(7);
 			else lm_vector.addElement(2);
 			lm_vector.addElement(iEnpX);
 			lm_vector.addElement(iEnpY);
@@ -918,8 +917,8 @@ public class chessboard implements Serializable
 		String sFENAttr[]=sFEN.split(" ");
 		String sFENComp[]=sFENAttr[0].split("/");
 		
-		if (sFENAttr[1].equalsIgnoreCase("w")) iFileCol = piece.WHITE;
-		if (sFENAttr[1].equalsIgnoreCase("b")) iFileCol = piece.BLACK;
+		if (sFENAttr[1].equalsIgnoreCase("w")) iFileCol = Piece.WHITE;
+		if (sFENAttr[1].equalsIgnoreCase("b")) iFileCol = Piece.BLACK;
 		
 		System.out.println("Attr5:" + sFENAttr[5]);
 		System.out.println("Attr3:" + sFENAttr[3]);
@@ -934,7 +933,7 @@ public class chessboard implements Serializable
 		{
 			int eny1, eny2;
 			int enx = (int)sFENAttr[3].charAt(0)-96;
-			if (iFileCol == piece.WHITE)
+			if (iFileCol == Piece.WHITE)
 			{
 				eny1 = (int)sFENAttr[3].charAt(1)-48+1;
 				eny2 = (int)sFENAttr[3].charAt(1)-48-1;
@@ -972,62 +971,62 @@ public class chessboard implements Serializable
 					switch(cc)
 					{
 						case 'p':
-							pawn pb = new pawn(i,j,piece.BLACK);
+							pawn pb = new pawn(i,j, Piece.BLACK);
 							putpiece( pb);
 							break;
 						
 						case 'P':
-							pawn pw = new pawn(i,j,piece.WHITE);
+							pawn pw = new pawn(i,j, Piece.WHITE);
 							putpiece( pw);
 							break;
 						
 						case 'K':
-							king k = new king(i,j,piece.WHITE);
+							king k = new king(i,j, Piece.WHITE);
 							putpiece(k);
 							break;
 		
 						case 'k':
-							k = new king(i,j,piece.BLACK);
+							k = new king(i,j, Piece.BLACK);
 							putpiece(k);
 							break;
 
 						case 'Q':
-							queen q = new queen (i,j,piece.WHITE);
+							queen q = new queen (i,j, Piece.WHITE);
 							putpiece(q);
 							break;
 
 						case 'q':
-							q = new queen (i,j,piece.BLACK);
+							q = new queen (i,j, Piece.BLACK);
 							putpiece(q);
 							break;
 
 						case 'R':	
-							rook r = new rook (i,j,piece.WHITE);
+							rook r = new rook (i,j, Piece.WHITE);
 							putpiece(r);
 							break;
 						
 						case 'r':
-							r = new rook (i,j,piece.BLACK);
+							r = new rook (i,j, Piece.BLACK);
 							putpiece(r);
 							break;
 
 						case 'N':
-							knight kn = new knight (i,j,piece.WHITE);
+							knight kn = new knight (i,j, Piece.WHITE);
 							putpiece(kn);
 							break;
 							
 						case 'n':	
-							kn = new knight (i,j,piece.BLACK);
+							kn = new knight (i,j, Piece.BLACK);
 							putpiece(kn);		
 							break;
 						
 						case 'B':
-							bishop b = new bishop (i,j,piece.WHITE);
+							bishop b = new bishop (i,j, Piece.WHITE);
 							putpiece(b);
 							break;
 		
 						case 'b':
-							b = new bishop (i,j,piece.BLACK);
+							b = new bishop (i,j, Piece.BLACK);
 							putpiece(b);	
 							break;
 					}
@@ -1051,7 +1050,7 @@ public class chessboard implements Serializable
 		
 		System.out.println("flip() called, par: " + iColor);
 		
-		piece tmpL, tmpH;
+		Piece tmpL, tmpH;
 		
 		for (int i = 1; i <= 8; i++)
 			for (int j=1; j <= 4; j++)
@@ -1062,14 +1061,14 @@ public class chessboard implements Serializable
 			if (tmpL != null)
 			{
 				tmpL.yk = 9-tmpL.yk;
-				if ((tmpL.iColor == piece.BLACK) && (tmpL.iLastMove > 0)) tmpL.iLastMove++;
+				if ((tmpL.iColor == Piece.BLACK) && (tmpL.iLastMove > 0)) tmpL.iLastMove++;
 				tmpL.iColor = 1-tmpL.iColor;
 			}
 			
 			if (tmpH != null)
 			{
 				tmpH.yk = 9-tmpH.yk;
-				if ((tmpH.iColor == piece.BLACK) && (tmpH.iLastMove > 0)) tmpH.iLastMove++;
+				if ((tmpH.iColor == Piece.BLACK) && (tmpH.iLastMove > 0)) tmpH.iLastMove++;
 				tmpH.iColor = 1-tmpH.iColor;
 			}
 			
@@ -1117,8 +1116,8 @@ public class chessboard implements Serializable
 		
 		System.out.println("nali_flip() called, par: " + iFlipMode);
 		
-		piece tmpL, tmpH, tmpR;
-		piece tmpRB, tmpLT;
+		Piece tmpL, tmpH, tmpR;
+		Piece tmpRB, tmpLT;
 		
 		switch (iFlipMode)
 		{
@@ -1203,7 +1202,7 @@ public class chessboard implements Serializable
 		return cb;
 	}
 	
-	boolean putpiece( piece p)
+	boolean putpiece( Piece p)
 	{
 		blocks[p.xk()][p.yk()] = p;
 		return true;
@@ -1217,7 +1216,7 @@ public class chessboard implements Serializable
 			for (int i=1;i<=8;i++) 
 				for (int j=1;j<=8;j++)
 				{
-					piece p = blocks[i][j];
+					Piece p = blocks[i][j];
 					if ((p != null) && (p.iColor == iColor)) ivalsum = ivalsum + p.pvalue();
 				}
 			
@@ -1230,47 +1229,47 @@ public class chessboard implements Serializable
 	
 	boolean bInEndGameMode()
 	{
-		if (pvaluesum(piece.WHITE) >= 1015 ) return false;
-		return pvaluesum(piece.BLACK) < 1015;
+		if (pvaluesum(Piece.WHITE) >= 1015 ) return false;
+		return pvaluesum(Piece.BLACK) < 1015;
 	}
 	
 	boolean bKillModeQRwK()
 	{
-		if (((iBlackPieceCount[piece.PAWN] == 0) &&
-		    (iBlackPieceCount[piece.QUEEN] == 0) &&
-		    (iBlackPieceCount[piece.BISHOP] == 0) &&
-		    (iBlackPieceCount[piece.ROOK] == 0) &&
-		    (iBlackPieceCount[piece.KNIGHT] == 0)) &&
-		   ((iWhitePieceCount[piece.QUEEN] != 0) ||
-		    (iWhitePieceCount[piece.ROOK] != 0)))
+		if (((iBlackPieceCount[Piece.PAWN] == 0) &&
+		    (iBlackPieceCount[Piece.QUEEN] == 0) &&
+		    (iBlackPieceCount[Piece.BISHOP] == 0) &&
+		    (iBlackPieceCount[Piece.ROOK] == 0) &&
+		    (iBlackPieceCount[Piece.KNIGHT] == 0)) &&
+		   ((iWhitePieceCount[Piece.QUEEN] != 0) ||
+		    (iWhitePieceCount[Piece.ROOK] != 0)))
 			return true;
 
-		return ((iWhitePieceCount[piece.PAWN] == 0) &&
-				(iWhitePieceCount[piece.QUEEN] == 0) &&
-				(iWhitePieceCount[piece.BISHOP] == 0) &&
-				(iWhitePieceCount[piece.ROOK] == 0) &&
-				(iWhitePieceCount[piece.KNIGHT] == 0)) &&
-				((iBlackPieceCount[piece.QUEEN] != 0) ||
-						(iBlackPieceCount[piece.ROOK] != 0));
+		return ((iWhitePieceCount[Piece.PAWN] == 0) &&
+				(iWhitePieceCount[Piece.QUEEN] == 0) &&
+				(iWhitePieceCount[Piece.BISHOP] == 0) &&
+				(iWhitePieceCount[Piece.ROOK] == 0) &&
+				(iWhitePieceCount[Piece.KNIGHT] == 0)) &&
+				((iBlackPieceCount[Piece.QUEEN] != 0) ||
+						(iBlackPieceCount[Piece.ROOK] != 0));
 
 	}
 	
 	boolean bPawnsOrMinorPieces()
 	{
-		return ((iBlackPieceCount[piece.PAWN] != 0) ||
-				(iBlackPieceCount[piece.KNIGHT] != 0) ||
-				(iBlackPieceCount[piece.BISHOP] != 0) ||
-				(iWhitePieceCount[piece.PAWN] != 0) ||
-				(iWhitePieceCount[piece.KNIGHT] != 0) ||
-				(iWhitePieceCount[piece.BISHOP] != 0));
+		return ((iBlackPieceCount[Piece.PAWN] != 0) ||
+				(iBlackPieceCount[Piece.KNIGHT] != 0) ||
+				(iBlackPieceCount[Piece.BISHOP] != 0) ||
+				(iWhitePieceCount[Piece.PAWN] != 0) ||
+				(iWhitePieceCount[Piece.KNIGHT] != 0) ||
+				(iWhitePieceCount[Piece.BISHOP] != 0));
 	}
 	
 	boolean bPawnPromRaceMode()
 	{
-		if ((iBlackPieceCount[piece.PAWN] == 0) && (iWhitePieceCount[piece.PAWN] == 0)) return false;
+		if ((iBlackPieceCount[Piece.PAWN] == 0) && (iWhitePieceCount[Piece.PAWN] == 0)) return false;
 		
-		if (pvaluesum(piece.WHITE) >= 1009 ) return false;
-		return pvaluesum(piece.BLACK) < 1009;
+		if (pvaluesum(Piece.WHITE) >= 1009 ) return false;
+		return pvaluesum(Piece.BLACK) < 1009;
 	}
 	
 	int kingDistanceBalance()
@@ -1279,16 +1278,16 @@ public class chessboard implements Serializable
 		{
 			//System.out.println("kingDistanceBalance@killmode");
 			
-			king kw = locateKing(piece.WHITE);
-			king kb = locateKing(piece.BLACK);
+			king kw = locateKing(Piece.WHITE);
+			king kb = locateKing(Piece.BLACK);
 			
-			piece pOwn = null;
+			Piece pOwn = null;
 			int ekx, eky, okx, oky, tx, ty;
 			
-			if (iBlackPieceCount[piece.ROOK] != 0) pOwn = locatePiece(piece.BLACK, piece.ROOK);
-			if (iWhitePieceCount[piece.ROOK] != 0) pOwn = locatePiece(piece.WHITE, piece.ROOK);
-			if (iBlackPieceCount[piece.QUEEN] != 0) pOwn = locatePiece(piece.BLACK, piece.QUEEN);
-			if (iWhitePieceCount[piece.QUEEN] != 0) pOwn = locatePiece(piece.WHITE, piece.QUEEN);			
+			if (iBlackPieceCount[Piece.ROOK] != 0) pOwn = locatePiece(Piece.BLACK, Piece.ROOK);
+			if (iWhitePieceCount[Piece.ROOK] != 0) pOwn = locatePiece(Piece.WHITE, Piece.ROOK);
+			if (iBlackPieceCount[Piece.QUEEN] != 0) pOwn = locatePiece(Piece.BLACK, Piece.QUEEN);
+			if (iWhitePieceCount[Piece.QUEEN] != 0) pOwn = locatePiece(Piece.WHITE, Piece.QUEEN);
 			
 			if (pOwn == null) 
 			{
@@ -1296,7 +1295,7 @@ public class chessboard implements Serializable
 				throw new RuntimeException("chessboard.kingDistanceBalance() : pOwn = null");
 			}
 			
-			if (pOwn.iColor == piece.WHITE)
+			if (pOwn.iColor == Piece.WHITE)
 			{      
 				okx = kw.xk;
 				oky = kw.yk;
@@ -1330,7 +1329,7 @@ public class chessboard implements Serializable
 			System.out.println("DBG: KingDistanceBalance (qRWK/EK): " + pOwn.xk + "-" + ekx + " , " + pOwn.yk + "-" +eky);
 			System.out.println("DBG: KingDistanceBalance (qRWK): EK:" + ekdist + ", OK:" + okdist);
 			*/
-			if (pOwn.iColor == piece.WHITE) return ekdist - okdist;
+			if (pOwn.iColor == Piece.WHITE) return ekdist - okdist;
 			else return okdist - ekdist;
 			
 		}
@@ -1339,8 +1338,8 @@ public class chessboard implements Serializable
 		{
 			//System.out.println("DBG150127:KingDistanceBalance / bPawnPromRaceMode");
 			
-			king kw = locateKing(piece.WHITE);
-			king kb = locateKing(piece.BLACK);
+			king kw = locateKing(Piece.WHITE);
+			king kb = locateKing(Piece.BLACK);
 			
 			int wdist = 7;
 			int bdist = 7;
@@ -1425,13 +1424,13 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG150928: DBG: iPromoteBonus. iC:" + iColor + " iT:" + iTurn);
 		
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
-			if ((iBlackPieceCount[piece.QUEEN] != 0) ||
-			    (iBlackPieceCount[piece.ROOK] != 0) ||
-				(iBlackPieceCount[piece.BISHOP] != 0) ||
-				(iBlackPieceCount[piece.KNIGHT] != 0)) return 0;
-			ke = locateKing(piece.BLACK);	
+			if ((iBlackPieceCount[Piece.QUEEN] != 0) ||
+			    (iBlackPieceCount[Piece.ROOK] != 0) ||
+				(iBlackPieceCount[Piece.BISHOP] != 0) ||
+				(iBlackPieceCount[Piece.KNIGHT] != 0)) return 0;
+			ke = locateKing(Piece.BLACK);
 			kx = ke.xk;
 			ky = ke.yk;
 			
@@ -1454,8 +1453,8 @@ public class chessboard implements Serializable
 					
 					if (iKDist > 0)
 					{
-						if (((iTurn == piece.WHITE) && (iDist < iKDist) ) || !bKingMove)  iTempBon = iWhitePawnColMax[i];
-						if (((iTurn == piece.BLACK) && (iDist < iKDist-1)) || !bKingMove) iTempBon = iWhitePawnColMax[i];
+						if (((iTurn == Piece.WHITE) && (iDist < iKDist) ) || !bKingMove)  iTempBon = iWhitePawnColMax[i];
+						if (((iTurn == Piece.BLACK) && (iDist < iKDist-1)) || !bKingMove) iTempBon = iWhitePawnColMax[i];
 						
 					}
 					
@@ -1467,11 +1466,11 @@ public class chessboard implements Serializable
 		}
 		else
 		{
-			if ((iWhitePieceCount[piece.QUEEN] != 0) ||
-			    (iWhitePieceCount[piece.ROOK] != 0) ||
-				(iWhitePieceCount[piece.BISHOP] != 0) ||
-				(iWhitePieceCount[piece.KNIGHT] != 0)) return 0;
-			ke = locateKing(piece.WHITE);	
+			if ((iWhitePieceCount[Piece.QUEEN] != 0) ||
+			    (iWhitePieceCount[Piece.ROOK] != 0) ||
+				(iWhitePieceCount[Piece.BISHOP] != 0) ||
+				(iWhitePieceCount[Piece.KNIGHT] != 0)) return 0;
+			ke = locateKing(Piece.WHITE);
 			kx = ke.xk;
 			ky = ke.yk;
 			
@@ -1493,8 +1492,8 @@ public class chessboard implements Serializable
 					
 					if (iKDist > 0)
 					{
-						if (((iTurn == piece.BLACK) && (iDist < iKDist)) || !bKingMove) iTempBon = 9-iBlackPawnColMin[i];
-						if (((iTurn == piece.WHITE) && (iDist < iKDist-1)) || !bKingMove) iTempBon = 9-iBlackPawnColMin[i];
+						if (((iTurn == Piece.BLACK) && (iDist < iKDist)) || !bKingMove) iTempBon = 9-iBlackPawnColMin[i];
+						if (((iTurn == Piece.WHITE) && (iDist < iKDist-1)) || !bKingMove) iTempBon = 9-iBlackPawnColMin[i];
 					}
 					
 					if (iTempBon > iBon) iBon = iTempBon;
@@ -1508,18 +1507,18 @@ public class chessboard implements Serializable
 	
 	boolean bKingCanMoveToPreventProm(king k)
 	{
-		if ((k.iColor == piece.WHITE) && (k.yk != 1)) return true;
-		if ((k.iColor == piece.BLACK) && (k.yk != 8)) return true;
+		if ((k.iColor == Piece.WHITE) && (k.yk != 1)) return true;
+		if ((k.iColor == Piece.BLACK) && (k.yk != 8)) return true;
 		
 		int iYP;
 		
-		if (k.iColor == piece.WHITE) iYP = 2;
+		if (k.iColor == Piece.WHITE) iYP = 2;
 		else iYP = 7;
 		
-		piece p = blocks[k.xk][iYP];
+		Piece p = blocks[k.xk][iYP];
 		
 		if (p == null) return true;
-		if ((p.iType != piece.PAWN) || (p.iColor == k.iColor))  return true;
+		if ((p.iType != Piece.PAWN) || (p.iColor == k.iColor))  return true;
 		return !p.bProt;
 
 	}
@@ -1532,7 +1531,7 @@ public class chessboard implements Serializable
 		int jb, jbp, jbf;
 		int iPlusB = 0;
 		
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
 			for (int i=1;i<7;i++)
 			{
@@ -1555,22 +1554,22 @@ public class chessboard implements Serializable
 			if (iBlackPawnColMin[iColumn+1] <3) iPlusB++;
 		}
 		int qc,rc,nc,bc;
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
-			qc = iBlackPieceCount[piece.QUEEN] ;
-			rc = iBlackPieceCount[piece.ROOK] ;
-			bc = iBlackPieceCount[piece.BISHOP] ;
-			nc = iBlackPieceCount[piece.KNIGHT];
+			qc = iBlackPieceCount[Piece.QUEEN] ;
+			rc = iBlackPieceCount[Piece.ROOK] ;
+			bc = iBlackPieceCount[Piece.BISHOP] ;
+			nc = iBlackPieceCount[Piece.KNIGHT];
 			jb = 6;
 			jbp = 7;
 			jbf = 8;
 		}
 		else
 		{
-			qc = iWhitePieceCount[piece.QUEEN] ;
-			rc = iWhitePieceCount[piece.ROOK] ;
-			bc = iWhitePieceCount[piece.BISHOP] ;
-			nc = iWhitePieceCount[piece.KNIGHT];
+			qc = iWhitePieceCount[Piece.QUEEN] ;
+			rc = iWhitePieceCount[Piece.ROOK] ;
+			bc = iWhitePieceCount[Piece.BISHOP] ;
+			nc = iWhitePieceCount[Piece.KNIGHT];
 			jb=3;
 			jbp = 2;
 			jbf = 1;
@@ -1583,8 +1582,8 @@ public class chessboard implements Serializable
 		{
 			king k = locateKing(1-iColor);
 			if ((k.xk >= iColumn -1) && (k.xk <= iColumn +2) && 
-				(((iColor == piece.WHITE) && (k.yk >= 6)) ||
-				((iColor == piece.BLACK) && (k.yk <= 3)))) return 0;
+				(((iColor == Piece.WHITE) && (k.yk >= 6)) ||
+				((iColor == Piece.BLACK) && (k.yk <= 3)))) return 0;
 		}
 		else
 		{
@@ -1592,12 +1591,12 @@ public class chessboard implements Serializable
 			if (iTurn != iColor)
 			{
 				//System.out.println("DBG160207: iPlusBcheck: iT != iC");
-				piece p1 = blocks[iColumn][jbp];
-				piece p2 = blocks[iColumn+1][jbp];
+				Piece p1 = blocks[iColumn][jbp];
+				Piece p2 = blocks[iColumn+1][jbp];
 				//System.out.println("p1.threat & prot " + p1.bThreat + " " + p1.bProt);
 				//System.out.println("p2.threat & prot " + p2.bThreat + " " + p2.bProt);
-				piece p1a = blocks[iColumn][jbf];
-				piece p2a = blocks[iColumn+1][jbf];
+				Piece p1a = blocks[iColumn][jbf];
+				Piece p2a = blocks[iColumn+1][jbf];
 				if (p1.bThreat && p2a != null) return 0;
 				if (p2.bThreat && p1a != null) return 0;
 			}
@@ -1612,11 +1611,11 @@ public class chessboard implements Serializable
 		{
 			//System.out.println("DBG160114: wrong col anal iC:" + iColor);
 			//dump();
-			piece p1 = blocks[iColumn][jb];
-			if ((p1 == null) || (p1.iType != piece.PAWN) || (p1.iColor != iColor)) p1 = blocks[iColumn][jbp];
+			Piece p1 = blocks[iColumn][jb];
+			if ((p1 == null) || (p1.iType != Piece.PAWN) || (p1.iColor != iColor)) p1 = blocks[iColumn][jbp];
 			
-			piece p2 = blocks[iColumn+1][jb];
-			if ((p2 == null) || (p2.iType != piece.PAWN) || (p2.iColor != iColor)) p2 = blocks[iColumn+1][jbp];
+			Piece p2 = blocks[iColumn+1][jb];
+			if ((p2 == null) || (p2.iType != Piece.PAWN) || (p2.iColor != iColor)) p2 = blocks[iColumn+1][jbp];
 			if ((p1.bThreat || p2.bThreat) && (iPlusB == 0)) return 0;
 			//System.out.println("DBG160114:DBL6BON!!!");
 			iBon = 4;
@@ -1632,10 +1631,10 @@ public class chessboard implements Serializable
 		final int UNTHREAT_PROT = 6;
 		final int THREAT_PROT = 4;
 		
-		if ((iColor == piece.WHITE) && (iWhitePieceCount[piece.QUEEN] == 0)) return 0;
-		if ((iColor == piece.BLACK) && (iBlackPieceCount[piece.QUEEN] == 0)) return 0;
+		if ((iColor == Piece.WHITE) && (iWhitePieceCount[Piece.QUEEN] == 0)) return 0;
+		if ((iColor == Piece.BLACK) && (iBlackPieceCount[Piece.QUEEN] == 0)) return 0;
 		
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
 			//System.out.println("DBG160114:iJustPromQProtBon(WHITE)");
 			for (int i=1;i<=8;i++)
@@ -1646,8 +1645,8 @@ public class chessboard implements Serializable
 					{
 						if (i>1) 
 						{	
-							piece p = blocks[i-1][8];
-							if ((p!=null) && (p.iType == piece.QUEEN)  && (p.iColor == piece.WHITE)) 
+							Piece p = blocks[i-1][8];
+							if ((p!=null) && (p.iType == Piece.QUEEN)  && (p.iColor == Piece.WHITE))
 							{
 								if (!p.bThreat) return UNTHREAT_PROT;
 								else return THREAT_PROT;
@@ -1655,8 +1654,8 @@ public class chessboard implements Serializable
 						}
 						if (i<8) 
 						{	
-							piece p = blocks[i+1][8];
-							if ((p!=null) && (p.iType == piece.QUEEN)  && (p.iColor == piece.WHITE)) 
+							Piece p = blocks[i+1][8];
+							if ((p!=null) && (p.iType == Piece.QUEEN)  && (p.iColor == Piece.WHITE))
 							{
 								if (!p.bThreat) return UNTHREAT_PROT;
 								else return THREAT_PROT;
@@ -1677,8 +1676,8 @@ public class chessboard implements Serializable
 					{
 						if (i>1) 
 						{	
-							piece p = blocks[i-1][1];
-							if ((p!=null) && (p.iType == piece.QUEEN)  && (p.iColor == piece.BLACK)) 
+							Piece p = blocks[i-1][1];
+							if ((p!=null) && (p.iType == Piece.QUEEN)  && (p.iColor == Piece.BLACK))
 							{
 								if (!p.bThreat) return UNTHREAT_PROT;
 								else return THREAT_PROT;
@@ -1686,8 +1685,8 @@ public class chessboard implements Serializable
 						}
 						if (i<8) 
 						{	
-							piece p = blocks[i+1][1];
-							if ((p!=null) && (p.iType == piece.QUEEN)  && (p.iColor == piece.BLACK))
+							Piece p = blocks[i+1][1];
+							if ((p!=null) && (p.iType == Piece.QUEEN)  && (p.iColor == Piece.BLACK))
 							{
 								if (!p.bThreat) return UNTHREAT_PROT;
 								else return THREAT_PROT;
@@ -1702,13 +1701,13 @@ public class chessboard implements Serializable
 	
 	int iOnePawnBonus(int iColor, int iTurn)
 	{
-		for (int pt = piece.QUEEN; pt <= piece.ROOK; pt++)
+		for (int pt = Piece.QUEEN; pt <= Piece.ROOK; pt++)
 		{
 			if (iWhitePieceCount[pt] > 0) return 0;
 			if (iBlackPieceCount[pt] > 0) return 0;
 		}
 		//if (iWhitePieceCount[piece.PAWN] + iBlackPieceCount[piece.PAWN] >= 2) return 0;
-		if ((iWhitePieceCount[piece.PAWN] >= 1) && (iBlackPieceCount[piece.PAWN] >= 1)) return 0;
+		if ((iWhitePieceCount[Piece.PAWN] >= 1) && (iBlackPieceCount[Piece.PAWN] >= 1)) return 0;
 		
 		int px,py,iC, iRet;
 		
@@ -1719,17 +1718,17 @@ public class chessboard implements Serializable
 		king kOwn = null;
 		king kEnemy = null;
 		
-		if (iWhitePieceCount[piece.PAWN] >= 1)
+		if (iWhitePieceCount[Piece.PAWN] >= 1)
 		{
-			iC = piece.WHITE;
-			kOwn = locateKing(piece.WHITE);
-			kEnemy = locateKing(piece.BLACK);
+			iC = Piece.WHITE;
+			kOwn = locateKing(Piece.WHITE);
+			kEnemy = locateKing(Piece.BLACK);
 		}
 		else
 		{
-			iC = piece.BLACK;
-			kOwn = locateKing(piece.BLACK);
-			kEnemy = locateKing(piece.WHITE);
+			iC = Piece.BLACK;
+			kOwn = locateKing(Piece.BLACK);
+			kEnemy = locateKing(Piece.WHITE);
 		}
 		
 		for (int i=1;i<=8;i++)
@@ -1756,12 +1755,12 @@ public class chessboard implements Serializable
 						}
 				}*/
 			px = i;
-			if (iC == piece.WHITE) py = iWhitePawnColMax[i];
+			if (iC == Piece.WHITE) py = iWhitePawnColMax[i];
 			else py = iBlackPawnColMin[i];
 			
 			//int iRet = 0;
 			
-			if (((iC == piece.WHITE) && (py > 1)) || ((iC == piece.BLACK) && (py<9)))
+			if (((iC == Piece.WHITE) && (py > 1)) || ((iC == Piece.BLACK) && (py<9)))
 			{
 				//System.out.println("DBG160118: iOnePawnBonus A: iC:" + iC + " iColor:" + iColor + " px: " + px + " py:" + py);
 				
@@ -1887,8 +1886,8 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG160118: iOnePawnBonus B: iC:" + iC + " iColor:" + iColor);
 		
-		if ((iC == piece.WHITE) && (py >= kOwn.yk) && (py < 8)) return 0;
-		if ((iC == piece.BLACK) && (py <= kOwn.yk) && (py > 1)) return 0;
+		if ((iC == Piece.WHITE) && (py >= kOwn.yk) && (py < 8)) return 0;
+		if ((iC == Piece.BLACK) && (py <= kOwn.yk) && (py > 1)) return 0;
 		
 		if (endist == owndist)
 		{
@@ -1912,7 +1911,7 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG160118: iOnePawnBonus C");
 
-		if ((iC == piece.WHITE) && (iColor == piece.WHITE)) 
+		if ((iC == Piece.WHITE) && (iColor == Piece.WHITE))
 		{
 			
 			if (kOwn.yk > py+1) iEGSBal = 50;
@@ -1938,7 +1937,7 @@ public class chessboard implements Serializable
 			
 			return (py-2);
 		}
-		if ((iC == piece.BLACK) && (iColor == piece.BLACK)) 
+		if ((iC == Piece.BLACK) && (iColor == Piece.BLACK))
 		{
 			//System.out.println("DBG160118: iOnePawnBonus C Black");
 			/*if ((kOwn.yk == py-1) && (kOwn.xk == px))
@@ -1989,13 +1988,13 @@ public class chessboard implements Serializable
 		for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				
 				if (p != null)
 				{
 					switch (p.iType)
 					{
-						case piece.PAWN:
+						case Piece.PAWN:
 							pawn pa = new pawn(p.xk,p.yk,p.iColor);
 							pa.iLastMove = p.iLastMove;
 							pa.prev_xk = p.prev_xk;
@@ -2003,7 +2002,7 @@ public class chessboard implements Serializable
 							cb.putpiece(pa);
 							break;
 							
-						case piece.KING:
+						case Piece.KING:
 							king k = new king(p.xk,p.yk,p.iColor);
 							k.iLastMove = p.iLastMove;
 							k.prev_xk = p.prev_xk;
@@ -2011,7 +2010,7 @@ public class chessboard implements Serializable
 							cb.putpiece(k);
 							break;	
 						
-						case piece.QUEEN:
+						case Piece.QUEEN:
 							queen q = new queen(p.xk,p.yk,p.iColor);
 							q.iLastMove = p.iLastMove;
 							q.prev_xk = p.prev_xk;
@@ -2019,7 +2018,7 @@ public class chessboard implements Serializable
 							cb.putpiece(q);
 							break;
 
-						case piece.ROOK:
+						case Piece.ROOK:
 							rook r = new rook(p.xk,p.yk,p.iColor);
 							r.iLastMove = p.iLastMove;
 							r.prev_xk = p.prev_xk;
@@ -2027,7 +2026,7 @@ public class chessboard implements Serializable
 							cb.putpiece(r);
 							break;
 
-						case piece.KNIGHT:
+						case Piece.KNIGHT:
 							knight kn = new knight(p.xk,p.yk,p.iColor);
 							kn.iLastMove = p.iLastMove;
 							kn.prev_xk = p.prev_xk;
@@ -2035,7 +2034,7 @@ public class chessboard implements Serializable
 							cb.putpiece(kn);
 							break;
 
-						case piece.BISHOP:
+						case Piece.BISHOP:
 							bishop b = new bishop(p.xk,p.yk,p.iColor);
 							b.iLastMove = p.iLastMove;
 							b.prev_xk = p.prev_xk;
@@ -2058,12 +2057,12 @@ public class chessboard implements Serializable
 		for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p != null)
 				{
 					Vector m = p.moveVector(this);
-					if ((p.iType == piece.KING) && (p.iColor == piece.WHITE)) kw = (king)p;
-					if ((p.iType == piece.KING) && (p.iColor == piece.BLACK)) kb = (king)p;
+					if ((p.iType == Piece.KING) && (p.iColor == Piece.WHITE)) kw = (king)p;
+					if ((p.iType == Piece.KING) && (p.iColor == Piece.BLACK)) kb = (king)p;
 				}
 			}
 	
@@ -2146,7 +2145,7 @@ public class chessboard implements Serializable
 		{
 			// setting flags to false to reset 140328 issue $$$
 			// moved here to resolve the 140408 issue 
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p != null)
 			{
 				p.bProt = false;
@@ -2155,7 +2154,7 @@ public class chessboard implements Serializable
 				p.iThreatCount = 0;
 				p.iPinValue = 0;			// resetting new pin info 160126
 				p.iPinDirection = 0;
-				p.iPinningToDirection = piece.NO_DIR;
+				p.iPinningToDirection = Piece.NO_DIR;
 			}
 			iWhiteStrike[i][j] = 0;
 			iBlackStrike[i][j] = 0;
@@ -2164,11 +2163,11 @@ public class chessboard implements Serializable
 		for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				
 				if (p != null)
 				{
-					if (p.iColor == piece.WHITE) vWhites.addElement(p);
+					if (p.iColor == Piece.WHITE) vWhites.addElement(p);
 					else vBlacks.addElement(p);
 					
 					p.mMoveVector = null;
@@ -2182,10 +2181,10 @@ public class chessboard implements Serializable
 					// flag reset moved before the loop to reset 140408 issue
 					
 					Vector m = p.moveVector(this);
-					if ((p.iType == piece.KING) && (p.iColor == piece.WHITE)) kw = (king)p;
-					if ((p.iType == piece.KING) && (p.iColor == piece.BLACK)) kb = (king)p;
-					if ((p.iType == piece.QUEEN) && (p.iColor == piece.WHITE)) qVecWhite.addElement(p);
-					if ((p.iType == piece.QUEEN) && (p.iColor == piece.BLACK)) qVecBlack.addElement(p);
+					if ((p.iType == Piece.KING) && (p.iColor == Piece.WHITE)) kw = (king)p;
+					if ((p.iType == Piece.KING) && (p.iColor == Piece.BLACK)) kb = (king)p;
+					if ((p.iType == Piece.QUEEN) && (p.iColor == Piece.WHITE)) qVecWhite.addElement(p);
+					if ((p.iType == Piece.QUEEN) && (p.iColor == Piece.BLACK)) qVecBlack.addElement(p);
 				}
 				
 			}
@@ -2224,8 +2223,8 @@ public class chessboard implements Serializable
 			for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
-				if ((p != null) && (p.iColor == piece.WHITE))
+				Piece p = blocks[i][j];
+				if ((p != null) && (p.iColor == Piece.WHITE))
 				{
 					p.mMoveVector = miWhiteMoveindex.getMoveVectorAt(i,j);
 				}
@@ -2246,8 +2245,8 @@ public class chessboard implements Serializable
 			for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
-				if ((p != null) && (p.iColor == piece.BLACK))
+				Piece p = blocks[i][j];
+				if ((p != null) && (p.iColor == Piece.BLACK))
 				{
 					p.mMoveVector = miBlackMoveindex.getMoveVectorAt(i,j);
 				}
@@ -2272,14 +2271,14 @@ public class chessboard implements Serializable
 		iWhiteQES=0;
 		for (int i=0;i<qVecWhite.size();i++)
 		{
-			piece p=(piece)qVecWhite.elementAt(i);
+			Piece p=(Piece)qVecWhite.elementAt(i);
 			iWhiteQES=iWhiteQES+assessQESPoints(p.xk,p.yk);
 		}
 		
 		iBlackQES=0;
 		for (int i=0;i<qVecBlack.size();i++)
 		{
-			piece p=(piece)qVecBlack.elementAt(i);
+			Piece p=(Piece)qVecBlack.elementAt(i);
 			iBlackQES=iBlackQES+assessQESPoints(p.xk,p.yk);
 		}
 		
@@ -2288,26 +2287,26 @@ public class chessboard implements Serializable
 		miWhiteMoveindex.setRiskBits(this);
 		miBlackMoveindex.setRiskBits(this);
 		
-		iValSumWhite = pvaluesum(piece.WHITE);
-		iValSumBlack = pvaluesum(piece.BLACK);
+		iValSumWhite = pvaluesum(Piece.WHITE);
+		iValSumBlack = pvaluesum(Piece.BLACK);
 		
 		//System.out.println("DBG 141225: Redo after set riskbits.");
 		setZeroBalances(iTurn, iAlg);
 		//System.out.println("DBG 141225: Redo completed.");
 		
-		iPromBonWhite =  iPromoteBonus(piece.WHITE,piece.WHITE) - iPromoteBonus(piece.BLACK,piece.WHITE);
-		iPromBonBlack = iPromoteBonus(piece.WHITE,piece.BLACK) - iPromoteBonus(piece.BLACK,piece.BLACK);
+		iPromBonWhite =  iPromoteBonus(Piece.WHITE, Piece.WHITE) - iPromoteBonus(Piece.BLACK, Piece.WHITE);
+		iPromBonBlack = iPromoteBonus(Piece.WHITE, Piece.BLACK) - iPromoteBonus(Piece.BLACK, Piece.BLACK);
 		//System.out.println("DBG151012: prombonus set (A): W: " + iPromBonWhite + " B: " + iPromBonBlack);
 		
 		if ((iPromBonWhite == 0) && (iPromBonBlack == 0))
 		{
-			int wb = i6thLineDblPawnBon(piece.WHITE,iTurn);
+			int wb = i6thLineDblPawnBon(Piece.WHITE,iTurn);
 			//if (wb != 0) System.out.println("DBG160114: i6thLineDblPawnBon call, white:" + wb);
-			int bb = i6thLineDblPawnBon(piece.BLACK,iTurn);
+			int bb = i6thLineDblPawnBon(Piece.BLACK,iTurn);
 			//if (bb != 0) System.out.println("DBG160114: i6thLineDblPawnBon call, black:" + bb);
 			
-			iPromBonWhite = i6thLineDblPawnBon(piece.WHITE,iTurn) - i6thLineDblPawnBon(piece.BLACK,iTurn); // -i6thLineDblPawnBon(piece.BLACK,iTurn);
-			iPromBonBlack = - i6thLineDblPawnBon(piece.BLACK,iTurn) + i6thLineDblPawnBon(piece.WHITE,iTurn); // i6thLineDblPawnBon(piece.WHITE,iTurn)-i6thLineDblPawnBon(piece.BLACK,iTurn);
+			iPromBonWhite = i6thLineDblPawnBon(Piece.WHITE,iTurn) - i6thLineDblPawnBon(Piece.BLACK,iTurn); // -i6thLineDblPawnBon(piece.BLACK,iTurn);
+			iPromBonBlack = - i6thLineDblPawnBon(Piece.BLACK,iTurn) + i6thLineDblPawnBon(Piece.WHITE,iTurn); // i6thLineDblPawnBon(piece.WHITE,iTurn)-i6thLineDblPawnBon(piece.BLACK,iTurn);
 			//System.out.println("DBG160114: i6thLineDblPawnBon called. W:" + + iPromBonWhite + " B: " + iPromBonBlack);
 			
 			if ((iPromBonWhite == 0) && (iPromBonBlack == 0)) 
@@ -2316,16 +2315,16 @@ public class chessboard implements Serializable
 				//iPromBonBlack = 4;
 				//System.out.println("DBG160114: jppb WHITE: " + iJustPromQProtBon(piece.WHITE));
 				//System.out.println("DBG160114: jppb BLACK: " + iJustPromQProtBon(piece.BLACK));
-				iPromBonWhite = iJustPromQProtBon(piece.WHITE) - iJustPromQProtBon(piece.BLACK);
-				iPromBonBlack = iJustPromQProtBon(piece.WHITE) - iJustPromQProtBon(piece.BLACK);
+				iPromBonWhite = iJustPromQProtBon(Piece.WHITE) - iJustPromQProtBon(Piece.BLACK);
+				iPromBonBlack = iJustPromQProtBon(Piece.WHITE) - iJustPromQProtBon(Piece.BLACK);
 				
 				//System.out.println("DBG160114: iJustPromQProtBon called. W:" + + iPromBonWhite + " B: " + iPromBonBlack);
 			}
 			//System.out.println("DBG151012: prombonus set (A2): W: " + iPromBonWhite + " B: " + iPromBonBlack);
 			if ((iPromBonWhite == 0) && (iPromBonBlack == 0)) 
 			{
-				iPromBonWhite = iOnePawnBonus(piece.WHITE,iTurn) - iOnePawnBonus(piece.BLACK,iTurn);
-				iPromBonBlack = iOnePawnBonus(piece.WHITE,iTurn) - iOnePawnBonus(piece.BLACK,iTurn);
+				iPromBonWhite = iOnePawnBonus(Piece.WHITE,iTurn) - iOnePawnBonus(Piece.BLACK,iTurn);
+				iPromBonBlack = iOnePawnBonus(Piece.WHITE,iTurn) - iOnePawnBonus(Piece.BLACK,iTurn);
 			}
 			//System.out.println("DBG151012: prombonus set (B): W: " + iPromBonWhite + " B: " + iPromBonBlack);
 			
@@ -2350,7 +2349,7 @@ public class chessboard implements Serializable
 			else iSwapBalance = iValSumWhite - 1039;
 		
 			//System.out.println("DBG151122: swapBalance(A):" + iSwapBalance);
-			if ((iWhitePieceCount[piece.BISHOP] == 1) && (iBlackPieceCount[piece.BISHOP] == 1))
+			if ((iWhitePieceCount[Piece.BISHOP] == 1) && (iBlackPieceCount[Piece.BISHOP] == 1))
 			{
 				if ((bWhiteBRBishop && bBlackWRBishop) || (bWhiteWRBishop && bBlackBRBishop))
 				{
@@ -2378,8 +2377,8 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG 150207 UCMC enter. Under check status w:" + bWhiteKingThreat+ " b:"+bBlackKingThreat);
 		
-		miWhiteMoveindex = new moveindex(piece.WHITE, this);
-		miBlackMoveindex = new moveindex(piece.BLACK, this);
+		miWhiteMoveindex = new moveindex(Piece.WHITE, this);
+		miBlackMoveindex = new moveindex(Piece.BLACK, this);
 		
 		//miWhiteMoveindex.setRiskBits(this);
 		//miBlackMoveindex.setRiskBits(this);
@@ -2387,21 +2386,21 @@ public class chessboard implements Serializable
 		for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p != null)
 				{
-					if (p.iType == piece.KNIGHT) 
+					if (p.iType == Piece.KNIGHT)
 					{
 						((knight)p).finish_KCSValue(this);
 						int iKCS = ((knight)p).iKnightCoupState;
 						if ((iKCS == knight.KNIGHT_KCS_PROT) || (iKCS == knight.KNIGHT_KCS_THREAT))
 						{
-							if (p.iColor == piece.WHITE) this.iWhiteKCS = this.iWhiteKCS+2;
+							if (p.iColor == Piece.WHITE) this.iWhiteKCS = this.iWhiteKCS+2;
 							else this.iBlackKCS = this.iBlackKCS+2;
 						}
 						if (iKCS == knight.KNIGHT_KCS_UNPROT)
 						{
-							if (p.iColor == piece.WHITE) this.iWhiteKCS = this.iWhiteKCS+4;
+							if (p.iColor == Piece.WHITE) this.iWhiteKCS = this.iWhiteKCS+4;
 							else this.iBlackKCS = this.iBlackKCS+4;
 						}
 						
@@ -2410,8 +2409,8 @@ public class chessboard implements Serializable
 							//System.out.println("DBG150313: KCS SUSPECT! clr: " +p.iColor +" at "+p.xk +"," + p.yk + " prot:" + p.bProt + " protcount:" + p.iProtCount + " threat: " + p.bThreat + " threatcount: " + p.iThreatCount + " minthreat:" + p.iMinThreat);
 							if (p.bThreat) 
 							{
-								if (p.iColor == piece.WHITE) this.iWhiteKCS = 0;
-								if (p.iColor == piece.BLACK) this.iBlackKCS = 0;
+								if (p.iColor == Piece.WHITE) this.iWhiteKCS = 0;
+								if (p.iColor == Piece.BLACK) this.iBlackKCS = 0;
 							}
 						}							
 					}
@@ -2419,13 +2418,13 @@ public class chessboard implements Serializable
 					Vector mv = (Vector)p.moveVector(this);
 					boolean bRev = false;
 					
-					if (p.iColor == piece.WHITE)
+					if (p.iColor == Piece.WHITE)
 					{
 						iWhiteMoves = iWhiteMoves + mv.size();
 						miWhiteMoveindex.addMoveVector(mv);
 					}
 					
-					if (p.iColor == piece.BLACK)
+					if (p.iColor == Piece.BLACK)
 					{
 						iBlackMoves = iBlackMoves + mv.size();
 						miBlackMoveindex.addMoveVector(mv);
@@ -2435,8 +2434,8 @@ public class chessboard implements Serializable
 					{
 						move m = (move)mv.elementAt(ii);
 						//System.out.println("DBG: @" + p.xk +"," + p.yk + " to " + m.xtar +"," + m.ytar + "   w: " + iWhiteCheckMoves + ", b:" + iBlackCheckMoves);
-						if ((p.iColor==piece.WHITE) && (m.isCheck())) iWhiteCheckMoves++;
-						if ((p.iColor==piece.BLACK) && (m.isCheck())) iBlackCheckMoves++;
+						if ((p.iColor== Piece.WHITE) && (m.isCheck())) iWhiteCheckMoves++;
+						if ((p.iColor== Piece.BLACK) && (m.isCheck())) iBlackCheckMoves++;
 						if (m.isRevCheck()) bRev = true;
 						/*if ((p.iColor==piece.WHITE) && (m.bKCS) && (!bWhiteKingThreat))
 						{
@@ -2453,8 +2452,8 @@ public class chessboard implements Serializable
 						*/
 					}
 					
-					if ((p.iColor==piece.WHITE) && bRev) iWhiteCheckMoves++;
-					if ((p.iColor==piece.BLACK) && bRev) iBlackCheckMoves++;
+					if ((p.iColor== Piece.WHITE) && bRev) iWhiteCheckMoves++;
+					if ((p.iColor== Piece.BLACK) && bRev) iBlackCheckMoves++;
 					
 					//System.out.println("DBG: UCM " + p.iColor + "  :" + p.xk +"," + p.yk + " :" + iBlackCheckMoves);
 				}
@@ -2462,7 +2461,7 @@ public class chessboard implements Serializable
 		
 	}
 	
-	boolean domove (piece p,move m, int iPt)
+	boolean domove (Piece p, move m, int iPt)
 	// pt about pawn promotion
 	{
 		boolean bSucc = false;
@@ -2493,7 +2492,7 @@ public class chessboard implements Serializable
 		if (bInsideCastling)
 		{
 			bSucc = true;
-			if (p.iColor == piece.WHITE) 
+			if (p.iColor == Piece.WHITE)
 			{
 				bWhiteCastled = true;
 				iWhiteCastlingMove = iMoveCounter;
@@ -2520,7 +2519,7 @@ public class chessboard implements Serializable
 			return false;
 		}
 		
-		if (((m.bCapture == true) && (blocks[m.xtar][m.ytar] == null))  && (p.iType != piece.PAWN)) 
+		if (((m.bCapture == true) && (blocks[m.xtar][m.ytar] == null))  && (p.iType != Piece.PAWN))
 		return false;
 		
 		if ((m.bCapture == false) && (blocks[m.xtar][m.ytar] != null)) 
@@ -2545,14 +2544,14 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG 160126:domove coords now : p.xk: " + p.xk + " p.yk:" + p.yk);
 		
-		if ((p.iType == piece.PAWN) && (m.bCapture == true) && (blocks[m.xtar][m.ytar] == null))
+		if ((p.iType == Piece.PAWN) && (m.bCapture == true) && (blocks[m.xtar][m.ytar] == null))
 		{
 			// capture by en passant
 			//System.out.println("DBG: Doing EPC at : " + m.xtar + "," + m.ytar);
 			int iYcapt = -1;
-			if (p.iColor == piece.WHITE) iYcapt = 5;
+			if (p.iColor == Piece.WHITE) iYcapt = 5;
 			else iYcapt = 4;
-			piece pcaptpawn = blocks[m.xtar][iYcapt];
+			Piece pcaptpawn = blocks[m.xtar][iYcapt];
 			
 			if (pcaptpawn == null)
 			{
@@ -2566,8 +2565,8 @@ public class chessboard implements Serializable
 		else if (m.bCapture)
 		{
 			// regular capture
-			piece pCapt = blocks[m.xtar][m.ytar];
-			if (pCapt.iType == piece.KING)
+			Piece pCapt = blocks[m.xtar][m.ytar];
+			if (pCapt.iType == Piece.KING)
 			{
 				//try {Thread.sleep(1000);} catch (Exception e) {};
 				System.out.println("KING CAPTURED BY " + m.moveStr() + ". FATAL ERROR!!!!");
@@ -2585,7 +2584,7 @@ public class chessboard implements Serializable
 		blocks[p.xk][p.yk] = p;
 		
 		// if castling
-		if ((p.iType == piece.KING) && (iOldx == 5) && ((p.xk == 3) || (p.xk == 7)))
+		if ((p.iType == Piece.KING) && (iOldx == 5) && ((p.xk == 3) || (p.xk == 7)))
 		{
 			//System.out.println("Doing castling here....");
 			if (p.xk == 3)
@@ -2607,12 +2606,12 @@ public class chessboard implements Serializable
 		}
 		
 		char npc = '-';
-		if ((p.iType == piece.PAWN) && ((p.yk == 1) || (p.yk == 8)))
+		if ((p.iType == Piece.PAWN) && ((p.yk == 1) || (p.yk == 8)))
 		{
 			// pawn promotion
 			//System.out.println("DBG 150426: chessboard.domove(): Pawn Prom!" + iMoveCounter);
 			
-			if (p.iColor == piece.WHITE) iWhiteMvLastProm = iMoveCounter;
+			if (p.iColor == Piece.WHITE) iWhiteMvLastProm = iMoveCounter;
 			else iBlackMvLastProm = iMoveCounter;
 			
 			if (m.iPromTo != -1) iPt = m.iPromTo;
@@ -2625,27 +2624,27 @@ public class chessboard implements Serializable
 			}
 			else
 			{
-				piece np = null;
+				Piece np = null;
 				
 				switch (iPt)
 				{
 					
-					case piece.QUEEN:
+					case Piece.QUEEN:
 						np = new queen(p.xk,p.yk,p.iColor);
 						npc = 'Q';
 						break;
 						
-					case piece.ROOK:
+					case Piece.ROOK:
 						np = new rook(p.xk,p.yk,p.iColor);
 						npc = 'R';
 						break;
 
-					case piece.BISHOP:
+					case Piece.BISHOP:
 						np = new bishop(p.xk,p.yk,p.iColor);
 						npc = 'B';
 						break;
 
-					case piece.KNIGHT:
+					case Piece.KNIGHT:
 						np = new knight(p.xk,p.yk,p.iColor);
 						npc = 'N';
 						break;		
@@ -2687,24 +2686,24 @@ public class chessboard implements Serializable
 	boolean domove (int x1, int y1, int x2, int y2, int iPt)
 	{
 		//System.out.println("Entering domove (coord): " + x1 +"," + y1 +" -> " + x2 + "," + y2);
-		piece p = blocks[x1][y1];
+		Piece p = blocks[x1][y1];
 		if (p == null) return false;
 		
 		//System.out.println("Domove coord (B)");
-		piece p2 = blocks[x2][y2];
+		Piece p2 = blocks[x2][y2];
 		move m = null;
 		
 		if (p2 == null)
 		{
 			// $$$$ 141021 en passant code lacking here!!!!
 			//System.out.println("DBG: HOW ABOUT EN PASSANT????");
-			if (p.iType != piece.PAWN) m = new move (x2,y2,false,0, p);
+			if (p.iType != Piece.PAWN) m = new move (x2,y2,false,0, p);
 			else
 			{
 				boolean bCapture;
 				int iCapVal;
 				
-				if ((((y2 == 6) && (p.iColor == piece.WHITE)) || ((y2 == 3) && (p.iColor == piece.BLACK))) && (Math.abs(x1-x2) == 1))
+				if ((((y2 == 6) && (p.iColor == Piece.WHITE)) || ((y2 == 3) && (p.iColor == Piece.BLACK))) && (Math.abs(x1-x2) == 1))
 				{
 					bCapture = true;
 					iCapVal = 1;
@@ -2750,19 +2749,19 @@ public class chessboard implements Serializable
 			switch(promc)
 			{
 				case 'Q':
-					pt = piece.QUEEN;
+					pt = Piece.QUEEN;
 					break;
 					
 				case 'R':
-					pt = piece.ROOK;
+					pt = Piece.ROOK;
 					break;
 					
 				case 'B':
-					pt = piece.BISHOP;
+					pt = Piece.BISHOP;
 					break;
 					
 				case 'N':
-					pt = piece.KNIGHT;
+					pt = Piece.KNIGHT;
 					break;
 					
 				default:
@@ -2778,7 +2777,7 @@ public class chessboard implements Serializable
 		
 		//System.out.println("DBG160109:domove(a2):" + sInput);
 		
-		piece p = blocks[x1][y1];
+		Piece p = blocks[x1][y1];
 		if (p == null) return false;
 		//System.out.println("DBG160109:domove(b1):" + sInput);
 		if (p.iColor != iColor) return false;
@@ -2810,7 +2809,7 @@ public class chessboard implements Serializable
 		if (sInput.charAt(sInput.length()-1)=='#') sInput = sInput.substring(0,sInput.length()-1);
 		
 		moveindex mi;
-		if (iColor == piece.WHITE) mi = miWhiteMoveindex;
+		if (iColor == Piece.WHITE) mi = miWhiteMoveindex;
 		else mi = miBlackMoveindex;
 		
 		System.out.println("domove_bylib(): sInput:" + sInput + " iColor:" + iColor);
@@ -2820,7 +2819,7 @@ public class chessboard implements Serializable
 		{
 			x1 = 5;
 			x2 = 7;
-			if (iColor == piece.WHITE)
+			if (iColor == Piece.WHITE)
 			{
 				y1 = 1;
 				y2 = 1;
@@ -2835,7 +2834,7 @@ public class chessboard implements Serializable
 		{
 			x1 = 5;
 			x2 = 3;
-			if (iColor == piece.WHITE)
+			if (iColor == Piece.WHITE)
 			{
 				y1 = 1;
 				y2 = 1;
@@ -2850,18 +2849,18 @@ public class chessboard implements Serializable
 		{
 			x2 = (int)sInput.charAt(0)-96;
 			y2 = (int)sInput.charAt(1)-48;
-			iType = piece.PAWN;
+			iType = Piece.PAWN;
 		}
 		else if (sInput.length() == 3)
 		{
-			if (sInput.charAt(0) == 'N') iType = piece.KNIGHT;
-			if (sInput.charAt(0) == 'B') iType = piece.BISHOP;
-			if (sInput.charAt(0) == 'K') iType = piece.KING;
-			if (sInput.charAt(0) == 'R') iType = piece.ROOK;
-			if (sInput.charAt(0) == 'Q') iType = piece.QUEEN;
+			if (sInput.charAt(0) == 'N') iType = Piece.KNIGHT;
+			if (sInput.charAt(0) == 'B') iType = Piece.BISHOP;
+			if (sInput.charAt(0) == 'K') iType = Piece.KING;
+			if (sInput.charAt(0) == 'R') iType = Piece.ROOK;
+			if (sInput.charAt(0) == 'Q') iType = Piece.QUEEN;
 			if (iType == -1)
 			{
-				iType = piece.PAWN;
+				iType = Piece.PAWN;
 				x1 = (int)sInput.charAt(0)-96;
 			}
 			x2 = (int)sInput.charAt(1)-96;
@@ -2869,11 +2868,11 @@ public class chessboard implements Serializable
 		}
 		else if (sInput.length() == 4)
 		{
-			if (sInput.charAt(0) == 'N') iType = piece.KNIGHT;
-			if (sInput.charAt(0) == 'B') iType = piece.BISHOP;
-			if (sInput.charAt(0) == 'K') iType = piece.KING;
-			if (sInput.charAt(0) == 'R') iType = piece.ROOK;
-			if (sInput.charAt(0) == 'Q') iType = piece.QUEEN;
+			if (sInput.charAt(0) == 'N') iType = Piece.KNIGHT;
+			if (sInput.charAt(0) == 'B') iType = Piece.BISHOP;
+			if (sInput.charAt(0) == 'K') iType = Piece.KING;
+			if (sInput.charAt(0) == 'R') iType = Piece.ROOK;
+			if (sInput.charAt(0) == 'Q') iType = Piece.QUEEN;
 			
 			if ((sInput.charAt(1) >= 97) && (sInput.charAt(1) <= 104)) x1 = (int)sInput.charAt(1)-96;
 			else if ((sInput.charAt(1) >= 49) && (sInput.charAt(1) <= 56)) y1 = (int)sInput.charAt(1)-48;
@@ -2944,7 +2943,7 @@ public class chessboard implements Serializable
 		{
 			for (int i=1;i<=8;i++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) System.out.print(".");
 				else System.out.print(p.dumpchr());
 			}
@@ -3010,7 +3009,7 @@ public class chessboard implements Serializable
 		{
 			for (int i=1;i<=8;i++) 
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p == null) System.out.print(".");
 				else if ((p.bProt) && (p.bThreat)) System.out.print("X");
 				else if (p.bProt) System.out.print("p");
@@ -3081,7 +3080,7 @@ public class chessboard implements Serializable
 				bBlackCoverage[i][j] = false;
 			}
 		
-		for (int i=piece.PAWN; i<=piece.ROOK; i++)
+		for (int i = Piece.PAWN; i<= Piece.ROOK; i++)
 		{
 			iWhitePieceCount[i]=0;
 			iBlackPieceCount[i]=0;
@@ -3121,7 +3120,7 @@ public class chessboard implements Serializable
 			
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p != null)
 				{
 					if (p.iLastMove > iMaxMove) iMaxMove = p.iLastMove;
@@ -3134,7 +3133,7 @@ public class chessboard implements Serializable
 						throw new RuntimeException("copy failure, piece at wrong coords!\n" + "i:" + i + " j:"+j+ " p.xk:"+p.xk+" p.yk:"+p.yk);
 					}
 					
-					if (p.iColor == piece.WHITE)
+					if (p.iColor == Piece.WHITE)
 					{
 						iWhiteStrike[i][j] =  iWhiteStrike[i][j] + p.iProtCount;
 						//if ((i==5) && (j==7)) System.out.println("DBG160123 iWS: " + iWhiteStrike[i][j] + " protc:" + p.iProtCount );
@@ -3144,7 +3143,7 @@ public class chessboard implements Serializable
 						
 						iWhitePieceCount[p.iType]++;
 						
-						if (p.iType == piece.BISHOP)
+						if (p.iType == Piece.BISHOP)
 						{
 							if (((i+j) % 2) == 0) bWhiteBRBishop=true;
 							if (((i+j) % 2) == 1) bWhiteWRBishop=true;
@@ -3167,7 +3166,7 @@ public class chessboard implements Serializable
 							}
 						}
 						
-						if (p.iType == piece.PAWN)
+						if (p.iType == Piece.PAWN)
 						{
 							//System.out.println("w pawn at " + i + "," + p.yk);
 							iWhitePawnAdvance = iWhitePawnAdvance + p.yk;
@@ -3178,7 +3177,7 @@ public class chessboard implements Serializable
 							if  (p.yk > iMaxWhitePawn) iMaxWhitePawn = p.yk;
 						}
 						
-						if (p.iType == piece.KING) 
+						if (p.iType == Piece.KING)
 						{
 							//System.out.println("DBG: WHITE KING FOUND!");
 							iwkx = i;
@@ -3187,7 +3186,7 @@ public class chessboard implements Serializable
 						
 					}
 					 
-					if (p.iColor == piece.BLACK)
+					if (p.iColor == Piece.BLACK)
 					{
 						//System.out.print("PIECE at " + p.xk + "," + p.yk + "("+ p.iType + "):");
 						//Vector mv = (Vector)p.moveVector(this);
@@ -3198,7 +3197,7 @@ public class chessboard implements Serializable
 						
 						iBlackPieceCount[p.iType]++;
 						
-						if (p.iType == piece.BISHOP)
+						if (p.iType == Piece.BISHOP)
 						{
 							if (((i+j) % 2) == 0) bBlackBRBishop=true;
 							if (((i+j) % 2) == 1) bBlackWRBishop=true;
@@ -3223,7 +3222,7 @@ public class chessboard implements Serializable
 							}
 						}
 						
-						if (p.iType == piece.PAWN)
+						if (p.iType == Piece.PAWN)
 						{
 							iBlackPawnAdvance = iBlackPawnAdvance + 9 - p.yk;
 							if (p.yk < iBlackPawnColMin[i]) iBlackPawnColMin[i] = p.yk;
@@ -3232,7 +3231,7 @@ public class chessboard implements Serializable
 							if (p.yk < (9-iMaxBlackPawn)) iMaxBlackPawn = 9-p.yk;
 						}
 						
-						if (p.iType == piece.KING) 
+						if (p.iType == Piece.KING)
 						{
 							//System.out.println("DBG: BLACK KING FOUND!");
 							ibkx = i;
@@ -3240,24 +3239,24 @@ public class chessboard implements Serializable
 						}
 					}
 					
-					if (p.iType == piece.KING) 
+					if (p.iType == Piece.KING)
 					{
 						block b = new block(i,j);
-						if ((p.iColor) == piece.WHITE) vWhiteHOF.addElement(b);
+						if ((p.iColor) == Piece.WHITE) vWhiteHOF.addElement(b);
 						else vBlackHOF.addElement(b);
 					}
 					
-					if (p.iType == piece.ROOK)
+					if (p.iType == Piece.ROOK)
 					{
 						block b = new block(i,j);
-						if ((p.iColor) == piece.WHITE) vWhiteHOF.addElement(b);
+						if ((p.iColor) == Piece.WHITE) vWhiteHOF.addElement(b);
 						else vBlackHOF.addElement(b);
 					}
 					
-					if (p.iType == piece.QUEEN)
+					if (p.iType == Piece.QUEEN)
 					{
 						block b = new block(i,j);
-						if ((p.iColor) == piece.WHITE) 
+						if ((p.iColor) == Piece.WHITE)
 						{	
 							vWhiteHOF.addElement(b);
 							vWhiteBQ.addElement(b);
@@ -3269,11 +3268,11 @@ public class chessboard implements Serializable
 						}
 					}
 					
-					if (p.iType == piece.BISHOP)
+					if (p.iType == Piece.BISHOP)
 					{
 						//System.out.println("DBG150120:bishop!");
 						block b = new block(i,j);
-						if ((p.iColor) == piece.WHITE) vWhiteBQ.addElement(b);
+						if ((p.iColor) == Piece.WHITE) vWhiteBQ.addElement(b);
 						else vBlackBQ.addElement(b);
 						//System.out.println("DBG150120:bishop!"+vWhiteBQ.size());
 					}
@@ -3297,17 +3296,17 @@ public class chessboard implements Serializable
 			int bp = 0;
 			for (int j=1;j<=8;j++) 
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p!=null)
 				{
-					if (p.iType == piece.PAWN)
+					if (p.iType == Piece.PAWN)
 					{
-						if (p.iColor == piece.WHITE) wp++;
+						if (p.iColor == Piece.WHITE) wp++;
 						else bp++;
 						
 						if ((!p.bProt) && (!p.bThreat))
 						{
-							if (p.iColor == piece.WHITE) iWhiteUPPDest[i] = j;
+							if (p.iColor == Piece.WHITE) iWhiteUPPDest[i] = j;
 							else if (iBlackUPPDest[i] == -1) iBlackUPPDest[i] = j;
 						}
 					}
@@ -3327,10 +3326,10 @@ public class chessboard implements Serializable
 				if (bWhiteCoverage[i][j]) iWhiteCenterCtrlPts++;
 				if (bBlackCoverage[i][j]) iBlackCenterCtrlPts++;
 				
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p != null)
 				{
-					if (p.iColor == piece.WHITE)
+					if (p.iColor == Piece.WHITE)
 					{
 						iWhiteCenterCtrlPts++;
 						if (p.bProt) iWhiteCenterCtrlPts++;
@@ -3351,8 +3350,8 @@ public class chessboard implements Serializable
 			{
 				if (bWhiteCoverage[i][j]) iWhiteKingCtrlBlks++;
 				if (bBlackCoverage[i][j]) iBlackKingCtrlBlks++;
-				piece p=blocks[i][j];
-				if ((p!=null) && (p.iColor == piece.WHITE)) 
+				Piece p=blocks[i][j];
+				if ((p!=null) && (p.iColor == Piece.WHITE))
 				{	
 					iWhiteKingCtrlBlks++;
 					iWhiteKingCtrlFix++;
@@ -3365,8 +3364,8 @@ public class chessboard implements Serializable
 			{		
 				if (bWhiteCoverage[i][j]) iWhiteKingCtrlBlks++;
 				if (bBlackCoverage[i][j]) iBlackKingCtrlBlks++;
-				piece p=blocks[i][j];
-				if ((p!=null) && (p.iColor == piece.BLACK)) 
+				Piece p=blocks[i][j];
+				if ((p!=null) && (p.iColor == Piece.BLACK))
 				{
 					iBlackKingCtrlBlks++;
 					iBlackKingCtrlFix++;
@@ -3383,23 +3382,23 @@ public class chessboard implements Serializable
 		// early game penalty
 		if (iMaxMove < 9)
 		{
-			if (!findpiece (piece.PAWN,piece.WHITE,1,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.WHITE,2,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.WHITE,3,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.WHITE,6,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.WHITE,7,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.WHITE,8,2)) iWhiteEarlyGamePenalty++;
-			if (!findpiece (piece.KING,piece.WHITE,5,1)) iWhiteEarlyGamePenalty=iWhiteEarlyGamePenalty+2;
-			if (!findpiece (piece.QUEEN,piece.WHITE,4,1)) iWhiteEarlyGamePenalty=iWhiteEarlyGamePenalty+2;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,1,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,2,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,3,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,6,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,7,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.WHITE,8,2)) iWhiteEarlyGamePenalty++;
+			if (!findpiece (Piece.KING, Piece.WHITE,5,1)) iWhiteEarlyGamePenalty=iWhiteEarlyGamePenalty+2;
+			if (!findpiece (Piece.QUEEN, Piece.WHITE,4,1)) iWhiteEarlyGamePenalty=iWhiteEarlyGamePenalty+2;
 			
-			if (!findpiece (piece.PAWN,piece.BLACK,1,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.BLACK,2,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.BLACK,3,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.BLACK,6,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.BLACK,7,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.PAWN,piece.BLACK,8,7)) iBlackEarlyGamePenalty++;
-			if (!findpiece (piece.KING,piece.BLACK,5,8)) iBlackEarlyGamePenalty=iBlackEarlyGamePenalty+2;
-			if (!findpiece (piece.QUEEN,piece.BLACK,4,8)) iBlackEarlyGamePenalty=iBlackEarlyGamePenalty+2;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,1,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,2,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,3,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,6,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,7,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.PAWN, Piece.BLACK,8,7)) iBlackEarlyGamePenalty++;
+			if (!findpiece (Piece.KING, Piece.BLACK,5,8)) iBlackEarlyGamePenalty=iBlackEarlyGamePenalty+2;
+			if (!findpiece (Piece.QUEEN, Piece.BLACK,4,8)) iBlackEarlyGamePenalty=iBlackEarlyGamePenalty+2;
 			
 		}
 		
@@ -3427,7 +3426,7 @@ public class chessboard implements Serializable
 				
 				//System.out.println("FP DEBUG(0) BLACK ADD:"+i + " bctrl:" + iBlackFreePawnCtrlPoints);
 				
-				piece p = blocks[i][iWhitePawnColMax[i]];
+				Piece p = blocks[i][iWhitePawnColMax[i]];
 				if (p.bProt) iWhiteFreePawnCtrlPoints = iWhiteFreePawnCtrlPoints+2;
 				if (p.bThreat) iBlackFreePawnCtrlPoints = iBlackFreePawnCtrlPoints+2;
 				
@@ -3457,7 +3456,7 @@ public class chessboard implements Serializable
 				if (iBlackPawnColMin[i] <=3) iBlackFreePawnPoints = iBlackFreePawnPoints+3;
 				if (iBlackPawnColMin[i] <=2) iBlackFreePawnPoints = iBlackFreePawnPoints+8;
 				
-				piece p = blocks[i][iBlackPawnColMin[i]];
+				Piece p = blocks[i][iBlackPawnColMin[i]];
 				
 				if (p.bProt) iBlackFreePawnCtrlPoints = iBlackFreePawnCtrlPoints+2;
 				if (p.bThreat) iWhiteFreePawnCtrlPoints = iWhiteFreePawnCtrlPoints+2;
@@ -3487,7 +3486,7 @@ public class chessboard implements Serializable
 		{
 			if (iWhitePawnColMax[i] > -1)
 			{
-				piece p = blocks[i][iWhitePawnColMax[i]];
+				Piece p = blocks[i][iWhitePawnColMax[i]];
 				if (!p.bProt) iWhitePawnProtPen = iWhitePawnProtPen + 2;
 				else
 				{
@@ -3500,7 +3499,7 @@ public class chessboard implements Serializable
 			
 			if (iBlackPawnColMin[i] < 10)
 			{
-				piece p = blocks[i][iBlackPawnColMin[i]];
+				Piece p = blocks[i][iBlackPawnColMin[i]];
 				if (!p.bProt) iBlackPawnProtPen = iBlackPawnProtPen + 2;
 				else
 				{
@@ -3520,8 +3519,8 @@ public class chessboard implements Serializable
 		if ((wk != null) && (wk.bThreat)) bWhiteKingThreat = true;
 		if ((bk != null) && (bk.bThreat)) bBlackKingThreat = true;
 		
-		analyzeBCS(vBlackHOF, vWhiteBQ, piece.WHITE);
-		analyzeBCS(vWhiteHOF, vBlackBQ, piece.BLACK);
+		analyzeBCS(vBlackHOF, vWhiteBQ, Piece.WHITE);
+		analyzeBCS(vWhiteHOF, vBlackBQ, Piece.BLACK);
 	}
 	
 	void calcMaxThreats()
@@ -3545,27 +3544,27 @@ public class chessboard implements Serializable
 		for (int i=1;i<=8;i++) 
 			for (int j=1;j<=8;j++) 
 		{
-			piece p = blocks[i][j];
-			if ((p != null)  && (p.iType != piece.KING))
+			Piece p = blocks[i][j];
+			if ((p != null)  && (p.iType != Piece.KING))
 			{
 				// $$$$ 140411 add processing for 
 				//int iMaxWhiteThrProtBal;
 				//int iMaxBlackThrProtBal;
 				//System.out.println("CalcMaxThreats: piece at " + i +"," + j + " thr:" + p.bThreat);
 				
-				if ((iWhiteStrike[i][j] > iBlackStrike[i][j]) && (p.iColor == piece.BLACK)) iBlacksInWhiteBlock++;
-				if ((iWhiteStrike[i][j] < iBlackStrike[i][j]) && (p.iColor == piece.WHITE)) iWhitesInBlackBlock++;
+				if ((iWhiteStrike[i][j] > iBlackStrike[i][j]) && (p.iColor == Piece.BLACK)) iBlacksInWhiteBlock++;
+				if ((iWhiteStrike[i][j] < iBlackStrike[i][j]) && (p.iColor == Piece.WHITE)) iWhitesInBlackBlock++;
 				
 				if (p.bThreat)
 				{
 					if(!p.bProt)
 					{
-						if (p.iColor == piece.BLACK)
+						if (p.iColor == Piece.BLACK)
 							iWhiteUnprotThreat = iWhiteUnprotThreat +  p.pvalue();
 						else
 							iBlackUnprotThreat = iBlackUnprotThreat + p.pvalue();
 					}
-					if (p.iColor == piece.WHITE)
+					if (p.iColor == Piece.WHITE)
 					{
 						if (p.pvalue() > iMaxWhiteThreat) iMaxWhiteThreat = p.pvalue();
 						//System.out.println("DBG 140411a:" + p.iType +"," +p.pvalue()+ "," + p.iMinThreat + "," + p.bProt);
@@ -3604,7 +3603,7 @@ public class chessboard implements Serializable
 	
 	boolean findpiece(int itype, int icolor, int i, int j)
 	{
-		piece p = blocks[i][j];
+		Piece p = blocks[i][j];
 		if (p==null) return false;
 		if (p.iType != itype) return false;
 		if (p.iColor != icolor) return false;
@@ -3613,10 +3612,10 @@ public class chessboard implements Serializable
 	
 	int assessKingArea(int i, int j)
 	{
-		piece p = blocks[i][j];
+		Piece p = blocks[i][j];
 		
 		if (p == null) return -1;
-		if (p.iType != piece.KING) return -1;
+		if (p.iType != Piece.KING) return -1;
 		int iCol = p.iColor;
 		
 		boolean ka[][] = new boolean[9][9];
@@ -3625,7 +3624,7 @@ public class chessboard implements Serializable
 		for (int ii=1;ii<9;ii++) 
 			for (int jj=1;jj<9;jj++) ka[ii][jj] = false;
 		
-		if (iCol == piece.BLACK) bBlock = bWhiteCoverage;
+		if (iCol == Piece.BLACK) bBlock = bWhiteCoverage;
 		else bBlock = bBlackCoverage;
 		
 		int iKa = 0;
@@ -3682,14 +3681,14 @@ public class chessboard implements Serializable
 	
 	int assessQESPoints(int xk, int yk)
 	{
-		piece p = blocks[xk][yk];
+		Piece p = blocks[xk][yk];
 		if (p == null) return 0;
-		if (p.iType != piece.QUEEN) return 0;
+		if (p.iType != Piece.QUEEN) return 0;
 		
 		boolean bBlock[][];
 		int iEM = 0;
 		
-		if (p.iColor == piece.WHITE) bBlock = bBlackCoverage;
+		if (p.iColor == Piece.WHITE) bBlock = bBlackCoverage;
 		else bBlock = bWhiteCoverage; 
 		
 		boolean [][] QESDir;
@@ -3710,7 +3709,7 @@ public class chessboard implements Serializable
 			}
 			if (m.bCapture)
 			{
-				piece p2 = blocks[m.xtar][m.ytar];
+				Piece p2 = blocks[m.xtar][m.ytar];
 				if (!p2.bProt)
 				{
 					iEM++;
@@ -3752,7 +3751,7 @@ public class chessboard implements Serializable
 		
 		Vector vCand = new Vector();
 		
-		if (iColor == piece.WHITE) 
+		if (iColor == Piece.WHITE)
 		{
 			vWhiteBCTargets = new Vector();
 			vBlackBCHOF = vHOF;
@@ -3943,7 +3942,7 @@ public class chessboard implements Serializable
 			
 			if ((bC.xk >= 1) && (bC.xk <= 8) && (bC.yk >= 1) && (bC.yk <= 8))
 			{
-				if (iColor == piece.WHITE) vWhiteBCTargets.addElement(bC);
+				if (iColor == Piece.WHITE) vWhiteBCTargets.addElement(bC);
 				else vBlackBCTargets.addElement(bC);
 			}
 			
@@ -3954,7 +3953,7 @@ public class chessboard implements Serializable
 				{
 					//System.out.println("DBG150122: Cand piece at BCS found: " + bC.xk + "," + bC.yk);
 					// check can reach using method
-					piece pBQ = blocks[bC.xk][bC.yk];
+					Piece pBQ = blocks[bC.xk][bC.yk];
 					iColor = pBQ.iColor;
 					//System.out.println("DBG150703: analBCS: BQType" + pBQ.iType);
 					
@@ -3963,11 +3962,11 @@ public class chessboard implements Serializable
 						for (int k=0;k<vHOF.size();k++)
 						{
 							block bHO = (block)vHOF.elementAt(k);
-							piece p = blocks[bHO.xk][bHO.yk];
+							Piece p = blocks[bHO.xk][bHO.yk];
 							if (pBQ.canReach(bC.xk,bC.yk,p,this))
 							{
 								//System.out.println("Potential match at " + p.xk + "," + p.yk);
-								if ((p.bProt) && (p.iType == piece.ROOK)) iProt++;
+								if ((p.bProt) && (p.iType == Piece.ROOK)) iProt++;
 								else iUnProt++;
 							}
 
@@ -3992,9 +3991,9 @@ public class chessboard implements Serializable
 						
 							//System.out.println("DBG150703 BCS: iProt:"+iProt + " iUnProt:" + iUnProt);
 							
-							if ((iUnProt <= 1) && (pBQ.iType == piece.QUEEN)) iBCS = 0;
+							if ((iUnProt <= 1) && (pBQ.iType == Piece.QUEEN)) iBCS = 0;
 								
-							if (iColor == piece.WHITE) iWhiteBCS = iBCS;
+							if (iColor == Piece.WHITE) iWhiteBCS = iBCS;
 							else iBlackBCS = iBCS;
 							
 				
@@ -4011,14 +4010,14 @@ public class chessboard implements Serializable
 		//System.out.println("DBG150120: analyzeBCS() returns.");
 	}
 	
-	boolean bMoveIsBCS(piece p, move m)
+	boolean bMoveIsBCS(Piece p, move m)
 	{
 		Vector v, vHOF;
 		boolean bRet = false;
 		
-		if ((p.iType != piece.QUEEN) && (p.iType != piece.BISHOP)) return false;
+		if ((p.iType != Piece.QUEEN) && (p.iType != Piece.BISHOP)) return false;
 		
-		if (p.iColor == piece.WHITE)
+		if (p.iColor == Piece.WHITE)
 		{
 			v = vWhiteBCTargets;
 			vHOF = vBlackBCHOF;
@@ -4045,7 +4044,7 @@ public class chessboard implements Serializable
 			{
 				//System.out.println("Maybe BCS!*******");
 				int iReached = 0;
-				piece p2 = blocks[b.xk][b.yk];
+				Piece p2 = blocks[b.xk][b.yk];
 				blocks[b.xk][b.yk] = p;
 				int vx, vy;
 				vx = p.xk;
@@ -4064,12 +4063,12 @@ public class chessboard implements Serializable
 						if (p.canReach(b2.xk,b2.yk,p,this))
 						{
 							//System.out.println("reachable: " + b2.xk +"," + b2.yk);
-							if (p.iType != piece.QUEEN) iReached++;
+							if (p.iType != Piece.QUEEN) iReached++;
 							else
 							{
-								piece pr = blocks[b2.xk][b2.yk];
+								Piece pr = blocks[b2.xk][b2.yk];
 								//System.out.println("BCS cand at " + b2.xk + "," + b2.yk);
-								if ((!pr.bProt) || (pr.iType == piece.KING)) iReached++;
+								if ((!pr.bProt) || (pr.iType == Piece.KING)) iReached++;
 							}
 							
 						}
@@ -4091,17 +4090,17 @@ public class chessboard implements Serializable
 		
 	}
 
-	void analyzeMove(piece p, move m, int iAlg)
+	void analyzeMove(Piece p, move m, int iAlg)
 	{
 		chessboard nb = new chessboard();
 		nb = this.copy();
 		
-		piece np = nb.blocks[p.xk][p.yk];
+		Piece np = nb.blocks[p.xk][p.yk];
 		
 		nb.domove(np,m,-1);
 		nb.updateCoverages();
 		
-		System.out.println("Balances: " + nb.pvaluesum(piece.WHITE) + "-" + nb.pvaluesum(piece.BLACK) + "  ,  " +  nb.iWhiteCovered + "-" + nb.iBlackCovered);
+		System.out.println("Balances: " + nb.pvaluesum(Piece.WHITE) + "-" + nb.pvaluesum(Piece.BLACK) + "  ,  " +  nb.iWhiteCovered + "-" + nb.iBlackCovered);
 		
 		
 	}
@@ -4269,7 +4268,7 @@ public class chessboard implements Serializable
 		if (iAlg == movevalue.ALG_ANY_OKMOVE) 
 		{
 			int NewMoveNr;
-			if (iColor == piece.WHITE) NewMoveNr = this.iMoveCounter;
+			if (iColor == Piece.WHITE) NewMoveNr = this.iMoveCounter;
 			else NewMoveNr = this.iMoveCounter+1;
 			
 			chessboard cbr = anyokmove.db_anymoveget(this.FEN(),movevalue.ALG_ANY_OKMOVE+"", false);
@@ -4535,7 +4534,7 @@ public class chessboard implements Serializable
 		int iMaxEnemyCapt;
 		boolean bPressure0 = false;
 								
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
 			//iMaxMoveVal = miWhiteMoveindex.iMaxMoveVal();
 			//miWhiteMoveindex.setRiskBits(this);
@@ -4609,7 +4608,7 @@ public class chessboard implements Serializable
 						
 		*/
 		moveindex mAct;
-		if (iColor == piece.WHITE) mAct = this.miWhiteMoveindex.goodMoveIndex(this,pKing).sortedcopy();
+		if (iColor == Piece.WHITE) mAct = this.miWhiteMoveindex.goodMoveIndex(this,pKing).sortedcopy();
 		else mAct = this.miBlackMoveindex.goodMoveIndex(this,pKing).sortedcopy();
 		
 		//System.out.println("MoveIndex dump");
@@ -4756,7 +4755,7 @@ public class chessboard implements Serializable
 					System.out.println("DBG160308 after raising unprocs. Continue from: " + m.moveStr());
 				}
 				*/
-				piece p = m.p;
+				Piece p = m.p;
 				
 				if ((bDebug) && (iRounds > 2)) ChessUI.monRefresh(false);
 				
@@ -4807,16 +4806,16 @@ public class chessboard implements Serializable
 					else
 					{
 						l3g = l3best.movevaluediff(thisMVal,iColor);
-						if (iColor == piece.BLACK) l3g = -l3g;
+						if (iColor == Piece.BLACK) l3g = -l3g;
 					}
-					if (iColor == piece.BLACK) l1goal = -l1goal; 
+					if (iColor == Piece.BLACK) l1goal = -l1goal;
 					l1goal = Math.max(l1goal,l3g);
 				}
 				
 				if ((l2best != null) && (iRounds == 0) && (i!=0))
 				{
 					l0goal = l2best.movevaluediff(thisMVal,iColor);
-					if (iColor == piece.BLACK) l0goal = -l0goal;
+					if (iColor == Piece.BLACK) l0goal = -l0goal;
 					/*System.out.println("DBG150116: l0goal:" + l0goal);
 					System.out.println("DBG150116:l2best:" + l2best.dumpstr(iAlg));
 					System.out.println("DBG150116:thismval:" + thisMVal.dumpstr(iAlg));
@@ -4922,9 +4921,9 @@ public class chessboard implements Serializable
 					dump_pin_info();*/
 					
 					nb = this.copy();
-					if (iColor == piece.BLACK) nb.iMoveCounter++;
+					if (iColor == Piece.BLACK) nb.iMoveCounter++;
 					
-					piece np = nb.blocks[p.xk][p.yk];
+					Piece np = nb.blocks[p.xk][p.yk];
 					
 					
 					//System.out.println("DBG150610: analyzing move:" + m.moveStrLong()+ " *********************************");
@@ -4955,8 +4954,8 @@ public class chessboard implements Serializable
 					if (bOk1)
 					{
 					
-						if ((m.isRisky()) && (iColor == piece.WHITE)) nb.bWhiteRiskOn = true;
-						if ((m.isRisky()) && (iColor == piece.BLACK)) nb.bBlackRiskOn = true;
+						if ((m.isRisky()) && (iColor == Piece.WHITE)) nb.bWhiteRiskOn = true;
+						if ((m.isRisky()) && (iColor == Piece.BLACK)) nb.bBlackRiskOn = true;
 						
 						//System.out.println("DBG 141216(A):nb risks w:" + nb.bWhiteRiskOn + ", b:" + nb.bBlackRiskOn);
 						
@@ -4985,8 +4984,8 @@ public class chessboard implements Serializable
 						nb.redoVectorsAndCoverages(1-iColor, iAlg);
 						//System.out.println("DBG150610: AFTER REDO1 for nb:" + m.moveStrLong()+ " *********************************");						
 						
-						if ((((iColor == piece.WHITE) && (nb.iBlackCheckMoves != 0)) ||
-						((iColor == piece.BLACK) && (nb.iWhiteCheckMoves != 0))) && (iAlg == movevalue.ALG_DEEP_CHECK) && (iRounds <= 0) && (!m.isCheck()) && (!m.isRevCheck()))	
+						if ((((iColor == Piece.WHITE) && (nb.iBlackCheckMoves != 0)) ||
+						((iColor == Piece.BLACK) && (nb.iWhiteCheckMoves != 0))) && (iAlg == movevalue.ALG_DEEP_CHECK) && (iRounds <= 0) && (!m.isCheck()) && (!m.isRevCheck()))
 						{
 							//System.out.println("DBG 141203. WHOA, I can be checked, color:" + iColor + " irounds:" + iRounds);
 							//if (iColor == piece.WHITE)
@@ -5001,21 +5000,21 @@ public class chessboard implements Serializable
 						
 						//System.out.println("DBG151013 (S6):" + basemv.sRoute+ " " + m.moveStr() + " i=" + i);
 						
-						if (iColor == piece.WHITE) 
+						if (iColor == Piece.WHITE)
 						{
 							if ((iRounds > 0) || (ndtc != null)) 
 							{
 								movevalue mmval = basemv.copy();
 								mmval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
-								mmval.setbase(piece.BLACK);
-								nxtBoard = nb.findAndDoBestMove(piece.BLACK,iRounds-1,mmval,iAlg,bDebug, null,mvec,false,ndtc,l3best,l2best, regb, mos);
+								mmval.setbase(Piece.BLACK);
+								nxtBoard = nb.findAndDoBestMove(Piece.BLACK,iRounds-1,mmval,iAlg,bDebug, null,mvec,false,ndtc,l3best,l2best, regb, mos);
 								dbgPrintln("Received mmval from below: col("+iColor+") rnd("+iRounds+") " + mmval.dumpstr(iAlg));
 								if ((bDebug) && (mvec == null)) System.out.println(iRounds+":"+iColor+":"+mmval.dumpstr(iAlg));
 								currMval.copyfrom(mmval);
 								
 								if (nxtBoard != null)
 								{
-									balDif =  nxtBoard.pvaluesum(piece.WHITE) - nxtBoard.pvaluesum(piece.BLACK)  ;
+									balDif =  nxtBoard.pvaluesum(Piece.WHITE) - nxtBoard.pvaluesum(Piece.BLACK)  ;
 									covDif =  nxtBoard.iWhiteCovered - nxtBoard.iBlackCovered;
 									if (nxtBoard.bWasChecked) iChecked = 1;
 									else iChecked = 0;
@@ -5045,16 +5044,16 @@ public class chessboard implements Serializable
 								
 								//mval.setBalancesFromBoard(nb, piece.BLACK,iAlg);
 								
-								instWinRec iWR = nb.bWinnableByOne(piece.WHITE,iAlg);
+								instWinRec iWR = nb.bWinnableByOne(Piece.WHITE,iAlg);
 								nb.bWhiteInstWin = iWR.bIW;
 								nb.iInstWinCorr = iWR.iIWCorr;
-								mval.setBalancesFromBoard(nb, piece.BLACK,iAlg);   // SWAP $$$$
+								mval.setBalancesFromBoard(nb, Piece.BLACK,iAlg);   // SWAP $$$$
 								
 								if ((!iWR.bIW) && (iWR.iIWCorr == 0))
 								{
 									//bCurrRCWin = nb.bWinnableByReCheck(piece.WHITE, iAlg);
 									//nb.bBlackInstWin = bCurrRCWin;
-									iWR = nb.bWinnableByReCheck(piece.WHITE, iAlg);
+									iWR = nb.bWinnableByReCheck(Piece.WHITE, iAlg);
 									//nb.bBlackInstWin = iWR.bIW;
 									//nb.iInstWinCorr = iWR.iIWCorr;
 									mval.bBlackInstWin = iWR.bIW;
@@ -5085,15 +5084,15 @@ public class chessboard implements Serializable
 							{
 								movevalue mmval = basemv.copy();
 								mmval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
-								mmval.setbase(piece.WHITE);
-								nxtBoard = nb.findAndDoBestMove(piece.WHITE,iRounds-1,mmval,iAlg,bDebug, null, mvec,false, ndtc,l3best,l2best,regb, mos);
+								mmval.setbase(Piece.WHITE);
+								nxtBoard = nb.findAndDoBestMove(Piece.WHITE,iRounds-1,mmval,iAlg,bDebug, null, mvec,false, ndtc,l3best,l2best,regb, mos);
 								dbgPrintln("Received mmval from below: col("+iColor+") rnd("+iRounds+") " + mmval.dumpstr(iAlg));
 								if ((bDebug) && (mvec == null)) System.out.println(iRounds+":"+iColor+":"+mmval.dumpstr(iAlg));
 								currMval.copyfrom(mmval);
 								
 								if (nxtBoard != null)
 								{
-									balDif =  nxtBoard.pvaluesum(piece.BLACK) - nxtBoard.pvaluesum(piece.WHITE);
+									balDif =  nxtBoard.pvaluesum(Piece.BLACK) - nxtBoard.pvaluesum(Piece.WHITE);
 									covDif =  nxtBoard.iBlackCovered - nxtBoard.iWhiteCovered ;
 									if (nxtBoard.bWasChecked) iChecked = 1;
 									else iChecked = 0;
@@ -5127,19 +5126,19 @@ public class chessboard implements Serializable
 								
 								//System.out.println("DBG150610: DOBLACKMOVE (A2) ******");
 								
-								instWinRec iWR = nb.bWinnableByOne(piece.BLACK,iAlg);
+								instWinRec iWR = nb.bWinnableByOne(Piece.BLACK,iAlg);
 								
 								//System.out.println("DBG150610: DOBLACKMOVE (A3) ******");
 								
 								nb.bBlackInstWin = iWR.bIW;
 								nb.iInstWinCorr = iWR.iIWCorr;
-								mval.setBalancesFromBoard(nb, piece.WHITE, iAlg);
+								mval.setBalancesFromBoard(nb, Piece.WHITE, iAlg);
 								
 								if ((!iWR.bIW) && (iWR.iIWCorr == 0))
 								{
 									//bCurrRCWin = nb.bWinnableByReCheck(piece.BLACK, iAlg);
 									//nb.bWhiteInstWin = bCurrRCWin;
-									iWR = nb.bWinnableByReCheck(piece.BLACK,iAlg);
+									iWR = nb.bWinnableByReCheck(Piece.BLACK,iAlg);
 									nb.bWhiteInstWin = iWR.bIW;
 									nb.iInstWinCorr = iWR.iIWCorr;
 									mval.bWhiteInstWin = iWR.bIW;
@@ -5324,8 +5323,8 @@ public class chessboard implements Serializable
 				System.out.println("..c:" + (iMaxEnemyCapt>Math.abs(thisMVal.iPieceBalance - bestMval.iPieceBalance)));
 				System.out.println("DBG150930: bCalcAgain:" + bCalcAgain + " iMaxPressure: " + iMaxPressure + " iMaxEnemyCapt:" + iMaxEnemyCapt);
 				*/
-				if (((iColor == piece.WHITE) && (bestBoard.iBlackCheckMoves != 0) && (bestMval.bWhiteInstWin)) ||
-				((iColor == piece.BLACK) && (bestBoard.iWhiteCheckMoves != 0) && (bestMval.bBlackInstWin))) bCalcAgain = true;
+				if (((iColor == Piece.WHITE) && (bestBoard.iBlackCheckMoves != 0) && (bestMval.bWhiteInstWin)) ||
+				((iColor == Piece.BLACK) && (bestBoard.iWhiteCheckMoves != 0) && (bestMval.bBlackInstWin))) bCalcAgain = true;
 				
 				/*if (bCalcAgain) System.out.println("DBG150311: NEW XYZZY, BCALCAGAIN = TRUE");
 				else System.out.println("DBG150311: NEW XYZZY, BCALCAGAIN = FALSE");
@@ -5950,18 +5949,18 @@ public class chessboard implements Serializable
 	
 king locateKing(int iColor)
 {
-	if ((iColor == piece.WHITE) && (m_kw != null)) return m_kw;
-	if ((iColor == piece.BLACK) && (m_kb != null)) return m_kb;
+	if ((iColor == Piece.WHITE) && (m_kw != null)) return m_kw;
+	if ((iColor == Piece.BLACK) && (m_kb != null)) return m_kb;
 	
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p!= null)
 			{
-				if ((p.iType == piece.KING) && (p.iColor == iColor)) 
+				if ((p.iType == Piece.KING) && (p.iColor == iColor))
 				{
-					if (iColor == piece.WHITE) m_kw = (king)p;
+					if (iColor == Piece.WHITE) m_kw = (king)p;
 					else m_kb = (king)p;
 					return (king)p;
 				}
@@ -5971,14 +5970,14 @@ king locateKing(int iColor)
 	return null;	
 }  
 
-piece locatePiece (int iColor, int iType)
+Piece locatePiece (int iColor, int iType)
 {
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		for (int i=1;i<=8;i++)
 			for (int j=1;j<=8;j++)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p!= null)
 				{
 					if ((p.iType == iType) && (p.iColor == iColor)) return p;
@@ -5991,7 +5990,7 @@ piece locatePiece (int iColor, int iType)
 		for (int i=1;i<=8;i++)
 			for (int j=8;j>=1;j--)
 			{
-				piece p = blocks[i][j];
+				Piece p = blocks[i][j];
 				if (p!= null)
 				{
 					if ((p.iType == iType) && (p.iColor == iColor)) return p;
@@ -6106,7 +6105,7 @@ int iCountCheckers(king pking)
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p!= null)
 			{
 				if (p.iColor != pking.iColor)
@@ -6134,14 +6133,14 @@ int iCountCheckers(king pking)
 	return iCount;
 }
 		
-piece locateFirstChecker(king pking)
+Piece locateFirstChecker(king pking)
 {
 	if (pking == null) return null;
 	
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p!= null)
 			{
 				if (p.iColor != pking.iColor)
@@ -6169,7 +6168,7 @@ Vector locateCheckersVector (king pking)
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p!= null)
 			{
 				if (p.iColor != pking.iColor)
@@ -6188,7 +6187,7 @@ Vector locateCheckersVector (king pking)
 	return vRet;	
 }
 		
-boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
+boolean bMoveIsGood(move m, Piece p, king k, Vector vcheck)
 {
 	boolean bOneCP = false;
 	
@@ -6198,14 +6197,14 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 	
 	//System.out.println("DBG150205: bMoveIsGood called (0). There is a checker. Pretest: "+ m.moveStr() + " vcheck.size:" + vcheck.size());
 	
-	if ((p.iType != piece.KING) && (vcheck.size() > 1)) 
+	if ((p.iType != Piece.KING) && (vcheck.size() > 1))
 	{
 		int xkc = -1;
 		int ykc = -1;
 		
 		for (int ii=0;ii<vcheck.size();ii++)
 		{
-			piece pp = (piece)vcheck.elementAt(ii);
+			Piece pp = (Piece)vcheck.elementAt(ii);
 			//System.out.println("c piece: " + pp.xk +"," + pp.yk);
 			
 			if (((pp.xk != xkc) && (xkc != -1))  || ((pp.yk != ykc) && (ykc != -1))) return false;
@@ -6217,27 +6216,27 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 		//return false;
 	}
 	
-	piece pcheck = (piece)vcheck.elementAt(0);
+	Piece pcheck = (Piece)vcheck.elementAt(0);
 	
 	//System.out.println("DBG150205: bMoveIsGood called. There is a checker. Testing move: "+ m.moveStr() + ", bOneCP:" + bOneCP);
 	
 	// kill the checking piece, if's not the king it's trivial if it's the only one
-	if (((p.iType != piece.KING) && ((m.xtar == pcheck.xk) && (m.ytar == pcheck.yk))) && (bOneCP)) return true;
+	if (((p.iType != Piece.KING) && ((m.xtar == pcheck.xk) && (m.ytar == pcheck.yk))) && (bOneCP)) return true;
 	
-	if ((p.iType == piece.PAWN) && (m.bCapture) && (blocks[m.xtar][m.ytar] == null) && (pcheck.iType == piece.PAWN))
+	if ((p.iType == Piece.PAWN) && (m.bCapture) && (blocks[m.xtar][m.ytar] == null) && (pcheck.iType == Piece.PAWN))
 	{
-		if (((p.iColor == piece.WHITE) && (m.ytar == 6) && (m.xtar==pcheck.xk)) ||
-		((p.iColor == piece.BLACK) && (m.ytar == 3) && (m.xtar==pcheck.xk)))		
+		if (((p.iColor == Piece.WHITE) && (m.ytar == 6) && (m.xtar==pcheck.xk)) ||
+		((p.iColor == Piece.BLACK) && (m.ytar == 3) && (m.xtar==pcheck.xk)))
 		//System.out.println("DBG150205: EN PASSANT CANDIDATE!");
 		return true;
 	}
 	
 	// castling moves under check are not allowed
-	if ((p.iType == piece.KING) && (!bOneCP) && (p.xk == 5) && ((m.xtar == 3) || (m.xtar==7))) return false;
+	if ((p.iType == Piece.KING) && (!bOneCP) && (p.xk == 5) && ((m.xtar == 3) || (m.xtar==7))) return false;
 	
 	Vector v = pcheck.moveVector(this);
 	
-	if ((p.iType != piece.KING) && (bOneCP))
+	if ((p.iType != Piece.KING) && (bOneCP))
 	{
 		// did we get in between? that would be good as well
 		//System.out.println("DBG141220: bMoveIsGood: " + m.moveStr() + " inbtw check.");
@@ -6255,7 +6254,7 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 		}
 		*/
 		
-		return piece.directlyBetween(pcheck.xk,pcheck.yk,m.xtar,m.ytar,k.xk,k.yk);
+		return Piece.directlyBetween(pcheck.xk,pcheck.yk,m.xtar,m.ytar,k.xk,k.yk);
 		
 	}
 	else
@@ -6267,8 +6266,8 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 			// this is all about king's escape
 			for (int r=0;r<vcheck.size();r++)
 			{
-				piece pc = (piece)vcheck.elementAt(r);
-				if (p.iColor == piece.WHITE)
+				Piece pc = (Piece)vcheck.elementAt(r);
+				if (p.iColor == Piece.WHITE)
 				{
 					if (!bBlackCoverage[m.xtar][m.ytar])
 					{
@@ -6290,12 +6289,12 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 		
 		// we move the king to beat either the checker or some other piece
 		
-		piece pOther = blocks[m.xtar][m.ytar];
+		Piece pOther = blocks[m.xtar][m.ytar];
 		int iColOther = -1;
-		if ((p.iType == piece.KING) && (pOther != null)) iColOther = pOther.iColor;
+		if ((p.iType == Piece.KING) && (pOther != null)) iColOther = pOther.iColor;
 		
 		
-		if (((p.iType == piece.KING) && ((m.xtar == pcheck.xk) && (m.ytar == pcheck.yk))) || (iColOther == 1-p.iColor))
+		if (((p.iType == Piece.KING) && ((m.xtar == pcheck.xk) && (m.ytar == pcheck.yk))) || (iColOther == 1-p.iColor))
 		{
 			
 			if (pOther.bProt) return false;   // can't capture a protected piece
@@ -6303,7 +6302,7 @@ boolean bMoveIsGood(move m, piece p, king k,Vector vcheck)
 			{
 				for (int r=0;r<vcheck.size();r++)  // and can't capture a piece that will be protected after the move
 				{
-					piece pc = (piece)vcheck.elementAt(r);
+					Piece pc = (Piece)vcheck.elementAt(r);
 					if ((pc.moveinline(m,p)) &&(pc.couldhit(m.xtar,m.ytar))) return false;
 				}
 				
@@ -6340,8 +6339,8 @@ void dropPinnedMoves (king k)
 		enp_y1 = ((int)lm_vector.elementAt(1));
 		enp_x2 = ((int)lm_vector.elementAt(2));
 		enp_y2 = ((int)lm_vector.elementAt(3));
-		piece p=blocks[enp_x2][enp_y2];
-		if ((p.iType == piece.PAWN) && (Math.abs(enp_y2-enp_y1)==2) && (p.iColor != k.iColor)) bEnpPin = true;
+		Piece p=blocks[enp_x2][enp_y2];
+		if ((p.iType == Piece.PAWN) && (Math.abs(enp_y2-enp_y1)==2) && (p.iColor != k.iColor)) bEnpPin = true;
 	}
 	
 	
@@ -6367,8 +6366,8 @@ void dropPinnedMoves (king k)
 	
 	for (int iDir = 0; iDir < 8;iDir++)
 	{
-		piece p1 = null;
-		piece p2 = null;
+		Piece p1 = null;
+		Piece p2 = null;
 		
 		//System.out.println("DPM GOING TO DIR " + iDir);
 		
@@ -6384,7 +6383,7 @@ void dropPinnedMoves (king k)
 			
 			if (p1 != null)
 			{
-				if ((p1 != null) && (p1.iType == piece.PAWN) && (p1.iColor != k.iColor) &&
+				if ((p1 != null) && (p1.iType == Piece.PAWN) && (p1.iColor != k.iColor) &&
 				(newX == enp_x2) && (newY == enp_y2)) 
 				{
 					iEps = iStep;
@@ -6411,7 +6410,7 @@ void dropPinnedMoves (king k)
 				p2 = blocks[newX][newY];
 				boolean bENPPinSkip = false;
 				
-				if ((p2 != null) && (p2.iType == piece.PAWN) && (p1.iType == piece.PAWN) && (newX == enp_x2) && (newY == enp_y2) && (Math.abs(p1.xk-newX) == 1) && (bEnpPin))
+				if ((p2 != null) && (p2.iType == Piece.PAWN) && (p1.iType == Piece.PAWN) && (newX == enp_x2) && (newY == enp_y2) && (Math.abs(p1.xk-newX) == 1) && (bEnpPin))
 				{
 					//System.out.println("DBGDBG UHOH, HERE'S THE ENP PIN!!!");
 					bENPPinSkip = true;
@@ -6425,10 +6424,10 @@ void dropPinnedMoves (king k)
 					if (p2.iColor != k.iColor)
 					{
 						//System.out.println("DBG160519:LOC AA");
-						if ((p2.couldhit(k)) && (p2.iType != piece.PAWN))
+						if ((p2.couldhit(k)) && (p2.iType != Piece.PAWN))
 						{
 							//System.out.println("DBG150603:DPM POTENTIAL PINNING ISSUE!!! " + newX +"," + newY + " pinned piece at: " + p1.xk +"," + p1.yk + " bENPPinSkip:" + bENPPinSkip);
-							if ((p1.iType == piece.PAWN ) && (bENPPinSkip))
+							if ((p1.iType == Piece.PAWN ) && (bENPPinSkip))
 							{
 								pawn pa = (pawn)p1;
 								pa.validatePinMoves( k, this,bENPPinSkip);
@@ -6471,7 +6470,7 @@ int clearMoveVectorsUnderCheck(int iColor, king kk, Vector vcheck)
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p = blocks[i][j];
+			Piece p = blocks[i][j];
 			if (p != null)
 			{
 				if (p.iColor == iColor)
@@ -6512,7 +6511,7 @@ boolean bKingInCastle(int iColor)
 	int sxl, sxh;
 	int kicpoints = 0;
 	
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		sy = 2;
 		ky = 1;
@@ -6523,15 +6522,15 @@ boolean bKingInCastle(int iColor)
 		ky = 8;
 	}
 	
-	piece pk1 = blocks[3][ky];
-	piece pk2 = blocks[7][ky];
+	Piece pk1 = blocks[3][ky];
+	Piece pk2 = blocks[7][ky];
 	
-	if ((pk1 != null) && (pk1.iType == piece.KING) && (pk1.iColor == iColor))
+	if ((pk1 != null) && (pk1.iType == Piece.KING) && (pk1.iColor == iColor))
 	{
 		sxl = 1;
 		sxh = 3;
 	} else
-	if ((pk2 != null) &&(pk2.iType == piece.KING) && (pk2.iColor == iColor))
+	if ((pk2 != null) &&(pk2.iType == Piece.KING) && (pk2.iColor == iColor))
 	{
 		sxl = 6;
 		sxh = 8;
@@ -6539,7 +6538,7 @@ boolean bKingInCastle(int iColor)
 	
 	for (int sx = sxl; sx <= sxh; sx++)
 	{
-		piece p = blocks[sx][sy];
+		Piece p = blocks[sx][sy];
 		if (p == null) return false;
 		if (p.iColor != iColor) return false;
 		if (p.bThreat) return false;
@@ -6564,7 +6563,7 @@ int iKicPoints (int iColor)
 		
 	*/
 	
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		sy = 2;
 		ky = 1;
@@ -6575,17 +6574,17 @@ int iKicPoints (int iColor)
 		ky = 8;
 	}
 	
-	piece pk1 = blocks[3][ky];
-	piece pk2 = blocks[7][ky];
+	Piece pk1 = blocks[3][ky];
+	Piece pk2 = blocks[7][ky];
 	int king_iLastMove = 0;
 	
-	if ((pk1 != null) && (pk1.iType == piece.KING) && (pk1.iColor == iColor) && (pk1.prev_xk == 5))
+	if ((pk1 != null) && (pk1.iType == Piece.KING) && (pk1.iColor == iColor) && (pk1.prev_xk == 5))
 	{
 		sxl = 1;
 		sxh = 3;
 		king_iLastMove = pk1.iLastMove;
 	} else
-	if ((pk2 != null) &&(pk2.iType == piece.KING) && (pk2.iColor == iColor) && ((pk2.prev_xk == 5)))
+	if ((pk2 != null) &&(pk2.iType == Piece.KING) && (pk2.iColor == iColor) && ((pk2.prev_xk == 5)))
 	{
 		sxl = 6;
 		sxh = 8;
@@ -6618,7 +6617,7 @@ int iKicPoints (int iColor)
 	
 	for (int sx = sxl; sx <= sxh; sx++)
 	{
-		piece p = blocks[sx][sy];
+		Piece p = blocks[sx][sy];
 		if (p == null)
 		kicpoints = kicpoints - 1;
 		else
@@ -6639,10 +6638,10 @@ int iKicPoints (int iColor)
 int iUndevelopedLightOfficers(int iColor)
 {
 	int sy;
-	piece p;
+	Piece p;
 	int iRet = 0;
 	
-	if (iColor == piece.WHITE) sy = 1;
+	if (iColor == Piece.WHITE) sy = 1;
 	else sy = 8;
 	
 	p = blocks[2][sy];
@@ -6665,8 +6664,8 @@ boolean equals(chessboard cb)
 	for (int i=1;i<=8;i++)
 		for (int j=1;j<=8;j++)
 		{
-			piece p1 = blocks[i][j];
-			piece p2 = cb.blocks[i][j];
+			Piece p1 = blocks[i][j];
+			Piece p2 = cb.blocks[i][j];
 			
 			if ((p1 == null) && (p2 != null)) return false;
 			if ((p2 == null) && (p1 != null)) return false;
@@ -6688,7 +6687,7 @@ boolean bCanDoLevel(int iLevel, int iColor)
 		if ((iWhiteMoves > 10) && (iBlackMoves > 10))
 		{
 			iComb = iWhiteMoves * iBlackMoves;
-			if (iColor == piece.WHITE) iComb = iComb * iWhiteMoves;
+			if (iColor == Piece.WHITE) iComb = iComb * iWhiteMoves;
 			else iComb = iComb * iBlackMoves;
 		}
 		else if (iWhiteMoves <= 10) iComb = iBlackMoves*iBlackMoves*iBlackMoves;
@@ -6727,7 +6726,7 @@ boolean bCanDoLevel(int iLevel, int iColor)
 		{
 			iComb = iWhiteMoves * iWhiteMoves * iBlackMoves * iBlackMoves;
 			
-			if (iColor == piece.WHITE) iComb = iComb * iWhiteMoves;
+			if (iColor == Piece.WHITE) iComb = iComb * iWhiteMoves;
 			else iComb = iComb * iBlackMoves;
 		}
 		else if (iWhiteMoves <= 10) iComb = iBlackMoves*iBlackMoves*iBlackMoves*iBlackMoves*iBlackMoves;
@@ -6767,10 +6766,10 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 	
 	movevalue mCurr, mBest, mThis;
 	
-	if ((iColor == piece.BLACK) && (this.bBlackKingThreat)) return new instWinRec(0,false);
-	if ((iColor == piece.WHITE) && (this.bWhiteKingThreat)) return new instWinRec(0,false);
+	if ((iColor == Piece.BLACK) && (this.bBlackKingThreat)) return new instWinRec(0,false);
+	if ((iColor == Piece.WHITE) && (this.bWhiteKingThreat)) return new instWinRec(0,false);
 	
-	if (iColor == piece.WHITE) mi = miBlackMoveindex;
+	if (iColor == Piece.WHITE) mi = miBlackMoveindex;
 	else mi = miWhiteMoveindex;
 	
 	//System.out.println("DBG150206: WBO ENTER " + iColor + " last move: " + lastmoveString());
@@ -6789,14 +6788,14 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 	//System.out.println("DBG150610:WBO:STARTMVAL (START)" + mThis.dumpstr(iAlg,movevalue.DUMPMODE_LONG));
 	
 	int iRefPB = 0;
-	if (iColor == piece.WHITE) iRefPB = mThis.iPieceBalCorrWhite;
+	if (iColor == Piece.WHITE) iRefPB = mThis.iPieceBalCorrWhite;
 	else iRefPB = mThis.iPieceBalCorrBlack;
 	//System.out.println("DBG151001: iRefPB:" + iRefPB);
 	int iBestImpact = 0;
 	
 	mBest.copyfrom(mThis);
 	int iBestDiff = 0;
-	if (iColor == piece.WHITE) iBestDiff = 10;
+	if (iColor == Piece.WHITE) iBestDiff = 10;
 	else iBestDiff = -10;
 	
 	String sWBODbg = "WBO:" + (1-iColor) + " ("+ lastmoveString()+") <";
@@ -6823,7 +6822,7 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 			//System.out.println("WBO REDO DONE " + iColor);
 			
 			//System.out.println("DBG150610: WBO: " + m.moveStrLong() + " before mate check.");
-			if ((iColor == piece.WHITE) && (cb.iWhiteMoves == 0) && (cb.bWhiteKingThreat))
+			if ((iColor == Piece.WHITE) && (cb.iWhiteMoves == 0) && (cb.bWhiteKingThreat))
 			{
 				//System.out.println("WHITE IS WINNABLE (black wins!) BY ONE MOVE HERE!");
 				//return true;
@@ -6831,7 +6830,7 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 				//System.out.println(sWBODbg);
 				return new instWinRec(0,true);
 			}
-			else if ((iColor == piece.BLACK) && (cb.iBlackMoves == 0) && (cb.bBlackKingThreat))
+			else if ((iColor == Piece.BLACK) && (cb.iBlackMoves == 0) && (cb.bBlackKingThreat))
 			{
 				//System.out.println("BLACK IS WINNABLE (white wins) BY ONE MOVE HERE!");
 				//return true;
@@ -6846,7 +6845,7 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 			//System.out.println("MDBG:" + mDBG.dumpstr(40,DUMPMODE_SHORT));
 			
 			int iImpact = 0;
-			if (iColor == piece.WHITE)
+			if (iColor == Piece.WHITE)
 			{
 				iImpact = mDBG.iPieceBalCorrBlack - iRefPB;
 				if (iImpact < iBestImpact) iBestImpact = iImpact;
@@ -6925,16 +6924,16 @@ instWinRec bWinnableByReCheck(int iColor, int iAlg)
 	
 	//System.out.println("DBG150207: WBRC ENTER " + iColor + " last move: " + lastmoveString());
 	
-	if ((iColor == piece.WHITE) && !this.bBlackKingThreat) return new instWinRec (0,false);
-	if ((iColor == piece.BLACK) && !this.bWhiteKingThreat) return new instWinRec (0,false);
+	if ((iColor == Piece.WHITE) && !this.bBlackKingThreat) return new instWinRec (0,false);
+	if ((iColor == Piece.BLACK) && !this.bWhiteKingThreat) return new instWinRec (0,false);
 	
-	if (iColor == piece.WHITE) mi = miBlackMoveindex;
+	if (iColor == Piece.WHITE) mi = miBlackMoveindex;
 	else mi = miWhiteMoveindex;
 	
 	boolean bEscape = false;
 	
 	int iNetBest;
-	if (iColor == piece.WHITE) iNetBest = 10;
+	if (iColor == Piece.WHITE) iNetBest = 10;
 	else iNetBest = -10;
 	
 	String sWBRCDbg = "WBRC enter: "  + (iColor) + " ("+ lastmoveString()+") ";
@@ -6950,7 +6949,7 @@ instWinRec bWinnableByReCheck(int iColor, int iAlg)
 		cb.redoVectorsAndCoverages(iColor, iAlg);
 		
 		int iCap;
-		if (iColor == piece.WHITE) iCap = -m.iCaptValue;
+		if (iColor == Piece.WHITE) iCap = -m.iCaptValue;
 		else iCap = m.iCaptValue;
 		
 		//boolean bWinnable = cb.bWinnableByOne(1-iColor,iAlg);
@@ -6962,8 +6961,8 @@ instWinRec bWinnableByReCheck(int iColor, int iAlg)
 		
 		//System.out.println("DBG150207: WBRC iCurr:" + iCurr);
 		
-		if ((iColor == piece.WHITE) && (iCurr < iNetBest)) iNetBest = iCurr;
-		if ((iColor == piece.BLACK) && (iCurr > iNetBest)) iNetBest = iCurr;
+		if ((iColor == Piece.WHITE) && (iCurr < iNetBest)) iNetBest = iCurr;
+		if ((iColor == Piece.BLACK) && (iCurr > iNetBest)) iNetBest = iCurr;
 	}
 	//System.out.println("DBG150124: WBRC RETURN " + !bEscape);
 	//int iCorrFactor = 0;
@@ -6980,7 +6979,7 @@ instWinRec bWinnableByReCheck(int iColor, int iAlg)
 
 int iMoveIndexLength(int iColor)
 {
-	if (iColor == piece.WHITE) return miWhiteMoveindex.getSize();
+	if (iColor == Piece.WHITE) return miWhiteMoveindex.getSize();
 	else return miBlackMoveindex.getSize();
 }
 
@@ -6991,7 +6990,7 @@ chessboard doBestZeroMove(int iColor, int iAlg, boolean bAny)
 	redoVectorsAndCoverages(iColor, iAlg);
 	move m;
 	
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi=miWhiteMoveindex;
 		mo=miBlackMoveindex;
@@ -7054,7 +7053,7 @@ void setZeroBalances(int iTurn, int iAlg)
 	miWhiteMoveindex = miWhiteMoveindex.sortedcopy();
 	miBlackMoveindex = miBlackMoveindex.sortedcopy();
 	
-	if (iTurn == piece.WHITE)
+	if (iTurn == Piece.WHITE)
 	{
 		m = miWhiteMoveindex.getBestMove(null,miBlackMoveindex);
 
@@ -7081,7 +7080,7 @@ void setZeroBalances(int iTurn, int iAlg)
 	
 	if (iAlg == movevalue.ALG_SUPER_PRUNING_ZB)
 	{
-		if ((iTurn == piece.WHITE) && (iWhiteZeroBal > 0) && (Math.abs(iWhiteZeroBal) < 100))
+		if ((iTurn == Piece.WHITE) && (iWhiteZeroBal > 0) && (Math.abs(iWhiteZeroBal) < 100))
 		{
 			System.out.print("DBG150609 ZEROBALANCES (TURN WHITE) W:" + iWhiteZeroBal + " B:" + iBlackZeroBal + " best white move: " + m.moveStrLong() + " ||  best black move: " + " turn:" + iTurn);
 			if (m2 != null) System.out.println ("  " + m2.moveStrLong());
@@ -7106,7 +7105,7 @@ void setZeroBalances(int iTurn, int iAlg)
 		}
 	}
 	
-	if (iTurn == piece.BLACK)
+	if (iTurn == Piece.BLACK)
 	{
 		m = miBlackMoveindex.getBestMove(null,miWhiteMoveindex);
 		m2 = miWhiteMoveindex.getBestMove(m,null);
@@ -7144,7 +7143,7 @@ void setZeroBalances(int iTurn, int iAlg)
 	
 	if (iAlg == movevalue.ALG_SUPER_PRUNING_ZB)
 	{
-		if ((iTurn == piece.BLACK) && (iBlackZeroBal > 0) && (Math.abs(iBlackZeroBal) < 100))
+		if ((iTurn == Piece.BLACK) && (iBlackZeroBal > 0) && (Math.abs(iBlackZeroBal) < 100))
 		{
 			System.out.print("DBG150609 ZEROBALANCES (TURN BLACK) W:" + iWhiteZeroBal + " B:" + iBlackZeroBal + " best black move: " + m.moveStrLong() + " ||  best white move: " + " turn:" + iTurn);
 			if (m2 != null) System.out.println ("  " + m2.moveStrLong());
@@ -7185,11 +7184,11 @@ boolean bGameIsClosed()
 		
 		for (int j=1;j<=8;j++)
 		{
-			piece p=blocks[i][j];
-			if ((p!=null) && (p.iType == piece.PAWN))
+			Piece p=blocks[i][j];
+			if ((p!=null) && (p.iType == Piece.PAWN))
 			{
-				if ((p.iColor == piece.WHITE) && (j>wmax)) wmax = j;
-				if ((p.iColor == piece.BLACK) && (j<bmin)) bmin = j;
+				if ((p.iColor == Piece.WHITE) && (j>wmax)) wmax = j;
+				if ((p.iColor == Piece.BLACK) && (j<bmin)) bmin = j;
 			}
 		}
 		
@@ -7203,18 +7202,18 @@ boolean bGameIsClosed()
 
 boolean bGameIsOpen()
 {
-	if (!bPawnsAtColumn(4,piece.WHITE)) return true;
-	if (!bPawnsAtColumn(5,piece.WHITE)) return true;
-	if (!bPawnsAtColumn(4,piece.BLACK)) return true;
-	return !bPawnsAtColumn(5, piece.BLACK);
+	if (!bPawnsAtColumn(4, Piece.WHITE)) return true;
+	if (!bPawnsAtColumn(5, Piece.WHITE)) return true;
+	if (!bPawnsAtColumn(4, Piece.BLACK)) return true;
+	return !bPawnsAtColumn(5, Piece.BLACK);
 }
 
 boolean bPawnsAtColumn(int iColumn, int iColor)
 {
 	for (int j=1;j<=8;j++)
 	{
-		piece p=blocks[iColumn][j];
-		if ((p!=null) && (p.iType == piece.PAWN))
+		Piece p=blocks[iColumn][j];
+		if ((p!=null) && (p.iType == Piece.PAWN))
 		{
 			if (p.iColor == iColor) return true;
 		}
@@ -7225,68 +7224,68 @@ boolean bPawnsAtColumn(int iColumn, int iColor)
 boolean bPawnProtectedAt(int x2,int y2,int iColor)
 {
 	int yp;
-	if (iColor == piece.WHITE) yp = y2-1;
+	if (iColor == Piece.WHITE) yp = y2-1;
 	else yp=y2+1;
 	
 	if (x2>1)
 	{
-		piece p = blocks[x2-1][yp];
-		if ((p!=null) && (p.iType == piece.PAWN) && (p.iColor == iColor)) return true;
+		Piece p = blocks[x2-1][yp];
+		if ((p!=null) && (p.iType == Piece.PAWN) && (p.iColor == iColor)) return true;
 	}
 	
 	if (x2<8)
 	{
-		piece p = blocks[x2+1][yp];
-		return (p != null) && (p.iType == piece.PAWN) && (p.iColor == iColor);
+		Piece p = blocks[x2+1][yp];
+		return (p != null) && (p.iType == Piece.PAWN) && (p.iColor == iColor);
 	}
 	return false;
 }
 
 boolean bPawnIsFreeAt(int x1, int y1)
 {
-	piece pp = blocks[x1][y1];
-	if (pp.iType != piece.PAWN)
+	Piece pp = blocks[x1][y1];
+	if (pp.iType != Piece.PAWN)
 	{
 		System.out.println("Fatal error at chessboard.bPawnIsFreeAt(). iType:" + pp.iType);
 	}
 	
-	if (pp.iColor==piece.WHITE) for (int j= y1+1;j<8;j++)
+	if (pp.iColor== Piece.WHITE) for (int j = y1+1; j<8; j++)
 	{
-		piece p = blocks[x1][j];
-		if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.BLACK)) return false;
+		Piece p = blocks[x1][j];
+		if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.BLACK)) return false;
 	}
-	if (pp.iColor==piece.BLACK) for (int j= y1-1;j>1;j--)
+	if (pp.iColor== Piece.BLACK) for (int j = y1-1; j>1; j--)
 	{
-		piece p = blocks[x1][j];
-		if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.WHITE)) return false;
+		Piece p = blocks[x1][j];
+		if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.WHITE)) return false;
 	}
 	
 	if (x1>1)
 	{
-		if (pp.iColor==piece.WHITE) for (int j= y1+1;j<8;j++)
+		if (pp.iColor== Piece.WHITE) for (int j = y1+1; j<8; j++)
 		{
-			piece p = blocks[x1-1][j];
-			if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.BLACK)) return false;
+			Piece p = blocks[x1-1][j];
+			if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.BLACK)) return false;
 		}
-		if (pp.iColor==piece.BLACK) for (int j= y1-1;j>1;j--)
+		if (pp.iColor== Piece.BLACK) for (int j = y1-1; j>1; j--)
 		{
-			piece p = blocks[x1-1][j];
-			if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.WHITE)) return false;
+			Piece p = blocks[x1-1][j];
+			if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.WHITE)) return false;
 		}
 	}	
 	if (x1 <8)
 	{
-		if (pp.iColor==piece.WHITE) for (int j= y1+1;j<8;j++)
+		if (pp.iColor== Piece.WHITE) for (int j = y1+1; j<8; j++)
 		{
-			piece p = blocks[x1+1][j];
-			if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.BLACK)) return false;
+			Piece p = blocks[x1+1][j];
+			if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.BLACK)) return false;
 		}
-		if (pp.iColor==piece.BLACK) 
+		if (pp.iColor== Piece.BLACK)
 		{
 			for (int j= y1-1;j>1;j--)
 			{
-				piece p = blocks[x1+1][j];
-				if ((p != null) && (p.iType == piece.PAWN) && (p.iColor == piece.WHITE)) return false;
+				Piece p = blocks[x1+1][j];
+				if ((p != null) && (p.iType == Piece.PAWN) && (p.iColor == Piece.WHITE)) return false;
 			}
 		}
 	}
@@ -7309,8 +7308,8 @@ int iExpectedWinner()
 		String s = (String)vTestDir.elementAt(i);
 		if (s.indexOf("W:") != -1)
 		{
-			if (s.indexOf("WHITE") != -1) return piece.WHITE;
-			if (s.indexOf("BLACK") != -1) return piece.BLACK;
+			if (s.indexOf("WHITE") != -1) return Piece.WHITE;
+			if (s.indexOf("BLACK") != -1) return Piece.BLACK;
 			if (s.indexOf("DRAW") != -1) return -1;
 		}
 	}
@@ -7324,10 +7323,10 @@ void dump_pin_info()
 	for (int i = 1; i <= 8; i++)
 				for (int j=1; j <= 4; j++)
 	{
-		piece p = blocks[i][j];
+		Piece p = blocks[i][j];
 		if (p!=null)
 		{
-			if ((p.iPinValue > 0) || (p.iPinningToDirection != piece.NO_DIR))
+			if ((p.iPinValue > 0) || (p.iPinningToDirection != Piece.NO_DIR))
 			{
 				System.out.print(p.dumpchr()+p.sCoords()+":"+p.iPinValue+","+p.iPinDirection+","+p.iPinningToDirection+"  ");
 			}
@@ -7345,15 +7344,15 @@ void assessKingSafety(king kw, king kb)
 
 boolean bIsDrawByPieces()
 {
-	if ((iBlackPieceCount[piece.QUEEN] != 0) ||
-		(iBlackPieceCount[piece.ROOK] != 0) ||
-		(iBlackPieceCount[piece.PAWN] != 0) ||
-		(iWhitePieceCount[piece.QUEEN] != 0) ||
-		(iWhitePieceCount[piece.ROOK] != 0) ||
-		(iWhitePieceCount[piece.PAWN] != 0)) return false;
+	if ((iBlackPieceCount[Piece.QUEEN] != 0) ||
+		(iBlackPieceCount[Piece.ROOK] != 0) ||
+		(iBlackPieceCount[Piece.PAWN] != 0) ||
+		(iWhitePieceCount[Piece.QUEEN] != 0) ||
+		(iWhitePieceCount[Piece.ROOK] != 0) ||
+		(iWhitePieceCount[Piece.PAWN] != 0)) return false;
 				
-	int lOffSum = iWhitePieceCount[piece.BISHOP] + iWhitePieceCount[piece.KNIGHT] + 
-				  iBlackPieceCount[piece.BISHOP] + iBlackPieceCount[piece.KNIGHT];
+	int lOffSum = iWhitePieceCount[Piece.BISHOP] + iWhitePieceCount[Piece.KNIGHT] +
+				  iBlackPieceCount[Piece.BISHOP] + iBlackPieceCount[Piece.KNIGHT];
 
 	return lOffSum < 2;
 }
@@ -7369,29 +7368,29 @@ void setQRKillBal(int iTurn)
 	
 	iQRKillBal = 0;
 	
-	if ((iBlackPieceCount[piece.QUEEN] != 0) ||
-		(iBlackPieceCount[piece.ROOK] != 0) ||
-		(iBlackPieceCount[piece.KNIGHT] != 0) ||
-		(iBlackPieceCount[piece.BISHOP] != 0) ||
-		(iBlackPieceCount[piece.PAWN] != 0)) bBP = true;
+	if ((iBlackPieceCount[Piece.QUEEN] != 0) ||
+		(iBlackPieceCount[Piece.ROOK] != 0) ||
+		(iBlackPieceCount[Piece.KNIGHT] != 0) ||
+		(iBlackPieceCount[Piece.BISHOP] != 0) ||
+		(iBlackPieceCount[Piece.PAWN] != 0)) bBP = true;
 	
-	if ((iWhitePieceCount[piece.QUEEN] != 0) ||
-		(iWhitePieceCount[piece.ROOK] != 0) ||
-		(iWhitePieceCount[piece.KNIGHT] != 0) ||
-		(iWhitePieceCount[piece.BISHOP] != 0) ||
-		(iWhitePieceCount[piece.PAWN] != 0)) bWP = true;	
+	if ((iWhitePieceCount[Piece.QUEEN] != 0) ||
+		(iWhitePieceCount[Piece.ROOK] != 0) ||
+		(iWhitePieceCount[Piece.KNIGHT] != 0) ||
+		(iWhitePieceCount[Piece.BISHOP] != 0) ||
+		(iWhitePieceCount[Piece.PAWN] != 0)) bWP = true;
 	
-	if ((iBlackPieceCount[piece.QUEEN] != 0) ||
-		(iBlackPieceCount[piece.ROOK] != 0)) bBQR = true;
+	if ((iBlackPieceCount[Piece.QUEEN] != 0) ||
+		(iBlackPieceCount[Piece.ROOK] != 0)) bBQR = true;
 		
-	if ((iWhitePieceCount[piece.QUEEN] != 0) ||
-		(iWhitePieceCount[piece.ROOK] != 0)) bWQR = true;	
+	if ((iWhitePieceCount[Piece.QUEEN] != 0) ||
+		(iWhitePieceCount[Piece.ROOK] != 0)) bWQR = true;
 		
 	if ((bBQR && !bWP) || (bWQR && !bBP))	
 	{
 		iQRKillBal = iValSumWhite-iValSumBlack;
-		if ((iTurn == piece.WHITE) && (iWhiteZeroBal != 0)) iQRKillBal = 0;
-		if ((iTurn == piece.BLACK) && (iBlackZeroBal != 0)) iQRKillBal = 0;
+		if ((iTurn == Piece.WHITE) && (iWhiteZeroBal != 0)) iQRKillBal = 0;
+		if ((iTurn == Piece.BLACK) && (iBlackZeroBal != 0)) iQRKillBal = 0;
 		//System.out.println("DBG160509: Setting iQRKillBal: " + iQRKillBal);
 		//System.out.println("DBG160509: Setting iQRKillBal, bBP:" + bBP + ", bWP:" + bWP + ", bBQR:"+bBQR+", bWQR" + bWQR);
 	}
@@ -7403,7 +7402,7 @@ boolean bMidPawnOpenings( int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7428,7 +7427,7 @@ boolean bPawnPressureOpenings(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7453,7 +7452,7 @@ boolean bFianchettoPrepOpenings(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7478,7 +7477,7 @@ boolean bBishopE3Openers(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7503,7 +7502,7 @@ boolean bF2StepOpeners(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7528,7 +7527,7 @@ boolean bPawnFrontOpeners(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7557,7 +7556,7 @@ boolean bBackRowRookOpeners(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7586,7 +7585,7 @@ boolean bKnightToMiddleMoves(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7615,7 +7614,7 @@ boolean bQueenFirstMoves(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7644,7 +7643,7 @@ boolean bC2StepOpeners(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7669,7 +7668,7 @@ boolean bBishopF4Openers(int iColor)
 	moveindex mi;
 	//int yBeg;
 	boolean bFound = false;
-	if (iColor == piece.WHITE)
+	if (iColor == Piece.WHITE)
 	{
 		mi = miWhiteMoveindex;
 		//yBeg= 2;
@@ -7705,14 +7704,14 @@ int iMovedPiecesFromStart()
 		if (blocks[i][2] == null) iRet++;
 		else 
 		{
-			piece p=blocks[i][2];
-			if ((p.iType != piece.PAWN) || (p.iColor != piece.WHITE)) iRet++;
+			Piece p=blocks[i][2];
+			if ((p.iType != Piece.PAWN) || (p.iColor != Piece.WHITE)) iRet++;
 		}
 		if (blocks[i][7] == null) iRet++;
 		else 
 		{
-			piece p=blocks[i][7];
-			if ((p.iType != piece.PAWN) || (p.iColor != piece.BLACK)) iRet++;
+			Piece p=blocks[i][7];
+			if ((p.iType != Piece.PAWN) || (p.iColor != Piece.BLACK)) iRet++;
 		}
 	}
 	return iRet;

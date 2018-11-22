@@ -1,7 +1,4 @@
 package kaappo.androidchess.askokaappochess;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.*;
 import java.io.PrintWriter;
 import java.util.*;
@@ -158,8 +155,8 @@ public class fulfiller
 						cbx.init_from_FEN(sFEN);
 						
 						int iColor = -1;
-						if (sFEN.indexOf(" w" ) != -1) iColor = piece.WHITE;
-						else iColor = piece.BLACK;
+						if (sFEN.indexOf(" w" ) != -1) iColor = Piece.WHITE;
+						else iColor = Piece.BLACK;
 						
 						System.out.println("iTurn:" + iTurn + " iColor: " + iColor);
 						cbx.domove(sMove,iColor);
@@ -168,7 +165,7 @@ public class fulfiller
 						System.out.println("New FEN:" + sFENnew);
 						
 						int iNewTurn = iTurn;
-						if (iColor == piece.BLACK) iNewTurn++;
+						if (iColor == Piece.BLACK) iNewTurn++;
 						System.out.println("iNewTurn:" + iNewTurn);
 						
 						sFENnew = sFENnew.substring(0,sFENnew.length()-2).trim() + " "+iNewTurn;
@@ -240,11 +237,11 @@ public class fulfiller
 					System.out.println("New FEN is:" + sNewFEN);
 					
 					int iColor = -1;
-					if (sFEN.indexOf(" w" ) != -1) iColor = piece.WHITE;
-					else iColor = piece.BLACK;
+					if (sFEN.indexOf(" w" ) != -1) iColor = Piece.WHITE;
+					else iColor = Piece.BLACK;
 					
 					int iNewTurn = iTurn;
-					if (iColor == piece.BLACK) iNewTurn++;
+					if (iColor == Piece.BLACK) iNewTurn++;
 					
 					System.out.println("iTurn:" + iTurn + " iColor: " + iColor);
 					
@@ -293,8 +290,8 @@ public class fulfiller
 					cbx.init_from_FEN(sFEN);
 					
 					int iColor = -1;
-					if (sFEN.indexOf(" w" ) != -1) iColor = piece.WHITE;
-					else iColor = piece.BLACK;
+					if (sFEN.indexOf(" w" ) != -1) iColor = Piece.WHITE;
+					else iColor = Piece.BLACK;
 					
 					cbx.domove(sWMComp[j],iColor);
 					cbx.dump();
@@ -302,7 +299,7 @@ public class fulfiller
 					String sNewFEN = cbx.FEN();
 					
 					int iNewTurn = iTurn;
-					if (iColor == piece.BLACK) iNewTurn++;
+					if (iColor == Piece.BLACK) iNewTurn++;
 					System.out.println("iNewTurn:" + iNewTurn);
 					
 					sNewFEN = sNewFEN.substring(0,sNewFEN.length()-2).trim() + " "+iNewTurn;
@@ -332,8 +329,8 @@ public class fulfiller
 				cbx.init_from_FEN(sFEN);
 				
 				int iC = -1;
-				if (sFEN.indexOf(" w" ) != -1) iC = piece.WHITE;
-				else iC = piece.BLACK;
+				if (sFEN.indexOf(" w" ) != -1) iC = Piece.WHITE;
+				else iC = Piece.BLACK;
 				
 				cbx.redoVectorsAndCoverages(iC, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
 				
@@ -416,8 +413,8 @@ public class fulfiller
 							cbx.init_from_FEN(sFEN);
 							
 							int iColor = -1;
-							if (sFEN.indexOf(" w" ) != -1) iColor = piece.WHITE;
-							else iColor = piece.BLACK;
+							if (sFEN.indexOf(" w" ) != -1) iColor = Piece.WHITE;
+							else iColor = Piece.BLACK;
 							
 							cbx.domove(sMPC[j],iColor);
 							cbx.dump();
@@ -425,7 +422,7 @@ public class fulfiller
 							String sNewFEN = cbx.FEN();
 							
 							int iNewTurn = iTurn;
-							if (iColor == piece.BLACK) iNewTurn++;
+							if (iColor == Piece.BLACK) iNewTurn++;
 							System.out.println("iNewTurn:" + iNewTurn);
 							
 							sNewFEN = sNewFEN.substring(0,sNewFEN.length()-2).trim() + " "+iNewTurn;

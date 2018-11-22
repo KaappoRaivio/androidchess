@@ -2,7 +2,7 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-public class piece
+public class Piece
 {
 	int xk;
 	int yk;
@@ -52,7 +52,7 @@ public class piece
 	static final int EXTEND_SUPER = 1;
 	static final int EXTEND_SKEWER = 2;
 	
-	piece (int x, int y, int col)
+	Piece(int x, int y, int col)
 	{
 		xk = x;
 		yk = y;
@@ -142,7 +142,7 @@ public class piece
 		
 		if ((xk < 1) || (xk >8) || (yk <1) || (yk > 8)) return TRY_FALSE;
 		
-		piece p = cb.blocks[xk][yk];
+		Piece p = cb.blocks[xk][yk];
 		
 		/*
 		if (iType == piece.KING) 
@@ -256,10 +256,10 @@ public class piece
 		p.bThreat = true;
 		p.iThreatCount++;
 		p.setThrDirFlags(this);
-		if (p.iType == piece.KING)
+		if (p.iType == Piece.KING)
 		{
 			//System.out.println("DBG 141028 KING UNDER THREAT!!!");
-			if (p.iColor == piece.WHITE) cb.bWhiteKingThreat = true;
+			if (p.iColor == Piece.WHITE) cb.bWhiteKingThreat = true;
 			else cb.bBlackKingThreat = true;
 			//cb.dump();
 			//System.out.println("DBG141028 KING UNDER THREAT DONE !!!!");
@@ -345,7 +345,7 @@ public class piece
 		return moveVector(cb);
 	}
 	
-	boolean couldhit( piece p)
+	boolean couldhit( Piece p)
 	{
 		boolean bFound = false;
 		
@@ -401,7 +401,7 @@ public class piece
 		{
 			move m = (move)v.elementAt(i);
 			
-			piece pt = cb.blocks[m.xtar][m.ytar];
+			Piece pt = cb.blocks[m.xtar][m.ytar];
 			
 			bPinned = true;
 			
@@ -410,7 +410,7 @@ public class piece
 				v.remove(i);
 				i--;
 				//System.out.println("DBG150207: piece.validatePinMoves(): RPM removed move " + m.moveStr() + " due to pinning. bPinned=" + bPinned);
-				piece ptarg = cb.blocks[m.xtar][m.ytar];
+				Piece ptarg = cb.blocks[m.xtar][m.ytar];
 				if (ptarg != null)
 				{
 					//System.out.println("DBG150207: piece.validatePinMoves() ptarg iThreatCount=" + ptarg.iThreatCount + " bThreat=" + ptarg.bThreat);
@@ -419,7 +419,7 @@ public class piece
 				}
 				else
 				{
-					if (iColor == piece.WHITE)
+					if (iColor == Piece.WHITE)
 					{
 						cb.iWhiteStrike[m.xtar][m.ytar]--;
 					}
@@ -439,7 +439,7 @@ public class piece
 			{
 				move m = (move)mSuperVector.elementAt(i);
 				//System.out.println("DBG150320: pinned supermove to:" + m.xtar + "," + m.ytar);
-				if (iColor == piece.WHITE)
+				if (iColor == Piece.WHITE)
 				{
 					cb.iWhiteStrike[m.xtar][m.ytar]--;
 				}
@@ -455,7 +455,7 @@ public class piece
 		
 	}
 	
-	boolean moveinline(move m, piece p)
+	boolean moveinline(move m, Piece p)
 	{
 		if (xk == p.xk)
 		{
@@ -492,7 +492,7 @@ public class piece
         return (Math.abs(xdiff) == Math.abs(ydiff)) && (Math.abs(mxdiff) == Math.abs(mydiff));
     }
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		return false;
 	}
@@ -521,19 +521,19 @@ public class piece
 			x = this.xk;
 			while ((y>0) && (y<9))
 			{
-				piece p = cb.blocks[x][y];
+				Piece p = cb.blocks[x][y];
 				if (p != null)
 				{
 					if ((p.iColor == this.iColor) &&
-					   ((p.iType == piece.ROOK) || (p.iType == piece.QUEEN)))
+					   ((p.iType == Piece.ROOK) || (p.iType == Piece.QUEEN)))
 					{
 						//return true;
 						y = this.yk-js;
 						while ((y>0) && (y<9))
 						{
 							p = cb.blocks[x][y];
-							if ((p != null) && (p.iType == piece.KING) && (p.iColor != this.iColor)) return true;
-							if ((p != null) && (p.iType != piece.KING)) return false;
+							if ((p != null) && (p.iType == Piece.KING) && (p.iColor != this.iColor)) return true;
+							if ((p != null) && (p.iType != Piece.KING)) return false;
 						
 							y = y-js;
 						}
@@ -557,19 +557,19 @@ public class piece
 			
 			while ((x>0) && (x<9))
 			{
-				piece p = cb.blocks[x][y];
+				Piece p = cb.blocks[x][y];
 				if (p != null)
 				{
 					if ((p.iColor == this.iColor) &&
-					   ((p.iType == piece.ROOK) || (p.iType == piece.QUEEN)))
+					   ((p.iType == Piece.ROOK) || (p.iType == Piece.QUEEN)))
 					{
 						//return true;
 						x = this.xk-is;
 						while ((x>0) && (x<9))
 						{
 							p = cb.blocks[x][y];
-							if ((p != null) && (p.iType == piece.KING) && (p.iColor != this.iColor)) return true;
-							if ((p != null) && (p.iType != piece.KING)) return false;
+							if ((p != null) && (p.iType == Piece.KING) && (p.iColor != this.iColor)) return true;
+							if ((p != null) && (p.iType != Piece.KING)) return false;
 							
 							x = x -is;
 						}
@@ -596,12 +596,12 @@ public class piece
 			
 			while ((x>0) && (x<9) && (y>0) && (y<9))
 			{
-				piece p = cb.blocks[x][y];
+				Piece p = cb.blocks[x][y];
 				if (p != null)
 				{
 					//System.out.println("revcehck c: x:" + x + " y: " + y);
 					if ((p.iColor == this.iColor) &&
-					   ((p.iType == piece.BISHOP) || (p.iType == piece.QUEEN)))
+					   ((p.iType == Piece.BISHOP) || (p.iType == Piece.QUEEN)))
 					{ 
 						//return true;
 						x = this.xk-is;
@@ -609,8 +609,8 @@ public class piece
 						while ((x>0) && (x<9))
 						{
 							p = cb.blocks[x][y];
-							if ((p != null) && (p.iType == piece.KING) && (p.iColor != this.iColor)) return true;
-							if ((p != null) && (p.iType != piece.KING)) return false;
+							if ((p != null) && (p.iType == Piece.KING) && (p.iColor != this.iColor)) return true;
+							if ((p != null) && (p.iType != Piece.KING)) return false;
 							
 							x = x - is;
 							y = y - js;
@@ -628,7 +628,7 @@ public class piece
 		return false;
 	}
 	
-	piece canReachBrotherPiece(chessboard cb)
+	Piece canReachBrotherPiece(chessboard cb)
 	{
 		return null;
 	}
@@ -669,9 +669,9 @@ public class piece
 		
 		for (int iDir = 0; iDir < 8;iDir++)
 		{
-			if ((iType == piece.QUEEN) ||
-			    ((iType == piece.ROOK) && ((iDir % 2) == 0)) ||
-				((iType == piece.BISHOP) && ((iDir %2) == 1)))
+			if ((iType == Piece.QUEEN) ||
+			    ((iType == Piece.ROOK) && ((iDir % 2) == 0)) ||
+				((iType == Piece.BISHOP) && ((iDir %2) == 1)))
 			
 			{
 				for (int iStep = 1; iStep <= 7; iStep++)   // unbelievable, equality missing until 140412!!! 
@@ -681,7 +681,7 @@ public class piece
 				
 					if ((newX < 1) || (newX > 8) || (newY < 1) || (newY > 8)) break;
 				
-					piece p = cb.blocks[newX][newY];
+					Piece p = cb.blocks[newX][newY];
 					
 					if (p!=null)
 					{
@@ -699,7 +699,7 @@ public class piece
 	{
 		//System.out.println("DBG150207:bDecrementProtOfPiece("+xk+","+yk+") enter");
 		if ((xk<1) || (xk > 8) || (yk <1) || (yk >8)) return false;
-		piece p = cb.blocks[xk][yk];
+		Piece p = cb.blocks[xk][yk];
 		//System.out.println("DBG150207:bDecrementProtOfPiece() piece found.");
 		if ((p== null) || (p.iColor != iColor)) return false;
 		p.iProtCount--;
@@ -737,7 +737,7 @@ public class piece
 			}
 			
 			
-			piece p = cb.blocks[nx][ny];
+			Piece p = cb.blocks[nx][ny];
 			
 			if (p==null)
 			{
@@ -777,7 +777,7 @@ public class piece
 				}
 				else
 				{
-					piece p0 = cb.blocks[sx][sy];
+					Piece p0 = cb.blocks[sx][sy];
 					
 					/*
 					System.out.println("DBG150924: SKEW piece at :" + nx + "," + ny + " from : " + sx + "," + sy + " by type: " + iType + " s1type:" + p0.iType + " s2type: " + p.iType);
@@ -818,7 +818,7 @@ public class piece
 		
 	}
 	
-	void setThrDirFlags(piece thrpiece)
+	void setThrDirFlags(Piece thrpiece)
 	{
 	}
 	

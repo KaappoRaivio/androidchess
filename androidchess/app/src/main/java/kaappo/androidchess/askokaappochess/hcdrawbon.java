@@ -57,7 +57,7 @@ public class hcdrawbon
 				
 				switch (iColor)
 				{
-					case piece.WHITE:
+					case Piece.WHITE:
 						if ((cb.iHCDrawBonusBal < 0) && ((iEngScore >0) || (iEngMateScore > 0))) {
 							throw new RuntimeException("Exception on row 62 of hcdrawbon.java");
 						}
@@ -66,7 +66,7 @@ public class hcdrawbon
 						}
 						break;
 						
-					case piece.BLACK:
+					case Piece.BLACK:
 						if ((cb.iHCDrawBonusBal > 0) && ((iEngScore > 0) || (iEngMateScore > 0))) {
 							throw new RuntimeException("Exception on row 71 of hcdrawbon.java");
 						}
@@ -83,14 +83,14 @@ public class hcdrawbon
 	
 	public static int HCDrawBonType(chessboard cb)
 	{
-		if ((cb.iBlackPieceCount[piece.QUEEN] == 0) && 
-			(cb.iWhitePieceCount[piece.QUEEN] == 0) &&
-			(cb.iBlackPieceCount[piece.BISHOP] == 0) && 
-			(cb.iWhitePieceCount[piece.BISHOP] == 0) &&
-			(cb.iBlackPieceCount[piece.KNIGHT] == 0) && 
-			(cb.iWhitePieceCount[piece.KNIGHT] == 0) &&
-			(cb.iWhitePieceCount[piece.ROOK] + cb.iBlackPieceCount[piece.ROOK] == 1) &&
-			(cb.iWhitePieceCount[piece.PAWN] + cb.iBlackPieceCount[piece.PAWN] == 1)) return CASE_ROOK_VS_PAWN;
+		if ((cb.iBlackPieceCount[Piece.QUEEN] == 0) &&
+			(cb.iWhitePieceCount[Piece.QUEEN] == 0) &&
+			(cb.iBlackPieceCount[Piece.BISHOP] == 0) &&
+			(cb.iWhitePieceCount[Piece.BISHOP] == 0) &&
+			(cb.iBlackPieceCount[Piece.KNIGHT] == 0) &&
+			(cb.iWhitePieceCount[Piece.KNIGHT] == 0) &&
+			(cb.iWhitePieceCount[Piece.ROOK] + cb.iBlackPieceCount[Piece.ROOK] == 1) &&
+			(cb.iWhitePieceCount[Piece.PAWN] + cb.iBlackPieceCount[Piece.PAWN] == 1)) return CASE_ROOK_VS_PAWN;
 		
 		return NO_CASE;
 	}
@@ -108,22 +108,22 @@ public class hcdrawbon
 			case CASE_ROOK_VS_PAWN:
 				System.out.println("DBG160206:setHCDrawBon starts CASE_ROOK_VS_PAWN");
 				
-				if (cb.iWhitePieceCount[piece.ROOK] == 1) iColor = piece.WHITE;
-				else iColor = piece.BLACK;
+				if (cb.iWhitePieceCount[Piece.ROOK] == 1) iColor = Piece.WHITE;
+				else iColor = Piece.BLACK;
 				
 				king kOwn, kEnemy;
 				rook rr = null;
 				pawn pp = null;
 				
-				if (iColor == piece.WHITE)
+				if (iColor == Piece.WHITE)
 				{
-					kOwn = cb.locateKing(piece.WHITE);
-					kEnemy = cb.locateKing(piece.BLACK);
+					kOwn = cb.locateKing(Piece.WHITE);
+					kEnemy = cb.locateKing(Piece.BLACK);
 				}
 				else 
 				{
-					kOwn = cb.locateKing(piece.BLACK);
-					kEnemy = cb.locateKing(piece.WHITE);
+					kOwn = cb.locateKing(Piece.BLACK);
+					kEnemy = cb.locateKing(Piece.WHITE);
 				}
 				
 				for (int i=1;i<=8;i++)
@@ -131,9 +131,9 @@ public class hcdrawbon
 				{
 					if (cb.blocks[i][j] != null)
 					{
-						piece p = cb.blocks[i][j];
-						if (p.iType == piece.ROOK) rr = (rook)cb.blocks[i][j];
-						if (p.iType == piece.PAWN) pp = (pawn)cb.blocks[i][j];
+						Piece p = cb.blocks[i][j];
+						if (p.iType == Piece.ROOK) rr = (rook)cb.blocks[i][j];
+						if (p.iType == Piece.PAWN) pp = (pawn)cb.blocks[i][j];
 					}
 				}
 				
@@ -155,8 +155,8 @@ public class hcdrawbon
 						if (kEnemy.xk == pp.xk)
 						{
 							
-							if (((iColor == piece.WHITE) && (kEnemy.yk<pp.yk) && (kEnemy.yk<=3)) ||
-							    ((iColor == piece.BLACK) && (kEnemy.yk>pp.yk) && (kEnemy.yk >=6))) 
+							if (((iColor == Piece.WHITE) && (kEnemy.yk<pp.yk) && (kEnemy.yk<=3)) ||
+							    ((iColor == Piece.BLACK) && (kEnemy.yk>pp.yk) && (kEnemy.yk >=6)))
 							{
 								System.out.println("setHCDrawBon / AA");
 								if (((Math.abs(kOwn.xk-pp.xk) >= 2) && (Math.abs(kOwn.yk-pp.yk) >= 2)) ||
@@ -184,12 +184,12 @@ public class hcdrawbon
 						else
 						{
 							System.out.println("kenemy xk!=ppxk, diff sides, icolor:" + iColor + " iturn:" + iTurn+ " pp.yk:" + pp.yk);
-							if (((iColor == piece.BLACK) && (pp.yk == 7)) ||
-								((iColor == piece.WHITE) && (pp.yk == 2)))
+							if (((iColor == Piece.BLACK) && (pp.yk == 7)) ||
+								((iColor == Piece.WHITE) && (pp.yk == 2)))
 							{
 								System.out.println("But close to promo. icolor:" + iColor + " iTurn:" + iTurn);
 								int iPromDist, pynext, pynext2;
-								if (iColor==piece.BLACK) 
+								if (iColor== Piece.BLACK)
 								{
 									iPromDist = 8-pp.yk;
 									pynext = pp.yk+1;
@@ -226,7 +226,7 @@ public class hcdrawbon
 								if (iColor != iTurn) iEnturn = 1;
 								int iPromDist,pynext,pynext2;
 								
-								if (iColor==piece.BLACK) 
+								if (iColor== Piece.BLACK)
 								{
 									iPromDist = 8-pp.yk;
 									pynext = pp.yk+1;
@@ -260,7 +260,7 @@ public class hcdrawbon
 						// both kings on same side
 						
 						int iPawnDistance;
-						if (iColor == piece.WHITE) iPawnDistance = (pp.yk-1)*2;
+						if (iColor == Piece.WHITE) iPawnDistance = (pp.yk-1)*2;
 						else iPawnDistance=(8-pp.yk) * 2;
 						
 						System.out.println("setHCDrawBon / B, pawndistance:" + iPawnDistance + " kEnDist:"+Math.abs(kEnemy.xk-pp.xk));
@@ -270,7 +270,7 @@ public class hcdrawbon
 						{
 							int iPromDist;
 							int pynext, pynext2;
-							if (iColor==piece.BLACK) 
+							if (iColor== Piece.BLACK)
 							{
 								iPromDist = 8-pp.yk;
 								pynext = pp.yk+1;
@@ -303,7 +303,7 @@ public class hcdrawbon
 					int kOwnDist = Math.max(Math.abs(kOwn.xk-pp.xk),Math.abs(kOwn.yk-pp.yk));
 					int iPromDist;
 					int pynext, pynext2;
-					if (iColor==piece.BLACK) 
+					if (iColor== Piece.BLACK)
 					{
 						iPromDist = 8-pp.yk;
 						pynext = pp.yk+1;
@@ -435,8 +435,8 @@ public class hcdrawbon
 						{
 							//if (Math.abs(py-oky) > 1) bOK = true;
 							if ((Math.abs(px-okx) > 1) || (Math.abs(px-okx) == 0)) bOK = true;
-							if ((iTurn == piece.WHITE) && (py != oky-1)) bOK = true;
-							if ((iTurn == piece.BLACK) && (py != oky+1)) bOK = true;
+							if ((iTurn == Piece.WHITE) && (py != oky-1)) bOK = true;
+							if ((iTurn == Piece.BLACK) && (py != oky+1)) bOK = true;
 						}
 						
 					}

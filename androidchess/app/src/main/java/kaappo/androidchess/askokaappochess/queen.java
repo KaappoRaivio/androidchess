@@ -2,12 +2,12 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-public class queen extends piece
+public class queen extends Piece
 {
 	queen (int x, int y, int col)
 	{
 		super (x,y,col);
-		iType = piece.QUEEN;		
+		iType = Piece.QUEEN;
 	}
 	
 	int pvalue()
@@ -41,7 +41,7 @@ public class queen extends piece
 		return mv;
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		if (k==null) return false;
 		
@@ -72,7 +72,7 @@ public class queen extends piece
 			
 			while ((x>0) && (x<9) && (y>0) && (y<9))
 			{
-				piece p = cb.blocks[x][y];
+				Piece p = cb.blocks[x][y];
 				if (p != null)
 				{
                     return (x == k.xk) && (y == k.yk);
@@ -99,14 +99,14 @@ public class queen extends piece
 		
 	}
 	
-	void setThrDirFlags(piece thrpiece)
+	void setThrDirFlags(Piece thrpiece)
 	{
-		if ((thrpiece.iType == piece.PAWN) || (thrpiece.iType == piece.KNIGHT) || (thrpiece.iType == piece.KING)) return;
+		if ((thrpiece.iType == Piece.PAWN) || (thrpiece.iType == Piece.KNIGHT) || (thrpiece.iType == Piece.KING)) return;
 		
-		int iThrDir = piece.getDir(thrpiece.xk,thrpiece.yk,xk,yk);
+		int iThrDir = Piece.getDir(thrpiece.xk,thrpiece.yk,xk,yk);
 		
-		if ((thrpiece.iType == piece.BISHOP) && (iThrDir%2 == 0)) return;
-		if ((thrpiece.iType == piece.ROOK) && (iThrDir%2 == 1)) return;
+		if ((thrpiece.iType == Piece.BISHOP) && (iThrDir%2 == 0)) return;
+		if ((thrpiece.iType == Piece.ROOK) && (iThrDir%2 == 1)) return;
 		
 		//System.out.print("queen.setThrDirFlags(): " +xk+"," + yk + "  ThrDir:" + iThrDir + " prioflags: " + iThrDirFlags);
 		
@@ -116,7 +116,7 @@ public class queen extends piece
 	
 	boolean bEscMoveisSafe(move esm)
 	{
-		int iEsmDir = piece.getDir(xk,yk,esm.xtar,esm.ytar);
+		int iEsmDir = Piece.getDir(xk,yk,esm.xtar,esm.ytar);
 		
 		//System.out.println(esm.moveStr()+" dir:" + iEsmDir);
         return ((int) Math.pow(2, iEsmDir) & iThrDirFlags) == 0;

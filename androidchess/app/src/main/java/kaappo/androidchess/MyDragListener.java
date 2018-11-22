@@ -1,11 +1,7 @@
 package kaappo.androidchess;
 
-import android.graphics.drawable.Drawable;
 import android.view.DragEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.Vector;
@@ -13,9 +9,7 @@ import java.util.Vector;
 import kaappo.androidchess.askokaappochess.TtyUI;
 import kaappo.androidchess.askokaappochess.chessboard;
 import kaappo.androidchess.askokaappochess.move;
-import kaappo.androidchess.askokaappochess.piece;
-
-import static java.lang.Thread.yield;
+import kaappo.androidchess.askokaappochess.Piece;
 
 public class MyDragListener implements View.OnDragListener {
 
@@ -88,7 +82,7 @@ public class MyDragListener implements View.OnDragListener {
 
         chessboard chessboard = MyDragListener.ttyUI.getmCb();
 
-        piece p = chessboard.blocks[x1][y1];
+        Piece p = chessboard.blocks[x1][y1];
         boolean bValid = false;
 
 

@@ -219,7 +219,7 @@ class gamehistoryentry
 	
 	void dump_to_file(PrintWriter p)
 	{
-		if (icolor == piece.WHITE) p.print("WHITE");
+		if (icolor == Piece.WHITE) p.print("WHITE");
 		else p.print("BLACK");
 		p.println(" move " + cb.lastmoveString() + " at " + new Timestamp(ts));
 		cb.dump_to_file(p);

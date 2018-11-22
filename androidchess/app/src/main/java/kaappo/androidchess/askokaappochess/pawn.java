@@ -3,14 +3,14 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-public class pawn extends piece
+public class pawn extends Piece
 {
 	//static int pmvc_b2 = 0;
 	
 	pawn (int x, int y, int col)
 	{
 		super (x,y,col);
-		iType = piece.PAWN;		
+		iType = Piece.PAWN;
 	}
 	
 	int pvalue()
@@ -41,11 +41,11 @@ public class pawn extends piece
 		}
 		*/
 		
-		if (iColor == piece.WHITE) ny = yk+1;
+		if (iColor == Piece.WHITE) ny = yk+1;
 		else ny = yk - 1;
 
 		//System.out.println("pawn.moveVector(cb) : " + xk + "," + ny);
-		piece p = cb.blocks[xk][ny];
+		Piece p = cb.blocks[xk][ny];
 		if (p == null)
 		{
 			move m = new move(xk,ny,false,0, this);
@@ -58,8 +58,8 @@ public class pawn extends piece
 		}
 		//else System.out.println("Piece is not null at:" + xk + "," + ny);
 		
-		if ((yk == 2) && (iColor==piece.WHITE)) ny2 = yk+2;
-		if ((yk == 7) && (iColor==piece.BLACK)) ny2 = yk-2;
+		if ((yk == 2) && (iColor== Piece.WHITE)) ny2 = yk+2;
+		if ((yk == 7) && (iColor== Piece.BLACK)) ny2 = yk-2;
 		
 		if ((ny2 != 0) && (p == null))
 		{
@@ -88,9 +88,9 @@ public class pawn extends piece
 			
 			if ((p.iMinThreat == 0) || (p.iMinThreat > this.pvalue())) p.iMinThreat = this.pvalue();
 			
-			if (p.iType == piece.KING)
+			if (p.iType == Piece.KING)
 			{
-				if (p.iColor == piece.WHITE) cb.bWhiteKingThreat = true;
+				if (p.iColor == Piece.WHITE) cb.bWhiteKingThreat = true;
 				else cb.bBlackKingThreat = true;
 			}
 		}
@@ -117,9 +117,9 @@ public class pawn extends piece
 				p.iThreatCount++;
 				if ((p.iMinThreat == 0) || (p.iMinThreat > this.pvalue())) p.iMinThreat = this.pvalue();
 				
-				if (p.iType == piece.KING)
+				if (p.iType == Piece.KING)
 				{
-					if (p.iColor == piece.WHITE) cb.bWhiteKingThreat = true;
+					if (p.iColor == Piece.WHITE) cb.bWhiteKingThreat = true;
 					else cb.bBlackKingThreat = true;
 				}
 			}
@@ -145,7 +145,7 @@ public class pawn extends piece
 		//	we can do en passant -> one row behind enemy pawn
 		//	new move with capture = true
 		
-		if ((((yk ==5) && (iColor == piece.WHITE)) || ((yk == 4) && (iColor == piece.BLACK))) && (cb.lastmoveString() != null))
+		if ((((yk ==5) && (iColor == Piece.WHITE)) || ((yk == 4) && (iColor == Piece.BLACK))) && (cb.lastmoveString() != null))
 		{
 			//System.out.println("EPC check active for " + xk + "," + yk + " last move " + cb.lastmoveString());
 			String sLast = cb.lastmoveString();
@@ -155,11 +155,11 @@ public class pawn extends piece
 			
 			if (cb.blocks[lx2][ly2] != null)
 			{
-				piece pe = (piece)cb.blocks[lx2][ly2];
-				if ((pe.iType == piece.PAWN) && (pe.iColor != iColor) && (Math.abs(ly1-ly2) == 2) && (Math.abs(xk-lx2) == 1))
+				Piece pe = (Piece)cb.blocks[lx2][ly2];
+				if ((pe.iType == Piece.PAWN) && (pe.iColor != iColor) && (Math.abs(ly1-ly2) == 2) && (Math.abs(xk-lx2) == 1))
 				{
 					int ty = -1;
-					if (iColor == piece.WHITE) ty = 6 ;
+					if (iColor == Piece.WHITE) ty = 6 ;
 					else ty = 3;
 					
 					//System.out.println("DBG En passant possible! col:" + iColor +"  (" + xk + "," + yk+ ") to " + lx2 +"," + ty +")" );
@@ -181,8 +181,8 @@ public class pawn extends piece
 		//dumpmoveVector(mv);
 		
 		
-		if (((iColor == piece.WHITE) && (ny == 8)) ||
-			((iColor == piece.BLACK) && (ny == 1))) mv = addUnderPromotions(mv);
+		if (((iColor == Piece.WHITE) && (ny == 8)) ||
+			((iColor == Piece.BLACK) && (ny == 1))) mv = addUnderPromotions(mv);
 		 
 		
 		//if ((iColor ==0) && (xk==4) && (yk==4)) 
@@ -200,16 +200,16 @@ public class pawn extends piece
 		{
 			move m=(move)v.elementAt(i);
 			move mn = m.copy();
-			mn.iPromTo = piece.QUEEN;
+			mn.iPromTo = Piece.QUEEN;
 			retv.addElement(mn);
 			mn = m.copy();
-			mn.iPromTo = piece.ROOK;
+			mn.iPromTo = Piece.ROOK;
 			retv.addElement(mn);
 			mn = m.copy();
-			mn.iPromTo = piece.BISHOP;
+			mn.iPromTo = Piece.BISHOP;
 			retv.addElement(mn);
 			mn = m.copy();
-			mn.iPromTo = piece.KNIGHT;
+			mn.iPromTo = Piece.KNIGHT;
 			retv.addElement(mn);
 		}
 		return retv;
@@ -218,13 +218,13 @@ public class pawn extends piece
 	Vector threatVector(chessboard cb)
 	{
 		Vector tv = new Vector();
-		piece p = null;
+		Piece p = null;
 		
 		int ny;
 		
 		//if (iColor == piece.BLACK) System.out.println("DBG: pawn.threatVector() enter :" + xk +"," + yk);
 		
-		if (iColor == piece.WHITE) ny = yk+1;
+		if (iColor == Piece.WHITE) ny = yk+1;
 		else ny = yk - 1;
 
 		if ((ny > 0) && (ny < 9))
@@ -263,7 +263,7 @@ public class pawn extends piece
 		
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		if (k==null) return false;
 		
@@ -275,8 +275,8 @@ public class pawn extends piece
 		if ((k.iColor == piece.WHITE) && (yk>k.yk)) return true;
 		if ((k.iColor == piece.BLACK) && (yk<k.yk)) return true;
 		*/
-		if ((iColor == piece.WHITE) && (yk<k.yk)) return true;
-        return (iColor == piece.BLACK) && (yk > k.yk);
+		if ((iColor == Piece.WHITE) && (yk<k.yk)) return true;
+        return (iColor == Piece.BLACK) && (yk > k.yk);
 		
 		//return revealsChecker(k,cb);
     }
@@ -306,8 +306,8 @@ public class pawn extends piece
 		int lmx = ((int)cb.lm_vector.elementAt(2));
 		int lmy = ((int)cb.lm_vector.elementAt(3));
 		
-		piece pp = cb.blocks[lmx][lmy];
-		if (pp.iType != piece.PAWN)
+		Piece pp = cb.blocks[lmx][lmy];
+		if (pp.iType != Piece.PAWN)
 		{
 			System.out.println("FATAL ERROR at pawn.validatePinMoves()");
 			throw new RuntimeException("FATAL ERROR at pawn.validatePinMoves()");
@@ -328,20 +328,20 @@ public class pawn extends piece
 		
 		if ((xk == 1) || (xk ==8)) return;
 		int yy;
-		if (iColor == piece.WHITE) yy=yk+2;
+		if (iColor == Piece.WHITE) yy=yk+2;
 		else yy=yk-2;
 		
 		if ((yy>8) || (yy<1)) return;
 		
 		//System.out.println("DBG160113: setPawnFork() at A for: " + m.moveStr() + "  xk=" + xk + " yy=" + yy );
 		
-		piece p1 = cb.blocks[xk-1][yy];
+		Piece p1 = cb.blocks[xk-1][yy];
 		
 		if ((p1 == null)  || (p1.iColor == iColor) || (p1.pvalue() < 3)) return;
 		
 		//System.out.println("DBG160113: setPawnFork() at B for: " + m.moveStr());
 		
-		piece p2 = cb.blocks[xk+1][yy];
+		Piece p2 = cb.blocks[xk+1][yy];
 		if ((p2 == null)  || (p2.iColor == iColor) || (p2.pvalue() < 3)) return;
 		
 		//System.out.println("DBG160113: setPawnFork() SET for: " + m.moveStr());
@@ -353,17 +353,17 @@ public class pawn extends piece
 	{
 		int iDir;
 		
-		if (iColor == piece.BLACK) iDir = 1;
+		if (iColor == Piece.BLACK) iDir = 1;
 		else iDir = -1;
 		
 		int ii = yk+iDir;
 		while ((ii>0) && (ii<9))
 		{
-			piece px = cb.blocks[xk][ii];
+			Piece px = cb.blocks[xk][ii];
 			if (px !=null)
 			{
 				if (px.iColor != iColor) return false;
-				if ((px.iType != piece.ROOK) && (px.iType != piece.QUEEN)) return false;
+				if ((px.iType != Piece.ROOK) && (px.iType != Piece.QUEEN)) return false;
                 return px.iPinValue <= 0;
             }
 			

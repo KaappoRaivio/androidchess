@@ -1,14 +1,14 @@
 package kaappo.androidchess.askokaappochess;
 import java.util.*;
 
-public class king extends piece
+public class king extends Piece
 {
 	
 	king (int x, int y, int col)
 	{
 		super (x,y,col);
 		//System.out.println("King created at " + x + "," + y);
-		iType = piece.KING;		
+		iType = Piece.KING;
 	}
 	
 	int pvalue()
@@ -34,16 +34,16 @@ public class king extends piece
 		
 		//System.out.println("DBG: returning king movevector @0: " + xk + "," + yk);
 		
-		trymoveat(xk-1,yk-1,mv,cb, piece.NO_DIR);
-		trymoveat(xk,yk-1,mv,cb, piece.NO_DIR);
-		trymoveat(xk+1,yk-1,mv,cb, piece.NO_DIR);
+		trymoveat(xk-1,yk-1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk,yk-1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk+1,yk-1,mv,cb, Piece.NO_DIR);
 		//System.out.println("DBG:King moveVector size @l3: " + mv.size());
-		trymoveat(xk+1,yk,mv,cb, piece.NO_DIR);
+		trymoveat(xk+1,yk,mv,cb, Piece.NO_DIR);
 		//System.out.println("DBG:King moveVector size @14: " + mv.size());
-		trymoveat(xk+1,yk+1,mv,cb, piece.NO_DIR);
-		trymoveat(xk,yk+1,mv,cb, piece.NO_DIR);
-		trymoveat(xk-1,yk+1,mv,cb, piece.NO_DIR);
-		trymoveat(xk-1,yk,mv,cb, piece.NO_DIR);
+		trymoveat(xk+1,yk+1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk,yk+1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk-1,yk+1,mv,cb, Piece.NO_DIR);
+		trymoveat(xk-1,yk,mv,cb, Piece.NO_DIR);
 		
 		// castling code 
 		
@@ -53,7 +53,7 @@ public class king extends piece
 			// king is in place, try long castling
 			//if (yk==1 )System.out.println("DBG150602: white king castling code: iLastMove:" + iLastMove);
 			if (cb.blocks[1][yk] != null)
-				if ((cb.blocks[1][yk].iType == piece.ROOK) && 
+				if ((cb.blocks[1][yk].iType == Piece.ROOK) &&
 					(cb.blocks[1][yk].iColor == iColor) && 
 					(cb.blocks[2][yk] == null) && 
 					(cb.blocks[3][yk] == null) && 
@@ -63,13 +63,13 @@ public class king extends piece
 					(notCovered(xk-1,yk,iColor,cb)) &&
 					(notCovered(xk-2,yk,iColor,cb) ))  
 					// (cb.iCountCheckers(this) == 0) )  countcheckers will call this method again -> no good
-					trymoveat(xk-2,yk,mv,cb, piece.NO_DIR);
+					trymoveat(xk-2,yk,mv,cb, Piece.NO_DIR);
 			
 			// king is in place, try short castling
 			if (cb.blocks[8][yk] != null)
 			{
 				//if (yk==1) System.out.println("DBG150602 White King Castle SPOT 2: "+cb.blocks[8][yk].iLastMove + ";"+ cb.blocks[8][yk].iType+";"+cb.blocks[8][yk].iColor+";"+(cb.blocks[7][yk] == null)+";"+(cb.blocks[6][yk] == null)+";"+(notCovered(xk+1,yk,iColor,cb))+";"+(notCovered(xk+2,yk,iColor,cb)));
-				if ((cb.blocks[8][yk].iType == piece.ROOK) && 
+				if ((cb.blocks[8][yk].iType == Piece.ROOK) &&
 					(cb.blocks[8][yk].iColor == iColor) && 
 					(cb.blocks[7][yk] == null) && 
 					(cb.blocks[6][yk] == null) &&
@@ -79,7 +79,7 @@ public class king extends piece
 					(notCovered(xk+2,yk,iColor,cb) ) ) 
 					//(cb.iCountCheckers(this) == 0))  countcheckers will call this method again -> no good
 					{
-						trymoveat(xk+2,yk,mv,cb, piece.NO_DIR);
+						trymoveat(xk+2,yk,mv,cb, Piece.NO_DIR);
 					}
 			}
 			// $$$ need to check whether any of squares are under threat ... coverage bits would probably work here
@@ -136,7 +136,7 @@ public class king extends piece
 		cb.dbgPrintln("Coverage dump:");
 		//cb.dumpCoverages();
 		
-		if (iColor == piece.WHITE) dropArray = cb.bBlackCoverage;
+		if (iColor == Piece.WHITE) dropArray = cb.bBlackCoverage;
 		else dropArray = cb.bWhiteCoverage;
 		
 		for (int i=0; i<mv.size();i++)
@@ -164,7 +164,7 @@ public class king extends piece
 			}
 			else 
 			{
-				piece p = cb.blocks[m.xtar][m.ytar];
+				Piece p = cb.blocks[m.xtar][m.ytar];
 				if ((p != null) && (p.iColor != iColor) && p.bProt)
 				{
 					mv.remove(i);
@@ -181,7 +181,7 @@ public class king extends piece
 	
 	boolean notCovered(int i, int j, int iColor, chessboard cb)
 	{
-		if (iColor == piece.WHITE)
+		if (iColor == Piece.WHITE)
 		{
 			return !cb.bBlackCoverage[i][j];
 		}
@@ -191,7 +191,7 @@ public class king extends piece
 		}
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
         return (Math.abs(k.xk - xk) <= 1) && (Math.abs(k.yk - yk) <= 1);
 		//return false;
@@ -238,7 +238,7 @@ public class king extends piece
 			{
 				System.out.print(" vertical vulnerability!");
 				moveindex miother;
-				if (iColor == piece.WHITE) miother = cb.miBlackMoveindex;
+				if (iColor == Piece.WHITE) miother = cb.miBlackMoveindex;
 				else miother = cb.miWhiteMoveindex;
 				// a rook or queen, left or right!
 				// queen, bishop or pawn, one up
@@ -249,16 +249,16 @@ public class king extends piece
 				for (int i=0;i<miother.getSize();i++)
 				{
 					move moth=miother.getMoveAt(i);
-					if (((moth.p.iType == piece.ROOK) || (moth.p.iType == piece.QUEEN)) && (moth.xtar == m0.xtar) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
-					if (((moth.p.iType == piece.BISHOP) || (moth.p.iType == piece.QUEEN)) && (moth.xtar == iMp) && (moth.ytar==yk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
-					if ((moth.p.iType == piece.KNIGHT) && ((moth.ytar == i2Mp) || (moth.ytar == iMm) ) && (moth.ytar==yk) && (!m0.bRisky)) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if (((moth.p.iType == Piece.ROOK) || (moth.p.iType == Piece.QUEEN)) && (moth.xtar == m0.xtar) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if (((moth.p.iType == Piece.BISHOP) || (moth.p.iType == Piece.QUEEN)) && (moth.xtar == iMp) && (moth.ytar==yk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if ((moth.p.iType == Piece.KNIGHT) && ((moth.ytar == i2Mp) || (moth.ytar == iMm) ) && (moth.ytar==yk) && (!m0.bRisky)) System.out.println("VULMOVE!"+moth.moveStrLong());
 				}
 			}
 			if (m0.ytar == m1.ytar) 
 			{
 				System.out.print(" horizontal vulnerability check!");
 				moveindex miother;
-				if (iColor == piece.WHITE) miother = cb.miBlackMoveindex;
+				if (iColor == Piece.WHITE) miother = cb.miBlackMoveindex;
 				else miother = cb.miWhiteMoveindex;
 				// a rook or queen, left or right!
 				// queen, bishop or pawn, one up
@@ -270,12 +270,12 @@ public class king extends piece
 				for (int i=0;i<miother.getSize();i++)
 				{
 					move moth=miother.getMoveAt(i);
-					if (((moth.p.iType == piece.ROOK) || (moth.p.iType == piece.QUEEN)) && (moth.ytar == m0.ytar) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
-					if (((moth.p.iType == piece.BISHOP) || (moth.p.iType == piece.QUEEN)) && (moth.ytar == iUp) && (moth.xtar==xk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
-					if ((moth.p.iType == piece.KNIGHT) && ((moth.ytar == i2Up) || (moth.ytar == i2D) ) && (moth.xtar==xk) && (!m0.bRisky)) System.out.println("VULMOVE!"+moth.moveStrLong());
-					if (((iColor == piece.BLACK) && (iUp < yk) ) || (((iColor == piece.WHITE) && (iUp > yk) )))
+					if (((moth.p.iType == Piece.ROOK) || (moth.p.iType == Piece.QUEEN)) && (moth.ytar == m0.ytar) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if (((moth.p.iType == Piece.BISHOP) || (moth.p.iType == Piece.QUEEN)) && (moth.ytar == iUp) && (moth.xtar==xk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if ((moth.p.iType == Piece.KNIGHT) && ((moth.ytar == i2Up) || (moth.ytar == i2D) ) && (moth.xtar==xk) && (!m0.bRisky)) System.out.println("VULMOVE!"+moth.moveStrLong());
+					if (((iColor == Piece.BLACK) && (iUp < yk) ) || (((iColor == Piece.WHITE) && (iUp > yk) )))
 					{
-						if ((moth.p.iType == piece.PAWN) && (moth.ytar == iUp) && (moth.xtar==xk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
+						if ((moth.p.iType == Piece.PAWN) && (moth.ytar == iUp) && (moth.xtar==xk) && (!m0.bRisky) ) System.out.println("VULMOVE!"+moth.moveStrLong());
 					}
 					
 				}

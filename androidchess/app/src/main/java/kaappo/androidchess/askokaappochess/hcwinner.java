@@ -23,68 +23,68 @@ public class hcwinner
 	{
 		if (!bHcwEnabled) return HCW_NONE;
 		
-		if (iTurn == piece.WHITE)
+		if (iTurn == Piece.WHITE)
 		{
-			if ((cb.iBlackPieceCount[piece.QUEEN] != 0) ||
-			    (cb.iBlackPieceCount[piece.ROOK] != 0) ||
-				(cb.iBlackPieceCount[piece.BISHOP] != 0) ||
-				(cb.iBlackPieceCount[piece.KNIGHT] != 0) || 
-				(cb.iBlackPieceCount[piece.PAWN] != 0)) return HCW_NONE;
+			if ((cb.iBlackPieceCount[Piece.QUEEN] != 0) ||
+			    (cb.iBlackPieceCount[Piece.ROOK] != 0) ||
+				(cb.iBlackPieceCount[Piece.BISHOP] != 0) ||
+				(cb.iBlackPieceCount[Piece.KNIGHT] != 0) ||
+				(cb.iBlackPieceCount[Piece.PAWN] != 0)) return HCW_NONE;
 		
-			if ((cb.iWhitePieceCount[piece.QUEEN] == 0) &&
-				(cb.iWhitePieceCount[piece.ROOK] == 0)) return HCW_NONE;
+			if ((cb.iWhitePieceCount[Piece.QUEEN] == 0) &&
+				(cb.iWhitePieceCount[Piece.ROOK] == 0)) return HCW_NONE;
 				
-			if (cb.iWhitePieceCount[piece.ROOK] == 1) 
+			if (cb.iWhitePieceCount[Piece.ROOK] == 1)
 			{
-				if ((cb.iWhitePieceCount[piece.QUEEN] != 0) ||
-					(cb.iWhitePieceCount[piece.BISHOP] != 0) ||
-					(cb.iWhitePieceCount[piece.KNIGHT] != 0)) return HCW_NONE;
+				if ((cb.iWhitePieceCount[Piece.QUEEN] != 0) ||
+					(cb.iWhitePieceCount[Piece.BISHOP] != 0) ||
+					(cb.iWhitePieceCount[Piece.KNIGHT] != 0)) return HCW_NONE;
 				
-				if (cb.iWhitePieceCount[piece.PAWN] != 0) return HCW_ROOK_AND_PAWNS;
+				if (cb.iWhitePieceCount[Piece.PAWN] != 0) return HCW_ROOK_AND_PAWNS;
 				
 				return HCW_ROOK_ALONE;
 			}
 			
-			if (cb.iWhitePieceCount[piece.QUEEN] == 1) 
+			if (cb.iWhitePieceCount[Piece.QUEEN] == 1)
 			{
-				if ((cb.iWhitePieceCount[piece.ROOK] != 0) ||
-					(cb.iWhitePieceCount[piece.BISHOP] != 0) ||
-					(cb.iWhitePieceCount[piece.KNIGHT] != 0)) return HCW_NONE;
+				if ((cb.iWhitePieceCount[Piece.ROOK] != 0) ||
+					(cb.iWhitePieceCount[Piece.BISHOP] != 0) ||
+					(cb.iWhitePieceCount[Piece.KNIGHT] != 0)) return HCW_NONE;
 				
-				if (cb.iWhitePieceCount[piece.PAWN] != 0) return HCW_QUEEN_AND_PAWNS;
+				if (cb.iWhitePieceCount[Piece.PAWN] != 0) return HCW_QUEEN_AND_PAWNS;
 				
 				return HCW_QUEEN_ALONE;
 			}
 		}
 		else
 		{
-			if ((cb.iWhitePieceCount[piece.QUEEN] != 0) ||
-			    (cb.iWhitePieceCount[piece.ROOK] != 0) ||
-				(cb.iWhitePieceCount[piece.BISHOP] != 0) ||
-				(cb.iWhitePieceCount[piece.KNIGHT] != 0) ||
-				(cb.iWhitePieceCount[piece.PAWN] != 0)) return HCW_NONE;
+			if ((cb.iWhitePieceCount[Piece.QUEEN] != 0) ||
+			    (cb.iWhitePieceCount[Piece.ROOK] != 0) ||
+				(cb.iWhitePieceCount[Piece.BISHOP] != 0) ||
+				(cb.iWhitePieceCount[Piece.KNIGHT] != 0) ||
+				(cb.iWhitePieceCount[Piece.PAWN] != 0)) return HCW_NONE;
 				
-			if ((cb.iBlackPieceCount[piece.QUEEN] == 0) &&
-				(cb.iBlackPieceCount[piece.ROOK] == 0)) return HCW_NONE;
+			if ((cb.iBlackPieceCount[Piece.QUEEN] == 0) &&
+				(cb.iBlackPieceCount[Piece.ROOK] == 0)) return HCW_NONE;
 				
-			if (cb.iBlackPieceCount[piece.ROOK] == 1) 
+			if (cb.iBlackPieceCount[Piece.ROOK] == 1)
 			{
-				if ((cb.iBlackPieceCount[piece.QUEEN] != 0) ||
-					(cb.iBlackPieceCount[piece.BISHOP] != 0) ||
-					(cb.iBlackPieceCount[piece.KNIGHT] != 0)) return HCW_NONE;
+				if ((cb.iBlackPieceCount[Piece.QUEEN] != 0) ||
+					(cb.iBlackPieceCount[Piece.BISHOP] != 0) ||
+					(cb.iBlackPieceCount[Piece.KNIGHT] != 0)) return HCW_NONE;
 				
-				if (cb.iBlackPieceCount[piece.PAWN] != 0) return HCW_ROOK_AND_PAWNS;
+				if (cb.iBlackPieceCount[Piece.PAWN] != 0) return HCW_ROOK_AND_PAWNS;
 				
 				return HCW_ROOK_ALONE;	
 			}
 			
-			if (cb.iBlackPieceCount[piece.QUEEN] == 1) 
+			if (cb.iBlackPieceCount[Piece.QUEEN] == 1)
 			{
-				if ((cb.iBlackPieceCount[piece.ROOK] != 0) ||
-					(cb.iBlackPieceCount[piece.BISHOP] != 0) ||
-					(cb.iBlackPieceCount[piece.KNIGHT] != 0)) return HCW_NONE;
+				if ((cb.iBlackPieceCount[Piece.ROOK] != 0) ||
+					(cb.iBlackPieceCount[Piece.BISHOP] != 0) ||
+					(cb.iBlackPieceCount[Piece.KNIGHT] != 0)) return HCW_NONE;
 				
-				if (cb.iBlackPieceCount[piece.PAWN] != 0) return HCW_QUEEN_AND_PAWNS;
+				if (cb.iBlackPieceCount[Piece.PAWN] != 0) return HCW_QUEEN_AND_PAWNS;
 				
 				return HCW_QUEEN_ALONE;	
 			}
@@ -129,15 +129,15 @@ public class hcwinner
 		cb.dump();
 		*/
 		
-		if (iTurn == piece.WHITE)
+		if (iTurn == Piece.WHITE)
 		{
-			kOwn = cb.locateKing(piece.WHITE);
-			kEnemy = cb.locateKing(piece.BLACK);
+			kOwn = cb.locateKing(Piece.WHITE);
+			kEnemy = cb.locateKing(Piece.BLACK);
 		}
 		else 
 		{
-			kOwn = cb.locateKing(piece.BLACK);
-			kEnemy = cb.locateKing(piece.WHITE);
+			kOwn = cb.locateKing(Piece.BLACK);
+			kEnemy = cb.locateKing(Piece.WHITE);
 		}
 		
 		for (int i=1;i<=8;i++)
@@ -145,8 +145,8 @@ public class hcwinner
 		{
 			if (cb.blocks[i][j] != null)
 			{
-				piece p = cb.blocks[i][j];
-				if (p.iType == piece.ROOK) rr = (rook)cb.blocks[i][j];
+				Piece p = cb.blocks[i][j];
+				if (p.iType == Piece.ROOK) rr = (rook)cb.blocks[i][j];
 			}
 		}
 		//System.out.println("DBG160402: kown at" + kOwn.xk + "," + kOwn.yk+ " rook at " + rr.xk + "," + rr.yk);
@@ -185,7 +185,7 @@ public class hcwinner
 					if (mdo == null) return null;
 					
 					cb.domove(rr,mdo,-1);
-					if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+					if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 					else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 					return cb;
 				}
@@ -217,7 +217,7 @@ public class hcwinner
 					if (mdo == null) return null;
 					
 					cb.domove(rr,mdo,-1);
-					if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+					if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 					else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 					
 					//cb.dump();
@@ -260,7 +260,7 @@ public class hcwinner
 					//System.out.println("Doing move: " + mdo.moveStrLong());
 			
 					cb.domove(kOwn,mdo,-1);
-					if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+					if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 					else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 					return cb;
 					
@@ -396,7 +396,7 @@ public class hcwinner
 			//System.out.println("Doing move: " + mdo.moveStrLong());
 		
 			cb.domove(rr,mdo,-1);
-			if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+			if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 			else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 			return cb;
 		
@@ -432,7 +432,7 @@ public class hcwinner
 				//System.out.println("Doing move: " + mdo.moveStrLong());
 			
 				cb.domove(kOwn,mdo,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 				else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 				return cb;
 			}
@@ -458,7 +458,7 @@ public class hcwinner
 					//System.out.println("Doing move: " + mdo.moveStrLong());
 					if (mdo == null) return null;
 					cb.domove(kOwn,mdo,-1);
-					if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+					if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 					else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 					return cb;
 					
@@ -487,7 +487,7 @@ public class hcwinner
 						//System.out.println("Doing move: " + mdo.moveStrLong());
 						if (mdo == null) return null;
 						cb.domove(rr,mdo,-1);
-						if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+						if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 						else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 						return cb;
 					}
@@ -517,7 +517,7 @@ public class hcwinner
 						if (mdo == null) return null;
 				
 						cb.domove(kOwn,mdo,-1);
-						if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+						if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 						else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 						return cb;
 						
@@ -547,7 +547,7 @@ public class hcwinner
 							//System.out.println("Doing move: " + mdo.moveStrLong());
 							if (mdo == null) return null;
 							cb.domove(rr,mdo,-1);
-							if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+							if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 							else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 							return cb;
 						}
@@ -570,7 +570,7 @@ public class hcwinner
 							//System.out.println("Doing move: " + mdo.moveStrLong());
 							if (mdo == null) return null;
 							cb.domove(kOwn,mdo,-1);
-							if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+							if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 							else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 							return cb;
 						} 
@@ -605,7 +605,7 @@ public class hcwinner
 								//System.out.println("Doing move: " + mdo.moveStrLong());
 								if (mdo == null) return null;
 								cb.domove(kOwn,mdo,-1);
-								if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+								if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 								else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 								return cb;	
 								
@@ -625,7 +625,7 @@ public class hcwinner
 							//System.out.println("Doing move: " + mdo.moveStrLong());
 							if (mdo == null) return null;
 							cb.domove(rr,mdo,-1);
-							if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+							if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 							else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 							return cb;	
 								
@@ -649,15 +649,15 @@ public class hcwinner
 		queen q = null;
 		
 		System.out.println("hcwinner.do_hcw_queenalone() called. Available moves are:");
-		if (iTurn == piece.WHITE)
+		if (iTurn == Piece.WHITE)
 		{
-			kOwn = cb.locateKing(piece.WHITE);
-			kEnemy = cb.locateKing(piece.BLACK);
+			kOwn = cb.locateKing(Piece.WHITE);
+			kEnemy = cb.locateKing(Piece.BLACK);
 		}
 		else 
 		{
-			kOwn = cb.locateKing(piece.BLACK);
-			kEnemy = cb.locateKing(piece.WHITE);
+			kOwn = cb.locateKing(Piece.BLACK);
+			kEnemy = cb.locateKing(Piece.WHITE);
 		}
 		
 		for (int i=1;i<=8;i++)
@@ -665,13 +665,13 @@ public class hcwinner
 		{
 			if (cb.blocks[i][j] != null)
 			{
-				piece p = cb.blocks[i][j];
-				if (p.iType == piece.QUEEN) q = (queen)cb.blocks[i][j];
+				Piece p = cb.blocks[i][j];
+				if (p.iType == Piece.QUEEN) q = (queen)cb.blocks[i][j];
 			}
 		}
 		//System.out.println("DBG160402: queen at " + q.xk + "," + q.yk);
 		
-		if (iTurn==piece.WHITE) mi = cb.miWhiteMoveindex;
+		if (iTurn== Piece.WHITE) mi = cb.miWhiteMoveindex;
 		else mi = cb.miBlackMoveindex;
 		
 		move mbest = null;
@@ -706,7 +706,7 @@ public class hcwinner
 				
 				//System.out.println("Best move: " + mbest.moveStrLong());
 				cb.domove( kOwn,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 				else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 				//mval.setBalancesFromBoard (cb, iTurn, iAlg);
 				//System.out.println(mval.dumpstr(mval.DUMPMODE_LONG,iAlg));
@@ -754,7 +754,7 @@ public class hcwinner
 						
 						//System.out.println("Best move (queen): " + mbest.moveStrLong());
 						cb.domove( q,mbest,-1);
-						if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+						if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 						else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 						System.out.println("DBG180406:B");
 						return cb;
@@ -789,7 +789,7 @@ public class hcwinner
 					
 					
 					cb.domove( kOwn,mbest,-1);
-					if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+					if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 					else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 					System.out.println("DBG180406:C");
 					return cb;
@@ -815,7 +815,7 @@ public class hcwinner
 			iEKArea = iEKARea(kEnemy.xk,kEnemy.yk,m.xtar,m.ytar);
 			
 			//System.out.println(iOKDistance+" "+iEKDistance+ "  " + iEKArea);
-			if ((iEKArea < iBestEKA) && ((iEKDistance >= 2) || (iOKDistance ==1)) && (m.p.iType==piece.QUEEN) && (iEKArea >= 3) && (iEKArea < iEKBefore))
+			if ((iEKArea < iBestEKA) && ((iEKDistance >= 2) || (iOKDistance ==1)) && (m.p.iType== Piece.QUEEN) && (iEKArea >= 3) && (iEKArea < iEKBefore))
 			{
 				mbest = m;
 				iBestEKA = iEKArea;
@@ -837,7 +837,7 @@ public class hcwinner
 			
 			
 			cb.domove( q,mbest,-1);
-			if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+			if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 			else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 			//mval.setBalancesFromBoard (cb, iTurn, iAlg);
 			//mval.setInstWinnable(1-iTurn);
@@ -853,7 +853,7 @@ public class hcwinner
 		for (int i=0;i<mi.getSize();i++)
 		{
 			move m = mi.getMoveAt(i);
-			if (m.p.iType == piece.KING)
+			if (m.p.iType == Piece.KING)
 			{
 				//System.out.print("move:"+m.moveStrLong() + " ");
 				
@@ -887,7 +887,7 @@ public class hcwinner
 			
 			
 			cb.domove( kOwn,mbest,-1);
-			if (iTurn == piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
+			if (iTurn == Piece.WHITE) cb.iHCBonus = HC_BONUS_FOR_QR_ALONE;
 			else cb.iHCBonus = -HC_BONUS_FOR_QR_ALONE;
 			//mval.setBalancesFromBoard (cb, iTurn, iAlg);
 			//System.out.println(mval.dumpstr(mval.DUMPMODE_LONG,iAlg));
@@ -911,15 +911,15 @@ public class hcwinner
 		
 		//System.out.println("DBG160402: hcwinner.do_hcw_rook_and_pawns() starts.");
 		
-		if (iTurn == piece.WHITE)
+		if (iTurn == Piece.WHITE)
 		{
-			kOwn = cb.locateKing(piece.WHITE);
-			kEnemy = cb.locateKing(piece.BLACK);
+			kOwn = cb.locateKing(Piece.WHITE);
+			kEnemy = cb.locateKing(Piece.BLACK);
 		}
 		else 
 		{
-			kOwn = cb.locateKing(piece.BLACK);
-			kEnemy = cb.locateKing(piece.WHITE);
+			kOwn = cb.locateKing(Piece.BLACK);
+			kEnemy = cb.locateKing(Piece.WHITE);
 		}
 		
 		for (int i=1;i<=8;i++)
@@ -927,19 +927,19 @@ public class hcwinner
 		{
 			if (cb.blocks[i][j] != null)
 			{
-				piece p = cb.blocks[i][j];
-				if (p.iType == piece.ROOK) rr = (rook)cb.blocks[i][j];
+				Piece p = cb.blocks[i][j];
+				if (p.iType == Piece.ROOK) rr = (rook)cb.blocks[i][j];
 			}
 		}
 		//System.out.println("DBG160402: kown at" + kOwn.xk + "," + kOwn.yk+ " rook at " + rr.xk + "," + rr.yk);
 		
 		int iBestPawn=-1;
-		if (iTurn == piece.BLACK) iBestPawn = 10;
+		if (iTurn == Piece.BLACK) iBestPawn = 10;
 		pbx = -1;
 		for (int i=1;i<=8;i++)
 		{
 			//System.out.println(i + " W:" + cb.iWhitePawnColMax[i] + " B:" + cb.iBlackPawnColMin[i]);
-			if (iTurn == piece.WHITE) 
+			if (iTurn == Piece.WHITE)
 			{
 				if ((iBestPawn==-1) && (cb.iWhitePawnColMax[i] > -1))
 				{
@@ -1005,8 +1005,8 @@ public class hcwinner
 		}
 		
 		if ((rr.xk == pbx) &&
-		    (((iTurn == piece.WHITE) && (rr.yk < pby)) ||
-			 ((iTurn == piece.BLACK) && (rr.yk > pby))))
+		    (((iTurn == Piece.WHITE) && (rr.yk < pby)) ||
+			 ((iTurn == Piece.BLACK) && (rr.yk > pby))))
 		{
 			//System.out.println("rook behind pawn, move the pawn.");
 			v = p.moveVector(cb);
@@ -1019,15 +1019,15 @@ public class hcwinner
 			if (mbest != null)
 			{
 				cb.domove( p,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = mbest.ytar;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = mbest.ytar;
 				else cb.iHCBonus = 9-mbest.ytar;
 				return cb;
 			}
 			else return null;
 		}
 		
-		if (((iTurn == piece.WHITE) && (rr.yk < pby)) ||
-			 ((iTurn == piece.BLACK) && (rr.yk > pby)))
+		if (((iTurn == Piece.WHITE) && (rr.yk < pby)) ||
+			 ((iTurn == Piece.BLACK) && (rr.yk > pby)))
 		{
 			//System.out.println("Could get rook behind pawn. Try moving rook.");
 			v = rr.moveVector(cb);
@@ -1044,7 +1044,7 @@ public class hcwinner
 			if (mbest != null)
 			{
 				cb.domove (rr,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = pby;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = pby;
 				else cb.iHCBonus = 9-pby;
 				return cb;
 			}
@@ -1070,7 +1070,7 @@ public class hcwinner
 			if (mbest != null)
 			{
 				cb.domove( p,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = mbest.ytar;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = mbest.ytar;
 				else cb.iHCBonus = 9-mbest.ytar;
 				return cb;
 			}
@@ -1083,10 +1083,10 @@ public class hcwinner
 		for (int i=1;i<=8;i++)
 			for (int j=1;j<=8;j++)
 		{
-			piece pp = cb.blocks[i][j];
+			Piece pp = cb.blocks[i][j];
 			if (pp != null)
 			{
-				if ((pp.iType == piece.PAWN) && (pp.iColor == iTurn))
+				if ((pp.iType == Piece.PAWN) && (pp.iColor == iTurn))
 				{
 					v = pp.moveVector(cb);
 					//System.out.println("pawn cand @" + i +","+j + " vector size:" + v.size());
@@ -1101,7 +1101,7 @@ public class hcwinner
 					if (mbest != null)
 					{
 						cb.domove( pp,mbest,-1);
-						if (iTurn == piece.WHITE) cb.iHCBonus = mbest.ytar;
+						if (iTurn == Piece.WHITE) cb.iHCBonus = mbest.ytar;
 						else cb.iHCBonus = 9-mbest.ytar;
 						return cb;
 					}
@@ -1123,15 +1123,15 @@ public class hcwinner
 		
 		//System.out.println("DBG160402: hcwinner.do_hcw_queen_and_pawns() starts.");
 		
-		if (iTurn == piece.WHITE)
+		if (iTurn == Piece.WHITE)
 		{
-			kOwn = cb.locateKing(piece.WHITE);
-			kEnemy = cb.locateKing(piece.BLACK);
+			kOwn = cb.locateKing(Piece.WHITE);
+			kEnemy = cb.locateKing(Piece.BLACK);
 		}
 		else 
 		{
-			kOwn = cb.locateKing(piece.BLACK);
-			kEnemy = cb.locateKing(piece.WHITE);
+			kOwn = cb.locateKing(Piece.BLACK);
+			kEnemy = cb.locateKing(Piece.WHITE);
 		}
 		
 		for (int i=1;i<=8;i++)
@@ -1139,19 +1139,19 @@ public class hcwinner
 		{
 			if (cb.blocks[i][j] != null)
 			{
-				piece p = cb.blocks[i][j];
-				if (p.iType == piece.QUEEN) q = (queen)cb.blocks[i][j];
+				Piece p = cb.blocks[i][j];
+				if (p.iType == Piece.QUEEN) q = (queen)cb.blocks[i][j];
 			}
 		}
 		//System.out.println("DBG160402: kown at" + kOwn.xk + "," + kOwn.yk+ " queen at " + q.xk + "," + q.yk);
 		
 		int iBestPawn=-1;
-		if (iTurn == piece.BLACK) iBestPawn = 10;
+		if (iTurn == Piece.BLACK) iBestPawn = 10;
 		pbx = -1;
 		for (int i=1;i<=8;i++)
 		{
 			//System.out.println(i + " W:" + cb.iWhitePawnColMax[i] + " B:" + cb.iBlackPawnColMin[i]);
-			if (iTurn == piece.WHITE) 
+			if (iTurn == Piece.WHITE)
 			{
 				if ((iBestPawn==-1) && (cb.iWhitePawnColMax[i] > -1))
 				{
@@ -1199,7 +1199,7 @@ public class hcwinner
 			if (mbest != null)
 			{
 				cb.domove( p,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = mbest.ytar;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = mbest.ytar;
 				else cb.iHCBonus = 9-mbest.ytar;
 				return cb;
 			}
@@ -1207,8 +1207,8 @@ public class hcwinner
 		}
 		
 		if ((q.xk == pbx) &&
-		    (((iTurn == piece.WHITE) && (q.yk < pby)) ||
-			 ((iTurn == piece.BLACK) && (q.yk > pby))))
+		    (((iTurn == Piece.WHITE) && (q.yk < pby)) ||
+			 ((iTurn == Piece.BLACK) && (q.yk > pby))))
 		{
 			//System.out.println("queen behind pawn, move the pawn.");
 			Vector v = p.moveVector(cb);
@@ -1221,7 +1221,7 @@ public class hcwinner
 			if (mbest != null)
 			{
 				cb.domove( p,mbest,-1);
-				if (iTurn == piece.WHITE) cb.iHCBonus = mbest.ytar;
+				if (iTurn == Piece.WHITE) cb.iHCBonus = mbest.ytar;
 				else cb.iHCBonus = 9-mbest.ytar;
 				return cb;
 			}
@@ -1236,8 +1236,8 @@ public class hcwinner
 			move m = (move)v.elementAt(i);
 			//System.out.println(m.moveStrLong());
 			if (((!m.bRisky) && (m.xtar == p.xk)) && 
-					(((iTurn==piece.WHITE) && (m.ytar < p.yk)) ||
-					 ((iTurn==piece.BLACK) && (m.ytar > p.yk))))
+					(((iTurn== Piece.WHITE) && (m.ytar < p.yk)) ||
+					 ((iTurn== Piece.BLACK) && (m.ytar > p.yk))))
 			{		 
 				mbest = m;
 			}
@@ -1245,7 +1245,7 @@ public class hcwinner
 		if (mbest != null)
 		{
 			cb.domove( q,mbest,-1);
-			if (iTurn == piece.WHITE) cb.iHCBonus = pby;
+			if (iTurn == Piece.WHITE) cb.iHCBonus = pby;
 			else cb.iHCBonus = 9-pby;
 			return cb;
 		}

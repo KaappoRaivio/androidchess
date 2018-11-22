@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
@@ -20,21 +19,17 @@ import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.GenericArrayType;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 import kaappo.androidchess.askokaappochess.TtyUI;
-import kaappo.androidchess.askokaappochess.piece;
+import kaappo.androidchess.askokaappochess.Piece;
 
 public class ChessActivity extends AppCompatActivity {
 
@@ -106,7 +101,7 @@ public class ChessActivity extends AppCompatActivity {
     public void setTurn (int turn) {
         System.out.println("iTurn chess: " + turn);
 
-        if (turn == piece.WHITE) {
+        if (turn == Piece.WHITE) {
             ((CardView) findViewById(R.id.activity_chess_player_info_card)).setBackground(getDrawable(R.drawable.turn));
             ((CardView) findViewById(R.id.activity_chess_opponent_info_card)).setBackground(getDrawable(R.drawable.white_blush));
         } else {
@@ -116,7 +111,7 @@ public class ChessActivity extends AppCompatActivity {
     }
 
     private void setUIStuffFromBundle (Bundle bundle) {
-        int playerSide = bundle.getString(MainActivity.PLAYER_SIDE).equals("White") ? piece.WHITE : piece.BLACK;
+        int playerSide = bundle.getString(MainActivity.PLAYER_SIDE).equals("White") ? Piece.WHITE : Piece.BLACK;
         int whiteLevel = Integer.parseInt(bundle.getString(MainActivity.WHITE_LEVEL));
         int blackLevel = Integer.parseInt(bundle.getString(MainActivity.BLACK_LEVEL));
 
@@ -127,7 +122,7 @@ public class ChessActivity extends AppCompatActivity {
         TextView whiteLevelView = (TextView) findViewById(R.id.activity_chess_player_info_engine_level);
 
 
-        if (playerSide == piece.WHITE) {
+        if (playerSide == Piece.WHITE) {
             blackNameView.setText(getResources().getText(R.string.activity_chess_askochess));
             blackLevelView.setText("Level " + blackLevel);
 
@@ -148,9 +143,9 @@ public class ChessActivity extends AppCompatActivity {
         String playerSideString = bundle.getString(MainActivity.PLAYER_SIDE);
 
         if (playerSideString.equals(getResources().getStringArray(R.array.activity_main_white_and_black)[0])) {
-            playerSide = piece.WHITE;
+            playerSide = Piece.WHITE;
         } else {
-            playerSide = piece.BLACK;
+            playerSide = Piece.BLACK;
         }
     }
 
@@ -236,72 +231,87 @@ public class ChessActivity extends AppCompatActivity {
         return ""+(char)(96 + x1) + y1 + ":" + (char)(96 + x2) + y2;
     }
 
-    public static void setBoard (String board, ChessActivity context, Vector lastMoveVector) {
-        context.clearBoard();
+    public void setBoard (String board, Vector lastMoveVector) {
+        clearBoard();
+
         String[] splitted = board.split("\n");
         for (int x = 0; x < splitted.length; x++) {
             String row = splitted[x];
 
             for (int y = 0; y < row.length(); y++) {
-                char _piece = row.charAt(y);
+                char piece = row.charAt(y);
+                int pieceType = getPieceTypeFromChar(piece);
+                int pieceColor = getPieceColorFromChar(piece);
 
-                switch (_piece) {
-                    case 'P':
-                        context.drawPiece(y, x, piece.PAWN, piece.BLACK);
-                        break;
-                    case 'R':
-                        context.drawPiece(y, x, piece.ROOK, piece.BLACK);
-                        break;
-                    case 'N':
-                        context.drawPiece(y, x, piece.KNIGHT, piece.BLACK);
-                        break;
-                    case 'B':
-                        context.drawPiece(y, x, piece.BISHOP, piece.BLACK);
-                        break;
-                    case 'K':
-                        context.drawPiece(y, x, piece.KING, piece.BLACK);
-                        break;
-                    case 'Q':
-                        context.drawPiece(y, x, piece.QUEEN, piece.BLACK);
-                        break;
-                    case 'p':
-                        context.drawPiece(y, x, piece.PAWN, piece.WHITE);
-                        break;
-                    case 'r':
-                        context.drawPiece(y, x, piece.ROOK, piece.WHITE);
-                        break;
-                    case 'n':
-                        context.drawPiece(y, x, piece.KNIGHT, piece.WHITE);
-                        break;
-                    case 'b':
-                        context.drawPiece(y, x, piece.BISHOP, piece.WHITE);
-                        break;
-                    case 'k':
-                        context.drawPiece(y, x, piece.KING, piece.WHITE);
-                        break;
-                    case 'q':
-                        context.drawPiece(y, x, piece.QUEEN, piece.WHITE);
-                        break;
-                    case '.':
-                        break;
+                //Check for empty square
+                if (pieceType == -1) {
+                    continue;
+                }
+
+                if (pieceType != -2 && pieceColor != -1) {
+                    drawPiece(x, y, pieceType, pieceColor);
+                } else {
+                    throw new RuntimeException("ChessActivity.setBoard: invalid board:\n" + board);
                 }
             }
         }
 
+        highlightLastMove(lastMoveVector);
+
+        String lastMove = getStringFromLMoveV(lastMoveVector);
+
+        // set movehistory
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
+        RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
+        recyclerViewAdapter.addMove(lastMove);
+        recyclerViewAdapter.notifyDataSetChanged();
+
+    }
+
+    private static int getPieceTypeFromChar (char piece) {
+        piece = Character.toUpperCase(piece);
+
+        switch (piece) {
+            case 'P':
+                return Piece.PAWN;
+            case 'R':
+                return Piece.ROOK;
+            case 'N':
+                return Piece.KNIGHT;
+            case 'B':
+                return Piece.BISHOP;
+            case 'K':
+                return Piece.KING;
+            case 'Q':
+                return Piece.QUEEN;
+            case '.':
+                return -1;
+            default:
+                return -2;
+        }
+    }
+
+    private static int getPieceColorFromChar (char piece) {
+        return Character.isUpperCase(piece) ? Piece.BLACK : Piece.WHITE;
+    }
+
+
+
+    public void highlightLastMove (Vector lastMoveVector) {
 
         // Highlight last move
         String lastMove = getStringFromLMoveV(lastMoveVector);
         if (lastMove != null) {
             if (previousBackGroundColors != null && previousBackGroundPositions[0] != null && previousBackGroundPositions[1] != null) {
-                RelativeLayout previousStartSquare = (RelativeLayout) context.findViewById(
-                        context.getResources().getIdentifier(previousBackGroundPositions[0],
-                        "id",
-                        context.getPackageName()));
-
-                RelativeLayout previousEndSquare = (RelativeLayout) context.findViewById(
-                        context.getResources().getIdentifier(previousBackGroundPositions[1],
+                RelativeLayout previousStartSquare = (RelativeLayout) findViewById(
+                        getResources().getIdentifier(previousBackGroundPositions[0],
                                 "id",
-                                context.getPackageName()));
+                                getPackageName()));
+
+                RelativeLayout previousEndSquare = (RelativeLayout) findViewById(
+                        getResources().getIdentifier(previousBackGroundPositions[1],
+                                "id",
+                                getPackageName()));
 
                 previousStartSquare.setBackground(previousBackGroundColors[0]);
                 previousEndSquare.setBackground(previousBackGroundColors[1]);
@@ -314,27 +324,19 @@ public class ChessActivity extends AppCompatActivity {
 
             previousBackGroundPositions = lastMoveArray.clone();
 
-            RelativeLayout startSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(lastMoveArray[0], "id", context.getPackageName()));
-            RelativeLayout endSquare = (RelativeLayout) context.findViewById(context.getResources().getIdentifier(lastMoveArray[1], "id", context.getPackageName()));
+            RelativeLayout startSquare = (RelativeLayout) findViewById(getResources().getIdentifier(lastMoveArray[0], "id", getPackageName()));
+            RelativeLayout endSquare = (RelativeLayout) findViewById(getResources().getIdentifier(lastMoveArray[1], "id", getPackageName()));
 
             previousBackGroundColors[0] = startSquare.getBackground();
             previousBackGroundColors[1] = endSquare.getBackground();
 
-            startSquare.setBackground(context.getDrawable(R.drawable.highlight));
-            endSquare.setBackground(context.getDrawable(R.drawable.highlight));
-
-            // set movehistory
-            RecyclerView recyclerView = (RecyclerView) context.findViewById(R.id.movehistory);
-            RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
-            recyclerViewAdapter.addMove(lastMove);
-            recyclerViewAdapter.notifyDataSetChanged();
-
+            startSquare.setBackground(getDrawable(R.drawable.highlight));
+            endSquare.setBackground(getDrawable(R.drawable.highlight));
         }
-
     }
 
-    public static void setMessage (String message, ChessActivity context) {
-        TextView textView = (TextView) context.findViewById(R.id.ttyui_message);
+    public void setMessage (String message) {
+        TextView textView = (TextView) findViewById(R.id.ttyui_message);
         textView.setText(message);
     }
 
@@ -350,7 +352,7 @@ public class ChessActivity extends AppCompatActivity {
         }
     }
 
-    public void drawPiece (int pos_y, int pos_x, final int _piece, final int color) {
+    public void drawPiece (int pos_x, int pos_y, final int piece, final int color) {
         String y = intTochar(pos_y);
         String x = String.valueOf(8 - pos_x);
 
@@ -372,70 +374,62 @@ public class ChessActivity extends AppCompatActivity {
         } else {
             int resId = -1;
 
-            if (color == piece.WHITE) {
-                switch (_piece) {
-                    case piece.PAWN:
+            if (color == Piece.WHITE) {
+                switch (piece) {
+                    case Piece.PAWN:
                         resId = R.drawable.white_pawn;
                         break;
-                    case piece.ROOK:
+                    case Piece.ROOK:
                         resId = R.drawable.white_rook;
                         break;
-                    case piece.KNIGHT:
+                    case Piece.KNIGHT:
                         resId = R.drawable.white_knight;
                         break;
-                    case piece.BISHOP:
+                    case Piece.BISHOP:
                         resId = R.drawable.white_bishop;
                         break;
-                    case piece.QUEEN:
+                    case Piece.QUEEN:
                         resId = R.drawable.white_queen;
                         break;
-                    case piece.KING:
+                    case Piece.KING:
                         resId = R.drawable.white_king;
                         break;
                 }
-            } else if (color == piece.BLACK) {
-                switch (_piece) {
-                    case piece.PAWN:
+            } else if (color == Piece.BLACK) {
+                switch (piece) {
+                    case Piece.PAWN:
                         resId = R.drawable.black_pawn;
                         break;
-                    case piece.ROOK:
+                    case Piece.ROOK:
                         resId = R.drawable.black_rook;
                         break;
-                    case piece.KNIGHT:
+                    case Piece.KNIGHT:
                         resId = R.drawable.black_knight;
                         break;
-                    case piece.BISHOP:
+                    case Piece.BISHOP:
                         resId = R.drawable.black_bishop;
                         break;
-                    case piece.QUEEN:
+                    case Piece.QUEEN:
                         resId = R.drawable.black_queen;
                         break;
-                    case piece.KING:
+                    case Piece.KING:
                         resId = R.drawable.black_king;
                         break;
                 }
             }
 
             ImageView imageView = new ImageView(this);
-            imageView.setImageDrawable(getResources().getDrawable(resId));
+            imageView.setImageDrawable(getDrawable(resId));
             imageView.setOnTouchListener(new MyTouchListener());
-            imageView.setTag(tag);
-
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onPieceClicked(v);
                 }
             });
-
-
-
-
-
+            imageView.setTag(tag);
 
             squareToDrawIn.addView(imageView);
-
-
         }
     }
 

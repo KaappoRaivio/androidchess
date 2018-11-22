@@ -3,12 +3,12 @@ package kaappo.androidchess.askokaappochess;
 
 import java.util.*;
 
-public class bishop extends piece
+public class bishop extends Piece
 {
 	bishop (int x, int y, int col)
 	{
 		super (x,y,col);
-		iType = piece.BISHOP;		
+		iType = Piece.BISHOP;
 	}
 
 	int pvalue()
@@ -37,7 +37,7 @@ public class bishop extends piece
 		return mv;
 	}
 	
-	boolean canReach(int xk, int yk, piece k, chessboard cb)
+	boolean canReach(int xk, int yk, Piece k, chessboard cb)
 	{
 		if (k==null) return false;
 		//System.out.println("Bishop CR: " + k.iColor + " from " +k.xk + "," + k.yk + " to ( " + xk+"," + yk +")" );
@@ -124,7 +124,7 @@ public class bishop extends piece
 			while ((x>0) && (x<9) && (y>0) && (y<9))
 			{
 				//System.out.println("Bishop CRC: " + x +","+y);
-				piece p = cb.blocks[x][y];
+				Piece p = cb.blocks[x][y];
 				if (p != null)
 				{
 					//System.out.println("Bishop CRC:  ret false AA");
@@ -139,10 +139,10 @@ public class bishop extends piece
 		return false;
 	}
 	
-	piece canReachBrotherPiece(chessboard cb)
+	Piece canReachBrotherPiece(chessboard cb)
 	{
 		// not awfully necessary, only after somebody has promoted a bishop :)
-		piece pb = null;
+		Piece pb = null;
 		
 		for (int i=1;i<=7;i++)
 		{
@@ -150,7 +150,7 @@ public class bishop extends piece
 			pb = cb.blocks[xk+i][yk+i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.BISHOP)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.BISHOP)) return pb;
 				else break;
 			}
 		}
@@ -161,7 +161,7 @@ public class bishop extends piece
 			pb = cb.blocks[xk-i][yk-i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.BISHOP)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.BISHOP)) return pb;
 				else break;
 			}
 		}
@@ -172,7 +172,7 @@ public class bishop extends piece
 			pb = cb.blocks[xk-i][yk+i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.BISHOP)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.BISHOP)) return pb;
 				else break;
 			}
 		}
@@ -183,7 +183,7 @@ public class bishop extends piece
 			pb = cb.blocks[xk+i][yk-i];   
 			if (pb != null)
 			{
-				if ((pb.iColor == iColor) && (pb.iType == piece.BISHOP)) return pb;
+				if ((pb.iColor == iColor) && (pb.iType == Piece.BISHOP)) return pb;
 				else break;
 			}
 		}

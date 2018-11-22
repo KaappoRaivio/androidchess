@@ -10,8 +10,6 @@ public final class MyTouchListener implements View.OnTouchListener {
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-
-
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 view.setTag(MainActivity.getId((View) view.getParent()));
@@ -48,9 +46,5 @@ public final class MyTouchListener implements View.OnTouchListener {
             default:
                 return false;
         }
-
-
-
     }
-
 }
