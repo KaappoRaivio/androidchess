@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -43,6 +45,8 @@ public class ChessActivity extends AppCompatActivity {
 
     private List<View> doNotGarbageCollect;
 
+    private List<String> boardHistory = new ArrayList<>();
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,7 @@ public class ChessActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new RecyclerViewAdapter());
+        recyclerView.setAdapter(new RecyclerViewAdapter(ChessActivity.this));
 
 
 //        flipBoard();
@@ -218,20 +222,47 @@ public class ChessActivity extends AppCompatActivity {
 
     }
 
-    private static String getStringFromLMoveV (Vector lastMoveVector) {
+    private static String getStringFromLMoveV (Vector<Integer> lastMoveVector) {
         if (lastMoveVector == null) {
-            return null;
+            throw new RuntimeException("ChessActivity#getStringFromLMoveV(): lastMoveVector is null!");
         }
 
-        int x1 = (int)lastMoveVector.elementAt(0);
-        int y1 = (int)lastMoveVector.elementAt(1);
-        int x2 = (int)lastMoveVector.elementAt(2);
-        int y2 = (int)lastMoveVector.elementAt(3);
+        int x1 = (int) lastMoveVector.elementAt(0);
+        int y1 = (int) lastMoveVector.elementAt(1);
+        int x2 = (int) lastMoveVector.elementAt(2);
+        int y2 = (int) lastMoveVector.elementAt(3);
 
         return ""+(char)(96 + x1) + y1 + ":" + (char)(96 + x2) + y2;
     }
 
-    public void setBoard (String board, Vector lastMoveVector) {
+    public void setBoardAndLastMoveVector(String board, Vector<Integer> lastMoveVector) {
+        setBoard(board);
+
+        this.boardHistory.add(board);
+
+
+        if (lastMoveVector != null) {
+            highlightLastMove(lastMoveVector);
+
+            // set movehistory
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
+            RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
+
+            String lastMove = getStringFromLMoveV(lastMoveVector);
+            recyclerViewAdapter.addMove(lastMove);
+            recyclerViewAdapter.addBoard(board, lastMoveVector);
+            recyclerViewAdapter.notifyDataSetChanged();
+        }
+
+
+
+
+
+
+
+    }
+
+    public void setBoard (String board) {
         clearBoard();
 
         String[] splitted = board.split("\n");
@@ -251,20 +282,10 @@ public class ChessActivity extends AppCompatActivity {
                 if (pieceType != -2 && pieceColor != -1) {
                     drawPiece(x, y, pieceType, pieceColor);
                 } else {
-                    throw new RuntimeException("ChessActivity.setBoard: invalid board:\n" + board);
+                    throw new RuntimeException("ChessActivity.setBoardAndLastMoveVector: invalid board:\n" + board);
                 }
             }
         }
-
-        highlightLastMove(lastMoveVector);
-
-        String lastMove = getStringFromLMoveV(lastMoveVector);
-
-        // set movehistory
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
-        RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
-        recyclerViewAdapter.addMove(lastMove);
-        recyclerViewAdapter.notifyDataSetChanged();
 
     }
 
@@ -297,7 +318,11 @@ public class ChessActivity extends AppCompatActivity {
 
 
 
-    public void highlightLastMove (Vector lastMoveVector) {
+    public void highlightLastMove (Vector<Integer> lastMoveVector) {
+
+        if (lastMoveVector == null) {
+            throw new RuntimeException("ChessActivity#highlightLastMove(): lastMoveVector is null!");
+        }
 
         // Highlight last move
         String lastMove = getStringFromLMoveV(lastMoveVector);

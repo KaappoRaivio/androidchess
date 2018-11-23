@@ -350,7 +350,7 @@ public class play
 					else cui.setMessage("Move " + iMove + ". CHECK");
 					
 					cui.setLatencies(lLatency);
-					cui.repaint();
+					cui.show();
 					
 					
 					boolean bCont = false;
@@ -375,7 +375,7 @@ public class play
 							*/
 							cui.updateData(cb);
 							cui.setLastMoveVector(cb.lastmoveVector());
-							cui.repaint();
+							cui.show();
 							
 							iMove = iMove-1;
 							ohoboard = null;
@@ -441,7 +441,7 @@ public class play
 					if (checkcount == 0) cui.setMessage(" Move " + iMove + ". Thinking.");
 					else cui.setMessage("Move " + iMove + ". CHECK. Thinking. ");
 					cui.updateData(cb);
-					cui.repaint();
+					cui.show();
 					
 					String sLibMove = null;
 					
@@ -949,7 +949,7 @@ public class play
 							cw.repaint();
 							*/
 							cui.setMessage("GAME OVER. CHECKMATE on move " +iMove+".");
-							cui.repaint();
+							cui.show();
 							
 							//if (bMess) cw.displayMsgDialog("GAME OVER. CHECKMATE on move " +iMove+".");
 							if (bMess) cui.displayMsgDialog("GAME OVER. CHECKMATE on move " +iMove+".");
@@ -966,7 +966,7 @@ public class play
 							*/
 							cui.setMessage("GAME OVER. No available moves. It's a tie on move " +iMove+".");
 							if (bMess) cui.displayMsgDialog("GAME OVER. No more moves on move " +iMove+".");
-							cui.repaint();
+							cui.show();
 							
 							//return play.DRAW;
 							bGameOn = false;
@@ -1000,7 +1000,7 @@ public class play
 					cw.repaint();
 					*/
 					cui.updateData(cb);
-					cui.repaint();
+					cui.show();
 					
 					System.out.println("AskoChess turn " + iMove + " done.");
 				}
@@ -1045,7 +1045,7 @@ public class play
 						System.out.println("Game ended in CHECKMATE ( " + clr + ")");
 						cb.dump();
 						cui.updateData(cb);
-						cui.repaint();
+						cui.show();
 						bGameOn = false;
 						iWinner = clr;
 						clr = 2;
@@ -1116,7 +1116,7 @@ public class play
 		if (bCheckMate)
 		{
 			//if (GUIWINDOW) cw.repaint();
-			cui.repaint();
+			cui.show();
 			System.out.println("Final repaint done.");
 			
 			sMess = "Game finished in Checkmate on move " + (iMove-1) + ". ";
@@ -1155,7 +1155,7 @@ public class play
 			cui.setMessage(sMess);
 			cui.setTurn(-1);
 			if (bMess) cui.displayMsgDialog(sMess);
-			cui.repaint();
+			cui.show();
 			
 			if (iWinner == 0) return play.WHITEWIN;
 			else return play.BLACKWIN;

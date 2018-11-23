@@ -8,7 +8,7 @@ public class gamehistory
 {
 	Vector vMoves;
 	Vector vTieCands;
-	Vector vNoteVector;
+	private Vector vNoteVector;
 	
 	public static final int DUMPSTR_ALG = 42;
 	

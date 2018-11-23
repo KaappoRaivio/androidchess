@@ -54,12 +54,6 @@ public class ChessUI
 
     }
 	
-	void repaint() throws Exception
-	{
-
-		if (tty != null) tty.repaint();
-    }
-	
 	void enableUndo(boolean enable)
 	{
 

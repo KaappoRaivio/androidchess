@@ -14,7 +14,7 @@ public class TtyUI
 	public static String move;
 
 	private int square[][];
-	private Vector lMoveV;
+	private Vector<Integer> lMoveV;
 	
 	private chessboard mCb;
 	
@@ -38,19 +38,18 @@ public class TtyUI
 	}
 
 
-	TtyUI(chessboard cb, ChessActivity context)
-	{
+	TtyUI(chessboard cb, ChessActivity context) {
 		square = new int[8][8];
 		
 		mCb = cb;
 
 		this.context = context;
 
-		System.out.println("TTY UI CREATED FOR AskoChess");
-
 		MyDragListener.ttyUI = this;
+
+		System.out.println("Ttyui.java: UI created");
 	}
-	
+
 	public void updateData(chessboard cb)
 	{
 		for (int i=0;i<8;i++)
@@ -139,10 +138,10 @@ public class TtyUI
 			}
 
 			if ((inStr.length() == 4) && !bReady) {
-				int x1 = (int)inStr.charAt(0)-64;
-				int y1 = (int)inStr.charAt(1)-48;
-				int x2 = (int)inStr.charAt(2)-64;
-				int y2 = (int)inStr.charAt(3)-48;
+				int x1 = (int) inStr.charAt(0) - 64;
+				int y1 = (int) inStr.charAt(1) - 48;
+				int x2 = (int) inStr.charAt(2) - 64;
+				int y2 = (int) inStr.charAt(3) - 48;
 
 				if  ((x1 < 1) || (x2 < 1) || (y1 < 1) || ( y2 < 1) || (x1 > 8) || (x2 > 8) || (y1 > 8) || (y2 > 8)) {
 					bReady = false;
@@ -218,11 +217,6 @@ public class TtyUI
 		lMoveV = v;
 	}
 	
-	void repaint()
-	{
-		dumpSquares();
-	}
-	
 	void enableUndo (boolean enable)
 	{
 		bUndoEnabled = enable;
@@ -253,7 +247,7 @@ public class TtyUI
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				context.setBoard(getChessboardString(), lMoveV);
+				context.setBoardAndLastMoveVector(getChessboardString(), lMoveV);
 			}
 		});
 
