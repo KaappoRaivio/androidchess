@@ -305,7 +305,7 @@ public class chessboard implements Serializable
 		return sRet;
 	}
 	
-	String lastmoveString_bylib()
+	public String lastmoveString_bylib()
 	{
 		if (lm_vector == null) return null;
 		

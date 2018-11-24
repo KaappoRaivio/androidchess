@@ -56,7 +56,10 @@ public class TtyUI
 			for (int j=0;j<8;j++)
 				square[i][j] = cb.piecevalue(i,j);
 		
-		mCb = cb;	
+		mCb = cb;
+
+		context.setLastMove(mCb.lm_vector, mCb.lastmoveString_bylib());
+
 	}
 	
 	void setMessage(final String s)
@@ -244,10 +247,12 @@ public class TtyUI
 	private void dumpSquares() {
 		System.out.println("TtyUI.dumpSquares(): updating board");
 
+		final String lastMoveByLib = mCb.lastmoveString_bylib();
+
 		context.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				context.setBoardAndLastMoveVector(getChessboardString(), lMoveV);
+				context.setBoardAndLastMoveVector(getChessboardString());
 			}
 		});
 

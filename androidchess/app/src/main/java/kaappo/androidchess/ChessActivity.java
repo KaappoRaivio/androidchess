@@ -47,6 +47,9 @@ public class ChessActivity extends AppCompatActivity {
 
     private List<String> boardHistory = new ArrayList<>();
 
+    private Vector<Integer> lastMoveVector;
+    private String lastMove;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,31 +238,30 @@ public class ChessActivity extends AppCompatActivity {
         return ""+(char)(96 + x1) + y1 + ":" + (char)(96 + x2) + y2;
     }
 
-    public void setBoardAndLastMoveVector(String board, Vector<Integer> lastMoveVector) {
+    public void setBoardAndLastMoveVector(String board) {
         setBoard(board);
 
         this.boardHistory.add(board);
 
 
-        if (lastMoveVector != null) {
+        if (lastMoveVector != null && lastMove != null) {
             highlightLastMove(lastMoveVector);
 
             // set movehistory
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
             RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
 
-            String lastMove = getStringFromLMoveV(lastMoveVector);
+
             recyclerViewAdapter.addMove(lastMove);
             recyclerViewAdapter.addBoard(board, lastMoveVector);
             recyclerViewAdapter.notifyDataSetChanged();
         }
 
+    }
 
-
-
-
-
-
+    public void setLastMove (Vector<Integer> lastMoveVector, String move) {
+        this.lastMoveVector = lastMoveVector;
+        this.lastMove = move;
     }
 
     public void setBoard (String board) {

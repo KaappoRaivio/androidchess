@@ -188,8 +188,8 @@ public class play
 				cw.setMessage("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
 				cw.show();
 				*/
-				cui.updateData(cb);
 				cui.setLastMoveVector(null);
+				cui.updateData(cb);
 				cui.setMessage("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
 				cui.show();
 				System.out.println("Starting new game. Levels: " + lev[0] +"," + lev[1] + " Algorithms : " + alg[0] +"," + alg[1] + " Deepflags: " + bDeep[0] +"," + bDeep[1]);
