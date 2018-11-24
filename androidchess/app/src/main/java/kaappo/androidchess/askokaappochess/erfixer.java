@@ -118,7 +118,7 @@ class gamerec
 			String s = (String)vMoves.elementAt(i);
 			String[] szC = s.split(":");
 			String sMove = enginerunner.getMove(szC[0]);
-			String sMove2 = engine.getMove(engine.sSTOCKFISH,szC[0],engine.iNodeLimPerAlg(movevalue.ALG_ASK_FROM_ENGINE10));
+			String sMove2 = engine.getMove(engine.sSTOCKFISH,szC[0],engine.iNodeLimPerAlg(MoveValue.ALG_ASK_FROM_ENGINE10));
 			System.out.println("Compare: "+ sMove + "," + szC[1]+","+sMove2.toUpperCase());
 			if (!sMove.equals(szC[1]) || (!sMove.equals(sMove2.toUpperCase())))
 			{
@@ -135,13 +135,13 @@ class gamerec
 				
 				cb1.domove(sMove,cb1.iFileCol);
 				String sFEN1 = cb1.FEN();
-				String sMoveNew = engine.getMove(engine.sSTOCKFISH,sFEN1,engine.iNodeLimPerAlg(movevalue.ALG_ASK_FROM_ENGINE10));
+				String sMoveNew = engine.getMove(engine.sSTOCKFISH,sFEN1,engine.iNodeLimPerAlg(MoveValue.ALG_ASK_FROM_ENGINE10));
 				int iScoreOld = engine.iLastScore;
 				pwprob.println("Score for: "+sMove+ " " + iScoreOld + " (old)");
 				
 				cb2.domove(sMove2.toUpperCase(),cb2.iFileCol);
 				String sFEN2 = cb2.FEN();
-				sMoveNew = engine.getMove(engine.sSTOCKFISH,sFEN2,engine.iNodeLimPerAlg(movevalue.ALG_ASK_FROM_ENGINE10));
+				sMoveNew = engine.getMove(engine.sSTOCKFISH,sFEN2,engine.iNodeLimPerAlg(MoveValue.ALG_ASK_FROM_ENGINE10));
 				int iScoreCheck = engine.iLastScore;
 				pwprob.println("Score for: "+sMove2.toUpperCase()+ " " + iScoreCheck + " (checked)");
 				

@@ -74,7 +74,7 @@ public class fulfiller
 			try
 			{
 				iWAlg = new Integer(rs.getString(1)).intValue();
-				if ((iWAlg >= movevalue.ALG_FIRST_WEIRD_OPENING) && (iWAlg <= movevalue.ALG_LAST_WEIRD_OPENING))
+				if ((iWAlg >= MoveValue.ALG_FIRST_WEIRD_OPENING) && (iWAlg <= MoveValue.ALG_LAST_WEIRD_OPENING))
 				{
 					weirdmove wm = new weirdmove(iWAlg,rs.getString(2));
 					vWeirdos.addElement(wm);
@@ -191,7 +191,7 @@ public class fulfiller
 						chessboard cbx = new chessboard();
 						cbx.init_from_FEN(sFEN);
 						
-						movevalue mmval = new movevalue("");
+						MoveValue mmval = new MoveValue("");
 						mostore mos = new mostore();
 						
 						chessboard cb2 = cbx.findAndDoBestMove(cbx.iFileCol,1,mmval,iAlg,true,null,null,false, null,null,null,null,chessboard.CB_MAXTIME,true,null, mos);
@@ -210,7 +210,7 @@ public class fulfiller
 					chessboard cbx = new chessboard();
 					cbx.init_from_FEN(sFEN);
 						
-					movevalue mmval = new movevalue("");
+					MoveValue mmval = new MoveValue("");
 					mostore mos = new mostore();
 					
 					chessboard cb2 = cbx.findAndDoBestMove(cbx.iFileCol,iLev,mmval,iACAlg,false,null,null,false, null,null,null,null,chessboard.CB_MAXTIME,true,null, mos);
@@ -319,7 +319,7 @@ public class fulfiller
 			}
 		}  // end weirdo processing
 		
-		for (int i=movevalue.ALG_FIRST_WEIRD_OPENING;i<=movevalue.ALG_LAST_WEIRD_OPENING;i++)
+		for (int i=MoveValue.ALG_FIRST_WEIRD_OPENING;i<=MoveValue.ALG_LAST_WEIRD_OPENING;i++)
 		{
 			if (!vContainsAlg(vAlg,i+"")) 
 			{
@@ -332,56 +332,56 @@ public class fulfiller
 				if (sFEN.indexOf(" w" ) != -1) iC = Piece.WHITE;
 				else iC = Piece.BLACK;
 				
-				cbx.redoVectorsAndCoverages(iC, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cbx.redoVectorsAndCoverages(iC, MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				
-				movevalue mmval = new movevalue("");
+				MoveValue mmval = new MoveValue("");
 				mostore mos = new mostore();
 				
 				boolean bYes = false;
 				
 				switch (i)
 				{
-					case movevalue.ALG_GET_MIDPAWN_OPENING:
+					case MoveValue.ALG_GET_MIDPAWN_OPENING:
 						bYes = cbx.bMidPawnOpenings(iC);
 						break;
 					
-					case movevalue.ALG_GET_PAWNPRESS_OPENING:
+					case MoveValue.ALG_GET_PAWNPRESS_OPENING:
 						bYes = cbx.bPawnPressureOpenings(iC);
 						break;
 					
-					case movevalue.ALG_GET_FIANCHETTOPREP_OPENING:
+					case MoveValue.ALG_GET_FIANCHETTOPREP_OPENING:
 						bYes = cbx.bFianchettoPrepOpenings(iC);
 						break;
 					
-					case movevalue.ALG_GET_BISHOPE3_OPENING:
+					case MoveValue.ALG_GET_BISHOPE3_OPENING:
 						bYes = cbx.bBishopE3Openers(iC);
 						break;
 					
-					case movevalue.ALG_GET_F2STEP_OPENING:
+					case MoveValue.ALG_GET_F2STEP_OPENING:
 						bYes = cbx.bF2StepOpeners(iC);
 						break;
 					
-					case movevalue.ALG_GET_PAWNFRONT_OPENING:
+					case MoveValue.ALG_GET_PAWNFRONT_OPENING:
 						bYes = cbx.bPawnFrontOpeners(iC);
 						break;
 					
-					case movevalue.ALG_GET_BACKROWROOK_OPENING:
+					case MoveValue.ALG_GET_BACKROWROOK_OPENING:
 						bYes = cbx.bBackRowRookOpeners(iC);
 						break;
 					
-					case movevalue.ALG_GET_KNIGHTTOMIDDLE_OPENING:
+					case MoveValue.ALG_GET_KNIGHTTOMIDDLE_OPENING:
 						bYes = cbx.bKnightToMiddleMoves(iC);
 						break;
 					
-					case movevalue.ALG_GET_QUEENFIRSTMOVE_OPENING:
+					case MoveValue.ALG_GET_QUEENFIRSTMOVE_OPENING:
 						bYes = cbx.bQueenFirstMoves(iC);
 						break;
 					
-					case movevalue.ALG_GET_C2STEP_OPENING:
+					case MoveValue.ALG_GET_C2STEP_OPENING:
 						bYes = cbx.bC2StepOpeners(iC);
 						break;
 					
-					case movevalue.ALG_GET_BISHOPF4_OPENING:
+					case MoveValue.ALG_GET_BISHOPF4_OPENING:
 						bYes = cbx.bBishopF4Openers(iC);
 						break;
 					

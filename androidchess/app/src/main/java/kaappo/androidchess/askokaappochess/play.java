@@ -126,11 +126,11 @@ public class play
 				if (iAlgpick==1)
 				{
 					System.out.println("Stockfish: " + lev[0] + "," + lev[1]);
-					if (lev[0] >= 0) iAlg = movevalue.ALG_ASK_FROM_ENGINE1+lev[0];
-					else iAlg = movevalue.ALG_ASK_FROM_ENGINE1+lev[1];
+					if (lev[0] >= 0) iAlg = MoveValue.ALG_ASK_FROM_ENGINE1+lev[0];
+					else iAlg = MoveValue.ALG_ASK_FROM_ENGINE1+lev[1];
 				}
 				else
-				iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
+				iAlg = MoveValue.ALG_SUPER_PRUNING_KINGCFIX;
 
 				alg[0] =  iAlg;
 				alg[1] =  iAlg;
@@ -230,7 +230,7 @@ public class play
 		king pKing = null;
 		Vector vCheck = null;
 		
-		gamehistory gh = new gamehistory();
+		GameHistory gh = new GameHistory();
 		
 		//if (GUIWINDOW) cw.setgamehistory(gh);
 		cui.setgamehistory(gh);
@@ -294,7 +294,7 @@ public class play
 		
 		
 		
-		movevalue mvalc = null;
+		MoveValue mvalc = null;
 		
 		while ((iMove < GAME_LENGTH) && bGameOn)
 		{
@@ -317,7 +317,7 @@ public class play
 				System.out.println("DBG161010: GAME LOOP clr: " + clr+ " ,@move:" + iMove);
 				
 				// FULFILLER TEST 180416
-				if ((iMove >= FULLFILLER_LEVEL) && (iMove <= FULLFILLER_LEVEL_MAX) && (alg[clr] == movevalue.ALG_ASK_FROM_ENGINE_RND) && (fufi != null))
+				if ((iMove >= FULLFILLER_LEVEL) && (iMove <= FULLFILLER_LEVEL_MAX) && (alg[clr] == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (fufi != null))
 				{
 					fufi.fulfill(cb.FEN(), iMove);
 				}
@@ -445,22 +445,22 @@ public class play
 					
 					String sLibMove = null;
 					
-					if ((USE_MOVELIBRARY) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND))
+					if ((USE_MOVELIBRARY) && (alg[clr] != MoveValue.ALG_ASK_FROM_ENGINE_RND))
 					{
 						if (mlib.getSeed() != -1) sLibMove=mlib.sMoveBySeed(iMove,clr);
 						else sLibMove=mlib.sNextMove(gh.sMovehistory());
 					}
 					
 					String sSugg = null;
-					if (((USE_LIBMOVES) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND)) ||
-					   ((alg[clr] == movevalue.ALG_ASK_FROM_ENGINE_RND) && (iMove < iRandEngLibLimit) && (USE_LIBMOVES)))
+					if (((USE_LIBMOVES) && (alg[clr] != MoveValue.ALG_ASK_FROM_ENGINE_RND)) ||
+					   ((alg[clr] == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (iMove < iRandEngLibLimit) && (USE_LIBMOVES)))
 					{
 						sSugg = o.getFittingMove(gh.sMovehistory_bylib(),iMove,clr);
 						System.out.println("sSugg returned:" + sSugg);
 					}
 					
 					/*
-					if ((alg[clr]==movevalue.ALG_ASK_FROM_ENGINE_RND) && (iMove ==1))
+					if ((alg[clr]==MoveValue.ALG_ASK_FROM_ENGINE_RND) && (iMove ==1))
 					{
 						if (clr==0) sSugg = "c4";
 						else sSugg="g6";
@@ -469,11 +469,11 @@ public class play
 					
 					// $$$$ 170214 hack!
 					
-					/*if ((alg[clr] < movevalue.ALG_ASK_FROM_ABROK1) && (alg[clr] > movevalue.ALG_ASK_FROM_ABROK4)) USE_ENGINEMOVES = true;
+					/*if ((alg[clr] < MoveValue.ALG_ASK_FROM_ABROK1) && (alg[clr] > MoveValue.ALG_ASK_FROM_ABROK4)) USE_ENGINEMOVES = true;
 					else USE_ENGINEMOVES = false;
 					*/
 					
-					if (USE_ENGINEMOVES &&(sLibMove == null) && (sSugg == null) && ((lev[clr]>0) || (iMove < ANYMOVE_LIB_LIMIT)) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND))
+					if (USE_ENGINEMOVES &&(sLibMove == null) && (sSugg == null) && ((lev[clr]>0) || (iMove < ANYMOVE_LIB_LIMIT)) && (alg[clr] != MoveValue.ALG_ASK_FROM_ENGINE_RND))
 					{
 						if (!CMonitor.bNoBlood())
 						{
@@ -503,7 +503,7 @@ public class play
 					}
 					
 					
-					if ((iMove == M4LEVEL) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND))
+					if ((iMove == M4LEVEL) && (alg[clr] != MoveValue.ALG_ASK_FROM_ENGINE_RND))
 					{
 					}
 					
@@ -552,10 +552,10 @@ public class play
 						
 						System.out.println("Doing regular move. clr = " + clr + " by alg: " + alg[clr]);
 
-						//movevalue mmval = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0, 0,false, false,false,false);
-						movevalue mmval = new movevalue("");
+						//MoveValue mmval = new MoveValue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0, 0,false, false,false,false);
+						MoveValue mmval = new MoveValue("");
 						mmval.setbase(clr);
-						if ((iMove < FEN_ENTRY_MOVELIMIT) && (alg[clr] != movevalue.ALG_ASK_FROM_ENGINE_RND)) 
+						if ((iMove < FEN_ENTRY_MOVELIMIT) && (alg[clr] != MoveValue.ALG_ASK_FROM_ENGINE_RND))
 						{
 							if (!CMonitor.bNoBlood()) 
 							{
@@ -684,7 +684,7 @@ public class play
 						{
 							System.out.println("Repetition draw here. Color: " + clr);
 							cb.dump();
-							System.out.println(mvalc.dumpstr(alg[clr], movevalue.DUMPMODE_SHORT));
+							System.out.println(mvalc.dumpstr(alg[clr], MoveValue.DUMPMODE_SHORT));
 							cb2.dump();
 							
 							int iCPB;
@@ -698,12 +698,12 @@ public class play
 							if (((clr == Piece.WHITE) && ((iCPB < 0) || mvalc.bWhiteCheckMate)) || ((clr == Piece.BLACK) && ((iCPB > 0) || mvalc.bBlackCheckMate))) System.out.println("Take the draw, IT'S GOOD MOVE NOW!");
 							else bRetry = true;
 							
-							if ((bRetry) && (alg[clr] < movevalue.ALG_ASK_FROM_ENGINE1))
+							if ((bRetry) && (alg[clr] < MoveValue.ALG_ASK_FROM_ENGINE1))
 							{
 								int iRetryCount = 0;
 								boolean bGoodAltFound = false;
 								
-								System.out.println("mvalc:" + mvalc.dumpstr(alg[clr],movevalue.DUMPMODE_SHORT));
+								System.out.println("mvalc:" + mvalc.dumpstr(alg[clr],MoveValue.DUMPMODE_SHORT));
 								System.out.println(mvalc.sMove());
 								
 								CMonitor.sDrawMove = new String(mvalc.sMove());
@@ -716,14 +716,14 @@ public class play
 								
 									System.out.println("Inside draw loop, iRetryCount: " + iRetryCount);
 									System.out.println("CMonitor.sDrawMove:" + CMonitor.sDrawMove);	
-									movevalue dmval = new movevalue("");
+									MoveValue dmval = new MoveValue("");
 									chessboard cb3 = cb.findAndDoBestMove(clr,iLEV,dmval,alg[clr],bDebug,null,null,bDeep[clr], null,null,null,null,iTL, true, null, mos);
 									System.out.println("To avoid draw:");
 									
 									if (cb3 != null) cb3.dump();
 									else iRetryCount = DRAW_RETRY_LIMIT;
 									
-									System.out.println(dmval.dumpstr(alg[clr], movevalue.DUMPMODE_SHORT));
+									System.out.println(dmval.dumpstr(alg[clr], MoveValue.DUMPMODE_SHORT));
 								
 									if ((iLEV % 2) == 0) iCPB = dmval.getCorrPieceBal(1-clr);
 									else iCPB = dmval.getCorrPieceBal(clr);
@@ -802,7 +802,7 @@ public class play
 						if (alg[clr] == 40) iSecondOp = 34;
 						else iSecondOp = 40;
 						
-						movevalue mmval2 = new movevalue("");
+						MoveValue mmval2 = new MoveValue("");
 						
 						mmval.setbase(clr);
 						chessboard cb_second = cb.findAndDoBestMove(clr,lev[clr],mmval2,iSecondOp,false,gh,null,bDeep[clr],null,null,null,null,iTimeLim[clr],false,null);
@@ -834,8 +834,8 @@ public class play
 						if (flip_test_on)
 						{
 						
-							//movevalue mmval2 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-							movevalue mmval2 = new movevalue("");
+							//MoveValue mmval2 = new MoveValue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
+							MoveValue mmval2 = new MoveValue("");
 							chessboard cb_flip = cb.flip(clr, alg[clr]);
 							System.out.println("FLIPPED BOARD:");
 							cb_flip.dump();
@@ -902,8 +902,8 @@ public class play
 									System.out.println("Last move:" + cb_flip.lastmoveString());
 									System.out.println("Potential failure flip.");
 									System.out.println("Reflip to avoid tie bias.");
-									//movevalue mmval3 = new movevalue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
-									movevalue mmval3 = new movevalue("");
+									//MoveValue mmval3 = new MoveValue("",0,0,0,0,0,0,0,0,false,false,false,false,false,false,0,0,0,0,0,0,0,0,false,false,false,0,0,0,0,0,0,0,0,0,0,0,0,0,false,false,false,false);
+									MoveValue mmval3 = new MoveValue("");
 									chessboard cb_third = cb.findAndDoBestMove(clr,lev[clr],mmval3,alg[clr],true,null,null,bDeep[clr],null,null,null,null,null);
 									if (!cb_flip2.equals(cb_third)  )
 									{
@@ -1123,7 +1123,7 @@ public class play
 			
 			if (lev[iWinner] < 0) 
 			{
-				if ((alg[1-iWinner] >= movevalue.ALG_ASK_FROM_ENGINE1) && (alg[1-iWinner] <= movevalue.ALG_ASK_FROM_ENGINE_LAST)) sMess = sMess + "You win against Stockfish on level " + (alg[1-iWinner] - movevalue.ALG_ASK_FROM_ENGINE1 + 1) + sUndo;
+				if ((alg[1-iWinner] >= MoveValue.ALG_ASK_FROM_ENGINE1) && (alg[1-iWinner] <= MoveValue.ALG_ASK_FROM_ENGINE_LAST)) sMess = sMess + "You win against Stockfish on level " + (alg[1-iWinner] - MoveValue.ALG_ASK_FROM_ENGINE1 + 1) + sUndo;
 				else
 				{
 					int iFicLev = lev[1-iWinner]*2 - 1;
@@ -1136,7 +1136,7 @@ public class play
 			else
 			{
 				System.out.println("alg[iWinner]:"+ alg[iWinner]);
-				if ((alg[iWinner] >= movevalue.ALG_ASK_FROM_ENGINE1) && (alg[iWinner] <= movevalue.ALG_ASK_FROM_ENGINE_LAST)) sMess = sMess + "Stockfish on level " + (alg[iWinner] - movevalue.ALG_ASK_FROM_ENGINE1 + 1)+ " wins."  + sUndo;
+				if ((alg[iWinner] >= MoveValue.ALG_ASK_FROM_ENGINE1) && (alg[iWinner] <= MoveValue.ALG_ASK_FROM_ENGINE_LAST)) sMess = sMess + "Stockfish on level " + (alg[iWinner] - MoveValue.ALG_ASK_FROM_ENGINE1 + 1)+ " wins."  + sUndo;
 				else
 				{
 					int iFicLev = lev[iWinner]*2 - 1;

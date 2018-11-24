@@ -21,7 +21,7 @@ public class TtyUI
 	private int mMaxThreads = 4;
 	int mIUrgency;
 	
-	private gamehistory ghist;
+	private GameHistory ghist;
 	
 	private boolean bUndoEnabled = true;
 	
@@ -58,7 +58,6 @@ public class TtyUI
 		
 		mCb = cb;
 
-		context.setLastMove(mCb.lm_vector, mCb.lastmoveString_bylib());
 
 	}
 	
@@ -230,7 +229,7 @@ public class TtyUI
 		return mMaxThreads;
 	}
 	
-	void setgamehistory (gamehistory gh)
+	void setgamehistory (GameHistory gh)
 	{
 		ghist = gh;
 	}

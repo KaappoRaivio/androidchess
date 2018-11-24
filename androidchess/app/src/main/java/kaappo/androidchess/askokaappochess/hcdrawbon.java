@@ -16,7 +16,7 @@ public class hcdrawbon
 			cb = new chessboard();
 			cb.init_from_file(args[0], null);
 			chessboard cb2 = cb.copy();
-			engine.findAndDoMove(cb2,movevalue.ALG_ASK_FROM_ENGINE10, false, false);
+			engine.findAndDoMove(cb2,MoveValue.ALG_ASK_FROM_ENGINE10, false, false);
 			int iEngScore = engine.iLastScore;
 			int iEngMateScore = engine.iLastMateScore;
 				
@@ -42,7 +42,7 @@ public class hcdrawbon
 				cb.dump();
 				
 				chessboard cb2 = cb.copy();
-				engine.findAndDoMove(cb2,movevalue.ALG_ASK_FROM_ENGINE10, false, false);
+				engine.findAndDoMove(cb2,MoveValue.ALG_ASK_FROM_ENGINE10, false, false);
 				int iEngScore = engine.iLastScore;
 				int iEngMateScore = engine.iLastMateScore;
 				
@@ -98,7 +98,7 @@ public class hcdrawbon
 	public static void setHCDrawBon(chessboard cb, int iTurn)
 	{
 		System.out.println("DBG160206:setHCDrawBon starts. iTurn:" + iTurn);
-		//cb.redoVectorsAndCoverages(cb.iFileCol,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		//cb.redoVectorsAndCoverages(cb.iFileCol,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 		int iColor = cb.iFileCol;
 		
 		int iType = HCDrawBonType(cb);

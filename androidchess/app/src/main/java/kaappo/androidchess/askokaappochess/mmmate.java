@@ -43,7 +43,7 @@ public class mmmate
 		if (iRounds > iRoundLimit+1) return;
 		
 		System.out.println("mmmate.analyze() starts. iRounds:" + iRounds + " iRoundLimit:" + iRoundLimit+ " " + sAnseq);
-		cb.redoVectorsAndCoverages(iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		cb.redoVectorsAndCoverages(iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 		cb.dump();
 		moveindex mi, mien;
 		boolean bChecking = false;
@@ -489,7 +489,7 @@ public class mmmate
 		
 			chessboard cbarray[] = new chessboard[10];
 			cbarray[1]=cb.copy();
-			cbarray[1].redoVectorsAndCoverages(1-iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+			cbarray[1].redoVectorsAndCoverages(1-iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 			
 			boolean bBlocked = false;
 			
@@ -531,7 +531,7 @@ public class mmmate
 				else iEnemyCount++;
 				
 				cbarray[j+1]=cbarray[j].copy();
-				cbarray[j+1].redoVectorsAndCoverages(1-iMColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cbarray[j+1].redoVectorsAndCoverages(1-iMColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				
 			}
 			System.out.println("Replay done, iEnemyCount:"+iEnemyCount);
@@ -550,7 +550,7 @@ public class mmmate
 			System.out.println("moving:"+sMove1);
 			cb1.domove(sMove1,1);
 			cb1.dump();
-			cb1.redoVectorsAndCoverages(1-iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);  // fix icolor right!
+			cb1.redoVectorsAndCoverages(1-iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);  // fix icolor right!
 			String sMove2 = sMoves[2].substring(1,5).toUpperCase();
 			System.out.println("Next move:"+sMoves[2]);
 			moveindex miw = cb1.miWhiteMoveindex;

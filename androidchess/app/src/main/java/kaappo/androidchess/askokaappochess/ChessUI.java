@@ -76,7 +76,7 @@ public class ChessUI
         return 0;
 	}
 	
-	void setgamehistory (gamehistory gh)
+	void setgamehistory (GameHistory gh)
 	{
 
 		if (tty != null) tty.setgamehistory(gh);
@@ -132,12 +132,12 @@ public class ChessUI
 
 	}
 	
-	static void setBestMval(movevalue mv)
+	static void setBestMval(MoveValue mv)
 	{
 
 	}
 	
-	static void setBestPreMval(movevalue mv)
+	static void setBestPreMval(MoveValue mv)
 	{
 
 	}

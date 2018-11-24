@@ -93,7 +93,7 @@ public class nalimov
 										System.out.println("Black FEN:" + cb.FEN());
 										iBlackPos++;
 										String sBlackFEN = cb.FEN();
-										cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+										cb.redoVectorsAndCoverages(Piece.WHITE,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 										
 										sInsNal.setString(1,sBlackFEN);
 										sInsNal.executeUpdate();
@@ -188,7 +188,7 @@ public class nalimov
 				chessboard cb2 = cb.copy();
 				cb2.domove(m.moveStrCaps(), Piece.WHITE);
 				//cb2.dump();
-				cb2.redoVectorsAndCoverages(Piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb2.redoVectorsAndCoverages(Piece.BLACK,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				if (cb2.bBlackKingThreat) System.out.println("Still checked");
 				else 
 				{
@@ -232,7 +232,7 @@ public class nalimov
 				System.out.println("Possibly found something: " + m.moveStr());
 				chessboard cb2 = cb.copy();
 				cb2.domove(m.moveStrCaps(),iColor);
-				cb2.redoVectorsAndCoverages(1-iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb2.redoVectorsAndCoverages(1-iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				cb2.dump();
 				if (iDTM < 3) processMove(cb2,iDTM+1,1-iColor);
 			}
@@ -269,7 +269,7 @@ public class nalimov
 					System.out.println("DTM " + iDTM + " FEN: " + sFEN);
 					chessboard cb = new chessboard();
 					cb.init_from_FEN(sFEN);
-					cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+					cb.redoVectorsAndCoverages(Piece.WHITE,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 					processCheckMate(cb, iDTM);
 					
 				}
@@ -305,7 +305,7 @@ public class nalimov
 						System.out.println(sFEN);
 						System.out.println("DTM by " + iDTM + " check board starts: ----");
 						cb.dump();
-						cb.redoVectorsAndCoverages(Piece.WHITE,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+						cb.redoVectorsAndCoverages(Piece.WHITE,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 						moveindex mi = cb.miBlackMoveindex;
 						mi.dump(true);
 						boolean bEscape = false;
@@ -346,7 +346,7 @@ public class nalimov
 								cb2=cb3.copy();
 								System.out.println("cb2 dump");
 								cb2.dump();
-								cb2.redoVectorsAndCoverages(Piece.BLACK,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+								cb2.redoVectorsAndCoverages(Piece.BLACK,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 							}
 							else 
 							{

@@ -93,7 +93,7 @@ public class hcwinner
 		return HCW_NONE;
 	}
 	
-	static chessboard hcwinnerFAD(chessboard cb, int iTurn, movevalue mval, int iAlg)
+	static chessboard hcwinnerFAD(chessboard cb, int iTurn, MoveValue mval, int iAlg)
 	{
 		
 		int iHCW = hcwinnable(cb,iTurn);
@@ -119,7 +119,7 @@ public class hcwinner
 		}
 	}
 	
-	static chessboard do_hcw_rookalone(chessboard cb, int iTurn, movevalue mval, int iAlg)
+	static chessboard do_hcw_rookalone(chessboard cb, int iTurn, MoveValue mval, int iAlg)
 	{
 		king kOwn, kEnemy;
 		rook rr = null;
@@ -642,7 +642,7 @@ public class hcwinner
 		//return cb;
 	}
 	
-	static chessboard do_hcw_queenalone(chessboard cb, int iTurn, movevalue mval, int iAlg)
+	static chessboard do_hcw_queenalone(chessboard cb, int iTurn, MoveValue mval, int iAlg)
 	{
 		moveindex mi;
 		king kOwn,kEnemy;
@@ -901,7 +901,7 @@ public class hcwinner
 		
 	}
 	
-	static chessboard do_hcw_rook_and_pawns(chessboard cb, int iTurn, movevalue mval, int iAlg)
+	static chessboard do_hcw_rook_and_pawns(chessboard cb, int iTurn, MoveValue mval, int iAlg)
 	{
 		//System.out.println("hcw:do_hcw_rook_and_pawns");
 		king kOwn, kEnemy;
@@ -1114,7 +1114,7 @@ public class hcwinner
 		return null;
 	}
 	
-	static chessboard do_hcw_queen_and_pawns(chessboard cb, int iTurn, movevalue mval, int iAlg)
+	static chessboard do_hcw_queen_and_pawns(chessboard cb, int iTurn, MoveValue mval, int iAlg)
 	{
 		king kOwn, kEnemy;
 		queen q = null;

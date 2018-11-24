@@ -18,7 +18,7 @@ class mt_movefinder
 		
 	}
 	
-	void add_task(chessboard cb, int iColor, int iRounds, movevalue basemv, int iAlg, boolean bDebug)
+	void add_task(chessboard cb, int iColor, int iRounds, MoveValue basemv, int iAlg, boolean bDebug)
 	{
 		mt_find_task mt = new mt_find_task();
 		mt.cb_in = cb;
@@ -32,7 +32,7 @@ class mt_movefinder
 		v_tasks.addElement(mt);
 	}
 	
-	chessboard get_bestmove(int iColor, movevalue basemv)
+	chessboard get_bestmove(int iColor, MoveValue basemv)
 	{
 		try 
 		{
@@ -96,7 +96,7 @@ class mt_find_task
 	chessboard cb_out;
 	int iColor;
 	int iRounds;
-	movevalue basemv;
+	MoveValue basemv;
 	int iAlg;
 	boolean bDebug;
 	long lCreateTime;

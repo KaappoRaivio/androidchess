@@ -41,7 +41,7 @@ public class ensf
 				cb.dump();
 				System.out.println("L1FEN:" + cb.FEN());
 				play.printFENEntry(cb.FEN());
-				String sEngMove = engine.getMoveByAlg("",cb.FEN(),movevalue.ALG_ASK_FROM_ENGINE10);
+				String sEngMove = engine.getMoveByAlg("",cb.FEN(),MoveValue.ALG_ASK_FROM_ENGINE10);
 				System.out.println("NEWENGMOVE:"+sEngMove);
 				if (engine.mVec != null)
 				{

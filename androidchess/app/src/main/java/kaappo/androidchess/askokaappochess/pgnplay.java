@@ -25,7 +25,7 @@ public class pgnplay
 	public static void playit(String sGame) throws Exception{
 		chessboard cb = new chessboard();
 		cb.init();
-		cb.redoVectorsAndCoverages(Piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		cb.redoVectorsAndCoverages(Piece.WHITE, MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 		cb.iMoveCounter=1;
 		
 		String sGameComp[] = sGame.split(" ");
@@ -51,7 +51,7 @@ public class pgnplay
 			cb.domove_bylib(sWhiteMove, Piece.WHITE);
 			cb=cb.copy();
 			
-			cb.redoVectorsAndCoverages(Piece.BLACK, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+			cb.redoVectorsAndCoverages(Piece.BLACK, MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 			cb.dump();
 			System.out.println(cb.FEN());
 			
@@ -72,7 +72,7 @@ public class pgnplay
 				cb.domove_bylib(sBlackMove, Piece.BLACK);
 				cb=cb.copy();
 				
-				cb.redoVectorsAndCoverages(Piece.WHITE, movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb.redoVectorsAndCoverages(Piece.WHITE, MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				cb.dump();
 				System.out.println(cb.FEN());
 				

@@ -9,7 +9,7 @@ public class strategy
 	int iTurn;
 	int iAlg;
 	int iRounds;
-	gamehistory ghist;
+	GameHistory ghist;
 	int iCommon;
 	
 	PrintWriter pw;
@@ -20,7 +20,7 @@ public class strategy
 	mval_combo m_mval_combo;
 	Vector dbg_Vector;
 	
-	strategy(chessboard cb, int iC, int iT, int iA, int iR, gamehistory gh)
+	strategy(chessboard cb, int iC, int iT, int iA, int iR, GameHistory gh)
 	{
 		root_cb = cb.copy();
 		iColor = iC;
@@ -35,11 +35,11 @@ public class strategy
 		//System.out.println("strategy object created.");
 	}
 	
-	synchronized void  addCand(movevalue mv)
+	synchronized void  addCand(MoveValue mv)
 	{
 		
-		movevalue m = mv.copy();
-		//System.out.println("DBG150430: STRATEGY.addCand(" + iRounds+") " + m.dumpstr(29,movevalue.DUMPMODE_SHORT));
+		MoveValue m = mv.copy();
+		//System.out.println("DBG150430: STRATEGY.addCand(" + iRounds+") " + m.dumpstr(29,MoveValue.DUMPMODE_SHORT));
 		
 		if (v.size() == 0) 
 		{
@@ -130,7 +130,7 @@ public class strategy
 		for (int i=0;i<v.size();i++)
 		{
 			strat_entry se = (strat_entry)v.elementAt(i);
-			movevalue m0 = se.mv;
+			MoveValue m0 = se.mv;
 			if (i == 0) // don't get to top of list if cut, below that it's OK! 160429
 			{
 				if (m.isBetterthan(m0,iColor,iAlg,iTurn,0))
@@ -163,7 +163,7 @@ public class strategy
 	{
 		boolean bSilent = true;
 		
-		movevalue m0 = null;
+		MoveValue m0 = null;
 		if (v.size() != 0)
 		{			
 			strat_entry se = (strat_entry)v.elementAt(0);
@@ -181,13 +181,13 @@ public class strategy
 		for(int i=0;i<v.size();i++)
 		{
 			strat_entry se = (strat_entry)v.elementAt(i);
-			movevalue m = se.mv;
+			MoveValue m = se.mv;
 			if ((!bCut) && (!m0.equalBalance(iAlg,iTurn,m) || !m0.equalStates(m) || (Math.abs(m0.iCalcValue(iAlg,iTurn)-m.iCalcValue(iAlg,iTurn)) > 5)))
 			{
 				if (!bSilent) System.out.println("----------------");
 				bCut = true;
 			}
-			if (!bSilent) System.out.println(i+"(STRAT00)("+iRounds+"):" + m.dumpstr(iAlg, movevalue.DUMPMODE_SHORT) + " ("+ m.getFirstMove()+")");
+			if (!bSilent) System.out.println(i+"(STRAT00)("+iRounds+"):" + m.dumpstr(iAlg, MoveValue.DUMPMODE_SHORT) + " ("+ m.getFirstMove()+")");
 			//sMoveOrder = sMoveOrder + m.getFirstMove() + " ";
 			
 			// 151218 debug code $$$
@@ -201,7 +201,7 @@ public class strategy
 			{
 				System.out.println("DBG151218: Null pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
 				System.out.println("DBG151218: strategy object size: " + v.size() + " iCommon: " + iCommon);
-				System.out.println("DBG151218: movevalue route: " + m.sRoute);
+				System.out.println("DBG151218: MoveValue route: " + m.sRoute);
 				root_cb.dump();
 				throw new RuntimeException("DBG151218: Null pp failure at strategy.dump()! sMov:" + sMov + " iC: " + iColor);
 			}
@@ -281,7 +281,7 @@ public class strategy
 	
 	String analyzeEntries()
 	{
-		movevalue m0 = null;
+		MoveValue m0 = null;
 		if (v.size() != 0)
 		{			
 			strat_entry se = (strat_entry)v.elementAt(0);
@@ -332,7 +332,7 @@ public class strategy
 		for(int i=0;((i<v.size()) && !bCut);i++) 
 		{
 			strat_entry se = (strat_entry)v.elementAt(i);
-			movevalue m = se.mv;
+			MoveValue m = se.mv;
 			if ((!bCut) && (!m0.equalBalance(iAlg,iTurn,m) || !m0.equalStates(m) || (Math.abs(m0.iCalcValue(iAlg,iTurn)-m.iCalcValue(iAlg,iTurn)) > 5))) bCut = true;
 			else se.bMadeCut = true;
 		}
@@ -347,7 +347,7 @@ public class strategy
 		String sEngineMove = "";
 		try
 		{
-			sEngineMove = engine.getMoveByAlg(engine.sEnginePerAlg(movevalue.ALG_ASK_FROM_ENGINE10),root_cb.FEN(),movevalue.ALG_ASK_FROM_ENGINE10).toUpperCase();
+			sEngineMove = engine.getMoveByAlg(engine.sEnginePerAlg(MoveValue.ALG_ASK_FROM_ENGINE10),root_cb.FEN(),MoveValue.ALG_ASK_FROM_ENGINE10).toUpperCase();
 		}
 		catch (Exception e)
 		{
@@ -496,9 +496,9 @@ public class strategy
 
 class strat_entry
 {
-	movevalue mv;
+	MoveValue mv;
 	chessboard root_cb;
-	gamehistory ghist;
+	GameHistory ghist;
 	
 	Vector cb_vector;
 	Vector dbg_vector;
@@ -532,7 +532,7 @@ class strat_entry
 	static final int STRAT_ENTRY_TIE_PREFERRED = 10;
 	static final int STRAT_ENTRY_TIE_AVOIDED = -10;
 	
-	strat_entry(movevalue m, chessboard rcb, gamehistory gh, Vector dbgv)
+	strat_entry(MoveValue m, chessboard rcb, GameHistory gh, Vector dbgv)
 	{
 		mv = m.copy();
 		root_cb = rcb.copy();
@@ -552,7 +552,7 @@ class strat_entry
 	
 	String dumpstr(int iAlg)
 	{
-		return mv.dumpstr(iAlg,movevalue.DUMPMODE_SHORT) + " / first:" + sFirstMove;
+		return mv.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT) + " / first:" + sFirstMove;
 	}
 	
 	void doAnalysis(String sDesiredCap,String sUnDesiredCap, boolean bPreferClosed,boolean bPreferOpen, boolean bAvoidTie, boolean bPreferTie , String sOrig, String sEngine)

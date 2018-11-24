@@ -100,8 +100,8 @@ public class enginerunner
 			
 			if ((iMode == MODE_NORMAL) && (!rs.next()))
 			{
-				//String sMove = engine.getMoveByAlg("stockfish-6-64.exe", sctr,movevalue.ALG_ASK_FROM_ENGINE10);
-				String sMove = engine.getMoveByAlg(engine.sEnginePerAlg(movevalue.ALG_ASK_FROM_ENGINE10), sctr,movevalue.ALG_ASK_FROM_ENGINE10);
+				//String sMove = engine.getMoveByAlg("stockfish-6-64.exe", sctr,MoveValue.ALG_ASK_FROM_ENGINE10);
+				String sMove = engine.getMoveByAlg(engine.sEnginePerAlg(MoveValue.ALG_ASK_FROM_ENGINE10), sctr,MoveValue.ALG_ASK_FROM_ENGINE10);
 				int iScore = engine.iLastScore;
 				int iMateScore = engine.iLastMateScore;
 				//System.out.println("ENGMOVE DEBUG: cp:" + iScore + " iMate:" + iMateScore);
@@ -222,8 +222,8 @@ public class enginerunner
 				}
 				
 				System.out.println("It's file-based!");
-				//String sMove = engine.getMoveByAlg("stockfish-6-64.exe", sctr,movevalue.ALG_ASK_FROM_ENGINE10);
-				String sMove = engine.getMoveByAlg(engine.sEnginePerAlg(movevalue.ALG_ASK_FROM_ENGINE10), sctr,movevalue.ALG_ASK_FROM_ENGINE10);
+				//String sMove = engine.getMoveByAlg("stockfish-6-64.exe", sctr,MoveValue.ALG_ASK_FROM_ENGINE10);
+				String sMove = engine.getMoveByAlg(engine.sEnginePerAlg(MoveValue.ALG_ASK_FROM_ENGINE10), sctr,MoveValue.ALG_ASK_FROM_ENGINE10);
 				int iScore = engine.iLastScore;
 				int iMateScore = engine.iLastMateScore;
 				//System.out.println("ENGMOVE DEBUG: cp:" + iScore + " iMate:" + iMateScore);

@@ -92,7 +92,7 @@ public class anyokmove
 			cb2.dump();
 			System.out.println("FEN now:" + cb2.FEN());
 			
-			//chessboard cbr = db_anymoveget(cb2.FEN(), ""+movevalue.ALG_ANY_OKMOVE, true);
+			//chessboard cbr = db_anymoveget(cb2.FEN(), ""+MoveValue.ALG_ANY_OKMOVE, true);
 			String sOut = cb2.FEN();
 			String sMovedFEN = new String (cb2.FEN());
 			chessboard cbMoved = cb2.copy();
@@ -113,7 +113,7 @@ public class anyokmove
 			
 			
 			chessboard cbr = null;
-			if (c != null) cbr = db_anymoveget(sOut, ""+movevalue.ALG_ANY_OKMOVE, true);
+			if (c != null) cbr = db_anymoveget(sOut, ""+MoveValue.ALG_ANY_OKMOVE, true);
 			
 			if (cbr == null) 
 			{
@@ -135,9 +135,9 @@ public class anyokmove
 			{
 				System.out.println("No db connection, expand for all engine moves.");
 				
-				doenginemoves(movevalue.ALG_ASK_FROM_ENGINE1,movevalue.ALG_ASK_FROM_ENGINE10, sMovedFEN,cbMoved,iNewMove);
+				doenginemoves(MoveValue.ALG_ASK_FROM_ENGINE1,MoveValue.ALG_ASK_FROM_ENGINE10, sMovedFEN,cbMoved,iNewMove);
 				
-				doenginemoves(movevalue.ALG_ASK_FROM_ABROK1,movevalue.ALG_ASK_FROM_ABROK4, sMovedFEN,cbMoved,iNewMove);
+				doenginemoves(MoveValue.ALG_ASK_FROM_ABROK1,MoveValue.ALG_ASK_FROM_ABROK4, sMovedFEN,cbMoved,iNewMove);
 				
 			}
 		}
@@ -149,7 +149,7 @@ public class anyokmove
 	
 	static chessboard fad_anymove(chessboard cb, int iColor, int NewMoveNr) throws Exception
 	{
-		cb.redoVectorsAndCoverages(iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		cb.redoVectorsAndCoverages(iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 		cb.dump();
 		
 		System.out.println("anyokmove.fad_anymove() called!");
@@ -165,13 +165,13 @@ public class anyokmove
 			move m = mi.getMoveAt(i);
 			System.out.println("Doing: " + m.moveStrLong());
 			chessboard cb2=cb.copy();
-			cb2.redoVectorsAndCoverages(iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+			cb2.redoVectorsAndCoverages(iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 			cb2.domove(m.moveStrCaps(),iColor);
 			//cb2.dump();
 			chessboard cb3 = cb2.copy();
-			cb3.redoVectorsAndCoverages(1-iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+			cb3.redoVectorsAndCoverages(1-iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 			
-			chessboard cb4 = engine.findAndDoMove(cb3,movevalue.ALG_ASK_FROM_ENGINE1, false, false);
+			chessboard cb4 = engine.findAndDoMove(cb3,MoveValue.ALG_ASK_FROM_ENGINE1, false, false);
 			System.out.println("Score for: " + m.moveStrLong() + " :" + engine.iLastScore+":"+engine.iLastMateScore);
 			v.addElement(new mventry(m,engine.iLastScore,engine.iLastMateScore,engine.bLastMate));
 			
@@ -259,7 +259,7 @@ public class anyokmove
 			if (mve.bMadeCut)
 			{
 				chessboard cb2=cb.copy();
-				cb2.redoVectorsAndCoverages(iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+				cb2.redoVectorsAndCoverages(iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 				cb2.domove(mve.mo.moveStrCaps(),iColor);
 				/*
 				if (iColor == piece.WHITE) cb2.iMoveCounter=cb2.iMoveCounter+2;
@@ -289,18 +289,18 @@ public class anyokmove
 		System.out.println("Anyokmove Chose:" + mRnd.moveStrLong()+ " ************");
 		
 		chessboard cbret = cb.copy();
-		cbret.redoVectorsAndCoverages(iColor,movevalue.ALG_SUPER_PRUNING_KINGCFIX);
+		cbret.redoVectorsAndCoverages(iColor,MoveValue.ALG_SUPER_PRUNING_KINGCFIX);
 		cbret.domove(mRnd.moveStrCaps(),iColor);
 		//Thread.sleep(5000);
 		try
 		{
-			db_anymovesave(cb.FEN(),""+movevalue.ALG_ANY_OKMOVE,sMoves);
+			db_anymovesave(cb.FEN(),""+MoveValue.ALG_ANY_OKMOVE,sMoves);
 		}
 		catch (Exception e)
 		{
 			System.out.println("Warning: Error in anymove.db_anymovesave() " + e.getMessage()+ " can continue.");
 			PrintWriter pwany = new PrintWriter(new BufferedWriter(new FileWriter("anymovedb.txt", true)));
-			pwany.println((char)34+cb.FEN()+(char)34+" "+movevalue.ALG_ANY_OKMOVE+" "+(char)34+sMoves+(char)34);
+			pwany.println((char)34+cb.FEN()+(char)34+" "+MoveValue.ALG_ANY_OKMOVE+" "+(char)34+sMoves+(char)34);
 			pwany.flush();
 			pwany.close();
 		}

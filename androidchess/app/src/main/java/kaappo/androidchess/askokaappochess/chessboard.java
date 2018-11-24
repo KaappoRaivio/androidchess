@@ -125,7 +125,7 @@ public class chessboard implements Serializable
 	int iWhiteUPPDest[];
 	int iBlackUPPDest[];
 	
-	// 140509 new ideas for movevalue assessments
+	// 140509 new ideas for MoveValue assessments
 	boolean bEndGameMode;    // both piecevalue sums < 1016  , more emp for iProtThreatDiff,iPawnAdvBalance,iKingCtrlDiff
 	boolean bKillModeQRwK;   // heavy officer(s) against lone king mode, emp for iKingSpaceDiff, calculate optimal king locations iWhiteKingDistance,iBlackKingDistance
 	boolean bPawnPromRace;   // race about pawn promotion (sums < 1010, must be at least one pawn)
@@ -305,49 +305,45 @@ public class chessboard implements Serializable
 		return sRet;
 	}
 	
-	public String lastmoveString_bylib()
-	{
+	public String lastmoveString_bylib() {
 		if (lm_vector == null) return null;
 		
 		String sRet = null;
 		
-		int x1 = ((int)lm_vector.elementAt(0)+96);
-		int y1 = ((int)lm_vector.elementAt(1)+48);
-		int x2 = ((int)lm_vector.elementAt(2)+96);
-		int y2 = ((int)lm_vector.elementAt(3)+48);
+		int x1 = ((int) lm_vector.elementAt(0) + 96);
+		int y1 = ((int) lm_vector.elementAt(1) + 48);
+		int x2 = ((int) lm_vector.elementAt(2) + 96);
+		int y2 = ((int) lm_vector.elementAt(3) + 48);
 		
 		//sRet = "" + (char)x1 + (char)y1 + (char)x2 + (char)y2;
 		Piece p = blocks[(int)lm_vector.elementAt(2)][(int)lm_vector.elementAt(3)];
 		
-		if (p.iType == Piece.PAWN)
-		{
+		if (p.iType == Piece.PAWN) {
+
 			if (x1==x2) sRet = "" + (char)x2 + (char)y2;
 			else sRet = "" + (char)x1 + (char)x2 + (char)y2;
-		}
-		else if (p.iType == Piece.KING)
-		{
+
+		} else if (p.iType == Piece.KING) {
+
 			if ((x1=='e') && (x2=='g')) sRet = "O-O";
 			else if ((x1=='e') && (x2=='c')) sRet = "O-O-O";
 			else sRet = "K" + (char)x2 + (char)y2;
-		}
-		else
-		{
+
+		} else {
+
 			if (p.iType == Piece.QUEEN) sRet = "Q";
 			if (p.iType == Piece.ROOK) sRet = "R";
 			if (p.iType == Piece.BISHOP) sRet = "B";
 			if (p.iType == Piece.KNIGHT) sRet = "N";
-			
-			
+
 			Piece pOth = p.canReachBrotherPiece(this);
-			if (pOth != null)
-			{
+			if (pOth != null) {
 				//System.out.println("Ambiguous move!!!");
 				//sRet = sRet + "X";
 				if (pOth.xk == p.xk) sRet = sRet + (char)y1;
 				else sRet = sRet + (char)x1;
 			}
-			//else System.out.println("Not ambiguous at all :=)");
-			
+
 			
 			sRet = sRet + (char)x2 + (char)y2;
 		}
@@ -4105,7 +4101,7 @@ public class chessboard implements Serializable
 		
 	}
 	
-	chessboard findAndDoBestMove(int iColor, int iRounds, movevalue basemv, int iAlg, boolean bDebug, gamehistory ghist, mval_vector mvv, boolean bDeeper, dt_control dtc, movevalue l3best, movevalue l2best, regbest regb, mostore mos) throws Exception
+	chessboard findAndDoBestMove(int iColor, int iRounds, MoveValue basemv, int iAlg, boolean bDebug, GameHistory ghist, mval_vector mvv, boolean bDeeper, dt_control dtc, MoveValue l3best, MoveValue l2best, regbest regb, mostore mos) throws Exception
 	{
 		//return findAndDoBestMove(iColor,iRounds,basemv,iAlg,bDebug,ghist,mvv,bDeeper,dtc,l3best,l2best,null,CB_MAXTIME, false, regb, mos);
 		String sTemp = "";
@@ -4113,7 +4109,7 @@ public class chessboard implements Serializable
 	}
 
 	
-	chessboard findAndDoBestMove(int iColor, int iRounds, movevalue basemv, int iAlg, boolean bDebug, gamehistory ghist, mval_vector mvv, boolean bDeeper, dt_control dtc, movevalue l3best, movevalue l2best, String sMoveOrder, int iTimeLimit, boolean bStrategyImpact, regbest regb, mostore mos) throws Exception
+	chessboard findAndDoBestMove(int iColor, int iRounds, MoveValue basemv, int iAlg, boolean bDebug, GameHistory ghist, mval_vector mvv, boolean bDeeper, dt_control dtc, MoveValue l3best, MoveValue l2best, String sMoveOrder, int iTimeLimit, boolean bStrategyImpact, regbest regb, mostore mos) throws Exception
 	{
 		int bestBalDif = -10000;
 		int bestCovDif = -10000;
@@ -4127,8 +4123,8 @@ public class chessboard implements Serializable
 		move mBestCand;
 		chessboard bestBoard = null;
 		chessboard nxtBoard = null;
-		movevalue bestMval = basemv.copy();
-		movevalue currMval = basemv.copy();
+		MoveValue bestMval = basemv.copy();
+		MoveValue currMval = basemv.copy();
 		boolean bBestInstWin = true;
 		boolean bCurrInstWin = true;
 		boolean bCurrRCWin = true;
@@ -4162,8 +4158,8 @@ public class chessboard implements Serializable
 		*/
 
 		
-		//if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bMidPawnOpenings(iColor))
-		if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bWeirdOpeningsExist(iColor))
+		//if ((iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bMidPawnOpenings(iColor))
+		if ((iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dMidPOpenLimit) && bWeirdOpeningsExist(iColor))
 		{
 			System.out.println("DBG170803: WEIRD OPENINGS OPENINGS DETECTED, iAlg = " + iAlg);
 			System.out.println("bMidPawnOpenings(iColor):"+bMidPawnOpenings(iColor));
@@ -4182,24 +4178,24 @@ public class chessboard implements Serializable
 			
 			int iWeirdoAlg = 0;
 			
-			int iWeirdoRangeSize = movevalue.ALG_LAST_WEIRD_OPENING - movevalue.ALG_FIRST_WEIRD_OPENING + 1;
+			int iWeirdoRangeSize = MoveValue.ALG_LAST_WEIRD_OPENING - MoveValue.ALG_FIRST_WEIRD_OPENING + 1;
 			int iWeirdoStart = (int)(Math.random()*iWeirdoRangeSize);
 			
 			for (int i=0;i<iWeirdoRangeSize;i++)
 			{
-				int iWeirdoCand = movevalue.ALG_FIRST_WEIRD_OPENING+ ((i+iWeirdoStart) % iWeirdoRangeSize);
+				int iWeirdoCand = MoveValue.ALG_FIRST_WEIRD_OPENING+ ((i+iWeirdoStart) % iWeirdoRangeSize);
 				
-				if ((iWeirdoCand == movevalue.ALG_GET_MIDPAWN_OPENING) && (bMidPawnOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_PAWNPRESS_OPENING) && (bPawnPressureOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_FIANCHETTOPREP_OPENING) && (bFianchettoPrepOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_BISHOPE3_OPENING) && (bBishopE3Openers(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_F2STEP_OPENING) && (bF2StepOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_PAWNFRONT_OPENING) && (bPawnFrontOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_BACKROWROOK_OPENING) && (bBackRowRookOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_KNIGHTTOMIDDLE_OPENING) && (bKnightToMiddleMoves(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_QUEENFIRSTMOVE_OPENING) && (bQueenFirstMoves(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_C2STEP_OPENING) && (bC2StepOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
-				if ((iWeirdoCand == movevalue.ALG_GET_BISHOPF4_OPENING) && (bBishopF4Openers(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_MIDPAWN_OPENING) && (bMidPawnOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_PAWNPRESS_OPENING) && (bPawnPressureOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_FIANCHETTOPREP_OPENING) && (bFianchettoPrepOpenings(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_BISHOPE3_OPENING) && (bBishopE3Openers(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_F2STEP_OPENING) && (bF2StepOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_PAWNFRONT_OPENING) && (bPawnFrontOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_BACKROWROOK_OPENING) && (bBackRowRookOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_KNIGHTTOMIDDLE_OPENING) && (bKnightToMiddleMoves(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_QUEENFIRSTMOVE_OPENING) && (bQueenFirstMoves(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_C2STEP_OPENING) && (bC2StepOpeners(iColor))) iWeirdoAlg = iWeirdoCand;
+				if ((iWeirdoCand == MoveValue.ALG_GET_BISHOPF4_OPENING) && (bBishopF4Openers(iColor))) iWeirdoAlg = iWeirdoCand;
 				
 				if ((iWeirdoAlg != 0) && (Math.random() < 0.5)) break;
 			}
@@ -4238,17 +4234,17 @@ public class chessboard implements Serializable
 		double dAMLimit = 0.3;
 		// if (play.ANYMOVE_MODE) dAMLimit = 1.0;
 		
-		if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dAMLimit))
+		if ((iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < dAMLimit))
 		{
-			iAlg = movevalue.ALG_ANY_OKMOVE;
+			iAlg = MoveValue.ALG_ANY_OKMOVE;
 			chessboard cbr = findAndDoBestMove(iColor,iRounds,basemv,iAlg,bDebug,ghist,mvv,bDeeper,dtc,l3best,l2best,sMoveOrder,iTimeLimit,bStrategyImpact,regb,mos);
 			return cbr;
 			
 		}
 		
-		if ((iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < 0.25))
+		if ((iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND) && (Math.random() < 0.25))
 		{
-			iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
+			iAlg = MoveValue.ALG_SUPER_PRUNING_KINGCFIX;
 			iRounds = (int)(Math.random() * 4);
 			bDeeper = false;
 			iTimeLimit = 8;	
@@ -4265,13 +4261,13 @@ public class chessboard implements Serializable
 			return cbr;
 		}
 		
-		if (iAlg == movevalue.ALG_ANY_OKMOVE) 
+		if (iAlg == MoveValue.ALG_ANY_OKMOVE)
 		{
 			int NewMoveNr;
 			if (iColor == Piece.WHITE) NewMoveNr = this.iMoveCounter;
 			else NewMoveNr = this.iMoveCounter+1;
 			
-			chessboard cbr = anyokmove.db_anymoveget(this.FEN(),movevalue.ALG_ANY_OKMOVE+"", false);
+			chessboard cbr = anyokmove.db_anymoveget(this.FEN(),MoveValue.ALG_ANY_OKMOVE+"", false);
 			
 			if (cbr == null)
 			{
@@ -4282,7 +4278,7 @@ public class chessboard implements Serializable
 		}
 		//fad_anymove(chessboard cb, int iColor, int NewMoveNr)
 		
-		if ((iAlg >= movevalue.ALG_ASK_FROM_ENGINE1) && (iAlg <= movevalue.ALG_ASK_FROM_ENGINE_LAST))
+		if ((iAlg >= MoveValue.ALG_ASK_FROM_ENGINE1) && (iAlg <= MoveValue.ALG_ASK_FROM_ENGINE_LAST))
 		{
 			
 			chessboard cbr = engine.findAndDoMove(this,iAlg, false, true);
@@ -4329,20 +4325,20 @@ public class chessboard implements Serializable
 		boolean bC2StepMode = false;
 		boolean bBishopF4Mode = false;
 		
-		if (iAlg == movevalue.ALG_GET_MIDPAWN_OPENING) bMidPawnMode = true;
-		if (iAlg == movevalue.ALG_GET_PAWNPRESS_OPENING) bPawnPressureMode = true;
-		if (iAlg == movevalue.ALG_GET_FIANCHETTOPREP_OPENING) bFianchettoPrevMode = true;
-		if (iAlg == movevalue.ALG_GET_BISHOPE3_OPENING) bBishopE3Mode = true;
-		if (iAlg == movevalue.ALG_GET_F2STEP_OPENING) bF2StepMode = true;
-		if (iAlg == movevalue.ALG_GET_PAWNFRONT_OPENING) bPawnFrontMode = true;
-		if (iAlg == movevalue.ALG_GET_BACKROWROOK_OPENING) bBackRowRookMode = true;
-		if (iAlg == movevalue.ALG_GET_KNIGHTTOMIDDLE_OPENING) bKnightToMiddleMode = true;
-		if (iAlg == movevalue.ALG_GET_QUEENFIRSTMOVE_OPENING) bQueenFirstMoveMode = true;
-		if (iAlg == movevalue.ALG_GET_C2STEP_OPENING) bC2StepMode = true;
-		if (iAlg == movevalue.ALG_GET_BISHOPF4_OPENING) bBishopF4Mode = true;
+		if (iAlg == MoveValue.ALG_GET_MIDPAWN_OPENING) bMidPawnMode = true;
+		if (iAlg == MoveValue.ALG_GET_PAWNPRESS_OPENING) bPawnPressureMode = true;
+		if (iAlg == MoveValue.ALG_GET_FIANCHETTOPREP_OPENING) bFianchettoPrevMode = true;
+		if (iAlg == MoveValue.ALG_GET_BISHOPE3_OPENING) bBishopE3Mode = true;
+		if (iAlg == MoveValue.ALG_GET_F2STEP_OPENING) bF2StepMode = true;
+		if (iAlg == MoveValue.ALG_GET_PAWNFRONT_OPENING) bPawnFrontMode = true;
+		if (iAlg == MoveValue.ALG_GET_BACKROWROOK_OPENING) bBackRowRookMode = true;
+		if (iAlg == MoveValue.ALG_GET_KNIGHTTOMIDDLE_OPENING) bKnightToMiddleMode = true;
+		if (iAlg == MoveValue.ALG_GET_QUEENFIRSTMOVE_OPENING) bQueenFirstMoveMode = true;
+		if (iAlg == MoveValue.ALG_GET_C2STEP_OPENING) bC2StepMode = true;
+		if (iAlg == MoveValue.ALG_GET_BISHOPF4_OPENING) bBishopF4Mode = true;
 		
 		
-		iAlg = movevalue.ALG_SUPER_PRUNING_KINGCFIX;
+		iAlg = MoveValue.ALG_SUPER_PRUNING_KINGCFIX;
 		
 		
 		CMonitor.incFindMoveCnt();
@@ -4397,7 +4393,7 @@ public class chessboard implements Serializable
 			int iSortHelperRounds = iRounds -1;
 			//if (iRounds == PARALLEL_LEVEL) iSortHelperRounds = PARALLEL_LEVEL -2;
 			
-			movevalue mmval2 = new movevalue("");
+			MoveValue mmval2 = new MoveValue("");
 			chessboard cb_cpy = this.copy();
 			mval_vector mvx = null;
 			if (iRounds != 1) mvx = mvv;
@@ -4440,7 +4436,7 @@ public class chessboard implements Serializable
 		
 		//regb = null;
 		
-		if ((iAlg >= movevalue.ALG_SUPER_PRUNING) && (iAlg <= movevalue.ALG_SUPER_PRUNING_LAST))
+		if ((iAlg >= MoveValue.ALG_SUPER_PRUNING) && (iAlg <= MoveValue.ALG_SUPER_PRUNING_LAST))
 		{
 			if ((iRounds >= 1) && (regb == null))
 			{
@@ -4496,7 +4492,7 @@ public class chessboard implements Serializable
 					basemv.pushmove(cbret.lastmoveString());
 					basemv.iPieceBalCorrWhite = basemv.iPieceBalance + cbret.iHCBonus;
 					basemv.iPieceBalCorrBlack = basemv.iPieceBalance + cbret.iHCBonus;
-					if (bDebug) System.out.println(iRounds+":"+iColor+":HCW:"+basemv.dumpstr(movevalue.DUMPMODE_LONG,iAlg));
+					if (bDebug) System.out.println(iRounds+":"+iColor+":HCW:"+basemv.dumpstr(MoveValue.DUMPMODE_LONG,iAlg));
 					return cbret;
 				}
 			}
@@ -4614,7 +4610,7 @@ public class chessboard implements Serializable
 		//System.out.println("MoveIndex dump");
 		//mAct.dump();
 		
-		movevalue thisMVal = new movevalue("");
+		MoveValue thisMVal = new MoveValue("");
 		thisMVal.setBalancesFromBoard (this, 1-iColor, iAlg);
 		
 		int iTrn = iColor;
@@ -4688,7 +4684,7 @@ public class chessboard implements Serializable
 						//////////////////////
 											
 						//System.out.println("DBG151205: INFAD smovordcreate.");
-						movevalue mmval2 = new movevalue("");
+						MoveValue mmval2 = new MoveValue("");
 						chessboard cb_cpy = this.copy();
 						String sMovOrdx = "";
 						chessboard cb = cb_cpy.findAndDoBestMove(iColor,2,mmval2,iAlg,bDebug,ghist,mvv,false,dtc,l3best,l2best,sMovOrdx, 3*CB_MAXTIME, true, null, mos);
@@ -4774,7 +4770,7 @@ public class chessboard implements Serializable
 				
 				//System.out.println("DBG151013 (S2):" + basemv.sRoute+ " " + m.moveStr() + " " + i);
 				
-				//if ((iRounds==2) && (bestMval != null)) System.out.println(bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+				//if ((iRounds==2) && (bestMval != null)) System.out.println(bestMval.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 				
 				if ((regb != null) && (bestMval != null) && (iMoveTotal != 0) && (iRounds != PARALLEL_LEVEL ))
 				{
@@ -4799,13 +4795,13 @@ public class chessboard implements Serializable
 				
 				if ((bestMval != null) && (iRounds == 1) && (i!=0))
 				{
-					//System.out.println(i+ " Move " + m.moveStr() + ": diff : " + bestMval.movevaluediff(thisMVal,iColor));
+					//System.out.println(i+ " Move " + m.moveStr() + ": diff : " + bestMval.MoveValuediff(thisMVal,iColor));
 					int l3g = 0;
 					
-					if (l3best == null) l1goal = bestMval.movevaluediff(thisMVal,iColor);
+					if (l3best == null) l1goal = bestMval.MoveValuediff(thisMVal,iColor);
 					else
 					{
-						l3g = l3best.movevaluediff(thisMVal,iColor);
+						l3g = l3best.MoveValuediff(thisMVal,iColor);
 						if (iColor == Piece.BLACK) l3g = -l3g;
 					}
 					if (iColor == Piece.BLACK) l1goal = -l1goal;
@@ -4814,7 +4810,7 @@ public class chessboard implements Serializable
 				
 				if ((l2best != null) && (iRounds == 0) && (i!=0))
 				{
-					l0goal = l2best.movevaluediff(thisMVal,iColor);
+					l0goal = l2best.MoveValuediff(thisMVal,iColor);
 					if (iColor == Piece.BLACK) l0goal = -l0goal;
 					/*System.out.println("DBG150116: l0goal:" + l0goal);
 					System.out.println("DBG150116:l2best:" + l2best.dumpstr(iAlg));
@@ -4825,9 +4821,9 @@ public class chessboard implements Serializable
 				if ((iRounds ==3) && (bestMval != null))
 				{
 					if (bestMval.bDiffMoveByRoute(l3best))
-						System.out.println(i+"/"+mAct.getSize() + " : " + bestMval.dumpstr(iAlg, movevalue.DUMPMODE_SHORT) + "  L3B:");
+						System.out.println(i+"/"+mAct.getSize() + " : " + bestMval.dumpstr(iAlg, MoveValue.DUMPMODE_SHORT) + "  L3B:");
 					
-	/*				if (l3best != null) System.out.println( l3best.dumpstr(iAlg, movevalue.DUMPMODE_SHORT)); 
+	/*				if (l3best != null) System.out.println( l3best.dumpstr(iAlg, MoveValue.DUMPMODE_SHORT));
 						else System.out.println();
 						System.out.println("DIFF: " + bestMval.bDiffMoveByRoute(l3best)); */
 				}
@@ -4941,7 +4937,7 @@ public class chessboard implements Serializable
 					{
 						if (((m.iCaptValue + 1 < iMaxMoveVal) && (iRounds == 1) && !m.isSpecial() && bDoTraverseFilter) || ((iRounds == 1) && (iRiskFree > 0) && (m.isRisky()) && (!m.isCheck()) && (!m.isRevCheck())  )) bOk1 = false;
 						
-						if (iAlg != movevalue.ALG_OPT_TRAV_LEV1) bOk1 = true;
+						if (iAlg != MoveValue.ALG_OPT_TRAV_LEV1) bOk1 = true;
 					
 						if (bWasChecked) bOk1= true;
 					
@@ -4962,7 +4958,7 @@ public class chessboard implements Serializable
 						// DEEPCONTROL EXPERIMENT 141203 $$$$
 						// is check being done right here??
 						//if (dtc != null) dtc.dump();
-						if (iAlg == movevalue.ALG_DEEP_CHECK)
+						if (iAlg == MoveValue.ALG_DEEP_CHECK)
 						{
 							ndtc = null;
 							
@@ -4985,7 +4981,7 @@ public class chessboard implements Serializable
 						//System.out.println("DBG150610: AFTER REDO1 for nb:" + m.moveStrLong()+ " *********************************");						
 						
 						if ((((iColor == Piece.WHITE) && (nb.iBlackCheckMoves != 0)) ||
-						((iColor == Piece.BLACK) && (nb.iWhiteCheckMoves != 0))) && (iAlg == movevalue.ALG_DEEP_CHECK) && (iRounds <= 0) && (!m.isCheck()) && (!m.isRevCheck()))
+						((iColor == Piece.BLACK) && (nb.iWhiteCheckMoves != 0))) && (iAlg == MoveValue.ALG_DEEP_CHECK) && (iRounds <= 0) && (!m.isCheck()) && (!m.isRevCheck()))
 						{
 							//System.out.println("DBG 141203. WHOA, I can be checked, color:" + iColor + " irounds:" + iRounds);
 							//if (iColor == piece.WHITE)
@@ -5004,7 +5000,7 @@ public class chessboard implements Serializable
 						{
 							if ((iRounds > 0) || (ndtc != null)) 
 							{
-								movevalue mmval = basemv.copy();
+								MoveValue mmval = basemv.copy();
 								mmval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
 								mmval.setbase(Piece.BLACK);
 								nxtBoard = nb.findAndDoBestMove(Piece.BLACK,iRounds-1,mmval,iAlg,bDebug, null,mvec,false,ndtc,l3best,l2best, regb, mos);
@@ -5035,7 +5031,7 @@ public class chessboard implements Serializable
 								// do white move without recursion
 								//System.out.println("DBG:DOWHITEMOVE");
 								
-								movevalue mval = basemv.copy();
+								MoveValue mval = basemv.copy();
 								mval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
 								//System.out.println("DBG:A:1");
 								//System.out.println("DBG 141216(C):nb risks w:" + nb.bWhiteRiskOn + ", b:" + nb.bBlackRiskOn);
@@ -5082,7 +5078,7 @@ public class chessboard implements Serializable
 						{
 							if ((iRounds > 0) || (ndtc != null)) 
 							{
-								movevalue mmval = basemv.copy();
+								MoveValue mmval = basemv.copy();
 								mmval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
 								mmval.setbase(Piece.WHITE);
 								nxtBoard = nb.findAndDoBestMove(Piece.WHITE,iRounds-1,mmval,iAlg,bDebug, null, mvec,false, ndtc,l3best,l2best,regb, mos);
@@ -5113,7 +5109,7 @@ public class chessboard implements Serializable
 							{
 								// do black move without recursion
 								//System.out.println("DBG150610: DOBLACKMOVE (A) ******");
-								movevalue mval = basemv.copy();
+								MoveValue mval = basemv.copy();
 								
 								mval.pushNewSeq(p.xk,p.yk,m.xtar,m.ytar,m.iPromTo);
 								
@@ -5240,9 +5236,9 @@ public class chessboard implements Serializable
 									if (iRounds == 6)
 									{
 										System.out.println("DBG 151210: NEW BEST MVAL CHOSEN!");
-										System.out.println("DBG 151210:new: " + currMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
-										System.out.println("DBG 151210:old: " + bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
-										System.out.println("DBG 151210: movevalue comparison params: iColor:" + iColor + " iAlg:" + iAlg + " iTurn: " + iTurn);
+										System.out.println("DBG 151210:new: " + currMval.dumpstr(iAlg, MoveValue.DUMPMODE_SHORT));
+										System.out.println("DBG 151210:old: " + bestMval.dumpstr(iAlg, MoveValue.DUMPMODE_SHORT));
+										System.out.println("DBG 151210: MoveValue comparison params: iColor:" + iColor + " iAlg:" + iAlg + " iTurn: " + iTurn);
 										System.out.println("DBG 151210: mval comp info:" + currMval.sDBG);
 									}
 									
@@ -5309,7 +5305,7 @@ public class chessboard implements Serializable
 					System.out.println("DBG150525: WILL CRASH SOON! NULLS AROUND!");
 					if (bestBoard == null) System.out.println("bestBoard == null");
 					if (bestMval == null) System.out.println("bestMval == null");
-					System.out.println("bestMval:" + bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+					System.out.println("bestMval:" + bestMval.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 				}
 				
 				if ((thisMVal.isBetterthan(bestMval,iColor,iAlg,1-iColor, iRounds)) || (thisMVal.equalBalance(iAlg,1-iColor,bestMval)) || (iMaxEnemyCapt>Math.abs(thisMVal.iPieceBalance - bestMval.iPieceBalance))) bCalcAgain = true;
@@ -5348,12 +5344,12 @@ public class chessboard implements Serializable
 			ChessUI.setAnalPreCurrent("done.");
 		}
 		
-		//System.out.println("DBG150119 after loop:"+iRounds+":" + bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT) + " bb=null:" + (bestBoard==null));
+		//System.out.println("DBG150119 after loop:"+iRounds+":" + bestMval.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT) + " bb=null:" + (bestBoard==null));
 		if (bestBoard==null)
 		{
 			//System.out.println("DBG:150119: null bestBoard");
-			//System.out.println("DBG:150119: thismval:" + thisMVal.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
-			//System.out.println("DBG:150119: bestmval:" + bestMval.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+			//System.out.println("DBG:150119: thismval:" + thisMVal.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
+			//System.out.println("DBG:150119: bestmval:" + bestMval.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 			//bestMval.copyfrom(thisMVal);
 		}
 		
@@ -5371,7 +5367,7 @@ public class chessboard implements Serializable
 			dbgPrintln("Checkmate = " + bCheckMate);
 			dbgPrintln("Count of checkers = " + checkcount);
 			
-			movevalue mval = basemv.copy();
+			MoveValue mval = basemv.copy();
 			
 			// clean up defaults
 			if (iColor == 0) mval.bWhiteCheckMate=false;
@@ -5526,7 +5522,7 @@ public class chessboard implements Serializable
 		
 		// DEEPCONTROL EXPERIMENT 141203 $$$$
 		/*
-		if (iAlg == movevalue.ALG_DEEP_CHECK)
+		if (iAlg == MoveValue.ALG_DEEP_CHECK)
 		{
 			if ((iRounds <= 0) && 
 				((iColor == piece.WHITE) && (bestBoard.iBlackCheckMoves != 0)) ||
@@ -5537,7 +5533,7 @@ public class chessboard implements Serializable
 					System.out.println("DBG 141203. WHOA, about to return a checkable bestBoard. Need to look further. Call again with all moves");
 					System.out.println("basemv dumpstr is:" + basemv.dumpstr(iAlg));
 					
-					movevalue mvOrig = basemv.copy();
+					MoveValue mvOrig = basemv.copy();
 					
 					basemv.popSeq();
 					System.out.println("after pop: basemv dumpstr is:" + basemv.dumpstr(iAlg));
@@ -5548,7 +5544,7 @@ public class chessboard implements Serializable
 					return deep_bestboard;
 					
 					
-					//movevalue mvDeep = basemv.copy(); 
+					//MoveValue mvDeep = basemv.copy();
 					
 					//if (mvOrig.isBetterthan(mvDeep,iColor,iAlg,iColor)) return deep_bestboard;
 					//else return bestBoard;
@@ -5577,7 +5573,7 @@ public class chessboard implements Serializable
 				//System.out.println("DBG 141203. WHOA, about to return a checkable bestBoard. Need to look further. Call again with all moves");
 				//System.out.println("basemv dumpstr is:" + basemv.dumpstr(iAlg));
 				
-				movevalue mvOrig = basemv.copy();
+				MoveValue mvOrig = basemv.copy();
 				
 				basemv.popSeq();
 				//System.out.println("after pop: basemv dumpstr is:" + basemv.dumpstr(iAlg));
@@ -5602,7 +5598,7 @@ public class chessboard implements Serializable
 		
 		//if (iRounds >= 2) System.out.println("DBG150425: Strategy can be impacted???" + bStrategyImpact + " iColor = " + iColor + " strat is null:" + (strat == null));
 		
-		if ((bStrategyImpact) && (strat != null) && (iAlg == movevalue.ALG_ALLOW_STRATEGY))
+		if ((bStrategyImpact) && (strat != null) && (iAlg == MoveValue.ALG_ALLOW_STRATEGY))
 		{
 			String sMove = strat.getBestMove();
 			chessboard nb = new chessboard();
@@ -5626,7 +5622,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("MIDPAWNOPEN:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5656,7 +5652,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("PAWNPRESSOPEN:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5686,7 +5682,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("FIANCHETTOPREVOPEN:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5716,7 +5712,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("BISHOPE3Open:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5746,7 +5742,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bF2StepMode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5776,7 +5772,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bPawnFrontMode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5806,7 +5802,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bBackRowRookMode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5836,7 +5832,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bIsKnightToMiddle:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5866,7 +5862,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bQueenFirstMoveMode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5896,7 +5892,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bC2StepMode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -5926,7 +5922,7 @@ public class chessboard implements Serializable
 					chessboard cbmp = this.copy();
 					cbmp.domove(m.moveStrCaps(),iColor);
 					cbmp.redoVectorsAndCoverages(1-iColor,iAlg);
-					movevalue mmp = new movevalue("");
+					MoveValue mmp = new MoveValue("");
 					mmp.setBalancesFromBoard(cbmp,1-iColor,iAlg);
 					System.out.println("bBishopF4Mode:" + mmp.dumpstr(iAlg));
 					if (bestMval.equalBalance(iAlg,1-iColor,mmp)) 
@@ -6008,7 +6004,7 @@ boolean bCanDoMove(move m, int iRounds, int iColor, int iAlg, int iRiskFree, int
 	//if (iRounds == 1) System.out.println("  DBG 150126(A) bOK = " + bOk + " M: " +m.moveStr() + " max:" + iMaxMoveVal + " l1goal:" + l1goal + " iMaxPressure:" + iMaxPressure);
 	//System.out.println("DBG150624:BCDM (1): " + m.moveStrLong());
 	
-	if (iAlg != movevalue.ALG_NO_OPT_TRAVERSE)
+	if (iAlg != MoveValue.ALG_NO_OPT_TRAVERSE)
 	{
 		/*if ((p.xk==4) && (p.yk==4) && (p.iType == piece.KNIGHT))
 			System.out.println("DBG 141115 PROBLEM KNIGHT HERE! going to:" + m.xtar +"," + m.ytar);
@@ -6054,7 +6050,7 @@ boolean bCanDoMove(move m, int iRounds, int iColor, int iAlg, int iRiskFree, int
 	
 	//if (iRounds == 1) System.out.println("  DBG 150126(D) bOK = " + bOk + " M: " +m.moveStr());
 	
-	if ((iAlg == movevalue.ALG_DEEP_CHECK) && (iRounds == 0) && (((m.isCheck()) || (m.isRevCheck()))))
+	if ((iAlg == MoveValue.ALG_DEEP_CHECK) && (iRounds == 0) && (((m.isCheck()) || (m.isRevCheck()))))
 	{
 		bOk = true;
 	}
@@ -6063,7 +6059,7 @@ boolean bCanDoMove(move m, int iRounds, int iColor, int iAlg, int iRiskFree, int
 	
 	//System.out.println(" 141227 FINDANDDO(E) bOK = " + bOk + " M: " +m.moveStr());
 	
-	if ((iRounds == 1) && (iAlg == movevalue.ALG_NEW_TRAVERSE1))
+	if ((iRounds == 1) && (iAlg == MoveValue.ALG_NEW_TRAVERSE1))
 	{
 		if ((m.iCaptValue < l1goal) && (!m.isCheck()) && (!m.isRevCheck()) && (!m.isSpecial()) && (!m.bPressure))
 		{
@@ -6075,7 +6071,7 @@ boolean bCanDoMove(move m, int iRounds, int iColor, int iAlg, int iRiskFree, int
 	
 	//if (iRounds == 1) System.out.println("  DBG 150126(E) bOK = " + bOk + " M: " +m.moveStr());
 	
-	if ((iRounds == 0) && (iAlg == movevalue.ALG_NEW_TRAVERSE1))
+	if ((iRounds == 0) && (iAlg == MoveValue.ALG_NEW_TRAVERSE1))
 	{
 		if ((m.iCaptValue < l0goal) && (!m.isCheck()) && (!m.isRevCheck()) && (!m.isSpecial()) && (!m.bPressure))
 		{
@@ -6764,7 +6760,7 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 {
 	moveindex mi;
 	
-	movevalue mCurr, mBest, mThis;
+	MoveValue mCurr, mBest, mThis;
 	
 	if ((iColor == Piece.BLACK) && (this.bBlackKingThreat)) return new instWinRec(0,false);
 	if ((iColor == Piece.WHITE) && (this.bWhiteKingThreat)) return new instWinRec(0,false);
@@ -6780,12 +6776,12 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 	chessboard WBOboard = this.copy();
 	WBOboard.redoVectorsAndCoverages(1-iColor,iAlg); // $$$$$$$$$$$$$$$$$
 	
-	mCurr = new movevalue("");
-	mBest = new movevalue("");
-	mThis = new movevalue("");
+	mCurr = new MoveValue("");
+	mBest = new MoveValue("");
+	mThis = new MoveValue("");
 	
 	mThis.setBalancesFromBoard(WBOboard,1-iColor,iAlg);
-	//System.out.println("DBG150610:WBO:STARTMVAL (START)" + mThis.dumpstr(iAlg,movevalue.DUMPMODE_LONG));
+	//System.out.println("DBG150610:WBO:STARTMVAL (START)" + mThis.dumpstr(iAlg,MoveValue.DUMPMODE_LONG));
 	
 	int iRefPB = 0;
 	if (iColor == Piece.WHITE) iRefPB = mThis.iPieceBalCorrWhite;
@@ -6840,7 +6836,7 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 			}
 			
 			//System.out.println("DBG150610: WBO: " + m.moveStrLong() + " mate check done.");
-			movevalue mDBG = new movevalue(m.moveStr());
+			MoveValue mDBG = new MoveValue(m.moveStr());
 			mDBG.setBalancesFromBoard(cb,iColor,iAlg);
 			//System.out.println("MDBG:" + mDBG.dumpstr(40,DUMPMODE_SHORT));
 			
@@ -6878,10 +6874,10 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 			{
 				//mCurr.setBalancesFromBoard(cb,1-iColor,iAlg);
 				mCurr.setBalancesFromBoard(cb,iColor,iAlg);
-				//System.out.println("WBO:MVAL ("+ m.moveStr()+ ") clr:" +iColor + " " + mCurr.dumpstr(iAlg,movevalue.DUMPMODE_LONG));
+				//System.out.println("WBO:MVAL ("+ m.moveStr()+ ") clr:" +iColor + " " + mCurr.dumpstr(iAlg,MoveValue.DUMPMODE_LONG));
 				//else System.out.println("not winnable move");
 				//if (mCurr.isBetterthan(mBest,iColor,iAlg,1-iColor)) mBest.copyfrom(mCurr);
-				int idiff = mCurr.movevaluediffInCheck(mBest,iColor);
+				int idiff = mCurr.MoveValuediffInCheck(mBest,iColor);
 				
 				//System.out.println("DBG150207:WBO:idiff:" + idiff);
 				sWBODbg = sWBODbg + m.moveStr() + "/" + idiff +";";
@@ -6896,10 +6892,10 @@ instWinRec bWinnableByOne(int iColor, int iAlg)
 		
 	}
 	//System.out.println("DBG 151004:WBO Loop done.");
-	//System.out.println("WBO:MVAL:BEST: (BEST)" + mBest.dumpstr(iAlg,movevalue.DUMPMODE_LONG));
-	//int iCorrFactor = mBest.movevaluediff(mThis,iColor);
+	//System.out.println("WBO:MVAL:BEST: (BEST)" + mBest.dumpstr(iAlg,MoveValue.DUMPMODE_LONG));
+	//int iCorrFactor = mBest.MoveValuediff(mThis,iColor);
 	/*
-	int iCorrFactor = mBest.movevaluediffInCheck(mThis,iColor);
+	int iCorrFactor = mBest.MoveValuediffInCheck(mThis,iColor);
 	int iWBORet;
 	
 	if (iColor == piece.WHITE) iWBORet = Math.min(iCorrFactor,iBestDiff);
@@ -7078,7 +7074,7 @@ void setZeroBalances(int iTurn, int iAlg)
 	}
 	//System.out.println("iWhiteZeroBal:" + iWhiteZeroBal);
 	
-	if (iAlg == movevalue.ALG_SUPER_PRUNING_ZB)
+	if (iAlg == MoveValue.ALG_SUPER_PRUNING_ZB)
 	{
 		if ((iTurn == Piece.WHITE) && (iWhiteZeroBal > 0) && (Math.abs(iWhiteZeroBal) < 100))
 		{
@@ -7141,7 +7137,7 @@ void setZeroBalances(int iTurn, int iAlg)
 	//System.out.println("DBG150313: leave setZeroBalances. Turn: " + iTurn+ " " + this.lastmoveString_bylib() + " w:" + iWhiteZeroBal + " b:"+ iBlackZeroBal);
 	
 	
-	if (iAlg == movevalue.ALG_SUPER_PRUNING_ZB)
+	if (iAlg == MoveValue.ALG_SUPER_PRUNING_ZB)
 	{
 		if ((iTurn == Piece.BLACK) && (iBlackZeroBal > 0) && (Math.abs(iBlackZeroBal) < 100))
 		{
@@ -7841,11 +7837,11 @@ class mval_vector
 		for (int i= 0; i < v.size(); i++)
 		{
 			mval_combo mvc = (mval_combo)v.elementAt(i);
-			System.out.println("mvec.dumpall.MVAL:"+mvc.mv.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+			System.out.println("mvec.dumpall.MVAL:"+mvc.mv.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 		}
 	}
 	
-	mval_combo get_best(int iRounds,int iColor, int iAlg, int iTurn, gamehistory ghist, boolean bDebug, boolean bStrategyImpact, regbest regb)
+	mval_combo get_best(int iRounds,int iColor, int iAlg, int iTurn, GameHistory ghist, boolean bDebug, boolean bStrategyImpact, regbest regb)
 	{
 		mval_combo theBest = null;
 		boolean bDraw = false;
@@ -7877,7 +7873,7 @@ class mval_vector
 		
 		//System.out.println("DBG160413: mval_combo.get_best vector size: " + v.size());
 		
-		int iCBLevel = movevalue.CUTBRANCH_INIT;
+		int iCBLevel = MoveValue.CUTBRANCH_INIT;
 		
 		for (int i= 0; i < v.size(); i++)
 		{
@@ -7976,7 +7972,7 @@ class mval_vector
 		}
 		*/
 		
-		if ((bStrategyImpact) && (iAlg == movevalue.ALG_ALLOW_STRATEGY))
+		if ((bStrategyImpact) && (iAlg == MoveValue.ALG_ALLOW_STRATEGY))
 		{
 			System.out.println("DBG 150430: mvc_get best trying to make a strategy decision! First, dump!");
 			strat.dump();
@@ -7995,7 +7991,7 @@ class mval_vector
 		
 		//System.out.println("DBG 150312: mval_vector.get_best() sRet = "+ sRet);
 		if (iCBLevel == iRounds) theBest.mv.setCutBranchLevel(iRounds);
-		//if (theBest != null) System.out.println("DBG 160413: mval_vector.get_best()" + theBest.mv.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+		//if (theBest != null) System.out.println("DBG 160413: mval_vector.get_best()" + theBest.mv.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 		return theBest;
 	}
 }
@@ -8007,15 +8003,15 @@ class mt_finder extends Thread implements Runnable
 	
 	int m_iColor; 
 	int m_iRounds; 
-	movevalue m_basemv; 
+	MoveValue m_basemv;
 	int m_iAlg; boolean m_bDebug; 
-	gamehistory m_ghist; 
+	GameHistory m_ghist;
 	mval_vector m_mvv;
-	movevalue m_l3best;
+	MoveValue m_l3best;
 	regbest m_regb;
 	mostore mos;
 	
-	mt_finder(chessboard cb, int iColor, int iRounds, movevalue basemv, int iAlg, boolean bDebug, gamehistory ghist, mval_vector mvv, movevalue l3best, regbest rbest, mostore ms)
+	mt_finder(chessboard cb, int iColor, int iRounds, MoveValue basemv, int iAlg, boolean bDebug, GameHistory ghist, mval_vector mvv, MoveValue l3best, regbest rbest, mostore ms)
 	{
 		m_cb = cb.copy();
 		m_iColor = iColor;
@@ -8054,8 +8050,8 @@ class mt_finder extends Thread implements Runnable
 		// $$$$ a gate is needed here
 		try
 		{
-			movevalue l3best = null;
-			movevalue l2best = null;
+			MoveValue l3best = null;
+			MoveValue l2best = null;
 			
 			//System.out.println("DBG150116:mt_finder.run() starts for rounds: " + m_iRounds);
 			if (m_mvv.bestMvc != null)
@@ -8070,7 +8066,7 @@ class mt_finder extends Thread implements Runnable
 			
 			if (m_iRounds == 1)
 			{
-				l2best = new movevalue("");
+				l2best = new MoveValue("");
 				l2best.copyfrom(m_mvv.bestMvc.mv);
 			}
 			*/
@@ -8078,7 +8074,7 @@ class mt_finder extends Thread implements Runnable
 			//regbest rb_copy = m_regb.copy();
 			//regbest rb_copy = m_mvv.m_regb; //.copy();
 			
-			//if (m_iAlg == movevalue.ALG_SUPER_PRUNING) rb_copy = new regbest();
+			//if (m_iAlg == MoveValue.ALG_SUPER_PRUNING) rb_copy = new regbest();
 			//else rb_copy = null;
 			
 			//System.out.println("Copy taken once!");

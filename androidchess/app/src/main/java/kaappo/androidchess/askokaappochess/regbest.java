@@ -18,8 +18,8 @@ public class regbest
 		//printDbg("regbest created.");
 	}
 	
-	synchronized void  setBest(movevalue mv, int iRounds, int iTurn, int iAlg, int iColor)
-	//void setBest(movevalue mv, int iRounds, int iTurn, int iAlg, int iColor)
+	synchronized void  setBest(MoveValue mv, int iRounds, int iTurn, int iAlg, int iColor)
+	//void setBest(MoveValue mv, int iRounds, int iTurn, int iAlg, int iColor)
 	{
 		rb_entry rbe = (rb_entry)v.elementAt(iRounds);
 		
@@ -28,14 +28,14 @@ public class regbest
 		if (rbe == null)
 		{
 			rbe = new rb_entry(mv,iRounds,iTurn, iAlg, iColor);
-			if (iRounds >= DBG_LEVEL) printDbg("setBest NEW ENTRY:"+iRounds+": mv:" +mv.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+			if (iRounds >= DBG_LEVEL) printDbg("setBest NEW ENTRY:"+iRounds+": mv:" +mv.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 			v.set(iRounds,rbe);
 		}
 		else
 		{
 			if (!rbe.mv.sRoute.equals(mv.sRoute))
 			{
-				if (iRounds >= DBG_LEVEL) printDbg("setBest repl OLD ENTRY:"+iRounds+": mv:" +mv.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+				if (iRounds >= DBG_LEVEL) printDbg("setBest repl OLD ENTRY:"+iRounds+": mv:" +mv.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 			
 				rbe.mv = mv.copy();
 				rbe.iRounds = iRounds;
@@ -51,17 +51,17 @@ public class regbest
 		v.set(iRounds,null);
 	}
 	
-	synchronized movevalue getBestMv(int iRounds)
+	synchronized MoveValue getBestMv(int iRounds)
 	{
 		rb_entry rbe = (rb_entry)v.elementAt(iRounds);
-		movevalue mv = rbe.mv.copy();
+		MoveValue mv = rbe.mv.copy();
 		return mv;
 	}
 	
 	synchronized boolean bBranchIsDone(int iRounds, int iTurn, int iAlg, int iColor)
 	//boolean bBranchIsDone(int iRounds, int iTurn, int iAlg, int iColor)
 	{
-		movevalue mvh, mvl;
+		MoveValue mvh, mvl;
 		rb_entry reh, rel;
 		
 		reh = (rb_entry)v.elementAt(iRounds+1);
@@ -82,7 +82,7 @@ public class regbest
 			
 			//System.out.println("DBG151013 (BRANCHFIN): iC:" +iColor +" iT:"+iTurn+ " "+ mvl.sRoute + " > " + mvh.sRoute);
 			
-			if (iRounds >= DBG_LEVEL) printDbg("Branch done. iC:" +iColor+ " iT:" + iTurn+" r:" + iRounds + " " +mvl.dumpstr(iAlg,movevalue.DUMPMODE_SHORT) + " ibt " + mvh.dumpstr(iAlg,movevalue.DUMPMODE_SHORT));
+			if (iRounds >= DBG_LEVEL) printDbg("Branch done. iC:" +iColor+ " iT:" + iTurn+" r:" + iRounds + " " +mvl.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT) + " ibt " + mvh.dumpstr(iAlg,MoveValue.DUMPMODE_SHORT));
 			return true;
 		}
 		else return false;
@@ -141,13 +141,13 @@ public class regbest
 
 class rb_entry
 {
-	movevalue mv;
+	MoveValue mv;
 	int iRounds;
 	int iTurn;
 	int iAlg;
 	int iColor;
 	
-	rb_entry(movevalue m, int iR, int iT, int iA, int iC)
+	rb_entry(MoveValue m, int iR, int iT, int iA, int iC)
 	{
 		mv = m.copy();
 		iRounds = iR;

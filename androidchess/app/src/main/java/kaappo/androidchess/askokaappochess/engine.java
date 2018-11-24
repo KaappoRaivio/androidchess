@@ -15,8 +15,8 @@ public class engine
 	
 	public static void main (String args[]) throws Exception
 	{
-		System.out.println(getMoveByAlg(sSTOCKFISH, args[0],movevalue.ALG_ASK_FROM_ENGINE10));
-		//System.out.println(getMoveByAlg(sABROK, args[0],movevalue.ALG_ASK_FROM_ABROK4));
+		System.out.println(getMoveByAlg(sSTOCKFISH, args[0],MoveValue.ALG_ASK_FROM_ENGINE10));
+		//System.out.println(getMoveByAlg(sABROK, args[0],MoveValue.ALG_ASK_FROM_ABROK4));
 		
 		
 		System.out.println("iLastScore:" + iLastScore);
@@ -29,9 +29,9 @@ public class engine
 	
 	static String sEnginePerAlg(int iAlg)
 	{
-		if ((iAlg >= movevalue.ALG_ASK_FROM_ENGINE1) && (iAlg <= movevalue.ALG_ASK_FROM_ENGINE10)) return sSTOCKFISH;
+		if ((iAlg >= MoveValue.ALG_ASK_FROM_ENGINE1) && (iAlg <= MoveValue.ALG_ASK_FROM_ENGINE10)) return sSTOCKFISH;
 		
-		if ((iAlg >= movevalue.ALG_ASK_FROM_ABROK1) && (iAlg <= movevalue.ALG_ASK_FROM_ABROK4)) return sABROK;
+		if ((iAlg >= MoveValue.ALG_ASK_FROM_ABROK1) && (iAlg <= MoveValue.ALG_ASK_FROM_ABROK4)) return sABROK;
 		
 		System.out.println("engine.sEnginePerAlg. Bad iAlg:" + iAlg);
 		throw new RuntimeException("engine.sEnginePerAlg. Bad iAlg:" + iAlg);
@@ -43,46 +43,46 @@ public class engine
 		
 		switch (iAlg)
 		{
-			case movevalue.ALG_ASK_FROM_ENGINE1:
-			case movevalue.ALG_ASK_FROM_ABROK1:	
+			case MoveValue.ALG_ASK_FROM_ENGINE1:
+			case MoveValue.ALG_ASK_FROM_ABROK1:
 				iNodeLim = 1000;
 				break;
 				
-			case movevalue.ALG_ASK_FROM_ENGINE2:
-			case movevalue.ALG_ASK_FROM_ABROK2:	
+			case MoveValue.ALG_ASK_FROM_ENGINE2:
+			case MoveValue.ALG_ASK_FROM_ABROK2:
 				iNodeLim = 3000;
 				break;	
 				
-			case movevalue.ALG_ASK_FROM_ENGINE3:
-			case movevalue.ALG_ASK_FROM_ABROK3:	
+			case MoveValue.ALG_ASK_FROM_ENGINE3:
+			case MoveValue.ALG_ASK_FROM_ABROK3:
 				iNodeLim = 10000;
 				break;
 
-			case movevalue.ALG_ASK_FROM_ENGINE4:
-			case movevalue.ALG_ASK_FROM_ABROK4:	
+			case MoveValue.ALG_ASK_FROM_ENGINE4:
+			case MoveValue.ALG_ASK_FROM_ABROK4:
 				iNodeLim = 30000;
 				break;
-			case movevalue.ALG_ASK_FROM_ENGINE5:
+			case MoveValue.ALG_ASK_FROM_ENGINE5:
 				iNodeLim = 100000;
 				break;		
 
-			case movevalue.ALG_ASK_FROM_ENGINE6:
+			case MoveValue.ALG_ASK_FROM_ENGINE6:
 				iNodeLim = 300000;
 				break;
 				
-			case movevalue.ALG_ASK_FROM_ENGINE7:
+			case MoveValue.ALG_ASK_FROM_ENGINE7:
 				iNodeLim = 1000000;
 				break;	
 				
-			case movevalue.ALG_ASK_FROM_ENGINE8:
+			case MoveValue.ALG_ASK_FROM_ENGINE8:
 				iNodeLim = 3000000;
 				break;
 
-			case movevalue.ALG_ASK_FROM_ENGINE9:
+			case MoveValue.ALG_ASK_FROM_ENGINE9:
 				iNodeLim = 10000000;
 				break;
 				
-			case movevalue.ALG_ASK_FROM_ENGINE10:
+			case MoveValue.ALG_ASK_FROM_ENGINE10:
 				iNodeLim = 30000000;
 				break;					
 		}
@@ -97,18 +97,18 @@ public class engine
 		
 		System.out.println("DBG 150507: engine asked :" + sFEN);
 		
-		if (iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND)
+		if (iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND)
 		{
 			if (Math.random() < 0.2) // ask from abrok occasionally too
 			{
-				iAlg = movevalue.ALG_ASK_FROM_ABROK1 + (int)(Math.random()*4);
+				iAlg = MoveValue.ALG_ASK_FROM_ABROK1 + (int)(Math.random()*4);
 				System.out.println("ENGINE: Random alg fixed to: " + iAlg + " (ABROK)");
 				bSave = true;
 				
 			}
 			else
 			{
-				iAlg = movevalue.ALG_ASK_FROM_ENGINE1 + (int)(Math.random()*10);
+				iAlg = MoveValue.ALG_ASK_FROM_ENGINE1 + (int)(Math.random()*10);
 				System.out.println("ENGINE: Random alg fixed to: " + iAlg);
 				bSave = true;
 			}
@@ -125,7 +125,7 @@ public class engine
 		
 		String sMove = getMove(sEnginePerAlg(iAlg),sFEN,iNodeLim);
 		
-		if ((iAlg >= movevalue.ALG_ASK_FROM_ABROK1) && (iAlg <= movevalue.ALG_ASK_FROM_ABROK1))
+		if ((iAlg >= MoveValue.ALG_ASK_FROM_ABROK1) && (iAlg <= MoveValue.ALG_ASK_FROM_ABROK1))
 		{
 			System.out.println("Abrok engine operation just done. Smove="+sMove);
 		}
@@ -156,9 +156,9 @@ public class engine
 	{
 		mVec = new Vector();
 		
-		if (iAlg == movevalue.ALG_ASK_FROM_ENGINE_RND)
+		if (iAlg == MoveValue.ALG_ASK_FROM_ENGINE_RND)
 		{
-			iAlg = movevalue.ALG_ASK_FROM_ENGINE1 + (int)(Math.random()*10);
+			iAlg = MoveValue.ALG_ASK_FROM_ENGINE1 + (int)(Math.random()*10);
 			System.out.println("ENGINE: Random alg fixed to: " + iAlg);
 		}
 		

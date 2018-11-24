@@ -235,7 +235,7 @@ public class ChessActivity extends AppCompatActivity {
         int x2 = (int) lastMoveVector.elementAt(2);
         int y2 = (int) lastMoveVector.elementAt(3);
 
-        return ""+(char)(96 + x1) + y1 + ":" + (char)(96 + x2) + y2;
+        return "" + (char)(96 + x1) + y1 + ":" + (char)(96 + x2) + y2;
     }
 
     public void setBoardAndLastMoveVector(String board) {

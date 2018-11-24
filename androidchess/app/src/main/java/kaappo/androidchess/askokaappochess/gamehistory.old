@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.io.PrintWriter;
 
-public class gamehistory
+public class GameHistory
 {
 	Vector vMoves;
 	Vector vTieCands;
@@ -12,7 +12,7 @@ public class gamehistory
 	
 	public static final int DUMPSTR_ALG = 42;
 	
-	gamehistory()
+	GameHistory()
 	{
 		vMoves = new Vector();
 		vTieCands = new Vector();
@@ -96,7 +96,7 @@ public class gamehistory
 		return sHist;
 	}
 	
-	void addmove(chessboard cb, int icolor, movevalue mv)
+	void addmove(chessboard cb, int icolor, MoveValue mv)
 	{
 		gamehistoryentry ghe = new gamehistoryentry(cb,icolor, mv);
 		vMoves.add(ghe);
@@ -196,9 +196,9 @@ class gamehistoryentry
 	chessboard cb;
 	int icolor;
 	long ts;
-	movevalue mval;
+	MoveValue mval;
 	
-	gamehistoryentry(chessboard c, int col, movevalue mv)
+	gamehistoryentry(chessboard c, int col, MoveValue mv)
 	{
 		cb = c.copy();
 		icolor = col;
@@ -212,7 +212,7 @@ class gamehistoryentry
 		System.out.println("==================");
 		System.out.println("Move at " + new Timestamp(ts));
 		cb.dump();
-		if (mval != null) System.out.println(mval.dumpstr(gamehistory.DUMPSTR_ALG,movevalue.DUMPMODE_SHORT));
+		if (mval != null) System.out.println(mval.dumpstr(gamehistory.DUMPSTR_ALG,MoveValue.DUMPMODE_SHORT));
 		System.out.println(cb.lastmoveString());
 		System.out.println("==================");
 	}
@@ -223,7 +223,7 @@ class gamehistoryentry
 		else p.print("BLACK");
 		p.println(" move " + cb.lastmoveString() + " at " + new Timestamp(ts));
 		cb.dump_to_file(p);
-		if (mval != null) p.println(mval.dumpstr(gamehistory.DUMPSTR_ALG,movevalue.DUMPMODE_SHORT));
+		if (mval != null) p.println(mval.dumpstr(gamehistory.DUMPSTR_ALG,MoveValue.DUMPMODE_SHORT));
 		p.println("===================");
 	}
 	
