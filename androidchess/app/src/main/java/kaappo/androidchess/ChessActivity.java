@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -49,6 +49,7 @@ public class ChessActivity extends AppCompatActivity {
 
     private Vector<Integer> lastMoveVector;
     private String lastMove;
+    private String[] sMoveHistoryNewline;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -241,27 +242,35 @@ public class ChessActivity extends AppCompatActivity {
     public void setBoardAndLastMoveVector(String board) {
         setBoard(board);
 
-        this.boardHistory.add(board);
+        try {
+            if (!this.boardHistory.get(this.boardHistory.size() - 1).equals(board)) {
+                this.boardHistory.add(board);
+            }
+        } catch (IndexOutOfBoundsException ignored) {
+            this.boardHistory.add(board);
+        }
 
 
-        if (lastMoveVector != null && lastMove != null) {
+        if (lastMoveVector != null) {
             highlightLastMove(lastMoveVector);
-
-            // set movehistory
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
-            RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
-
-
-            recyclerViewAdapter.addMove(lastMove);
-            recyclerViewAdapter.addBoard(board, lastMoveVector);
-            recyclerViewAdapter.notifyDataSetChanged();
         }
 
     }
 
-    public void setLastMove (Vector<Integer> lastMoveVector, String move) {
+    public void setBoardByIndex (int index) {
+        setBoard(this.boardHistory.get(index));
+    }
+
+    public void setMoveHistory (String sMoveHistoryNewline, Vector lastMoveVector) {
+        this.sMoveHistoryNewline = sMoveHistoryNewline.split("\n");
         this.lastMoveVector = lastMoveVector;
-        this.lastMove = move;
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.movehistory);
+        RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) recyclerView.getAdapter();
+
+        recyclerViewAdapter.setMoves(Arrays.asList(this.sMoveHistoryNewline));
+        recyclerViewAdapter.notifyDataSetChanged();
+
     }
 
     public void setBoard (String board) {
@@ -318,7 +327,25 @@ public class ChessActivity extends AppCompatActivity {
         return Character.isUpperCase(piece) ? Piece.BLACK : Piece.WHITE;
     }
 
+    public void onArrowClick (View view) {
+        String tag = (String) view.getTag();
+        if (tag == null) {
+            throw new RuntimeException("ChessActivity#onArrowClick: tag is null!");
+        }
 
+        RecyclerViewAdapter recyclerViewAdapter = (RecyclerViewAdapter) ((RecyclerView) findViewById(R.id.movehistory)).getAdapter();
+
+        switch (tag) {
+            case "left":
+                recyclerViewAdapter.stepLeft();
+                break;
+            case "right":
+                recyclerViewAdapter.stepRight();
+                break;
+            default:
+                throw new RuntimeException("ChessActivity#onArrowClick: invalid tag " + tag);
+        }
+    }
 
     public void highlightLastMove (Vector<Integer> lastMoveVector) {
 
@@ -367,9 +394,8 @@ public class ChessActivity extends AppCompatActivity {
         textView.setText(message);
     }
 
-
     @NonNull
-    private static String intTochar (int y) {
+    private static String intToChar(int y) {
         return String.valueOf((char) (65 + y));
     }
 
@@ -380,7 +406,7 @@ public class ChessActivity extends AppCompatActivity {
     }
 
     public void drawPiece (int pos_x, int pos_y, final int piece, final int color) {
-        String y = intTochar(pos_y);
+        String y = intToChar(pos_y);
         String x = String.valueOf(8 - pos_x);
 
 

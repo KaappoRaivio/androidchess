@@ -29,6 +29,8 @@ public class TtyUI
 
 	private ChessActivity context;
 
+	private String lastMoveString;
+
 	public chessboard getmCb () {
 		return mCb;
 	}
@@ -58,9 +60,8 @@ public class TtyUI
 		
 		mCb = cb;
 
-
 	}
-	
+
 	void setMessage(final String s)
 	{
 		context.runOnUiThread(new Runnable() {
@@ -252,9 +253,19 @@ public class TtyUI
 			@Override
 			public void run() {
 				context.setBoardAndLastMoveVector(getChessboardString());
+				context.setMoveHistory(ghist.sMovehistory_bylib_newline(), lMoveV);
 			}
 		});
 
+	}
+
+	public void showAndDontSetLastMove () {
+		context.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				context.setBoardAndLastMoveVector(getChessboardString());
+			}
+		});
 	}
 
 	private String getChessboardString () {

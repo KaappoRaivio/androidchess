@@ -12,9 +12,13 @@ public class ChessUI
 	
 
 	private TtyUI tty;
+
+	private chessboard mCb;
 	
 	public ChessUI(int iType, chessboard cb, ChessActivity context) {
         this.tty = new TtyUI(cb, context);
+
+        mCb = cb;
 	}
 	
 	public void updateData(chessboard cb)
@@ -34,12 +38,17 @@ public class ChessUI
 
 		if (tty != null) tty.setTurn(i);
     }
-	
-	public void show() throws Exception
-	{	
 
-		if (tty != null) tty.show();
+
+	public void show() throws Exception {
+        if (tty != null) tty.show();
     }
+
+    public void showAndDontSetLastMove () {
+		if (tty != null) {
+			tty.showAndDontSetLastMove();
+		}
+	}
 	
 	public String getMove()
 	{

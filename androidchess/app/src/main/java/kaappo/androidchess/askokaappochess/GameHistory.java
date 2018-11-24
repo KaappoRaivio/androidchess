@@ -68,11 +68,10 @@ public class GameHistory
 		return sHist.toString();
 	}
 	
-	String sMovehistory_bylib()
-	{
+	public String sMovehistory_bylib() {
 		StringBuilder sHist = new StringBuilder();
 		int iMc = 1;
-		
+
 		for (int i=0;i<vMoves.size();i++)
 		{
 			if ((i%2) == 0)
@@ -80,20 +79,47 @@ public class GameHistory
 				sHist.append(iMc).append(". ");
 				iMc++;
 			}
-			
-			
-			
-			GameHistoryEntry ghe = (GameHistoryEntry)vMoves.elementAt(i);
+
+
+
+			GameHistoryEntry ghe = (GameHistoryEntry) vMoves.elementAt(i);
 			sHist.append(ghe.cb.lastmoveString_bylib()).append(" ");
-			
+
 			/*
 			if (ghe.cb.miWhiteMoveindex == null) System.out.println("H:WHITEMOVEINDEX == NULL");
 			if (ghe.cb.miBlackMoveindex == null) System.out.println("H:BLACKMOVEINDEX == NULL");
 			*/
 		}
-		
+
 		return sHist.toString();
 	}
+
+	public String sMovehistory_bylib_newline () {
+		StringBuilder sHist = new StringBuilder();
+		int iMc = 1;
+
+		for (int i=0;i<vMoves.size();i++)
+		{
+			if ((i%2) == 0)
+			{
+				sHist.append(iMc).append(". ");
+				iMc++;
+			}
+
+
+
+			GameHistoryEntry ghe = (GameHistoryEntry) vMoves.elementAt(i);
+			sHist.append(ghe.cb.lastmoveString_bylib()).append("\n");
+
+			/*
+			if (ghe.cb.miWhiteMoveindex == null) System.out.println("H:WHITEMOVEINDEX == NULL");
+			if (ghe.cb.miBlackMoveindex == null) System.out.println("H:BLACKMOVEINDEX == NULL");
+			*/
+		}
+
+		return sHist.toString();
+	}
+
 	
 	void addmove(chessboard cb, int icolor, MoveValue mv)
 	{

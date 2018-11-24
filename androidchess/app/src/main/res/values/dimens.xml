@@ -13,5 +13,7 @@
 
     <dimen name="move_entry_TextView_height">20sp</dimen>
     <dimen name="move_entry_textSize">14sp</dimen>
+    <dimen name="activity_chess_arrow_buttons_width">40dp</dimen>
+    <dimen name="activity_chess_buttons_height">40dp</dimen>
 
 </resources>

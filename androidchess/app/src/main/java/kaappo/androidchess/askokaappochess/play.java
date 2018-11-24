@@ -1155,7 +1155,7 @@ public class play
 			cui.setMessage(sMess);
 			cui.setTurn(-1);
 			if (bMess) cui.displayMsgDialog(sMess);
-			cui.show();
+			cui.showAndDontSetLastMove();
 			
 			if (iWinner == 0) return play.WHITEWIN;
 			else return play.BLACKWIN;
